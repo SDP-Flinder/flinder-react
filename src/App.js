@@ -4,13 +4,15 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import './App.css';
 
 function like() {
-  // adds current flat shown into liked list
+  // adds current flat shown into liked list (updates backend list
+  // and reveals the next available flat)
   // eslint-disable-next-line no-alert
   alert('I like this flat!');
 }
 
 function dislike() {
-  // skips current flat and move on to the next flat card
+  // skips current flat and move on to the next flat card (updates backend list
+  // and reveals the next available flat)
   // eslint-disable-next-line no-alert
   alert('I dislike this flat!');
 }
