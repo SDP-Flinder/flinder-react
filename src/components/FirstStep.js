@@ -9,7 +9,12 @@ const FirstStep = (props) => {
   const { handleSubmit } = useForm({});
 
   //Store user information
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    username: '',
+    password: '',
+    email: '',
+    accountType: '',
+  });
 
   //Update the user information
   const setForm = (field, value) => {
@@ -24,13 +29,13 @@ const FirstStep = (props) => {
   const findErrors = () => {
 
     //Deconstruct the user object
-    const {username, password, email} = user;
+    const {username, password, email, accountType} = user;
     //This is to store new errors arising
     const foundError = {};
 
     //Username constraints
     if(!username || username === ''){                     //Blank username
-      foundError.username = 'Username cannot be blanked';
+      foundError.username = 'Username cannot be blank';
     }else if(!username.match(/^[a-zA-Z0-9]+$/)){          //Username with special characters
       foundError.username = 'Username should not contain special characters.'
     }else if(username.length < 6){                        //Username too short
@@ -51,6 +56,10 @@ const FirstStep = (props) => {
       foundError.email = 'Email cannot be empty';
     }else if(!email.match(/^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/)){ 
       foundError.email = 'Please enter a valid email address';
+    }
+
+    if(!accountType || accountType == ''){
+      foundError.accountType = 'User does not select an account type';
     }
 
     return foundError;
@@ -74,7 +83,7 @@ const FirstStep = (props) => {
         props.history.push('/flat');
       }else if(user.accountType == 'Flatee'){ 
         props.history.push('/flatee');
-      }else{
+      }else if(user.accountType ==''){
           alert('Choose one bitch!');
       }
     }
@@ -124,15 +133,21 @@ const FirstStep = (props) => {
         </Form.Control.Feedback>
         </Form.Group>
 
-        <>
-        <p>What are you looking for? </p>
-        <div>
-            <input type="radio" value="Flat" name="accType" 
-             onChange = {() => setForm('accountType', 'Flat')}/> I'm looking for a flatmate
-            <input type="radio" value="Flatee" name="accType" 
-             onChange = {() => setForm('accountType','Flatee')}/> I'm looking for a flat
-        </div>
-        </>
+        <Form.Group>
+        <Form.Label>What are you looking for? </Form.Label>
+              <Form.Check type="radio" 
+              label = "I'm looking for a flatmate" 
+              value="Flat" 
+              name="accType" 
+              onChange = {() => setForm('accountType', 'Flat')}
+              isInvalid = { !!error.accountType}/>
+              <Form.Check  type="radio" 
+              label = "I'm looking for a flat" 
+              value="Flatee" 
+              name="accType" 
+              onChange = {() => setForm('accountType','Flatee')} 
+              isInvalid = { !!error.accountType}/> 
+        </Form.Group>
         
         <Button variant="contained" color="secondary" type ="submit">
           Next
