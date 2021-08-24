@@ -1,43 +1,72 @@
 //The user chooses to sign up as a Flat
-import React from 'react'
-import Button from '@material-ui/core/Button';
-import { useForm } from 'react-hook-form';
-import { Form } from 'react-bootstrap';
+import React, {Component} from 'react'
+import FlatInfo from './FlatInfo';
+import FlatAddress from './FlatAddress';
+import FlatPhoto from './FlatPhoto';
 
-const Flat = (props) => {
-    const { handleSubmit } = useForm({});
+export class Flat extends Component{
 
-    const onSubmit = () => {
-        props.history.push('/complete')
+    //Ininitial state of Flat
+    state = {
+        step: 1,
+        firstName: '',
+        lastName: '',
+        address: '',
+        photo: '',
     }
 
-    return (
-        <div>
-            <h1>You're a flat ass</h1>
-            
-            <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group controlId="username">
-                <Form.Label>Username</Form.Label>
-                <Form.Control 
-                type="text" 
-                placeholder="Enter your username" 
-                />
-            </Form.Group>
+    //Move to the next step
+    nextStep = () => {
+        const {step} = this.state;
+        this.setState({
+            step: step +1
+        });
+    }
+
+    //Go back to the previous one
+    previousStep = () => {
+        const {step} = this.state;
+        this.setState({
+            step: step - 1
+        });
+    }    
+
+    handleChange = input => e => {
+        this.setState({ [input]: e.target.value });
+    };
+
+    render () {
+        const {step} = this.state;
+        const {firstName, lastName, address, photo} = this.state;
+        const values = {firstName, lastName, address, photo};
 
 
-            <Button variant="contained" onClick = {() => {
-            props.history.push('/');
-            }}>
-                Back
-            </Button>
-
-            <Button variant="contained" color="secondary" type = "submit">
-            Complete
-            </Button>
-
-            </Form>
-        </div>
-    );
+        switch(step){
+            case 1:
+                return(
+                    <FlatInfo 
+                    nextStep = {this.nextStep}
+                    previousStep = {this.previousStep}
+                    values = {values}/>
+                ) 
+            case 2:
+                return(
+                    <FlatAddress
+                    nextStep = {this.nextStep}
+                    previousStep = {this.previousStep}
+                    values = {values}/>
+                )
+            case 3:
+                return(
+                    <FlatPhoto 
+                    nextStep = {this.nextStep}
+                    previousStep = {this.previousStep}
+                    values = {values}/>
+                )
+            default:
+                console.log('the user is a flat');
+        }
+    }
 }
 
 export default Flat
