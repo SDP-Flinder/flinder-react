@@ -9,7 +9,7 @@ const FirstStep = (props) => {
   const { handleSubmit } = useForm({});
 
   //Store user information
-  const [user, setUser] = useState({
+  const [inputUser, setUser] = useState({
     username: '',
     password: '',
     email: '',
@@ -19,7 +19,7 @@ const FirstStep = (props) => {
   //Update the user information
   const setForm = (field, value) => {
       setUser({
-        ...user, //Pass any extra details from the users
+        ...inputUser, //Pass any extra details from the users
         [field]: value, //Add new values into the user
       })
   }
@@ -29,7 +29,7 @@ const FirstStep = (props) => {
   const findErrors = () => {
 
     //Deconstruct the user object
-    const {username, password, email, accountType} = user;
+    const {username, password, email, accountType} = inputUser;
     //This is to store new errors arising
     const foundError = {};
 
@@ -66,7 +66,6 @@ const FirstStep = (props) => {
   }
 
   const onSubmit = () => {
-
     //Find any new errors in the form
     const newError = findErrors();
     console.log(newError);
@@ -76,14 +75,14 @@ const FirstStep = (props) => {
     } else 
     {
       //For debugging
-      console.log(`This is the user info: ${user.username}, which is a ${user.accountType}`);
+      console.log(`This is the user info: ${inputUser.username}, which is a ${inputUser.accountType}`);
       
       //Redirect to the correct route
-      if(user.accountType == 'Flat'){
+      if(inputUser.accountType == 'Flat'){
         props.history.push('/flat');
-      }else if(user.accountType == 'Flatee'){ 
+      }else if(inputUser.accountType == 'Flatee'){ 
         props.history.push('/flatee');
-      }else if(user.accountType ==''){
+      }else if(inputUser.accountType ==''){
           alert('Choose one bitch!');
       }
     }
