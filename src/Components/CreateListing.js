@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import './Components/Form.css';
 
 class CreateListing extends React.Component {
     constructor(props) {
@@ -79,13 +80,13 @@ class CreateListing extends React.Component {
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Description:</label>
-                        <textarea 
-                            autoFocus 
-                            required 
+                        <textarea
+                            autoFocus
+                            required
                             className="form-control"
-                            placeholder="description of the room/flat" 
-                            value={this.state.description} 
-                            onChange={this.onChangeDescription} 
+                            placeholder="description of the room/flat"
+                            value={this.state.description}
+                            onChange={this.onChangeDescription}
                         />
                     </div>
                     <div className="form-group">
@@ -115,9 +116,9 @@ class CreateListing extends React.Component {
                             className="form-control"
                             value={this.state.rentUnits}
                             onChange={this.onChangeRentUnits}>
-                                <option value="perWeek">Weekly</option>
-                                <option value="perFortnight">Fortnightly</option>
-                                <option value="perMonth">Monthly</option>
+                            <option value="perWeek">Weekly</option>
+                            <option value="perFortnight">Fortnightly</option>
+                            <option value="perMonth">Monthly</option>
                         </select>
                     </div>
                     <div className="form-group">
