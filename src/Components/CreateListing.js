@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import './Components/Form.css';
+import './Form.css';
 
 class CreateListing extends React.Component {
     constructor(props) {
@@ -76,8 +76,8 @@ class CreateListing extends React.Component {
     render() {
         return (
             <div>
-                <h3>Create New Listing</h3>
                 <form onSubmit={this.onSubmit}>
+                    <h3>Create New Listing</h3>
                     <div className="form-group">
                         <label>Description:</label>
                         <textarea
@@ -112,6 +112,7 @@ class CreateListing extends React.Component {
                     <div className="formGroup">
                         <label>Rent Units:</label>
                         <select ref="userInput"
+                            style={{width: `${(8*this.state.rentUnits.length) + 100}px`}}
                             required
                             className="form-control"
                             value={this.state.rentUnits}
@@ -137,4 +138,4 @@ class CreateListing extends React.Component {
     }
 }
 
-export default CreateListing
+export default CreateListing;

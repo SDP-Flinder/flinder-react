@@ -17,6 +17,11 @@ html {
     width: 100%;
     border: 1;
   }
+
+  input[type="number"] {
+    width: 202px;
+    height: 32px;
+  }
   
   html {
     background-color: lightblue;
@@ -25,7 +30,7 @@ html {
   
   form {
     font-family:Arial;
-    width: 300px;
+    width: 800px;
     margin: 0 auto;
     background-color: white;
     padding: 2rem;
