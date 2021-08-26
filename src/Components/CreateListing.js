@@ -98,7 +98,7 @@ class CreateListing extends React.Component {
                             />
                         </div>
                     </div>
-                    <div classname="form-group">
+                    <div className="form-group">
                         <label>Rent Amount:</label>
                         <input
                             type="number"
