@@ -1,10 +1,11 @@
 //Confirms that the user signs up successfully
 import React from 'react'
 
-const Confirmation = () => {
+const Confirmation = (props) => {
+    const {user} = props;
     return (
         <div>
-            <h1>Yay!</h1>
+            <h1>You're all good to go!</h1>
         </div>
     )
 }

@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
 
 const FirstStep = (props) => {
-
   const { handleSubmit } = useForm({});
 
   //Store user information
@@ -76,7 +75,7 @@ const FirstStep = (props) => {
     {
       //For debugging
       console.log(`This is the user info: ${inputUser.username}, which is a ${inputUser.accountType}`);
-      
+      props.updateUser(inputUser);
       //Redirect to the correct route
       if(inputUser.accountType == 'Flat'){
         props.history.push('/flat');

@@ -5,19 +5,49 @@ import FlinderHeader from './components/FlinderHeader';
 import Flatee from './components/Flatee';
 import Flat from './components/Flat';
 import Confirmation from './components/Confirmation';
+import { useState } from 'react';
 
 //This contains all the routes to the '/signup/'
 const AppRouter = () => {
+  //Best place to store data entered by user is here
+  const [user, setUser] = useState({});
+
+  const updateUser = (data) => {
+    setUser((prevUser) => ({ ...prevUser, ...data }));
+  };
+
+  // const resetUser = () => {
+  //   setUser({});
+  // };
 
   return(
   <BrowserRouter>
     <div className="container">
       <FlinderHeader />
       <Switch>
-        <Route component={FirstStep} path="/" exact={true} />
-        <Route component={Flat} path="/flat" />
+        <Route   
+          render={(props) => (
+          <FirstStep {...props} user={user} updateUser={updateUser} />
+          )}
+         path="/" 
+         exact={true}/>
+
+        <Route   
+          render={(props) => (
+          <Flat {...props} user={user} updateUser={updateUser} />
+          )}
+         path="/flat" 
+         exact={true}/>
+         
         <Route component={Flatee} path="/flatee" />
-        <Route component={Confirmation} path="/complete" />
+
+        <Route   
+          render={(props) => (
+          <Confirmation {...props} user={user} updateUser={updateUser} />
+          )}
+         path="/complete" 
+         exact={true}/>
+
       </Switch>
     </div>
   </BrowserRouter>
