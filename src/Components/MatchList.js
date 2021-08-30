@@ -1,64 +1,53 @@
-import React, { useState } from 'react';
-import { Grid } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import React from 'react';
 
-function MatchList() {
-    var match1 = { name: 'Bob', age: 25, key: 0 };
-    var match2 = { name: 'John', age: 30, key: 1 };
-    var match3 = { name: 'Jane', age: 28, key: 2 };
-    var match4 = { name: 'Alice', age: 22, key: 3 };
-    const [matches] = useState([match1, match2, match3, match4]);
-    const [currentMatch, setCurrentMatch] = useState({ name: '', age: 0, key: 0 });
+const Match = props => (
+    <tr>
+        <td>{props.match.name}</td>
+        <td>{props.match.age}</td>
+    </tr>
+)
 
-    // const getMatches = async () => {
-    //     matchList();
+class MatchList extends React.Component {
+    constructor(props) {
+        super(props);
 
-    //     const URL = 'http://localhost:4000/matches/getSuccessMatches'
-    //     const USER_TOKEN = TOKEN;
+        this.selectMatch = this.selectMatch.bind(this);
 
-    //     axios.get(URL, { headers: { Authorization: `Bearer ${USER_TOKEN}` } })
-    //         .then(res => console.log(res.data));
-    // }
-
-    const renderButtons = () => {
-        return matches.map((match) => (
-            <Button
-                className="button"
-                variant="contained"
-                key={match.key}
-                onClick={function () { selectMatch(match.key) }}
-            >
-                {match.name}
-            </Button>
-        ))
+        //Basic array for testing purposes
+        this.state = {matches: ["Bob", "John", "Jane", "Mary"]};
     }
 
-    const selectMatch = (key) => {
-        matches.forEach(match => {
-            if (match.key === key) {
-                setCurrentMatch(match);
-                return;
-            }
+    componentDidMount() {
+        //Code to pull matches from server here
+    }
+
+    selectMatch(e) {
+        //Code to display selected match here
+    }
+
+    matchList() {
+        return this.state.matches.map(currentMatch => {
+            return <Match match={currentMatch} key={currentMatch.key}/>;
         })
     }
 
-    return (
-        <div>
-            <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-            >
-                <h3>Pending Matches</h3>
-                {renderButtons()}
-                <br />
-                <h3>{currentMatch.name}</h3>
-                <h3>{currentMatch.age}</h3>
-                <p>{currentMatch.key}</p>
-            </Grid>
-        </div>
-    );
+    render() {
+        return (
+            <div>
+                <h3>Current Matches</h3>
+                <table className="table">
+                    <thead className="thead-light">
+                        <tr>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.matchList()}
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
 }
 
 export default MatchList;
