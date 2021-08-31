@@ -10,7 +10,7 @@ import { useState } from 'react';
 const FlatAddress = (props) => {
     //Pass properties
     const {navigation} = props;
-    const {address} = props.formData;
+    const {address, existingFlatmates, description} = props.formData;
 
     const onSubmit = e => {
       e.preventDefault();
@@ -24,6 +24,8 @@ const FlatAddress = (props) => {
         navigation.next();
         console.log(address);
         props.updateUser({['address']:address});
+        props.updateUser({['existingFlatmates']: existingFlatmates});
+        props.updateUser({['description']: description})
       }
     }
 
@@ -56,6 +58,8 @@ const FlatAddress = (props) => {
         <form onSubmit = {onSubmit}>
         <h1>This is flat address page</h1>
 
+        <div>
+        <InputLabel> Address </InputLabel>
         <TextField
             id="outlined-basic"
             variant="outlined"
@@ -130,7 +134,35 @@ const FlatAddress = (props) => {
         {error.country ? 
         <div style = {{color: "red"}}>{error.country}</div>
         : <br/>}
+        </div>
+
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            type = "number"
+            label="Existing flatmate(s): "
+            name="existingFlatmates"
+            value = {existingFlatmates}
+            onChange = {props.setForm}
+            margin="normal"
+            variant="standard"
+            autoComplete="off"
+            fullWidth
+        /> 
         
+        <TextField
+            id="outlined-basic"
+            variant="outlined"
+            label="Description"
+            name="description"
+            value = {description}
+            onChange = {props.setForm}
+            margin="normal"
+            variant="standard"
+            autoComplete="off"
+            fullWidth
+        /> 
+
         <br />
         <br />
         <Button variant="contained"

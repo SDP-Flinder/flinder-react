@@ -1,44 +1,12 @@
-// import React, {Component} from 'react'
-// import { withRouter } from 'react-router';
-
-// export class FlatChecklist extends Component{
-
-//     continue = e => {
-//         e.preventDefault();
-//         this.props.history.push('/complete');
-//     }
-
-//     back = e => {
-//         e.preventDefault();
-//         this.props.previousStep();
-//     }
-
-//     render() {
-//         //const {value, handleChange} = this.props;
-
-//         return (
-//             <div>
-//                 <h2> This is a flat checklist </h2>
-//                 <button onClick = {this.back}> Back </button>
-//                 <button onClick = {this.continue}> Complete </button>
-//             </div>
-            
-//         )
-//     }
-// }
-
-// export default withRouter(FlatChecklist)
-
 import React from 'react'
 import { withRouter } from 'react-router'
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
-import axios from 'axios';
 
 const FlatInfo = (props) => {
     const {navigation} = props; 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         props.history.push('/complete')
         props.updateUser(props.formData);
         console.log(props.user);
@@ -76,6 +44,9 @@ const FlatInfo = (props) => {
             <div>
             <h4>Address: {props.user.address.street}, {props.user.address.suburb}, {props.user.address.city}, {props.user.address.country} 
             </h4>
+            <h4>Existing flatmate(s): {props.user.existingFlatmates}</h4>
+            <h4>Description: {props.user.description}</h4>
+
 
             <Button variant="outlined" size="medium" color="primary"
             onClick = {()  =>{
