@@ -3,8 +3,39 @@ import Button from '@material-ui/core/Button';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
+ import axios from 'axios';
+ import { useEffect } from 'react';
 
 const FirstStep = (props) => {
+  //This useState is used to store data from the API
+  const [repo, setRepo] = useState([]);
+
+  //Fetch authorised data from the API with token
+  const getRepo = async () => {
+
+    const URL = 'http://localhost:4000/users/'
+    const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzAzNzk4ODIsImV4cCI6MTYzMDk4NDY4Mn0.NVxePRJRI7TMIUGWvPLQUP6fERI8O5Jw-uAB3buXWvk';
+    const AuthString = 'Bearer '.concat(USER_TOKEN); 
+  
+    //Using .get to retrieve data 
+    await axios.get(URL, { headers: { Authorization: AuthString } })
+    .then(response => {
+      //Display for debugging
+       console.log(response.data);
+       //Store data in a local variable
+       const myRepo = response.data;
+       //Updata the state
+       setRepo(myRepo);
+    })
+    .catch((error) => {
+      //Display error
+       console.log('error ' + error);
+    });
+  }
+
+  //Set the data in the local state
+  useEffect(()=>getRepo(), []);
+
   const { handleSubmit } = useForm({});
 
   //Store user information
@@ -39,6 +70,14 @@ const FirstStep = (props) => {
       foundError.username = 'Username should not contain special characters.'
     }else if(username.length < 6){                        //Username too short
       foundError.username = 'Username should have at least 6 characters.'
+    } 
+    
+    const userExist = checkUser(username,email);
+
+    if(userExist == 'username'){
+      foundError.username = 'Username already exists'
+    } else if(userExist == 'email'){
+      foundError.username = 'Email already exists'
     }
     
     //Password constraints
@@ -62,6 +101,20 @@ const FirstStep = (props) => {
     }
 
     return foundError;
+  }
+
+  //Check if the username or email exists in the database
+  const checkUser = (username, email) => {
+    let userExist = '';
+
+    for(let k = 0; k < repo.length; k++){
+      if(repo[k].username == username){
+        userExist = 'username';
+      } else if(repo[k].email == email){
+        userExist = 'email';
+      }
+    }
+    return userExist;
   }
 
   const onSubmit = () => {
