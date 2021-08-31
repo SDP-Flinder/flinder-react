@@ -1,23 +1,23 @@
 import React from 'react';
 
 export default class Match extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor(name, age, key) {
+        super(name, age, key);
 
         this.state = {
-            name: props.name,
-            age: props.age,
-            key: props.key
+            name: name,
+            age: age,
+            key: key
         };
     }
 
     render() {
         return (
-            <container>
+            <div>
                 <h3>{this.state.name}</h3>
                 <h3>{this.state.age}</h3>
                 <p>{this.state.key}</p>
-            </container>
+            </div>
         );
     }
 }
