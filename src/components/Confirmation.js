@@ -2,7 +2,7 @@
 import React from 'react'
 
 const Confirmation = (props) => {
-    const {user} = props;
+//    const {user} = props;
     return (
         <div>
             <h1>You're all good to go!</h1>
