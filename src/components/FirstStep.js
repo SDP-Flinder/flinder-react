@@ -74,10 +74,12 @@ const FirstStep = (props) => {
     
     const userExist = checkUser(username,email);
 
-    if(userExist == 'username'){
+    if(userExist.username == 'username'){
       foundError.username = 'Username already exists'
-    } else if(userExist == 'email'){
-      foundError.username = 'Email already exists'
+    }
+    
+    if(userExist.email == 'email'){
+      foundError.email = 'Email already exists'
     }
     
     //Password constraints
@@ -105,13 +107,15 @@ const FirstStep = (props) => {
 
   //Check if the username or email exists in the database
   const checkUser = (username, email) => {
-    let userExist = '';
+    let userExist = {};
 
     for(let k = 0; k < repo.length; k++){
       if(repo[k].username == username){
-        userExist = 'username';
-      } else if(repo[k].email == email){
-        userExist = 'email';
+        userExist.username = 'username';
+      }
+      
+      if(repo[k].email == email){
+        userExist.email = 'email';
       }
     }
     return userExist;

@@ -2,16 +2,36 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
+import axios from 'axios';
 
 const FlatInfo = (props) => {
-    const {navigation} = props; 
+    const {navigation} = props;
 
     const handleSubmit = async () => {
+        try {
+            const { user } = props;
+            const userParam = {
+              username: user.username,
+              password: user.password,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              dob: user.dob,
+              role: user.accountType.toLowerCase(),
+            };
+            console.log(userParam)
+            await axios.post('http://localhost:4000/users/register', {
+              ...userParam
+            });
+          } catch (error) {
+            if (error.response) {
+              console.log('error', error.response.data);
+            }
+          }
         props.history.push('/complete')
         props.updateUser(props.formData);
         console.log(props.user);
     }
-    
 
     return (
         <div>
