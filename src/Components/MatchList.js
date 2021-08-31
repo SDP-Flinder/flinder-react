@@ -1,4 +1,5 @@
 import React from 'react';
+import Match from './Match.js';
 
 // class Match extends React.Component {
 //     constructor(props) {
@@ -17,9 +18,12 @@ export default class MatchList extends React.Component {
     constructor(props) {
         super(props);
 
-        // this.selectMatch = this.selectMatch.bind(this);
+        this.selectMatch = this.selectMatch.bind(this);
 
-        this.state = {matches: []};
+        this.state = {
+            matches: [], 
+            currentMatch: new Match('',0,0)
+        };
     }
 
     componentDidMount() {
@@ -59,9 +63,9 @@ export default class MatchList extends React.Component {
         this.matchList();
     }
 
-    // selectMatch(e) {
-    //     //Code to display selected match here
-    // }
+    selectMatch(e) {
+        this.state.currentMatch = e.target.value;
+    }
 
     matchList() {
         this.state.matches.forEach( function(v) {
@@ -75,7 +79,13 @@ export default class MatchList extends React.Component {
 
     render() {
         return (
-            <div id="buttons"></div>
+            <div id="buttons">
+                <container>
+                    <h3>{this.state.currentMatch.name}</h3>
+                    <h3>{this.state.currentMatch.age}</h3>
+                    <p>{this.state.currentMatch.key}</p>
+                </container>
+            </div>
         );
     }
 }
