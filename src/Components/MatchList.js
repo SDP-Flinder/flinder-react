@@ -1,24 +1,31 @@
 import React from 'react';
 
-const Match = props => (
-    <tr>
-        <td>{props.match.name}</td>
-        <td>{props.match.age}</td>
-    </tr>
-)
+class Match extends React.Component {
+    constructor(props) {
+        super(props);
 
-class MatchList extends React.Component {
+        this.state = {
+            name: props.name,
+            age: props.age,
+            key: props.key
+        };
+    }
+}
+
+export default class MatchList extends React.Component {
     constructor(props) {
         super(props);
 
         this.selectMatch = this.selectMatch.bind(this);
 
-        //Basic array for testing purposes
-        this.state = {matches: ["Bob", "John", "Jane", "Mary"]};
+        this.state = { matches: [] };
     }
 
     componentDidMount() {
-        //Code to pull matches from server here
+        this.state.matches.push(new Match({ name: "Bob", age: 25, key: 0 }));
+        this.state.matches.push(new Match({ name: "John", age: 30, key: 1 }));
+        this.state.matches.push(new Match({ name: "Jane", age: 28, key: 2 }));
+        this.state.matches.push(new Match({ name: "Alice", age: 22, key: 3 }));
     }
 
     selectMatch(e) {
@@ -27,7 +34,7 @@ class MatchList extends React.Component {
 
     matchList() {
         return this.state.matches.map(currentMatch => {
-            return <Match match={currentMatch} key={currentMatch.key}/>;
+            return <Match match={currentMatch} key={currentMatch.key} />;
         })
     }
 
@@ -49,5 +56,3 @@ class MatchList extends React.Component {
         );
     }
 }
-
-export default MatchList;
