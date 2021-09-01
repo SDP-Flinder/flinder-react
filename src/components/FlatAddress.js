@@ -5,12 +5,43 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { useState } from 'react';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 
 const FlatAddress = (props) => {
     //Pass properties
     const {navigation} = props;
     const {address, existingFlatmates, description} = props.formData;
+
+      //This useState is used to store data from the API
+  const [repo, setRepo] = useState([]);
+
+  //Fetch authorised data from the API with token
+  const getRepo = async () => {
+
+    const URL = 'http://localhost:4000/users/'
+    const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzAzNzk4ODIsImV4cCI6MTYzMDk4NDY4Mn0.NVxePRJRI7TMIUGWvPLQUP6fERI8O5Jw-uAB3buXWvk';
+    const AuthString = 'Bearer '.concat(USER_TOKEN); 
+  
+    //Using .get to retrieve data 
+    await axios.get(URL, { headers: { Authorization: AuthString } })
+    .then(response => {
+      //Display for debugging
+       console.log(response.data);
+       //Store data in a local variable
+       const myRepo = response.data;
+       //Updata the state
+       setRepo(myRepo);
+    })
+    .catch((error) => {
+      //Display error
+       console.log('error ' + error);
+    });
+  }
+
+  //Set the data in the local state
+  useEffect(()=>getRepo(), []);
 
     const onSubmit = e => {
       e.preventDefault();
@@ -48,6 +79,17 @@ const FlatAddress = (props) => {
 
       if(address.country == ''){
         errorFound.country = "Please select a country.";
+      }
+
+      for(let k =0; k<repo.length; k++){
+        if(repo[k].role == 'flat'){
+          console.log(repo[k]);
+          if(repo[k].address.street == address.street 
+            && repo[k].address.suburb == address.suburb
+            && repo[k].address.city == address.city){
+              errorFound.street = "This address has already been used."
+            }
+        }
       }
       
       return errorFound;
@@ -88,7 +130,7 @@ const FlatAddress = (props) => {
           <option value={'Eden Terrace'}>Eden Terrace</option>
           <option value={'Freemans Bay'}>Freemans Bay</option>
           <option value={'Grafton'}>Grafton</option>
-          <option value={'Grey Lynn'}>City Centre</option>
+          <option value={'Grey Lynn'}>Grey Lynn</option>
           <option value={'Kingsland'}>Kingsland</option>
           <option value={'Mt Eden'}>Mount Eden</option>
           <option value={'Parnell'}>Parnell</option>

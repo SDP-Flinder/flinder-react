@@ -8,6 +8,8 @@ const FlatInfo = (props) => {
     const {navigation} = props;
 
     const handleSubmit = async () => {
+
+        //Post the user data to the /users route
         try {
             const { user } = props;
             const userParam = {
@@ -18,6 +20,9 @@ const FlatInfo = (props) => {
               email: user.email,
               dob: user.dob,
               role: user.accountType.toLowerCase(),
+              address: user.address,
+              description: user.description,
+              existingFlatmates: user.existingFlatmates,
             };
             console.log(userParam)
             await axios.post('http://localhost:4000/users/register', {
@@ -28,6 +33,7 @@ const FlatInfo = (props) => {
               console.log('error', error.response.data);
             }
           }
+
         props.history.push('/complete')
         props.updateUser(props.formData);
         console.log(props.user);
