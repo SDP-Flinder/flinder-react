@@ -43,14 +43,16 @@ const FlatAddress = (props) => {
   //Set the data in the local state
   useEffect(()=>getRepo(), []);
 
-    const onSubmit = e => {
+  const onSubmit = e => {
       e.preventDefault();
       const newError = findError();
-      console.log(newError);
+      console.log(newError.errorFound);
+      console.log(newError.invalid);
 
-      if(Object.keys(newError).length > 0){
+      if(Object.keys(newError.errorFound).length > 0){
         //Found errors and set the errors to the useState
-        setError(newError);
+        setError(newError.errorFound);
+        setInvalid(newError.invalid);
       } else {
         navigation.next();
         console.log(address);
@@ -62,23 +64,30 @@ const FlatAddress = (props) => {
 
     //Find the user's invalid inputs
     const [error,setError] = useState({});
+    const [isInvalid, setInvalid] = useState({});
+
     const findError = () => {
       const errorFound = {};
+      const invalid = {};
 
       if(address.street == ''){
         errorFound.street = "This field is required";
+        invalid.street = true;
       }
 
       if(address.suburb == ''){
         errorFound.suburb = "Please select a suburb.";
+        invalid.suburb = true;
       }
 
       if(address.city == ''){
         errorFound.city = "Please select a city";
+        invalid.city = true;
       }
 
       if(address.country == ''){
         errorFound.country = "Please select a country.";
+        invalid.country = true;
       }
 
       for(let k =0; k<repo.length; k++){
@@ -88,11 +97,12 @@ const FlatAddress = (props) => {
             && repo[k].address.suburb == address.suburb
             && repo[k].address.city == address.city){
               errorFound.street = "This address has already been used."
+              invalid.street = true;
             }
         }
       }
       
-      return errorFound;
+      return {errorFound, invalid};
     }
 
     
@@ -112,13 +122,15 @@ const FlatAddress = (props) => {
             margin="normal"
             variant="standard"
             autoComplete="off"
-            fullWidth
+            error = {isInvalid.street}
         /> 
-        {error.street && <div style = {{color: "red"}}>{error.street}</div>}
+        {error.street && <div className = "error-message">{error.street}</div>}
         <br />
         <FormControl 
         fullWidth>
-        <InputLabel> Sububrb </InputLabel>
+        <InputLabel
+            error = {isInvalid.suburb}
+        > Sububrb </InputLabel>
         <Select
           native
           name = "address.suburb"
@@ -138,13 +150,13 @@ const FlatAddress = (props) => {
         </Select>
         </FormControl>
         {error.suburb ? 
-        <div style = {{color: "red"}}>{error.suburb}</div>
+        <div className = "error-message">{error.suburb}</div>
         : <br/>}
 
         <br />
 
-        <FormControl variant="filled" >
-        <InputLabel> City </InputLabel>
+        <FormControl error = {isInvalid.city} variant="filled" >
+        <InputLabel > City </InputLabel>
         <Select
           native
           name = "address.city"
@@ -156,12 +168,14 @@ const FlatAddress = (props) => {
         </Select>
         </FormControl>
         {error.city ? 
-        <div style = {{color: "red"}}>{error.city}</div>
+        <div className = "error-message">{error.city}</div>
         : <br/>}
 
         <br />
         <FormControl variant="filled" >
-        <InputLabel> Country </InputLabel>
+        <InputLabel
+              error = {isInvalid.country}
+        > Country </InputLabel>
         <Select
           native
           name = "address.country"
@@ -174,7 +188,7 @@ const FlatAddress = (props) => {
         </FormControl>
 
         {error.country ? 
-        <div style = {{color: "red"}}>{error.country}</div>
+        <div className = "error-message">{error.country}</div>
         : <br/>}
         </div>
 
@@ -213,6 +227,7 @@ const FlatAddress = (props) => {
         </Button>
         <Button variant="contained"
           color = "secondary"
+          disabled = {!address.street || !address.city || !address.suburb || !address.country || !description || !existingFlatmates ? true : false}
           type = "submit">
           Next
         </Button>

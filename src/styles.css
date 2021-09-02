@@ -1,0 +1,53 @@
+/*
+COLOUR PALLETTE
+
+*/
+
+/* Global Styles
+------------------------*/
+h1{
+    text-align: center;
+    color: #70A0AF;
+}
+
+.display{
+    background-color: black;
+    display: inline;
+}
+
+.container{
+    width: 60%;
+    margin: 3rem auto;
+}
+
+.form-group{
+    margin: auto;
+    width: 500px;
+}
+
+.button{
+    margin: auto;
+    width: 500px;
+}
+
+.input{
+    margin: auto;
+    width: 600px;
+    height: 300px;
+    padding: 10px;
+    border: 1px sold black;
+    background-color: blanchedalmond;
+}
+
+.background{
+    background-color: cornflowerblue;
+}
+
+.error-message{
+    color: rgb(219, 96, 96);
+}
+
+/* This is to style the input form layout
+.input-form {
+
+} */

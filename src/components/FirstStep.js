@@ -1,10 +1,16 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Form } from 'react-bootstrap';
  import axios from 'axios';
  import { useEffect } from 'react';
+ import FormControl from '@material-ui/core/FormControl';
+ import { FormLabel } from '@material-ui/core';
+ import { Radio } from '@material-ui/core';
+ import { RadioGroup } from '@material-ui/core';
+ import { FormControlLabel } from '@material-ui/core';
+
 
 const FirstStep = (props) => {
   //This useState is used to store data from the API
@@ -99,7 +105,7 @@ const FirstStep = (props) => {
     }
 
     if(!accountType || accountType == ''){
-      foundError.accountType = 'User does not select an account type';
+      foundError.accountType = 'Choose one';
     }
 
     return foundError;
@@ -133,10 +139,11 @@ const FirstStep = (props) => {
       //For debugging
       console.log(`This is the user info: ${inputUser.username}, which is a ${inputUser.accountType}`);
       props.updateUser(inputUser);
+      console.log(inputUser);
       //Redirect to the correct route
-      if(inputUser.accountType == 'Flat'){
+      if(inputUser.accountType == 'flat'){
         props.history.push('/flat');
-      }else if(inputUser.accountType == 'Flatee'){ 
+      }else if(inputUser.accountType == 'flatee'){ 
         props.history.push('/flatee');
       }else if(inputUser.accountType ==''){
           alert('Choose one bitch!');
@@ -146,68 +153,73 @@ const FirstStep = (props) => {
 
   return (
     <div>
-       <Form onSubmit={handleSubmit(onSubmit)}>
-       <Form.Group controlId="username">
-          <Form.Label>Username</Form.Label>
-          <Form.Control 
-          type="text" 
+       <form onSubmit={handleSubmit(onSubmit)}>
+       <FormControl>
+          <TextField 
+          label = "Username"
+          variant="outlined"
+          name = "inputUser.username"
+          value = {inputUser.username}
           onChange = {e => setForm('username', e.target.value)}
           placeholder="Enter your username" 
-          isInvalid = { !!error.username}
+          error = { !!error.username}
           />
-
-        <Form.Control.Feedback type='invalid'>
-            { error.username }
-        </Form.Control.Feedback>
-
-        </Form.Group>
-
-        <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" 
+          {error.username && <div className = "error-message">{error.username} <br /> </div>}
+        </FormControl>
+        <br />
+        <br />
+        <FormControl>
+        <TextField 
+          label="Password" 
+          variant="outlined"
+          type="password" 
           onChange = {e => setForm('password', e.target.value)}
-          placeholder="Enter your password" 
-          isInvalid = { !!error.password}
+          error = { !!error.password}
           />
+          {error.password && <div className = "error-message">{error.password} <br /> </div>}
+        </FormControl>
 
-        <Form.Control.Feedback type='invalid'>
-            { error.password }
-        </Form.Control.Feedback>
-        </Form.Group>
+        <br />
+        <br /> 
 
-        <Form.Group controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" 
+        <FormControl>
+        <TextField 
+          label = "Email"
+          variant="outlined"  
+          type="email" 
           onChange = {e => setForm('email', e.target.value)}
-          placeholder="Enter your email adress" 
-          isInvalid = { !!error.email}
+          error = { !!error.email}
           />
+          {error.email && <div className = "error-message">{error.email} <br /> </div>}
+        </FormControl>
 
-        <Form.Control.Feedback type='invalid'>
-            { error.email }
-        </Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Group>
-        <Form.Label>What are you looking for? </Form.Label>
-              <Form.Check type="radio" 
-              label = "I'm looking for a flatmate" 
-              value="Flat" 
-              name="accType" 
-              onChange = {() => setForm('accountType', 'Flat')}
-              isInvalid = { !!error.accountType}/>
-              <Form.Check  type="radio" 
-              label = "I'm looking for a flat" 
-              value="Flatee" 
-              name="accType" 
-              onChange = {() => setForm('accountType','Flatee')} 
-              isInvalid = { !!error.accountType}/> 
-        </Form.Group>
+        <br />
+        <br /> 
         
-        <Button variant="contained" color="secondary" type ="submit">
+        
+        <FormControl           
+        error = {!!error.accountType}  
+        component="fieldset">
+        <FormLabel component="legend">I'm looking for...</FormLabel>
+        <RadioGroup
+          aria-label="accountType"
+          name="inputUser.accountType"
+          value={inputUser.accountType}
+          onChange = {e => setForm('accountType', e.target.value)}
+        >
+          <FormControlLabel value="flat" control={<Radio />} label="A Flatmate" />
+          <FormControlLabel value="flatee" control={<Radio />} label="A Flat" />
+        </RadioGroup>
+        {error.accountType && <div className = "error-message">{error.accountType} <br /> </div>}
+        </FormControl>
+        
+        <br />
+        <br />
+        <Button variant="contained" color="secondary" type ="submit"
+        disabled = {(!inputUser.username || !inputUser.password || !inputUser.email || !inputUser.accountType) ? true:false}>
           Next
         </Button>
-      </Form>
+      </form>
     </div>
   );
 };
