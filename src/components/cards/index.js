@@ -11,10 +11,16 @@ import './styles.css';
 const Cards = () => {
   const [people, setPeople] = useState([]);
 
+  const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzA2NTY1MDgsImV4cCI6MTYzMTI2MTMwOH0._dmov_6spFJQ7b9v3gmSYrH6YCoxzrNJcGJmewLXdhg';
+  const AuthString = 'Bearer '.concat(USER_TOKEN);
   // use effect
   useEffect(() => {
     async function fetchData() {
-      await instance.get(getCards).then((res) => setPeople(res.data));
+      await instance.get(getCards, { headers: { Authorization: AuthString } })
+        .then((res) => {
+          console.log(res.data);
+          setPeople(res.data);
+        });
     }
 
     fetchData();
@@ -39,7 +45,7 @@ const Cards = () => {
             <TinderCard
               className="swipe"
               key={person.name}
-              preventSwipe={['upp', 'down']}
+              preventSwipe={['up', 'down']}
               onSwipe={(dir) => swiped(dir, person.name)}
               onCardLeftScreen={() => outOfFrame(person.name)}
             >
@@ -51,7 +57,7 @@ const Cards = () => {
                 }}
               >
                 {/* Name */}
-                <h3>{person.name}</h3>
+                <h3>{person.id}</h3>
               </div>
             </TinderCard>
           ))}
