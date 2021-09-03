@@ -108,31 +108,31 @@ const FlatAddress = (props) => {
     
     return (
         <form onSubmit = {onSubmit}>
-        <h1>This is flat address page</h1>
+        <h6>Next, please provide you flat's address...</h6>
 
         <div>
-        <InputLabel> Address </InputLabel>
-        <TextField
+        <TextField className = "input"
             id="outlined-basic"
             variant="outlined"
             label="Street number"
             name="address.street"
             value = {address.street}
             onChange = {props.setForm}
-            margin="normal"
-            variant="standard"
             autoComplete="off"
             error = {isInvalid.street}
         /> 
+        <br/>
+        <br/>
         {error.street && <div className = "error-message">{error.street}</div>}
         <br />
-        <FormControl 
-        fullWidth>
+
+        <FormControl>
         <InputLabel
             error = {isInvalid.suburb}
         > Sububrb </InputLabel>
         <Select
           native
+          disabled = {!address.street ? true : false}
           name = "address.suburb"
           value = {address.suburb}
           onChange = {props.setForm}
@@ -151,14 +151,12 @@ const FlatAddress = (props) => {
         </FormControl>
         {error.suburb ? 
         <div className = "error-message">{error.suburb}</div>
-        : <br/>}
-
-        <br />
-
-        <FormControl error = {isInvalid.city} variant="filled" >
+        : null }
+        <FormControl error = {isInvalid.city}>
         <InputLabel > City </InputLabel>
         <Select
           native
+          disabled = {!address.suburb ? true : false}
           name = "address.city"
           value = {address.city}
           onChange = {props.setForm}
@@ -169,15 +167,14 @@ const FlatAddress = (props) => {
         </FormControl>
         {error.city ? 
         <div className = "error-message">{error.city}</div>
-        : <br/>}
-
-        <br />
-        <FormControl variant="filled" >
+        : null }
+        <FormControl>
         <InputLabel
               error = {isInvalid.country}
         > Country </InputLabel>
         <Select
           native
+          disabled = {!address.city ? true : false}
           name = "address.country"
           value = {address.country}
           onChange = {props.setForm}
@@ -190,6 +187,7 @@ const FlatAddress = (props) => {
         {error.country ? 
         <div className = "error-message">{error.country}</div>
         : <br/>}
+        <br />
         </div>
 
           <TextField
@@ -200,32 +198,33 @@ const FlatAddress = (props) => {
             name="existingFlatmates"
             value = {existingFlatmates}
             onChange = {props.setForm}
-            margin="normal"
-            variant="standard"
             autoComplete="off"
-            fullWidth
         /> 
-        
-        <TextField
+        <br />
+        <br />
+        <TextField className = "input"
             id="outlined-basic"
             variant="outlined"
             label="Description"
             name="description"
             value = {description}
             onChange = {props.setForm}
-            margin="normal"
-            variant="standard"
             autoComplete="off"
-            fullWidth
+            multiline
+            rows={4}
         /> 
 
         <br />
         <br />
-        <Button variant="contained"
+        <br />
+        <br />
+        <br />
+
+        <Button variant="contained" className = "button"
           onClick = {() => navigation.previous()}>
           Back
         </Button>
-        <Button variant="contained"
+        <Button variant="contained" className = "button"
           color = "secondary"
           disabled = {!address.street || !address.city || !address.suburb || !address.country || !description || !existingFlatmates ? true : false}
           type = "submit">

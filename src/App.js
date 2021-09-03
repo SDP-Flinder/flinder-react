@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import FirstStep from './components/FirstStep';
-//import FlinderHeader from './components/FlinderHeader';
+// import FlinderHeader from './components/FlinderHeader';
 import Flatee from './components/Flatee';
 import Flat from './components/Flat';
 import Confirmation from './components/Confirmation';
@@ -24,10 +24,9 @@ const AppRouter = () => {
 
   return(
   <BrowserRouter>
-    <div>
-      <div style={{height:'100px',
-      width: '200px'}}>
-      <FlinderLogo />
+    <div className = "layout">
+      <div>
+      <FlinderLogo className = "logo-display"/>
       </div>
       <Switch>
         <Route   

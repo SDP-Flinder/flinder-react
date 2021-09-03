@@ -41,37 +41,41 @@ const FlatInfo = (props) => {
 
     return (
         <div>
-            <h1>Review your information: </h1>
+            <h6>Finally, check your information...</h6>
 
-            <div>
-            <h4>Username: {props.user.username} </h4>
-            <h4>Username: {props.user.email} </h4>
+            <section>
+            <h4>Account information</h4>
+            <p>Username: {props.user.username} </p>
+            <p>Email: {props.user.email} </p>
             <Button variant="outlined" size="medium" color="primary"
             onClick = {()  =>{
                 props.history.push("/");
             }
             }>Edit</Button>
+            </section>
 
-            <br /> <br />
+            <p>_________________________________________________________</p>
 
-            </div>
-            <div>
-            <h4>Full name: {props.user.firstName} {props.user.lastName} </h4>
-            <h4>D.O.B: {moment(props.user.dob).format('DD/MM/YYYY')}</h4>
+            <section>
+
+            <h4>Personal Information</h4>
+            <p>Full name: {props.user.firstName} {props.user.lastName} </p>
+            <p>D.O.B: {moment(props.user.dob).format('DD/MM/YYYY')}</p>
 
             <Button variant="outlined" size="medium" color="primary"
             onClick = {()  =>{
                 navigation.go("information");
             }
             }>Edit</Button>
-            </div>
-            <br/> <br/>
-
-            <div>
-            <h4>Address: {props.user.address.street}, {props.user.address.suburb}, {props.user.address.city}, {props.user.address.country} 
-            </h4>
-            <h4>Existing flatmate(s): {props.user.existingFlatmates}</h4>
-            <h4>Description: {props.user.description}</h4>
+            
+            </section>
+            <p>_________________________________________________________</p>
+            <section>
+            <h4>Flat Information</h4>
+            <p>Address: {props.user.address.street}, {props.user.address.suburb}, {props.user.address.city}, {props.user.address.country} 
+            </p>
+            <p>Existing flatmate(s): {props.user.existingFlatmates}</p>
+            <p>Description: {props.user.description}</p>
 
 
             <Button variant="outlined" size="medium" color="primary"
@@ -79,12 +83,9 @@ const FlatInfo = (props) => {
                 navigation.go("address");
             }
             }>Edit</Button>
-            </div>
-
-
-            <br/> <br />
-
-            <Button
+            </section>
+            <br/>
+            <Button className = "button"
             variant="contained" color="secondary"
             onClick = {handleSubmit}>Complete</Button>
         </div>

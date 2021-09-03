@@ -10,10 +10,13 @@ h1{
     color: #70A0AF;
 }
 
-.display{
-    background-color: black;
-    display: inline;
+.logo-display{
+    height: 100px;
+    width: 200px;
+    align-items: center;
+    margin: auto;
 }
+
 
 .container{
     width: 60%;
@@ -30,13 +33,18 @@ h1{
     width: 500px;
 }
 
-.input{
-    margin: auto;
-    width: 600px;
-    height: 300px;
+.input {
+    width: 480px;
+    height: 30px;
+}
+
+.layout{
+    margin: 50px auto;
+    width: 500px;
+    height: fit-content;
     padding: 10px;
-    border: 1px sold black;
-    background-color: blanchedalmond;
+    border: 1px solid black;
+    border-radius: 10px;
 }
 
 .background{
@@ -44,7 +52,17 @@ h1{
 }
 
 .error-message{
+    font-size: 70%;
     color: rgb(219, 96, 96);
+}
+
+.button{
+    width: 480px;
+}
+
+.two-button{
+    width: 240px;
+    display: inline;
 }
 
 /* This is to style the input form layout

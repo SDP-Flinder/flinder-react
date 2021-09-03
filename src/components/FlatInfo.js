@@ -67,9 +67,9 @@ const FlatInfo = (props) => {
     return (
         <form
         onSubmit={onSubmit}>
-            <h1>This is flat info page</h1>
+        <h6>First, tell us a little bit about you...</h6>
 
-        <TextField
+        <TextField className = "input"
             id="outlined-basic"
             variant="outlined"
             label="First Name"
@@ -77,15 +77,15 @@ const FlatInfo = (props) => {
             value={firstName}
             onChange={props.setForm}
             placeholder = "Enter your first name...."
-            margin="normal"
-            variant="standard"
             autoComplete="off"
             error = {isInvalid.firstName}
         /> 
-        <br />
+        <br/>
+        <br/>
         {error.firstName && <div className = "error-message">{error.firstName}</div>}
+        <br/>
 
-        <TextField
+        <TextField className = "input"
             id="outlined-basic"
             variant="outlined"
             label="Last Name"
@@ -93,14 +93,13 @@ const FlatInfo = (props) => {
             value={lastName}
             onChange={props.setForm}
             placeholder = "Enter your last name...."
-            margin="normal"
-            variant="standard"
             autoComplete="off"
             error = {isInvalid.lastName}
         />
         <br />
+        <br />
         {error.lastName && <div className = "error-message">{error.lastName}</div>}
-
+        <br/>
         <InputLabel
             error = {isInvalid.dob}
         > D.O.B </InputLabel>
@@ -110,18 +109,18 @@ const FlatInfo = (props) => {
         value={dob}
         dateFormat = "YYYY-MM-DDTHH:mm:ss.sssZ"
         />
+        <br />
         {error.dob && <div className = "error-message">{error.dob}</div>}
-
-        <br />
         <br />
 
-
-        <Button variant="contained"
-        onClick = {() => props.history.push('/')}>Back</Button>
-        <Button variant="contained"
+        <Button className = "button" 
+         variant="contained"
         color = "secondary" 
         disabled = {!firstName || !lastName ?true:false}
         type="submit">Next</Button>
+        <br />
+        <Button className = "button" variant="contained"
+        onClick = {() => props.history.push('/')}>Back</Button>
         </form>
     )
 }

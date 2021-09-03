@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
  import { Radio } from '@material-ui/core';
  import { RadioGroup } from '@material-ui/core';
  import { FormControlLabel } from '@material-ui/core';
+ import { Grid } from '@material-ui/core';
 
 
 const FirstStep = (props) => {
@@ -153,37 +154,47 @@ const FirstStep = (props) => {
 
   return (
     <div>
-       <form onSubmit={handleSubmit(onSubmit)}>
+       <h6>Sign Up to find your new home.</h6>
+       <form onSubmit={handleSubmit(onSubmit)} spacing = "10">
+        <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing = "0"
+        >
+       <div>
        <FormControl>
-          <TextField 
+          <TextField className = "input"
           label = "Username"
           variant="outlined"
-          name = "inputUser.username"
-          value = {inputUser.username}
           onChange = {e => setForm('username', e.target.value)}
-          placeholder="Enter your username" 
           error = { !!error.username}
           />
+
           {error.username && <div className = "error-message">{error.username} <br /> </div>}
         </FormControl>
+        </div>
         <br />
         <br />
+
         <FormControl>
-        <TextField 
+        <TextField className = "input"
           label="Password" 
           variant="outlined"
           type="password" 
+          name = "inputUser.password"
+          value = {inputUser.password}
           onChange = {e => setForm('password', e.target.value)}
+          placeholder="Enter your password" 
           error = { !!error.password}
           />
           {error.password && <div className = "error-message">{error.password} <br /> </div>}
         </FormControl>
-
         <br />
-        <br /> 
-
+        <br />
         <FormControl>
-        <TextField 
+        <TextField className = "input"
           label = "Email"
           variant="outlined"  
           type="email" 
@@ -192,12 +203,9 @@ const FirstStep = (props) => {
           />
           {error.email && <div className = "error-message">{error.email} <br /> </div>}
         </FormControl>
-
         <br />
-        <br /> 
-        
-        
-        <FormControl           
+        <br />
+        <FormControl className = "input"          
         error = {!!error.accountType}  
         component="fieldset">
         <FormLabel component="legend">I'm looking for...</FormLabel>
@@ -212,13 +220,17 @@ const FirstStep = (props) => {
         </RadioGroup>
         {error.accountType && <div className = "error-message">{error.accountType} <br /> </div>}
         </FormControl>
-        
         <br />
         <br />
-        <Button variant="contained" color="secondary" type ="submit"
+        <br />
+        <br />
+        <Button className = "button"
+        variant="contained" color="secondary" type ="submit"
         disabled = {(!inputUser.username || !inputUser.password || !inputUser.email || !inputUser.accountType) ? true:false}>
           Next
         </Button>
+
+        </Grid>
       </form>
     </div>
   );
