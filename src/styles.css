@@ -57,13 +57,10 @@ h1{
 }
 
 .button{
+    color: white;
     width: 480px;
 }
 
-.two-button{
-    width: 240px;
-    display: inline;
-}
 
 /* This is to style the input form layout
 .input-form {

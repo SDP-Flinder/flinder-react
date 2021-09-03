@@ -171,12 +171,12 @@ const FirstStep = (props) => {
           onChange = {e => setForm('username', e.target.value)}
           error = { !!error.username}
           />
-
+        <br />
           {error.username && <div className = "error-message">{error.username} <br /> </div>}
         </FormControl>
         </div>
         <br />
-        <br />
+
 
         <FormControl>
         <TextField className = "input"
@@ -189,9 +189,9 @@ const FirstStep = (props) => {
           placeholder="Enter your password" 
           error = { !!error.password}
           />
+          <br />
           {error.password && <div className = "error-message">{error.password} <br /> </div>}
         </FormControl>
-        <br />
         <br />
         <FormControl>
         <TextField className = "input"
@@ -201,9 +201,9 @@ const FirstStep = (props) => {
           onChange = {e => setForm('email', e.target.value)}
           error = { !!error.email}
           />
+          <br />
           {error.email && <div className = "error-message">{error.email} <br /> </div>}
         </FormControl>
-        <br />
         <br />
         <FormControl className = "input"          
         error = {!!error.accountType}  
