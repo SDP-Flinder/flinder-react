@@ -1,8 +1,8 @@
 import React from 'react'
 import { useForm, useStep } from "react-hooks-helper";
-import FlatAddress from './FlatAddress';
-import FlatInfo from './FlatInfo';
-import FlatChecklist from './FlatChecklist'
+import FlatAddress from './FlatSteps/FlatAddress';
+import FlatInfo from './FlatSteps/FlatInfo'
+import FlatChecklist from './FlatSteps/FlatChecklist'
 
 const defaultData = {
     firstName: '',
@@ -20,7 +20,7 @@ const defaultData = {
 const steps = [
     {id: "information"},
     {id: "address"},
-    {id: "photo"}
+    {id: "checklist"}
 ]
 
 const Flat = (props) => {
@@ -37,7 +37,7 @@ const Flat = (props) => {
             return <FlatInfo {...prop} user = {user} updateUser = {props.updateUser}/>
         case "address":
             return <FlatAddress {...prop} user = {user} updateUser = {props.updateUser}/>
-        case "photo": 
+        case "checklist": 
             return <FlatChecklist {...prop} user = {user} updateUser = {props.updateUser}/>
     }
 

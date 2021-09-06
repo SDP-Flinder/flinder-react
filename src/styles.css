@@ -18,26 +18,12 @@ h1{
 }
 
 
-.container{
-    width: 60%;
-    margin: 3rem auto;
-}
-
-.form-group{
-    margin: auto;
-    width: 500px;
-}
-
-.button{
-    margin: auto;
-    width: 500px;
-}
-
 .input {
     width: 480px;
     height: 30px;
 }
 
+/*This one is to wrap around the sign up box*/
 .layout{
     margin: 50px auto;
     width: 500px;

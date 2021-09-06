@@ -220,15 +220,16 @@ const FlatAddress = (props) => {
         <br />
         <br />
 
-        <Button variant="contained" className = "button"
-          onClick = {() => navigation.previous()}>
-          Back
-        </Button>
+        
         <Button variant="contained" className = "button"
           color = "secondary"
           disabled = {!address.street || !address.city || !address.suburb || !address.country || !description || !existingFlatmates ? true : false}
           type = "submit">
           Next
+        </Button>
+        <Button variant="contained" className = "button"
+          onClick = {() => navigation.previous()}>
+          Back
         </Button>
         </form>
     )

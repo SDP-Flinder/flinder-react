@@ -24,6 +24,7 @@ const AppRouter = () => {
 
   return(
   <BrowserRouter>
+  <div className = "backround">
     <div className = "layout">
       <div>
       <FlinderLogo className = "logo-display"/>
@@ -43,7 +44,12 @@ const AppRouter = () => {
          path="/flat" 
          exact={true}/>
          
-        <Route component={Flatee} path="/flatee" />
+         <Route   
+          render={(props) => (
+          <Flatee {...props} user={user} updateUser={updateUser} />
+          )}
+         path="/flatee" 
+         exact={true}/>
 
         <Route   
           render={(props) => (
@@ -54,6 +60,7 @@ const AppRouter = () => {
 
       </Switch>
     </div>
+  </div>
   </BrowserRouter>
   )
 };

@@ -155,7 +155,7 @@ const FirstStep = (props) => {
   return (
     <div>
        <h6>Sign Up to find your new home.</h6>
-       <form onSubmit={handleSubmit(onSubmit)} spacing = "10">
+       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid
         container
         direction="column"
