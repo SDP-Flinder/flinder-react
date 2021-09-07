@@ -7,6 +7,7 @@ import { Button } from '@material-ui/core';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
+import TOKEN from '../../token';
 
 const Address = (props) => {
     const {navigation} = props;
@@ -118,7 +119,7 @@ const Address = (props) => {
   const getRepo = async () => {
 
     const URL = 'http://localhost:4000/users/'
-    const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzA5ODU2NDMsImV4cCI6MTYzMTU5MDQ0M30.1Ys-eD_4cA-1pomH6f9Osf0rrhnVxlfLbrjVF0Y1600';
+    const USER_TOKEN = TOKEN;
     const AuthString = 'Bearer '.concat(USER_TOKEN); 
   
     //Using .get to retrieve data 

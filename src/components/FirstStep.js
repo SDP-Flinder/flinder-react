@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
  import { RadioGroup } from '@material-ui/core';
  import { FormControlLabel } from '@material-ui/core';
  import { Grid } from '@material-ui/core';
+ import TOKEN from '../token';
 
 
 const FirstStep = (props) => {
@@ -21,7 +22,7 @@ const FirstStep = (props) => {
   const getRepo = async () => {
 
     const URL = 'http://localhost:4000/users/'
-    const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzAzNzk4ODIsImV4cCI6MTYzMDk4NDY4Mn0.NVxePRJRI7TMIUGWvPLQUP6fERI8O5Jw-uAB3buXWvk';
+    const USER_TOKEN = TOKEN;
     const AuthString = 'Bearer '.concat(USER_TOKEN); 
   
     //Using .get to retrieve data 
