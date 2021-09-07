@@ -7,7 +7,6 @@ import { Button } from '@material-ui/core';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
-import TOKEN from '../../token';
 
 const Address = (props) => {
     const {navigation} = props;
@@ -110,6 +109,8 @@ const Address = (props) => {
 
     const clearAddress = () =>{
         setAddress('');
+        setComponent({});
+        setError({});
     }
 
           //This useState is used to store data from the API
@@ -118,8 +119,21 @@ const Address = (props) => {
   //Fetch authorised data from the API with token
   const getRepo = async () => {
 
+        //Retrive the token
+        let token = '';
+
+        const account = {
+            username: 'admin',
+            password: 'admin'
+        }
+        
+        await axios.post('http://localhost:4000/users/authenticate', account)
+        .then(res => {
+            token = res.data.token;
+        })
+
     const URL = 'http://localhost:4000/users/'
-    const USER_TOKEN = TOKEN;
+    const USER_TOKEN = token;
     const AuthString = 'Bearer '.concat(USER_TOKEN); 
   
     //Using .get to retrieve data 
@@ -170,7 +184,7 @@ const Address = (props) => {
                     ? { backgroundColor: '#fafafa', cursor: 'pointer' }
                     : { backgroundColor: '#ffffff', cursor: 'pointer' };
                     return (
-                    <div 
+                    <div key = {suggestion.description}
                         {...getSuggestionItemProps(suggestion, {
                         className,
                         style,

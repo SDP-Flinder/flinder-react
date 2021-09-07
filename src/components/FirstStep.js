@@ -11,7 +11,6 @@ import { useForm } from 'react-hook-form';
  import { RadioGroup } from '@material-ui/core';
  import { FormControlLabel } from '@material-ui/core';
  import { Grid } from '@material-ui/core';
- import TOKEN from '../token';
 
 
 const FirstStep = (props) => {
@@ -20,9 +19,22 @@ const FirstStep = (props) => {
 
   //Fetch authorised data from the API with token
   const getRepo = async () => {
+    //Retrive the token
+    let token = '';
+
+    const account = {
+        username: 'admin',
+        password: 'admin'
+    }
+    
+    await axios.post('http://localhost:4000/users/authenticate', account)
+    .then(res => {
+        token = res.data.token;
+    })
+
 
     const URL = 'http://localhost:4000/users/'
-    const USER_TOKEN = TOKEN;
+    const USER_TOKEN = token;
     const AuthString = 'Bearer '.concat(USER_TOKEN); 
   
     //Using .get to retrieve data 
