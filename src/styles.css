@@ -1,0 +1,54 @@
+/*
+COLOUR PALLETTE
+
+*/
+
+/* Global Styles
+------------------------*/
+h1{
+    text-align: center;
+    color: #70A0AF;
+}
+
+.logo-display{
+    height: 100px;
+    width: 200px;
+    align-items: center;
+    margin: auto;
+}
+
+
+.input {
+    width: 480px;
+    height: 30px;
+}
+
+/*This one is to wrap around the sign up box*/
+.layout{
+    margin: 50px auto;
+    width: 500px;
+    height: fit-content;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.background{
+    background-color: cornflowerblue;
+}
+
+.error-message{
+    font-size: 70%;
+    color: rgb(219, 96, 96);
+}
+
+.button{
+    color: white;
+    width: 480px;
+}
+
+
+/* This is to style the input form layout
+.input-form {
+
+} */
