@@ -156,12 +156,12 @@ const FirstStep = (props) => {
     <div>
        <h6>Sign Up to find your new home.</h6>
        <form onSubmit={handleSubmit(onSubmit)}>
+
         <Grid
         container
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing = "0"
         >
        <div>
        <FormControl>

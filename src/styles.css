@@ -47,6 +47,25 @@ h1{
     width: 480px;
 }
 
+.autocomplete-dropdown-container {
+    border-bottom: honeydew;
+    border-left: honeydew;
+    border-right: honeydew;
+    border-top: 1px solid #e6e6e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    position: absolute;
+    z-index: 1000;
+    border-radius: 0 0 2px 2px;
+}
+
+.address-information{
+    color: rgb(56, 56, 56);
+    background-color: #ffdfdf;
+    margin: 30px auto;
+    border-radius: 10px;
+    padding: 10px;
+}
+
 
 /* This is to style the input form layout
 .input-form {

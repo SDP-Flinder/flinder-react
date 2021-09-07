@@ -7,7 +7,9 @@ import Flat from './components/Flat';
 import Confirmation from './components/Confirmation';
 import { useState } from 'react';
 import './styles.css';
-import {ReactComponent as FlinderLogo} from './components/assets/logo.svg'
+import {ReactComponent as FlinderLogo} from './components/assets/logo.svg';
+import Address from './components/FlatSteps/Address';
+
 
 //This contains all the routes to the '/signup/'
 const AppRouter = () => {
@@ -58,6 +60,12 @@ const AppRouter = () => {
          path="/complete" 
          exact={true}/>
 
+        <Route   
+          render={(props) => (
+          <Address {...props} user={user} updateUser={updateUser} />
+          )}
+         path="/trial" 
+         exact={true}/>
       </Switch>
     </div>
   </div>
