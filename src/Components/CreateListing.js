@@ -1,7 +1,14 @@
 import React from 'react';
+import axios from 'axios';
+// import { Link } from 'react-router-dom';
+// import { useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import './Form.css';
+import { Grid, InputAdornment, InputLabel, OutlinedInput } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+// import TOKEN from '../token';
 
 class CreateListing extends React.Component {
     constructor(props) {
@@ -17,16 +24,14 @@ class CreateListing extends React.Component {
         this.state = {
             description: '',
             roomAvailable: new Date(),
-            rent: undefined,
+            rent: 0,
             rentUnits: '',
-            utilities: ''
+            utilities: '',
         };
     }
 
     componentDidMount() {
-        this.setState({
-            rentUnits: 'Weekly'
-        })
+
     }
 
     onChangeDescription(e) {
@@ -37,7 +42,7 @@ class CreateListing extends React.Component {
 
     onChangeDate(date) {
         this.setState({
-            date: date
+            roomAvailable: date
         });
     }
 
@@ -71,67 +76,137 @@ class CreateListing extends React.Component {
         };
 
         console.log(listing);
+
+        const URL = 'http://localhost:4000/listings/add/'
+        // const USER_TOKEN = TOKEN;
+        // const AuthString = 'Bearer '.concat(USER_TOKEN); 
+
+        // axios.get(URL, { headers: { Authorization: AuthString } })
+        //     .then(res => console.log(res.data));
+
+        axios.post(URL, listing)
+            .then(res => console.log(res.data));
+
+        // window.location = '/listings';
     }
 
     render() {
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
+                <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                spacing={0}
+                >
                     <h3>Create New Listing</h3>
-                    <div className="form-group">
-                        <label>Description:</label>
-                        <textarea
+                    <div>
+                    <FormControl fullWidth variant="outlined">
+                        <TextField
+                            className="input"
+                            type="text"
+                            label="Flat/Room Description"
+                            multiline
+                            maxRows={5}
+                            fullWidth
+                            margin="normal"
                             autoFocus
                             required
-                            className="form-control"
-                            placeholder="description of the room/flat"
                             value={this.state.description}
                             onChange={this.onChangeDescription}
+                            variant="outlined"
                         />
+                    </FormControl>
                     </div>
-                    <div className="form-group">
-                        <label>Room Available:</label>
-                        <div>
-                            <DatePicker
-                                selected={this.state.roomAvailable}
-                                onChange={this.onChangeDate}
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Rent Amount:</label>
-                        <input
-                            type="number"
-                            required
-                            className="form-control"
-                            placeholder="eg 200"
-                            value={this.state.rent}
-                            onChange={this.onChangeRent}
-                        />
-                    </div>
-                    <div className="formGroup">
-                        <label>Rent Units:</label>
-                        <select ref="userInput"
-                            style={{width: `${(8*this.state.rentUnits.length) + 100}px`}}
-                            required
-                            className="form-control"
-                            value={this.state.rentUnits}
-                            onChange={this.onChangeRentUnits}>
-                            <option value="perWeek">Weekly</option>
-                            <option value="perFortnight">Fortnightly</option>
-                            <option value="perMonth">Monthly</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Utilities:</label>
-                        <textarea
-                            className="form-control"
-                            placeholder="fiber internet, gas heating, etc."
+                    <br></br>
+                    <div>
+                    <FormControl fullWidth variant="outlined">
+                        <TextField
+                            className="input"
+                            type="text"
+                            label="Utilities"
+                            multiline
+                            maxRows={5}
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
                             value={this.state.utilities}
                             onChange={this.onChangeUtilities}
                         />
-                        <button type="submit" className="myButton">Create</button>
+                    </FormControl>
                     </div>
+                    <br></br>
+                    <br></br>
+                    <div>
+                    <FormControl fullWidth variant="outlined">
+                        <InputLabel>Rent Amount</InputLabel>
+                        <OutlinedInput 
+                            className="input"
+                            type="number"
+                            startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                            required
+                            inputlabelprops={{
+                                shrink: true
+                            }}
+                            variant="outlined"
+                            // value={this.state.rent}
+                            onChange={this.onChangeRent}
+                        />
+                    </FormControl>
+                    </div>
+                    <br></br>
+                    <div>
+                    <FormControl fullWidth variant="outlined">
+                        <TextField 
+                            label="Rent Units"
+                            type="input"
+                            variant="outlined"
+                            select
+                            style={{width: `${(8*this.state.rentUnits.length) + 100}px`}}
+                            required
+                            value={this.state.rentUnits}
+                            onChange={this.onChangeRentUnits}>
+                                <option value="perWeek">Weekly</option>
+                                <option value="perFortnight">Fortnightly</option>
+                                <option value="perMonth">Monthly</option>
+                        </TextField>
+                    </FormControl>
+                    </div>
+                    <br></br>
+                    <div>
+                    {/* <FormControl fullWidth variant="outlined"> */}
+                    <InputLabel>Available From:</InputLabel>
+                    <DatePicker
+                        label="Available From"
+                        selected={this.state.roomAvailable}
+                        onChange={this.onChangeDate}
+                    />
+                    {/* <TextField
+                        className="input"
+                        label="Available From"
+                        type="date"
+                        required
+                        variant="outlined"
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                        defaultValue={this.state.roomAvailable}
+                        onChange={this.onChangeDate}
+                    /> */}
+                    {/* </FormControl> */}
+                    </div>
+                    <br></br>
+                    <Button 
+                        className="button" 
+                        variant="contained" 
+                        color="secondary" 
+                        type ="submit"
+                        >
+                    Create
+                    </Button>
+                </Grid>
                 </form>
             </div>
         );
