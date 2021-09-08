@@ -9,6 +9,7 @@ import { useState } from 'react';
 import './styles.css';
 import {ReactComponent as FlinderLogo} from './components/assets/logo.svg';
 import Address from './components/FlatSteps/Address';
+import WelcomePage from './components/WelcomePage';
 
 
 //This contains all the routes to the '/signup/'
@@ -34,30 +35,37 @@ const AppRouter = () => {
       <Switch>
         <Route   
           render={(props) => (
-          <FirstStep {...props} user={user} updateUser={updateUser} />
+          <WelcomePage {...props} user={user} updateUser={updateUser} />
           )}
          path="/" 
          exact={true}/>
 
         <Route   
           render={(props) => (
+          <FirstStep {...props} user={user} updateUser={updateUser} />
+          )}
+         path="/sign-up/" 
+         exact={true}/>
+
+        <Route   
+          render={(props) => (
           <Flat {...props} user={user} updateUser={updateUser} />
           )}
-         path="/flat" 
+         path="/sign-up/flat" 
          exact={true}/>
          
          <Route   
           render={(props) => (
           <Flatee {...props} user={user} updateUser={updateUser} />
           )}
-         path="/flatee" 
+         path="/sign-up/flatee" 
          exact={true}/>
 
         <Route   
           render={(props) => (
           <Confirmation {...props} user={user} updateUser={updateUser} />
           )}
-         path="/complete" 
+         path="/sign-up/complete" 
          exact={true}/>
 
         <Route   

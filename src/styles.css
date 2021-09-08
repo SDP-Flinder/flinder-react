@@ -66,6 +66,13 @@ h1{
     padding: 10px;
 }
 
+.buttons {
+    display: felx;
+    align-items: center;
+    margin: 30px;
+    padding: 40px;
+}
+
 
 /* This is to style the input form layout
 .input-form {

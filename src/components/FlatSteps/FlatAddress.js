@@ -53,6 +53,7 @@ const FlatAddress = (props) => {
 
         
         <Button variant="contained" className = "button"
+          name = "next"
           color = "secondary"
           disabled = {!address.street || !address.city || !address.suburb || !address.country || !description || !existingFlatmates ? true : false}
           type = "submit">
