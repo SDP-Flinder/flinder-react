@@ -1,5 +1,7 @@
 import React from 'react';
+import axios from 'axios';
 import Match from './Match';
+import TOKEN from '../token';
 
 export default class MatchList extends React.Component {
     constructor(props) {
@@ -29,6 +31,13 @@ export default class MatchList extends React.Component {
         console.log(this.state.currentMatch);
 
         this.matchList();
+
+        const URL = 'http://localhost:4000/matches/getSuccessMatches'
+        const USER_TOKEN = TOKEN;
+        const AuthString = 'Bearer '.concat(USER_TOKEN); 
+
+        axios.get(URL, { headers: { Authorization: AuthString } })
+            .then(res => console.log(res.data));
     }
 
     matchList() {
@@ -59,11 +68,11 @@ export default class MatchList extends React.Component {
             <div>
                 <h3>Pending Matches</h3>
                 <div id="buttons"></div>
-                <container>
+                {/* <container> */}
                     <h3>{this.state.currentMatch.name}</h3>
                     <h3>{this.state.currentMatch.age}</h3>
                     <p>{this.state.currentMatch.key}</p>
-                </container>
+                {/* </container> */}
             </div>
         );
     }
