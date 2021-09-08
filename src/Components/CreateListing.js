@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+// import { Link } from 'react-router-dom';
+// import { useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { Grid, InputAdornment, InputLabel, OutlinedInput } from '@material-ui/core';
@@ -29,7 +31,7 @@ class CreateListing extends React.Component {
     }
 
     componentDidMount() {
-        
+
     }
 
     onChangeDescription(e) {
@@ -65,39 +67,26 @@ class CreateListing extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const listing = {
+        const URL = 'http://localhost:4000/listings/add/'
+        const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTM5MmNmZWE2NTE1Yzk3NzA3MjliOGEiLCJyb2xlIjoiZmxhdCIsImlhdCI6MTYzMTEzNzIxOSwiZXhwIjoxNjMxNzQyMDE5fQ.mSFRMfYIJpONB5FRRq-ED8RpkTI8zWvbF3CQDW7e-gk';
+
+        const config = {
+            headers: { Authorization: `Bearer ${USER_TOKEN}` }
+        };
+        
+        const bodyParameters = {
             description: this.state.description,
-            utilities: this.state.utilities,
+            roomAvailable: this.state.roomAvailable,
             rent: this.state.rent,
             rentUnits: this.state.rentUnits,
-            roomAvailable: this.state.roomAvailable,
+            utilities: this.state.utilities
         };
-
-        console.log(listing);
-
-        let token = 'admin-token';
-
-        // const account = {
-        //     username: 'admin',
-        //     password: 'admin',
-        // }
-
-        // axios.post('http://localhost:4000/users/authenticate', account)
-        //     .then(res => {
-        //     token = res.data.token;
-        // })
-
-        console.log(token);
-
-        const URL = 'http://localhost:4000/listings/add'
-        // const USER_TOKEN = token;
-        // const AuthString = 'Bearer '.concat(USER_TOKEN); 
-
-        // axios.get(URL, { headers: { Authorization: AuthString } })
-        //     .then(res => console.log(res.data));
-
-        axios.post(URL, listing)
-            .then(res => console.log(res.data));
+        
+        axios.post( 
+            URL,
+            bodyParameters,
+            config
+        ).then(console.log).catch(console.log);
 
         // window.location = '/listings';
     }
@@ -106,92 +95,105 @@ class CreateListing extends React.Component {
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
-                    <Grid
-                        container
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                    >
-                        <h2>Create New Listing</h2>
-                        <div>
-                            <FormControl>
-                                <TextField className="input"
-                                    label="Flat/Room Description"
-                                    multiline
-                                    maxRows={3}
-                                    minRows={3}
-                                    autoFocus
-                                    required
-                                    value={this.state.description}
-                                    onChange={this.onChangeDescription}
-                                    variant="outlined"
-                                />
-                            </FormControl>
-                        </div>
-                        <br></br><br></br><br></br><br></br>
-                        <div>
-                            <FormControl>
-                                <TextField className="input"
-                                    label="Utilities"
-                                    multiline
-                                    maxRows={2}
-                                    minRows={2}
-                                    variant="outlined"
-                                    value={this.state.utilities}
-                                    onChange={this.onChangeUtilities}
-                                />
-                            </FormControl>
-                        </div>
-                        <br></br><br></br><br></br>
-                        <div>
-                            <FormControl>
-                                <OutlinedInput
-                                    className="input"
-                                    placeholder="Rent Amount"
-                                    type="number"
-                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                    required
-                                    variant="outlined"
-                                    onChange={this.onChangeRent}
-                                />
-                            </FormControl>
-                        </div>
-                        <br></br>
-                        <div>
-                            <FormControl>
-                                <TextField className="input"
-                                    label="Rent Units"
-                                    variant="outlined"
-                                    select
-                                    required
-                                    value={this.state.rentUnits}
-                                    onChange={this.onChangeRentUnits}>
-                                    <option value="perWeek">Weekly</option>
-                                    <option value="perFortnight">Fortnightly</option>
-                                    <option value="perMonth">Monthly</option>
-                                </TextField>
-                            </FormControl>
-                        </div>
-                        <br></br><br></br>
-                        <div>
-                            <InputLabel>Available From:</InputLabel>
-                            <DatePicker
-                                label="Available From"
-                                inline
-                                selected={this.state.roomAvailable}
-                                onChange={this.onChangeDate}
-                            />
-                        </div>
-                        <br></br>
-                        <Button
-                            className="button"
-                            variant="contained"
-                            color="secondary"
-                            type="submit"
+                <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                >
+                    <h2>Create New Listing</h2>
+                    <div>
+                    <FormControl>
+                        <TextField className="input"
+                            label="Flat/Room Description"
+                            multiline
+                            maxRows={3}
+                            minRows={3}
+                            autoFocus
+                            required
+                            value={this.state.description}
+                            onChange={this.onChangeDescription}
+                            variant="outlined"
+                        />
+                    </FormControl>
+                    </div>
+                    <br></br><br></br><br></br><br></br>
+                    <div>
+                    <FormControl>
+                        <TextField className="input"
+                            label="Utilities"
+                            multiline
+                            maxRows={2}
+                            minRows={2}
+                            variant="outlined"
+                            value={this.state.utilities}
+                            onChange={this.onChangeUtilities}
+                        />
+                    </FormControl>
+                    </div>
+                    <br></br><br></br><br></br>
+                    <div>
+                    <FormControl>
+                        <OutlinedInput 
+                            className="input"
+                            placeholder="Rent Amount"
+                            type="number"
+                            startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                            required
+                            variant="outlined"
+                            onChange={this.onChangeRent}
+                        />
+                    </FormControl>
+                    </div>
+                    <br></br>
+                    <div>
+                    <FormControl>
+                        <TextField className="input"
+                            label="Rent Units"
+                            variant="outlined"
+                            select
+                            required
+                            value={this.state.rentUnits}
+                            onChange={this.onChangeRentUnits}>
+                                <option value="perWeek">Weekly</option>
+                                <option value="perFortnight">Fortnightly</option>
+                                <option value="perMonth">Monthly</option>
+                        </TextField>
+                    </FormControl>
+                    </div>
+                    <br></br><br></br>
+                    <div>
+                    {/* <FormControl fullWidth variant="outlined"> */}
+                    <InputLabel>Available From:</InputLabel>
+                    <DatePicker
+                        label="Available From"
+                        selected={this.state.roomAvailable}
+                        onChange={this.onChangeDate}
+                    />
+                    {/* <TextField
+                        className="input"
+                        label="Available From"
+                        type="date"
+                        required
+                        variant="outlined"
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                        defaultValue={this.state.roomAvailable}
+                        onChange={this.onChangeDate}
+                    /> */}
+                    {/* </FormControl> */}
+                    </div>
+                    <br></br>
+                    <Button 
+                        className="button" 
+                        variant="contained" 
+                        color="secondary" 
+                        type ="submit"
                         >
-                            Create
-                        </Button>
-                    </Grid>
+                    Create
+                    </Button>
+                </Grid>
                 </form>
             </div>
         );
