@@ -67,25 +67,26 @@ class CreateListing extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const listing = {
+        const URL = 'http://localhost:4000/listings/add/'
+        const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTM5MmNmZWE2NTE1Yzk3NzA3MjliOGEiLCJyb2xlIjoiZmxhdCIsImlhdCI6MTYzMTEzNzIxOSwiZXhwIjoxNjMxNzQyMDE5fQ.mSFRMfYIJpONB5FRRq-ED8RpkTI8zWvbF3CQDW7e-gk';
+
+        const config = {
+            headers: { Authorization: `Bearer ${USER_TOKEN}` }
+        };
+        
+        const bodyParameters = {
             description: this.state.description,
             roomAvailable: this.state.roomAvailable,
             rent: this.state.rent,
             rentUnits: this.state.rentUnits,
             utilities: this.state.utilities
         };
-
-        console.log(listing);
-
-        const URL = 'http://localhost:4000/listings/add/'
-        // const USER_TOKEN = TOKEN;
-        // const AuthString = 'Bearer '.concat(USER_TOKEN); 
-
-        // axios.get(URL, { headers: { Authorization: AuthString } })
-        //     .then(res => console.log(res.data));
-
-        axios.post(URL, listing)
-            .then(res => console.log(res.data));
+        
+        axios.post( 
+            URL,
+            bodyParameters,
+            config
+        ).then(console.log).catch(console.log);
 
         // window.location = '/listings';
     }
