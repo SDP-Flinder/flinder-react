@@ -33,7 +33,7 @@ const FlateeReview = (props) => {
             }
           }
 
-        props.history.push('/complete')
+        props.history.push('/sign-up/complete')
         props.updateUser(props.formData);
         console.log(props.user);
     }

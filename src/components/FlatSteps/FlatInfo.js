@@ -120,7 +120,7 @@ const FlatInfo = (props) => {
         type="submit">Next</Button>
         <br />
         <Button className = "button" variant="contained"
-        onClick = {() => props.history.push('/')}>Back</Button>
+        onClick = {() => props.history.push('/sign-up/')}>Back</Button>
         </form>
     )
 }

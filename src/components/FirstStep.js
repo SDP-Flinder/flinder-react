@@ -156,9 +156,9 @@ const FirstStep = (props) => {
       console.log(inputUser);
       //Redirect to the correct route
       if(inputUser.accountType == 'flat'){
-        props.history.push('/flat');
+        props.history.push('/sign-up/flat');
       }else if(inputUser.accountType == 'flatee'){ 
-        props.history.push('/flatee');
+        props.history.push('/sign-up/flatee');
       }else if(inputUser.accountType ==''){
           alert('Choose one bitch!');
       }
