@@ -99,19 +99,15 @@ class CreateListing extends React.Component {
                 direction="column"
                 justifyContent="center"
                 alignItems="center"
-                spacing={0}
                 >
-                    <h3>Create New Listing</h3>
+                    <h2>Create New Listing</h2>
                     <div>
-                    <FormControl fullWidth variant="outlined">
-                        <TextField
-                            className="input"
-                            type="text"
+                    <FormControl>
+                        <TextField className="input"
                             label="Flat/Room Description"
                             multiline
-                            maxRows={5}
-                            fullWidth
-                            margin="normal"
+                            maxRows={3}
+                            minRows={3}
                             autoFocus
                             required
                             value={this.state.description}
@@ -120,51 +116,41 @@ class CreateListing extends React.Component {
                         />
                     </FormControl>
                     </div>
-                    <br></br>
+                    <br></br><br></br><br></br><br></br>
                     <div>
-                    <FormControl fullWidth variant="outlined">
-                        <TextField
-                            className="input"
-                            type="text"
+                    <FormControl>
+                        <TextField className="input"
                             label="Utilities"
                             multiline
-                            maxRows={5}
-                            fullWidth
-                            margin="normal"
+                            maxRows={2}
+                            minRows={2}
                             variant="outlined"
                             value={this.state.utilities}
                             onChange={this.onChangeUtilities}
                         />
                     </FormControl>
                     </div>
-                    <br></br>
-                    <br></br>
+                    <br></br><br></br><br></br>
                     <div>
-                    <FormControl fullWidth variant="outlined">
-                        <InputLabel>Rent Amount</InputLabel>
+                    <FormControl>
                         <OutlinedInput 
                             className="input"
+                            placeholder="Rent Amount"
                             type="number"
                             startAdornment={<InputAdornment position="start">$</InputAdornment>}
                             required
-                            inputlabelprops={{
-                                shrink: true
-                            }}
                             variant="outlined"
-                            // value={this.state.rent}
                             onChange={this.onChangeRent}
                         />
                     </FormControl>
                     </div>
                     <br></br>
                     <div>
-                    <FormControl fullWidth variant="outlined">
-                        <TextField 
+                    <FormControl>
+                        <TextField className="input"
                             label="Rent Units"
-                            type="input"
                             variant="outlined"
                             select
-                            style={{width: `${(8*this.state.rentUnits.length) + 100}px`}}
                             required
                             value={this.state.rentUnits}
                             onChange={this.onChangeRentUnits}>
@@ -174,7 +160,7 @@ class CreateListing extends React.Component {
                         </TextField>
                     </FormControl>
                     </div>
-                    <br></br>
+                    <br></br><br></br>
                     <div>
                     {/* <FormControl fullWidth variant="outlined"> */}
                     <InputLabel>Available From:</InputLabel>
