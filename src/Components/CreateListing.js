@@ -76,7 +76,7 @@ function CreateListing(props) {
             config
         ).then(console.log).catch(console.log);
 
-        // window.location = '/listings';
+        props.history.push('/listings/');
     }
 
     return (
