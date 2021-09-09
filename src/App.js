@@ -4,7 +4,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import './styles.css';
 import {ReactComponent as FlinderLogo} from './Components/assets/logo.svg';
 import CreateListing from "./Components/CreateListing";
-
+import UpdateListing from "./Components/UpdateListing";
+import Navbar from "./Components/Navbar";
 
 //This contains all the routes to the '/signup/'
 const AppRouter = () => {
@@ -26,7 +27,9 @@ const AppRouter = () => {
       <div>
       <FlinderLogo className = "logo-display"/>
       </div>
+      <Navbar />
         <Route path="/listings/add" exact component={CreateListing} />
+        <Route path="/listings/update" exact component={UpdateListing} />
     </div>
   </div>
   </BrowserRouter>
