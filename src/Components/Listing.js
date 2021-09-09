@@ -6,8 +6,6 @@ function Listing(props) {
     // const [user] = useState(props.user);
     const [listing] = useState(props.listing);
 
-    console.log(props);
-
     return (
         <div>
             <div>
