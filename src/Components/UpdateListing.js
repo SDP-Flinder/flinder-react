@@ -98,6 +98,8 @@ function UpdateListing(props) {
             utilities: utilities
         };
 
+        console.log(bodyParameters);
+
         axios.put(
             URL,
             bodyParameters,

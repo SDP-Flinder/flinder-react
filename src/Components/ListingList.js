@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// import GetUser from "./GetUser";
 
 function ListingList(props) {
     const [user, setUser] = useState([]);
@@ -18,14 +17,10 @@ function ListingList(props) {
             "flat_id": user.id
         };
 
-        console.log(bodyParameters);
-
         axios.get(URL, bodyParameters, config)
             .then(res => setListings(res.data));
 
         listingList();
-
-        // console.log(listings)
     }
 
     const getUser = async () => {
@@ -55,7 +50,6 @@ function ListingList(props) {
         function selectListing(id) {
             listings.forEach(listing => {
                 if (listing.id === id) {
-                    console.log(props);
                     props.updateListing(listing);
                     props.history.push('/listings/listing');
                     return;
