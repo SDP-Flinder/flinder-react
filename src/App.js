@@ -4,7 +4,6 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import './styles.css';
 import {ReactComponent as FlinderLogo} from './Components/assets/logo.svg';
 import MatchList from "./Components/MatchList";
-import Match from "./Components/Match";
 
 
 //This contains all the routes to the '/signup/'
@@ -28,7 +27,6 @@ const AppRouter = () => {
       <FlinderLogo className = "logo-display"/>
       </div>
         <Route path="/" exact component={MatchList} />
-        <Route path="/match" exact component={Match}/>
     </div>
   </div>
   </BrowserRouter>

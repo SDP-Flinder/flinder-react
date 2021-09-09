@@ -1,79 +1,62 @@
-import React from 'react';
-import axios from 'axios';
-import Match from './Match';
-import TOKEN from '../token';
+import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import Match from './Match';
+// import TOKEN from '../token';
 
-export default class MatchList extends React.Component {
-    constructor(props) {
-        super(props);
+function MatchList() {
+    var match1 = {name: 'Bob', age: 25, key: 0};
+    var match2 = {name: 'John', age: 30, key: 1};
+    var match3 = {name: 'Jane', age: 28, key: 2};
+    var match4 = {name: 'Alice', age: 22, key: 3};
+    const [matches] = useState([match1, match2, match3, match4]);
+    const [currentMatch, setCurrentMatch] = useState({name: '', age: 0, key: 0});
 
-        // this.selectMatch = this.selectMatch.bind(this);
+    // const getMatches = async () => {
+    //     matchList();
 
-        this.state = {
-            matches: [],
-            currentMatch: new Match('', 0, 0)
-        };
-    }
+    //     const URL = 'http://localhost:4000/matches/getSuccessMatches'
+    //     const USER_TOKEN = TOKEN;
 
-    componentDidMount() {
-        var match1 = new Match('Bob', 25, 0);
-        var match2 = new Match('John', 30, 1);
-        var match3 = new Match('Jane', 28, 2);
-        var match4 = new Match('Alice', 22, 3);
+    //     axios.get(URL, { headers: { Authorization: `Bearer ${USER_TOKEN}` } })
+    //         .then(res => console.log(res.data));
+    // }
 
-        this.state.matches.push(match1);
-        this.state.matches.push(match2);
-        this.state.matches.push(match3);
-        this.state.matches.push(match4);
+    useEffect(() => matchList(), []);
 
-        console.log(this.state.matches.length);
-        console.log(this.state.matches);
-        console.log(this.state.currentMatch);
-
-        this.matchList();
-
-        const URL = 'http://localhost:4000/matches/getSuccessMatches'
-        const USER_TOKEN = TOKEN;
-        const AuthString = 'Bearer '.concat(USER_TOKEN); 
-
-        axios.get(URL, { headers: { Authorization: AuthString } })
-            .then(res => console.log(res.data));
-    }
-
-    matchList() {
-        var matches = this.state.matches.slice();
-        var currentMatch = this.state.currentMatch;
+    const matchList = () => {
+        // var matches = matches.slice();
+        // var currentMatch = currentMatch.slice();
 
         matches.forEach(match => {
             var button = document.createElement("button");
             button.type = 'button';
-            button.appendChild(document.createTextNode(match.state.name));
-            button.onclick = function () { selectMatch(match.state.key)};
+            button.appendChild(document.createTextNode(match.name));
+            button.onclick = function () { selectMatch(match.key) };
             document.getElementById("buttons").appendChild(button);
         });
 
         function selectMatch(key) {
             matches.forEach(match => {
-                if (match.state.key === key) {
-                    currentMatch = match;
-                    console.log(currentMatch);
+                if (match.key === key) {
+                    setCurrentMatch(match);
+                    // console.log(currentMatch);
                     return;
                 }
             })
         }
     }
 
-    render() {
-        return (
-            <div>
-                <h3>Pending Matches</h3>
-                <div id="buttons"></div>
-                {/* <container> */}
-                    <h3>{this.state.currentMatch.name}</h3>
-                    <h3>{this.state.currentMatch.age}</h3>
-                    <p>{this.state.currentMatch.key}</p>
-                {/* </container> */}
-            </div>
-        );
-    }
+    return (
+        <div>
+            <h3>Pending Matches</h3>
+            <div id="buttons"></div>
+            {/* <container> */}
+            <h3>{currentMatch.name}</h3>
+            <h3>{currentMatch.age}</h3>
+            <p>{currentMatch.key}</p>
+            {/* </container> */}
+        </div>
+    );
 }
+
+export default MatchList;

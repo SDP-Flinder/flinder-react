@@ -1,23 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+//Not currently used - got error I don't have time to debug
+function Match(props) {
+    const [name] = useState(props.name);
+    const [age] = useState(props.age);
+    const [key] = useState(props.key);
 
-export default class Match extends React.Component {
-    constructor(name, age, key) {
-        super(name, age, key);
-
-        this.state = {
-            name: name,
-            age: age,
-            key: key
-        };
-    }
-
-    render() {
-        return (
-            <div>
-                <h3>{this.state.name}</h3>
-                <h3>{this.state.age}</h3>
-                <p>{this.state.key}</p>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <h3>{name}</h3>
+            <h3>{age}</h3>
+            <p>{key}</p>
+        </div>
+    );
 }
+
+export default Match;
