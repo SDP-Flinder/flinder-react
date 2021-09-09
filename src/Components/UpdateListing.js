@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,13 +9,15 @@ import TextField from '@material-ui/core/TextField';
 
 function UpdateListing(props) {
 
-    const [flat_id] = useState(props.flat_id || '');
-    const [description, setDescription] = useState(props.description || '');
-    const [roomAvailable, setRoomAvailable] = useState(props.roomAvailable || new Date());
-    const [rent, setRent] = useState(props.rent || 0);
-    const [rentUnits, setRentUnits] = useState(props.rentUnits || '');
-    const [utilities, setUtilities] = useState(props.utilities || '');
-    const [id] = useState(props.id || '');
+    const [user, setUser] = useState([]);
+
+    const [flat_id] = useState(props.listing.flat_id || '');
+    const [description, setDescription] = useState(props.listing.description || '');
+    const [roomAvailable, setRoomAvailable] = useState(new Date(props.listing.roomAvailable) || new Date());
+    const [rent, setRent] = useState(props.listing.rent || 0);
+    const [rentUnits, setRentUnits] = useState(props.listing.rentUnits || '');
+    const [utilities, setUtilities] = useState(props.listing.utilities || '');
+    const [id] = useState(props.listing.id || '');
 
     // const loadListing = async () => {
 
@@ -63,11 +65,25 @@ function UpdateListing(props) {
         setUtilities(e.target.value);
     }
 
+    const getUser = async () => {
+        const account = {
+            username: 'billymcdowd',
+            password: 'Datsyuk13'
+        }
+
+        axios.post('http://localhost:4000/users/authenticate', account)
+            .then(res => {
+                setUser(res.data);
+            })
+    }
+
+    useEffect(() => getUser(), []);
+
     const onSubmit = (e) => {
         e.preventDefault();
 
         const URL = 'http://localhost:4000/listings/'.concat(id);
-        const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTM5MmNmZWE2NTE1Yzk3NzA3MjliOGEiLCJyb2xlIjoiZmxhdCIsImlhdCI6MTYzMTEzNzIxOSwiZXhwIjoxNjMxNzQyMDE5fQ.mSFRMfYIJpONB5FRRq-ED8RpkTI8zWvbF3CQDW7e-gk';
+        const USER_TOKEN = user.token;
 
         const config = {
             headers: { Authorization: `Bearer ${USER_TOKEN}` }
