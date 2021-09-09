@@ -1,10 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-// import { Link } from 'react-router-dom';
-// import { useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { Grid, InputAdornment, InputLabel, OutlinedInput } from '@material-ui/core';
+import { Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -28,10 +26,6 @@ class CreateListing extends React.Component {
             rentUnits: '',
             utilities: '',
         };
-    }
-
-    componentDidMount() {
-
     }
 
     onChangeDescription(e) {
@@ -75,6 +69,7 @@ class CreateListing extends React.Component {
         };
         
         const bodyParameters = {
+            flat_id: '61392cfea6515c9770729b8a',
             description: this.state.description,
             roomAvailable: this.state.roomAvailable,
             rent: this.state.rent,
@@ -95,105 +90,93 @@ class CreateListing extends React.Component {
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
-                <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                >
-                    <h2>Create New Listing</h2>
-                    <div>
-                    <FormControl>
-                        <TextField className="input"
-                            label="Flat/Room Description"
-                            multiline
-                            maxRows={3}
-                            minRows={3}
-                            autoFocus
-                            required
-                            value={this.state.description}
-                            onChange={this.onChangeDescription}
-                            variant="outlined"
-                        />
-                    </FormControl>
-                    </div>
-                    <br></br><br></br><br></br><br></br>
-                    <div>
-                    <FormControl>
-                        <TextField className="input"
-                            label="Utilities"
-                            multiline
-                            maxRows={2}
-                            minRows={2}
-                            variant="outlined"
-                            value={this.state.utilities}
-                            onChange={this.onChangeUtilities}
-                        />
-                    </FormControl>
-                    </div>
-                    <br></br><br></br><br></br>
-                    <div>
-                    <FormControl>
-                        <OutlinedInput 
-                            className="input"
-                            placeholder="Rent Amount"
-                            type="number"
-                            startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                            required
-                            variant="outlined"
-                            onChange={this.onChangeRent}
-                        />
-                    </FormControl>
-                    </div>
-                    <br></br>
-                    <div>
-                    <FormControl>
-                        <TextField className="input"
-                            label="Rent Units"
-                            variant="outlined"
-                            select
-                            required
-                            value={this.state.rentUnits}
-                            onChange={this.onChangeRentUnits}>
-                                <option value="perWeek">Weekly</option>
-                                <option value="perFortnight">Fortnightly</option>
-                                <option value="perMonth">Monthly</option>
-                        </TextField>
-                    </FormControl>
-                    </div>
-                    <br></br><br></br>
-                    <div>
-                    {/* <FormControl fullWidth variant="outlined"> */}
-                    <InputLabel>Available From:</InputLabel>
-                    <DatePicker
-                        label="Available From"
-                        selected={this.state.roomAvailable}
-                        onChange={this.onChangeDate}
-                    />
-                    {/* <TextField
-                        className="input"
-                        label="Available From"
-                        type="date"
-                        required
-                        variant="outlined"
-                        InputLabelProps={{
-                            shrink: true
-                        }}
-                        defaultValue={this.state.roomAvailable}
-                        onChange={this.onChangeDate}
-                    /> */}
-                    {/* </FormControl> */}
-                    </div>
-                    <br></br>
-                    <Button 
-                        className="button" 
-                        variant="contained" 
-                        color="secondary" 
-                        type ="submit"
+                    <Grid
+                        container
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <h2>Create New Listing</h2>
+                        <div>
+                            <FormControl>
+                                <TextField className="input"
+                                    label="Flat/Room Description"
+                                    multiline
+                                    maxRows={3}
+                                    minRows={3}
+                                    autoFocus
+                                    required
+                                    value={this.state.description}
+                                    onChange={this.onChangeDescription}
+                                    variant="outlined"
+                                />
+                            </FormControl>
+                        </div>
+                        <br/><br/><br/><br/>
+                        <div>
+                            <FormControl>
+                                <TextField className="input"
+                                    label="Utilities"
+                                    multiline
+                                    maxRows={2}
+                                    minRows={2}
+                                    variant="outlined"
+                                    value={this.state.utilities}
+                                    onChange={this.onChangeUtilities}
+                                />
+                            </FormControl>
+                        </div>
+                        <br/><br/><br/>
+                        <div>
+                            <FormControl>
+                                <OutlinedInput
+                                    className="input"
+                                    placeholder="Rent Amount"
+                                    type="number"
+                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                                    required
+                                    variant="outlined"
+                                    onChange={this.onChangeRent}
+                                />
+                            </FormControl>
+                        </div>
+                        <br/>
+                        <div>
+                            <FormControl>
+                            {/* Generates warning upon first clicking drop down - library hasn't kept up with react */}
+                                <TextField className="input"
+                                    label="Rent Units"
+                                    variant="outlined"
+                                    select
+                                    required
+                                    value={this.state.rentUnits}
+                                    onChange={this.onChangeRentUnits}>
+                                    <MenuItem value="Per Week">Per Week</MenuItem>
+                                    <MenuItem value="Per Fortnight">Per Fortnight</MenuItem>
+                                    <MenuItem value="Per Month">Per Month</MenuItem>
+                                </TextField>
+                            </FormControl>
+                        </div>
+                        <br/><br/>
+                        <div>
+                            <InputLabel>Available From:</InputLabel>
+                            <DatePicker
+                                label="Available From"
+                                inline
+                                selected={this.state.roomAvailable}
+                                onChange={this.onChangeDate}
+                            />
+                        </div>
+                        <br/>
+                        <Button
+                            className="button"
+                            variant="contained"
+                            color="secondary"
+                            type="submit"
                         >
-                    Create
-                    </Button>
-                </Grid>
+                            Create
+                        </Button>
+                    </Grid>
                 </form>
             </div>
         );
