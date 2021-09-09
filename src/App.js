@@ -1,38 +1,70 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-// import { useState } from 'react';
+import { BrowserRouter, Route, Switch, Link as RouterLink } from 'react-router-dom';
+import { useState } from 'react';
 import './styles.css';
-import {ReactComponent as FlinderLogo} from './Components/assets/logo.svg';
+import { ReactComponent as FlinderLogo } from './Components/assets/logo.svg';
 import CreateListing from "./Components/CreateListing";
 import UpdateListing from "./Components/UpdateListing";
-import Navbar from "./Components/Navbar";
+import ListingList from "./Components/ListingList";
+import Listing from "./Components/Listing";
+import Button from '@mui/material/Button';
+// import Navbar from "./Components/Navbar";
 
 //This contains all the routes to the '/signup/'
 const AppRouter = () => {
-  // //Best place to store data entered by user is here
-  // const [user, setUser] = useState({});
+  const [listing, setListing] = useState({});
 
-  // const updateUser = (data) => {
-  //   setUser((prevUser) => ({ ...prevUser, ...data }));
-  // };
+  const updateListing = (listing) => {
+    setListing(listing);
+    // setListing((prevListing) => ({ ...prevListing, ...listing }));
+  };
 
   // const resetUser = () => {
   //   setUser({});
   // };
 
-  return(
-  <BrowserRouter>
-  <div className = "backround">
-    <div className = "layout">
-      <div>
-      <FlinderLogo className = "logo-display"/>
+  return (
+    <BrowserRouter>
+      <div className="backround">
+        <div className="layout">
+          <div>
+            <FlinderLogo className="logo-display" />
+          </div>
+          <Button component={RouterLink} to="/listings/add">
+            Create Listing
+          </Button>
+          <Button component={RouterLink} to="/listings/">
+            Listings
+          </Button>
+          <Switch>
+            <Route
+              render={(props) => (
+                <CreateListing {...props} />
+              )}
+              path="/listings/add"
+              exact={true} />
+              <Route
+              render={(props) => (
+                <UpdateListing {...props} listing={listing} />
+              )}
+              path="/listings/update"
+              exact={true} />
+              <Route
+              render={(props) => (
+                <ListingList {...props} listing={listing} updateListing={updateListing} />
+              )}
+              path="/listings/"
+              exact={true} />
+              <Route
+              render={(props) => (
+                <Listing {...props} listing={listing} />
+              )}
+              path="/listings/listing"
+              exact={true} />
+          </Switch>
+        </div>
       </div>
-      <Navbar />
-        <Route path="/listings/add" exact component={CreateListing} />
-        <Route path="/listings/update" exact component={UpdateListing} />
-    </div>
-  </div>
-  </BrowserRouter>
+    </BrowserRouter>
   )
 };
 
