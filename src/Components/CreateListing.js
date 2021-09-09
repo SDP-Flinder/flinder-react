@@ -28,10 +28,6 @@ class CreateListing extends React.Component {
         };
     }
 
-    componentDidMount() {
-        
-    }
-
     onChangeDescription(e) {
         this.setState({
             description: e.target.value
@@ -73,13 +69,14 @@ class CreateListing extends React.Component {
         };
         
         const bodyParameters = {
+            flat_id: '61392cfea6515c9770729b8a',
             description: this.state.description,
-            utilities: this.state.utilities,
+            roomAvailable: this.state.roomAvailable,
             rent: this.state.rent,
             rentUnits: this.state.rentUnits,
-            roomAvailable: this.state.roomAvailable,
+            utilities: this.state.utilities
         };
-
+        
         axios.post( 
             URL,
             bodyParameters,
@@ -115,7 +112,7 @@ class CreateListing extends React.Component {
                                 />
                             </FormControl>
                         </div>
-                        <br></br><br></br><br></br><br></br>
+                        <br/><br/><br/><br/>
                         <div>
                             <FormControl>
                                 <TextField className="input"
@@ -129,7 +126,7 @@ class CreateListing extends React.Component {
                                 />
                             </FormControl>
                         </div>
-                        <br></br><br></br><br></br>
+                        <br/><br/><br/>
                         <div>
                             <FormControl>
                                 <OutlinedInput
@@ -143,9 +140,10 @@ class CreateListing extends React.Component {
                                 />
                             </FormControl>
                         </div>
-                        <br></br>
+                        <br/>
                         <div>
                             <FormControl>
+                            {/* Generates warning upon first clicking drop down - library hasn't kept up with react */}
                                 <TextField className="input"
                                     label="Rent Units"
                                     variant="outlined"
@@ -153,13 +151,13 @@ class CreateListing extends React.Component {
                                     required
                                     value={this.state.rentUnits}
                                     onChange={this.onChangeRentUnits}>
-                                    <MenuItem value="perWeek">Weekly</MenuItem>
-                                    <MenuItem value="perFortnight">Fortnightly</MenuItem>
-                                    <MenuItem value="perMonth">Monthly</MenuItem>
+                                    <MenuItem value="Per Week">Per Week</MenuItem>
+                                    <MenuItem value="Per Fortnight">Per Fortnight</MenuItem>
+                                    <MenuItem value="Per Month">Per Month</MenuItem>
                                 </TextField>
                             </FormControl>
                         </div>
-                        <br></br><br></br>
+                        <br/><br/>
                         <div>
                             <InputLabel>Available From:</InputLabel>
                             <DatePicker
@@ -169,7 +167,7 @@ class CreateListing extends React.Component {
                                 onChange={this.onChangeDate}
                             />
                         </div>
-                        <br></br>
+                        <br/>
                         <Button
                             className="button"
                             variant="contained"
