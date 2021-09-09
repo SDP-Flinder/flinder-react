@@ -12,6 +12,12 @@ import Button from '@mui/material/Button';
 
 //This contains all the routes to the '/signup/'
 const AppRouter = () => {
+  const [user, setUser] = useState({});
+
+  const updateUser = (data) => {
+    setUser((prevUser) => ({ ...prevUser, ...data }));
+  };
+
   const [listing, setListing] = useState({});
 
   const updateListing = (listing) => {
@@ -30,11 +36,11 @@ const AppRouter = () => {
           <div>
             <FlinderLogo className="logo-display" />
           </div>
-          <Button component={RouterLink} to="/listings/add">
-            Create Listing
-          </Button>
           <Button component={RouterLink} to="/listings/">
             Listings
+          </Button>
+          <Button component={RouterLink} to="/listings/add">
+            Create Listing
           </Button>
           <Switch>
             <Route
@@ -45,19 +51,19 @@ const AppRouter = () => {
               exact={true} />
               <Route
               render={(props) => (
-                <UpdateListing {...props} listing={listing} />
+                <UpdateListing {...props} listing={listing} user={user} updateUser={updateUser} />
               )}
               path="/listings/update"
               exact={true} />
               <Route
               render={(props) => (
-                <ListingList {...props} listing={listing} updateListing={updateListing} />
+                <ListingList {...props} listing={listing} updateListing={updateListing} user={user} updateUser={updateUser} />
               )}
               path="/listings/"
               exact={true} />
               <Route
               render={(props) => (
-                <Listing {...props} listing={listing} />
+                <Listing {...props} listing={listing} user={user} updateUser={updateUser} />
               )}
               path="/listings/listing"
               exact={true} />
