@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { Grid, InputAdornment, InputLabel, OutlinedInput } from '@material-ui/core';
+import { Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -65,7 +65,14 @@ class CreateListing extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const listing = {
+        const URL = 'http://localhost:4000/listings/add/'
+        const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTM5MmNmZWE2NTE1Yzk3NzA3MjliOGEiLCJyb2xlIjoiZmxhdCIsImlhdCI6MTYzMTEzNzIxOSwiZXhwIjoxNjMxNzQyMDE5fQ.mSFRMfYIJpONB5FRRq-ED8RpkTI8zWvbF3CQDW7e-gk';
+
+        const config = {
+            headers: { Authorization: `Bearer ${USER_TOKEN}` }
+        };
+        
+        const bodyParameters = {
             description: this.state.description,
             utilities: this.state.utilities,
             rent: this.state.rent,
@@ -73,31 +80,11 @@ class CreateListing extends React.Component {
             roomAvailable: this.state.roomAvailable,
         };
 
-        console.log(listing);
-
-        let token = 'admin-token';
-
-        // const account = {
-        //     username: 'admin',
-        //     password: 'admin',
-        // }
-
-        // axios.post('http://localhost:4000/users/authenticate', account)
-        //     .then(res => {
-        //     token = res.data.token;
-        // })
-
-        console.log(token);
-
-        const URL = 'http://localhost:4000/listings/add'
-        // const USER_TOKEN = token;
-        // const AuthString = 'Bearer '.concat(USER_TOKEN); 
-
-        // axios.get(URL, { headers: { Authorization: AuthString } })
-        //     .then(res => console.log(res.data));
-
-        axios.post(URL, listing)
-            .then(res => console.log(res.data));
+        axios.post( 
+            URL,
+            bodyParameters,
+            config
+        ).then(console.log).catch(console.log);
 
         // window.location = '/listings';
     }
@@ -166,9 +153,9 @@ class CreateListing extends React.Component {
                                     required
                                     value={this.state.rentUnits}
                                     onChange={this.onChangeRentUnits}>
-                                    <option value="perWeek">Weekly</option>
-                                    <option value="perFortnight">Fortnightly</option>
-                                    <option value="perMonth">Monthly</option>
+                                    <MenuItem value="perWeek">Weekly</MenuItem>
+                                    <MenuItem value="perFortnight">Fortnightly</MenuItem>
+                                    <MenuItem value="perMonth">Monthly</MenuItem>
                                 </TextField>
                             </FormControl>
                         </div>
