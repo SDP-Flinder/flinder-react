@@ -5,6 +5,14 @@ COLOUR PALLETTE
 
 /* Global Styles
 ------------------------*/
+
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+}
+
 h1{
     text-align: center;
     color: #70A0AF;
@@ -30,11 +38,12 @@ h1{
     height: fit-content;
     padding: 10px;
     border: 1px solid black;
+    background-color: blanchedalmond;
     border-radius: 10px;
 }
 
 .background{
-    background-color: cornflowerblue;
+    background-color: cadetblue;
 }
 
 .error-message{
