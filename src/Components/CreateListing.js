@@ -77,9 +77,11 @@ function CreateListing(props) {
             URL,
             bodyParameters,
             config
-        ).then(console.log).catch(console.log);
+        ).then(res => {
+            props.updateListing(res.data)
+        }).then(console.log).catch(console.log);
 
-        props.history.push('/listings/');
+        props.history.push('/listings/listing');
     }
 
     return (
