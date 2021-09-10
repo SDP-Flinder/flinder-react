@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useState } from 'react';
-import '../../style/global.css';
-import { ReactComponent as FlinderLogo } from '../../assets/logo.svg';
-import CreateListing from "./CreateListing";
-import UpdateListing from "./UpdateListing";
-import ListingList from "./ListingList";
-import Listing from "./Listing";
-import Login from "./Login";
-import AccountPage from "./AccountPage";
+import './styles.css';
+import { ReactComponent as FlinderLogo } from './Components/assets/logo.svg';
+import CreateListing from "./Components/CreateListing";
+import UpdateListing from "./Components/UpdateListing";
+import ListingList from "./Components/ListingList";
+import Listing from "./Components/Listing";
+import Login from "./Components/Login";
+import AccountPage from "./Components/AccountPage";
 
 const AppRouter = () => {
   const [user, setUser] = useState({});
@@ -37,13 +37,13 @@ const AppRouter = () => {
             <FlinderLogo className="logo-display" />
           </div>
           <Switch>
-            <Route
+          <Route
               render={(props) => (
-                <Login {...props} user={user} updateUser={updateUser} updateListings={updateListings} />
+                <Login {...props} updateUser={updateUser} />
               )}
               path="/"
               exact={true} />
-            <Route
+              <Route
               render={(props) => (
                 <AccountPage {...props} user={user} updateListings={updateListings} />
               )}
@@ -51,25 +51,25 @@ const AppRouter = () => {
               exact={true} />
             <Route
               render={(props) => (
-                <CreateListing {...props} user={user} updateListing={updateListing} updateListings={updateListings} />
+                <CreateListing {...props} user={user} updateListing={updateListing} />
               )}
               path="/listings/add"
               exact={true} />
-            <Route
+              <Route
               render={(props) => (
-                <UpdateListing {...props} listing={listing} user={user} updateListings={updateListings} />
+                <UpdateListing {...props} listing={listing} user={user} />
               )}
               path="/listings/update"
               exact={true} />
-            <Route
+              <Route
               render={(props) => (
-                <ListingList {...props} listing={listing} updateListing={updateListing} updateListings={updateListings} user={user} listings={listings} />
+                <ListingList {...props} updateListing={updateListing} user={user} listings={listings} />
               )}
               path="/listings/"
               exact={true} />
-            <Route
+              <Route
               render={(props) => (
-                <Listing {...props} updateListings={updateListings} updateListing={updateListing} listing={listing} user={user} />
+                <Listing {...props} listing={listing} user={user} />
               )}
               path="/listings/listing"
               exact={true} />
