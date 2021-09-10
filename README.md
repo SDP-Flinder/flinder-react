@@ -1,8 +1,8 @@
 # Flinder 
 
 [![Build Status](https://travis-ci.com/SDP-Flinder/flinder-react.svg?branch=develop)](https://travis-ci.com/SDP-Flinder/flinder-react)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]
-[![Heroku](http://heroku-badge.herokuapp.com/?app=heroku-badge&style=flat&svg=1)]
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Heroku](http://heroku-badge.herokuapp.com/?app=heroku-badge&style=flat&svg=1)
 
 ### Getting Started (Locally)
 ---
