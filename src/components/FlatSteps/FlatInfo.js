@@ -3,7 +3,7 @@ import { withRouter } from 'react-router'
 import Button from '@material-ui/core/Button';
 import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
-import DatePicker from 'react-date-picker';
+import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import InputLabel from '@material-ui/core/InputLabel';
 
 const FlatInfo = (props) => {
@@ -104,7 +104,7 @@ const FlatInfo = (props) => {
             error = {isInvalid.dob}
         > D.O.B </InputLabel>
         <DatePicker id = 'datePicker'
-        className = "datePicker"
+        className = "calendar-display"
         label = "D.O.B"
         placeholder = "dob"
         onChange={setDOB}
