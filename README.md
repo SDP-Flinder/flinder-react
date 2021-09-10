@@ -5,7 +5,7 @@
 ![Heroku](http://heroku-badge.herokuapp.com/?app=heroku-badge&style=flat&svg=1)
 
 ### Getting Started (Locally)
----
+
 
 ### Prerequisites
 
@@ -19,18 +19,16 @@ It also relies on a RESTful API, follow the documentation on it at [https://gith
 3. Start the development server with `npm start` 
 
 ## Authors
----
 - [Daniel Tran](https://github.com/danieltran-512)
 - [Prunella Parisa](https://github.com/prunellaparisa)
 - [Billy McCarthy-Dowd](https://github.com/billymcd)
 - [Finn Stainton](https://github.com/finn-stainton)
 
 ## Version History
----
+
 
 ## License
----
 
+MIT
 
 ## Acknowledgements
----
