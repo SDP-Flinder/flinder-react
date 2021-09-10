@@ -51,7 +51,7 @@ const AppRouter = () => {
               exact={true} />
             <Route
               render={(props) => (
-                <CreateListing {...props} user={user} />
+                <CreateListing {...props} user={user} updateListing={updateListing} />
               )}
               path="/listings/add"
               exact={true} />
