@@ -182,6 +182,7 @@ const FirstStep = (props) => {
           label = "Username"
           variant="outlined"
           onChange = {e => setForm('username', e.target.value)}
+          placeholder="Enter your username" 
           error = { !!error.username}
           />
         <br />
@@ -212,6 +213,7 @@ const FirstStep = (props) => {
           variant="outlined"  
           type="email" 
           onChange = {e => setForm('email', e.target.value)}
+          placeholder="Enter your email" 
           error = { !!error.email}
           />
           <br />

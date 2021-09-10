@@ -26,6 +26,7 @@ const FlatAddress = (props) => {
             variant="outlined"
             type = "number"
             label="Existing flatmate(s): "
+            placeholder = "Number of flatmates"
             name="existingFlatmates"
             value = {existingFlatmates}
             onChange = {props.setForm}
@@ -38,6 +39,7 @@ const FlatAddress = (props) => {
             variant="outlined"
             label="Description"
             name="description"
+            placeholder = "Brief description"
             value = {description}
             onChange = {props.setForm}
             autoComplete="off"

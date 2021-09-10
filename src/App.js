@@ -8,8 +8,8 @@ import Confirmation from './components/Confirmation';
 import { useState } from 'react';
 import './styles.css';
 import {ReactComponent as FlinderLogo} from './components/assets/logo.svg';
-import Address from './components/FlatSteps/Address';
 import WelcomePage from './components/WelcomePage';
+import Trial from './components/Trial';
 
 
 //This contains all the routes to the '/signup/'
@@ -70,7 +70,7 @@ const AppRouter = () => {
 
         <Route   
           render={(props) => (
-          <Address {...props} user={user} updateUser={updateUser} />
+          <Trial {...props} user={user} updateUser={updateUser} />
           )}
          path="/trial" 
          exact={true}/>

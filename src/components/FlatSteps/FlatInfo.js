@@ -103,11 +103,13 @@ const FlatInfo = (props) => {
         <InputLabel
             error = {isInvalid.dob}
         > D.O.B </InputLabel>
-        <DatePicker
+        <DatePicker id = 'datePicker'
+        className = "datePicker"
         label = "D.O.B"
+        placeholder = "dob"
         onChange={setDOB}
         value={dob}
-        dateFormat = "YYYY-MM-DDTHH:mm:ss.sssZ"
+        format = "dd/MM/yyyy"
         />
         <br />
         {error.dob && <div className = "error-message">{error.dob}</div>}

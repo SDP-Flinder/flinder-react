@@ -47,7 +47,8 @@ const FlatInfo = (props) => {
             <h4>Account information</h4>
             <p>Username: {props.user.username} </p>
             <p>Email: {props.user.email} </p>
-            <Button variant="outlined" size="medium" color="primary"
+            <Button variant="outlined" size="medium" color="primary" name = "account"
+            placeholder = "edit username"
             onClick = {()  =>{
                 props.history.push("/");
             }
@@ -62,7 +63,8 @@ const FlatInfo = (props) => {
             <p>Full name: {props.user.firstName} {props.user.lastName} </p>
             <p>D.O.B: {moment(props.user.dob).format('DD/MM/YYYY')}</p>
 
-            <Button variant="outlined" size="medium" color="primary"
+            <Button variant="outlined" size="medium" color="primary" name = "info"
+            placeholder = "edit info"
             onClick = {()  =>{
                 navigation.go("information");
             }
@@ -78,7 +80,8 @@ const FlatInfo = (props) => {
             <p>Description: {props.user.description}</p>
 
 
-            <Button variant="outlined" size="medium" color="primary"
+            <Button variant="outlined" size="medium" color="primary" name = "flatAddress"
+            placeholder = "edit address"
             onClick = {()  =>{
                 navigation.go("address");
             }

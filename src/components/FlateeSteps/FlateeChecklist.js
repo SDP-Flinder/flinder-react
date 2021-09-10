@@ -99,6 +99,7 @@ const FlateeChecklist = (props) => {
                 <Select
                 native
                 value={checklist.priceRange.min}
+                placeholder = "min"
                 onChange={props.setForm}
                 label="From"
                 inputProps={{
@@ -119,6 +120,7 @@ const FlateeChecklist = (props) => {
                 <Select
                 native
                 value={checklist.priceRange.max}
+                placeholder = "max"
                 onChange={props.setForm}
                 label="From"
                 inputProps={{
