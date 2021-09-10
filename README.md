@@ -4,9 +4,9 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Heroku](http://heroku-badge.herokuapp.com/?app=heroku-badge&style=flat&svg=1)
 
+Flinder is a social media app that helps you find your ideal flatmate based on their personality and living preferences. Either you can be a Flatee (a person who looks for a flat to stay in), or a Flat (a person looking for a flatmate to fill in the spot). 
+
 ### Getting Started (Locally)
-
-
 ### Prerequisites
 
 This project uses Node.js, follow the installation documentation on it at [https://nodejs.dev/](https://nodejs.dev/)
