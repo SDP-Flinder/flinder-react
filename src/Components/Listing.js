@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
 function Listing(props) {
-    const [listing] = useState(props.listing);
+    const [listing, setListing] = useState(props.listing);
+
+    useEffect(() => setListing(props.listing), [props.listing]);
 
     return (
         <div>

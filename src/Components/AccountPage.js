@@ -7,7 +7,7 @@ function AccountPage(props) {
     const [user] = useState(props.user);
 
     const getListings = async () => {
-        const URL = 'http://localhost:4000/listings/'
+        const URL = 'http://localhost:4000/listings/flat/'.concat(user.id);
         const USER_TOKEN = user.token;
 
         const config = {
@@ -16,15 +16,12 @@ function AccountPage(props) {
 
         console.log(user.id);
 
-        const bodyParameters = {
-            flat_id: user.id
-        };
-
-        axios.get(URL, bodyParameters, config)
+        axios.get(URL, config)
             .then(res => props.updateListings(res.data));
     }
 
-    useEffect(() => getListings(), [])
+    // useEffect(() => getListings(), [])
+    useEffect(() => getListings(), [props.user])
 
     return (
         <div>

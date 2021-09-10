@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
-// import axios from 'axios';
 
 function ListingList(props) {
     const [listings] = useState(props.listings);
+    const [user] = useState(props.user);
+
+    useEffect(() => listingList(), []);
 
     const listingList = () => {
         listings.forEach(listing => {
@@ -16,17 +19,24 @@ function ListingList(props) {
         });
 
         function selectListing(id) {
-            listings.forEach(listing => {
-                if (listing.id === id) {
-                    props.updateListing(listing);
-                    props.history.push('/listings/listing');
-                    return;
-                }
-            })
+            getListing(id);
+            props.history.push("/listings/listing");
         }
     }
 
-    useEffect(() => listingList(), []);
+    const getListing = async (id) => {
+        const URL = 'http://localhost:4000/listings/'.concat(id);
+        const USER_TOKEN = user.token;
+
+        const config = {
+            headers: { Authorization: `Bearer ${USER_TOKEN}` }
+        };
+
+        console.log(user.id);
+
+        axios.get(URL, config)
+            .then(res => props.updateListing(res.data));
+    }
 
     return (
         <div>

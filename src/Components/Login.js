@@ -6,6 +6,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import { Grid } from '@material-ui/core';
+import { GetListings } from './AxiosHelpers';
 
 function Login(props) {
     const [username, setUsername] = useState('');
@@ -22,9 +23,8 @@ function Login(props) {
         axios.post('http://localhost:4000/users/authenticate', account)
             .then(res => {
                 props.updateUser(res.data);
+                GetListings({user: res.data, updateListings: props.updateListings});
             })
-
-        
 
         props.history.push('/account')
     }
