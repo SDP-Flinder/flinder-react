@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,16 +6,17 @@ import { Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput } from '@mate
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { Link as RouterLink } from 'react-router-dom';
 
 function CreateListing(props) {
 
-    const [user, setUser] = useState([]);
+    const [user] = useState(props.user);
 
-    const [description, setDescription] = useState(props.description || "");
-    const [roomAvailable, setRoomAvailable] = useState(props.roomAvailable || new Date());
-    const [rent, setRent] = useState(props.rent || 0);
-    const [rentUnits, setRentUnits] = useState(props.rentUnits || "");
-    const [utilities, setUtilities] = useState(props.utilities || "");
+    const [description, setDescription] = useState("");
+    const [roomAvailable, setRoomAvailable] = useState(new Date());
+    const [rent, setRent] = useState(0);
+    const [rentUnits, setRentUnits] = useState("");
+    const [utilities, setUtilities] = useState("");
 
     const onChangeDescription = (e) => {
         setDescription(e.target.value);
@@ -37,19 +38,19 @@ function CreateListing(props) {
         setUtilities(e.target.value);
     }
 
-    const getUser = async () => {
-        const account = {
-            username: 'billymcdowd',
-            password: 'Datsyuk13'
-        }
+    // const getUser = async () => {
+    //     const account = {
+    //         username: 'billymcdowd',
+    //         password: 'Datsyuk13'
+    //     }
 
-        axios.post('http://localhost:4000/users/authenticate', account)
-            .then(res => {
-                setUser(res.data);
-            })
-    }
+    //     axios.post('http://localhost:4000/users/authenticate', account)
+    //         .then(res => {
+    //             setUser(res.data);
+    //         })
+    // }
 
-    useEffect(() => getUser(), []);
+    // useEffect(() => getUser(), []);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -57,12 +58,14 @@ function CreateListing(props) {
         const URL = 'http://localhost:4000/listings/add/'
         const USER_TOKEN = user.token;
 
+        console.log(USER_TOKEN);
+
         const config = {
             headers: { Authorization: `Bearer ${USER_TOKEN}` }
         };
 
         const bodyParameters = {
-            flat_id: '61392cfea6515c9770729b8a',
+            flat_id: user.id,
             description: description,
             roomAvailable: roomAvailable,
             rent: rent,
@@ -167,6 +170,14 @@ function CreateListing(props) {
                         type="submit"
                     >
                         Create
+                    </Button>
+                    <Button className="button"
+                        variant="contained"
+                        color="secondary"
+                        component={RouterLink}
+                        to="/account/"
+                    >
+                        Back
                     </Button>
                 </Grid>
             </form>

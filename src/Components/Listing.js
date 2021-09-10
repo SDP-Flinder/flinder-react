@@ -3,11 +3,16 @@ import { Link as RouterLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
 function Listing(props) {
-    // const [user] = useState(props.user);
     const [listing] = useState(props.listing);
 
     return (
         <div>
+            <Button component={RouterLink} to="/listings/">
+                Listings
+            </Button>
+            <Button component={RouterLink} to="/listings/add">
+                Create Listing
+            </Button>
             <div>
                 <h1>{listing.flat_id}</h1>
                 <h1>Description: {listing.description}</h1>
