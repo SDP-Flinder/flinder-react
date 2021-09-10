@@ -8,6 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { Link as RouterLink } from 'react-router-dom';
+import { GetListings } from './AxiosHelpers';
 
 function UpdateListing(props) {
 
@@ -81,7 +82,7 @@ function UpdateListing(props) {
 
             return { errorFound, invalid };
         }
-        
+
         return {errorFound, invalid};
     }
 
@@ -124,7 +125,9 @@ function UpdateListing(props) {
                 config
             ).then(console.log).catch(console.log);
 
-            // props.history.push('/listings');
+            GetListings({user: props.user, updateListings: props.updateListings});
+
+            props.history.push('/account');
         }
     }
 
