@@ -39,7 +39,7 @@ const AppRouter = () => {
           <Switch>
           <Route
               render={(props) => (
-                <Login {...props} updateUser={updateUser} />
+                <Login {...props} user={user} updateUser={updateUser} updateListings={updateListings} />
               )}
               path="/"
               exact={true} />
@@ -51,13 +51,13 @@ const AppRouter = () => {
               exact={true} />
             <Route
               render={(props) => (
-                <CreateListing {...props} user={user} updateListing={updateListing} />
+                <CreateListing {...props} user={user} updateListing={updateListing} updateListings={updateListings} />
               )}
               path="/listings/add"
               exact={true} />
               <Route
               render={(props) => (
-                <UpdateListing {...props} listing={listing} user={user} />
+                <UpdateListing {...props} listing={listing} user={user} updateListings={updateListings} />
               )}
               path="/listings/update"
               exact={true} />
