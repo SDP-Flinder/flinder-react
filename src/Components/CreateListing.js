@@ -8,6 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { Link as RouterLink } from 'react-router-dom';
+import { GetListings } from './AxiosHelpers';
 
 function CreateListing(props) {
 
@@ -110,6 +111,8 @@ function CreateListing(props) {
             ).then(res => {
                 props.updateListing(res.data)
             }).then(console.log).catch(console.log);
+
+            GetListings({user: props.user, updateListings: props.updateListings});
 
             props.history.push('/listings/listing');
         }
