@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-date-picker';
+import "react-calendar/dist/Calendar.css";
+import "react-date-picker/dist/DatePicker.css";
 import { Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
@@ -11,9 +12,13 @@ import { Link as RouterLink } from 'react-router-dom';
 function CreateListing(props) {
 
     const [user] = useState(props.user);
+    const currentDate = new Date();
+
+    const [error, setError] = useState({});
+    const [isInvalid, setInvalid] = useState({});
 
     const [description, setDescription] = useState("");
-    const [roomAvailable, setRoomAvailable] = useState(new Date());
+    const [roomAvailable, setRoomAvailable] = useState(currentDate);
     const [rent, setRent] = useState(0);
     const [rentUnits, setRentUnits] = useState("");
     const [utilities, setUtilities] = useState("");
@@ -52,36 +57,62 @@ function CreateListing(props) {
 
     // useEffect(() => getUser(), []);
 
+    const findError = () => {
+        const errorFound = {};
+        const invalid = {};
+
+        if (rent <= 0) {
+            errorFound.rent = "Rent can't be 0 or negative";
+            invalid.rent = true;
+
+            return { errorFound, invalid };
+        }
+
+        return {errorFound, invalid};
+    }
+
     const onSubmit = (e) => {
         e.preventDefault();
 
-        const URL = 'http://localhost:4000/listings/add/'
-        const USER_TOKEN = user.token;
+        const newError = findError();
+        console.log(newError.errorFound);
+        console.log(newError.invalid);
 
-        console.log(USER_TOKEN);
+        //Proceed to the next step if inputs are valid
+        if (Object.keys(newError.errorFound).length > 0) {
+            //Found errors and set the errors to the useState
+            setError(newError.errorFound);
+            setInvalid(newError.invalid);
+            console.log(isInvalid);
+        } else {
+            const URL = 'http://localhost:4000/listings/add/'
+            const USER_TOKEN = user.token;
 
-        const config = {
-            headers: { Authorization: `Bearer ${USER_TOKEN}` }
-        };
+            console.log(USER_TOKEN);
 
-        const bodyParameters = {
-            flat_id: user.id,
-            description: description,
-            roomAvailable: roomAvailable,
-            rent: rent,
-            rentUnits: rentUnits,
-            utilities: utilities
-        };
+            const config = {
+                headers: { Authorization: `Bearer ${USER_TOKEN}` }
+            };
 
-        axios.post(
-            URL,
-            bodyParameters,
-            config
-        ).then(res => {
-            props.updateListing(res.data)
-        }).then(console.log).catch(console.log);
+            const bodyParameters = {
+                flat_id: user.id,
+                description: description,
+                roomAvailable: roomAvailable,
+                rent: rent,
+                rentUnits: rentUnits,
+                utilities: utilities
+            };
 
-        props.history.push('/listings/listing');
+            axios.post(
+                URL,
+                bodyParameters,
+                config
+            ).then(res => {
+                props.updateListing(res.data)
+            }).then(console.log).catch(console.log);
+
+            props.history.push('/listings/listing');
+        }
     }
 
     return (
@@ -117,6 +148,7 @@ function CreateListing(props) {
                                 multiline
                                 maxRows={2}
                                 minRows={2}
+                                required
                                 variant="outlined"
                                 value={utilities}
                                 onChange={onChangeUtilities}
@@ -125,16 +157,19 @@ function CreateListing(props) {
                     </div>
                     <br /><br /><br />
                     <div>
+                        <InputLabel
+                            error={isInvalid.rent}
+                        > Rent Amount</InputLabel>
                         <FormControl>
                             <OutlinedInput
                                 className="input"
-                                placeholder="Rent Amount"
                                 type="number"
                                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                 required
                                 variant="outlined"
                                 onChange={onChangeRent}
                             />
+                            {error.rent && <div className="error-message">{error.rent}</div>}
                         </FormControl>
                     </div>
                     <br />
@@ -159,8 +194,9 @@ function CreateListing(props) {
                         <InputLabel>Available From:</InputLabel>
                         <DatePicker
                             label="Available From"
-                            inline
-                            selected={roomAvailable}
+                            format="dd/MM/yyyy"
+                            minDate={currentDate}
+                            value={roomAvailable}
                             onChange={onChangeDate}
                         />
                     </div>
