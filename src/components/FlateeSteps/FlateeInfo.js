@@ -6,6 +6,28 @@ import TextField from '@material-ui/core/TextField';
 import DatePicker from 'react-date-picker';
 import InputLabel from '@material-ui/core/InputLabel';
 
+import "react-calendar/dist/Calendar.css";
+import "react-date-picker/dist/DatePicker.css";
+import { injectGlobal } from "@emotion/css";
+
+injectGlobal`
+  .react-calendar {
+    height: auto;
+  },
+  .react-calendar__navigation{
+    height: 30px;
+    margin-bottom: 0;
+  }
+  .react-calendar__year-view .react-calendar__tile, 
+  .react-calendar__decade-view .react-calendar__tile, .react-calendar__century-view .react-calendar__tile{
+    padding: 1em 0.5em;
+  }
+  .react-date-picker__calendar{
+    position: absolute;
+    height: 143px
+  }
+`;
+
 const FlateeInfo = (props) => {
     //Pass the navigation from the parent
     const {navigation} = props;
