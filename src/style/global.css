@@ -33,7 +33,7 @@ h1{
 
 /*This one is to wrap around the sign up box*/
 .layout{
-    margin: 50px auto;
+    margin: 90px auto;
     width: 500px;
     height: fit-content;
     padding: 10px;
@@ -76,7 +76,7 @@ h1{
 }
 
 .buttons {
-    display: felx;
+    display: flex;
     align-items: center;
     margin: 30px;
     padding: 40px;
