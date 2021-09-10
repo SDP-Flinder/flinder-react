@@ -1,9 +1,9 @@
 import React from 'react'
 import { useForm, useStep } from "react-hooks-helper";
-import FlateeInfo from './FlateeSteps/FlateeInfo';
-import FlateePreferredAreas from './FlateeSteps/FlateePreferredAreas';
-import FlateeChecklist from './FlateeSteps/FlateeChecklist';
-import FlateeReview from './FlateeSteps/FlateeReview';
+import FlateeInfo from './Signup/FlateeSteps/FlateeInfo';
+import FlateePreferredAreas from './Signup/FlateeSteps/FlateePreferredAreas';
+import FlateeChecklist from './Signup/FlateeSteps/FlateeChecklist';
+import FlateeReview from './Signup/FlateeSteps/FlateeReview';
 
 const defaultData = {
     firstName: '',

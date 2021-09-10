@@ -4,11 +4,11 @@ import FirstStep from './components/FirstStep';
 // import FlinderHeader from './components/FlinderHeader';
 import Flatee from './components/Flatee';
 import Flat from './components/Flat';
-import Confirmation from './components/Confirmation';
+import Confirmation from './components/Signup/Confirmation';
 import { useState } from 'react';
 import './styles.css';
 import {ReactComponent as FlinderLogo} from './components/assets/logo.svg';
-import Address from './components/FlatSteps/Address';
+import Address from './components/Signup/FlatSteps/Address';
 import WelcomePage from './components/WelcomePage';
 
 
@@ -51,21 +51,21 @@ const AppRouter = () => {
           render={(props) => (
           <Flat {...props} user={user} updateUser={updateUser} />
           )}
-         path="/sign-up/flat" 
+         path="/signup/flat" 
          exact={true}/>
          
          <Route   
           render={(props) => (
           <Flatee {...props} user={user} updateUser={updateUser} />
           )}
-         path="/sign-up/flatee" 
+         path="/signup/flatee" 
          exact={true}/>
 
         <Route   
           render={(props) => (
           <Confirmation {...props} user={user} updateUser={updateUser} />
           )}
-         path="/sign-up/complete" 
+         path="/signup/complete" 
          exact={true}/>
 
         <Route   

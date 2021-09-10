@@ -160,7 +160,7 @@ const FirstStep = (props) => {
       }else if(inputUser.accountType == 'flatee'){ 
         props.history.push('/sign-up/flatee');
       }else if(inputUser.accountType ==''){
-          alert('Choose one bitch!');
+          alert('Choose one!'); // ~~bitch~~ Yeah.. No 
       }
     }
   }

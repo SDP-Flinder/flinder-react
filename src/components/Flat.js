@@ -1,9 +1,9 @@
 import React from 'react'
 import { useForm, useStep } from "react-hooks-helper";
-import FlatAddress from './FlatSteps/FlatAddress';
-import FlatInfo from './FlatSteps/FlatInfo'
-import FlatChecklist from './FlatSteps/FlatChecklist'
-import Address from './FlatSteps/Address';
+import FlatAddress from './Signup/FlatSteps/FlatAddress';
+import FlatInfo from './Signup/FlatSteps/FlatInfo'
+import FlatChecklist from './Signup/FlatSteps/FlatChecklist'
+import Address from './Signup/FlatSteps/Address';
 
 const defaultData = {
     firstName: '',
