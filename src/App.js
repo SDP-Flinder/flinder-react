@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Link as RouterLink } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useState } from 'react';
 import './styles.css';
 import { ReactComponent as FlinderLogo } from './Components/assets/logo.svg';
@@ -7,10 +7,9 @@ import CreateListing from "./Components/CreateListing";
 import UpdateListing from "./Components/UpdateListing";
 import ListingList from "./Components/ListingList";
 import Listing from "./Components/Listing";
-import Button from '@mui/material/Button';
-// import Navbar from "./Components/Navbar";
+import Login from "./Components/Login";
+import AccountPage from "./Components/AccountPage";
 
-//This contains all the routes to the '/signup/'
 const AppRouter = () => {
   const [user, setUser] = useState({});
 
@@ -22,12 +21,13 @@ const AppRouter = () => {
 
   const updateListing = (listing) => {
     setListing(listing);
-    // setListing((prevListing) => ({ ...prevListing, ...listing }));
   };
 
-  // const resetUser = () => {
-  //   setUser({});
-  // };
+  const [listings, setListings] = useState({});
+
+  const updateListings = (listings) => {
+    setListings(listings);
+  };
 
   return (
     <BrowserRouter>
@@ -36,34 +36,40 @@ const AppRouter = () => {
           <div>
             <FlinderLogo className="logo-display" />
           </div>
-          <Button component={RouterLink} to="/listings/">
-            Listings
-          </Button>
-          <Button component={RouterLink} to="/listings/add">
-            Create Listing
-          </Button>
           <Switch>
+          <Route
+              render={(props) => (
+                <Login {...props} updateUser={updateUser} />
+              )}
+              path="/"
+              exact={true} />
+              <Route
+              render={(props) => (
+                <AccountPage {...props} user={user} updateListings={updateListings} />
+              )}
+              path="/account"
+              exact={true} />
             <Route
               render={(props) => (
-                <CreateListing {...props} />
+                <CreateListing {...props} user={user} />
               )}
               path="/listings/add"
               exact={true} />
               <Route
               render={(props) => (
-                <UpdateListing {...props} listing={listing} user={user} updateUser={updateUser} />
+                <UpdateListing {...props} listing={listing} user={user} />
               )}
               path="/listings/update"
               exact={true} />
               <Route
               render={(props) => (
-                <ListingList {...props} listing={listing} updateListing={updateListing} user={user} updateUser={updateUser} />
+                <ListingList {...props} updateListing={updateListing} user={user} listings={listings} />
               )}
               path="/listings/"
               exact={true} />
               <Route
               render={(props) => (
-                <Listing {...props} listing={listing} user={user} updateUser={updateUser} />
+                <Listing {...props} listing={listing} user={user} />
               )}
               path="/listings/listing"
               exact={true} />

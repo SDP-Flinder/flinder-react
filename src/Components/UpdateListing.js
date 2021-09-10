@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,10 +6,11 @@ import { Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput } from '@mate
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { Link as RouterLink } from 'react-router-dom';
 
 function UpdateListing(props) {
 
-    const [user, setUser] = useState([]);
+    const [user] = useState(props.user);
 
     const [flat_id] = useState(props.listing.flat_id || '');
     const [description, setDescription] = useState(props.listing.description || '');
@@ -65,20 +66,6 @@ function UpdateListing(props) {
         setUtilities(e.target.value);
     }
 
-    const getUser = async () => {
-        const account = {
-            username: 'billymcdowd',
-            password: 'Datsyuk13'
-        }
-
-        axios.post('http://localhost:4000/users/authenticate', account)
-            .then(res => {
-                setUser(res.data);
-            })
-    }
-
-    useEffect(() => getUser(), []);
-
     const onSubmit = (e) => {
         e.preventDefault();
 
@@ -106,7 +93,7 @@ function UpdateListing(props) {
             config
         ).then(console.log).catch(console.log);
 
-        // window.location = '/listings';
+        // props.history.push('/listings');
     }
 
     return (
@@ -118,7 +105,7 @@ function UpdateListing(props) {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    <h2>Create New Listing</h2>
+                    <h2>Update Listing</h2>
                     <div>
                         <FormControl>
                             <TextField className="input"
@@ -198,6 +185,14 @@ function UpdateListing(props) {
                         type="submit"
                     >
                         Update
+                    </Button>
+                    <Button className="button"
+                        variant="contained"
+                        color="secondary"
+                        component={RouterLink}
+                        to="/listings/"
+                    >
+                        Back
                     </Button>
                 </Grid>
             </form>

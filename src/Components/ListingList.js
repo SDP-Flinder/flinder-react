@@ -1,42 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { Link as RouterLink } from 'react-router-dom';
+import Button from '@mui/material/Button';
+// import axios from 'axios';
 
 function ListingList(props) {
-    const [user, setUser] = useState([]);
-    const [listings, setListings] = useState([]);
-
-    const getListings = async () => {
-        const URL = 'http://localhost:4000/listings/'
-        const USER_TOKEN = user.token;
-
-        const config = {
-            headers: { Authorization: `Bearer ${USER_TOKEN}` }
-        };
-
-        const bodyParameters = {
-            "flat_id": user.id
-        };
-
-        axios.get(URL, bodyParameters, config)
-            .then(res => setListings(res.data));
-
-        listingList();
-    }
-
-    const getUser = async () => {
-        const account = {
-            username: 'billymcdowd',
-            password: 'Datsyuk13'
-        }
-
-        axios.post('http://localhost:4000/users/authenticate', account)
-            .then(res => {
-                setUser(res.data);
-            })
-    }
-
-    useEffect(() => getUser(), []);
-    useEffect(() => getListings(), [user]);
+    const [listings] = useState(props.listings);
 
     const listingList = () => {
         listings.forEach(listing => {
@@ -58,10 +26,26 @@ function ListingList(props) {
         }
     }
 
+    useEffect(() => listingList(), []);
+
     return (
         <div>
+            <Button component={RouterLink} to="/listings/">
+                Listings
+            </Button>
+            <Button component={RouterLink} to="/listings/add">
+                Create Listing
+            </Button>
             <h3>Current Listings</h3>
             <div id="buttons"></div>
+            <Button className="button"
+                variant="contained"
+                color="secondary"
+                component={RouterLink}
+                to="/account/"
+            >
+                Back
+            </Button>
         </div>
     );
 }
