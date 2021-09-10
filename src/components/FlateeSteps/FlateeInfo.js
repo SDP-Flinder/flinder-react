@@ -3,7 +3,7 @@ import { withRouter } from 'react-router'
 import Button from '@material-ui/core/Button';
 import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
-import DatePicker from 'react-date-picker/dist/entry.nostyle';
+import DatePicker from 'react-date-picker';
 import InputLabel from '@material-ui/core/InputLabel';
 
 import "react-calendar/dist/Calendar.css";
@@ -28,8 +28,7 @@ injectGlobal`
   }
 `;
 
-
-const FlatInfo = (props) => {
+const FlateeInfo = (props) => {
     //Pass the navigation from the parent
     const {navigation} = props;
     //Deconstruct the form details
@@ -67,6 +66,7 @@ const FlatInfo = (props) => {
 
     const onSubmit = e => {
         e.preventDefault();
+        console.log(typeof props.user.preferredSuburb);
         //Check if all the inputs are valid
         const newError = findError();
         console.log(newError.errorFound);
@@ -126,13 +126,11 @@ const FlatInfo = (props) => {
         <InputLabel
             error = {isInvalid.dob}
         > D.O.B </InputLabel>
-        <DatePicker id = 'datePicker'
-        className = "calendar-display"
+        <DatePicker
         label = "D.O.B"
-        placeholder = "dob"
         onChange={setDOB}
         value={dob}
-        format = "dd/MM/yyyy"
+        dateFormat = "YYYY-MM-DDTHH:mm:ss.sssZ"
         />
         <br />
         {error.dob && <div className = "error-message">{error.dob}</div>}
@@ -150,6 +148,6 @@ const FlatInfo = (props) => {
     )
 }
 
- export default withRouter(FlatInfo);
+ export default withRouter(FlateeInfo);
 
 
