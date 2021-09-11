@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-//Not currently used - got error I don't have time to debug
-function Match(props) {
-    const [name] = useState(props.name);
-    const [age] = useState(props.age);
-    const [key] = useState(props.key);
+import React from "react";
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from "@material-ui/core";
 
-    return (
-        <div>
-            <h3>{name}</h3>
-            <h3>{age}</h3>
-            <p>{key}</p>
+const useStyles = makeStyles((theme) => ({
+
+}))
+
+export default function Match() {
+    const classes = useStyles();
+    return(
+        <div className={classes.root}>
+            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+                Match
+            </Typography>
         </div>
     );
-}
-
-export default Match;
+};
