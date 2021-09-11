@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-date-picker';
 import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
-import { Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput } from '@material-ui/core';
+import { Grid, InputLabel, MenuItem } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -11,6 +11,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
 import { Link as RouterLink } from 'react-router-dom';
 import { UpdateCurrentListing } from './AxiosHelpers';
+import NumberFormat from 'react-number-format';
 
 function UpdateListing(props) {
 
@@ -53,7 +54,9 @@ function UpdateListing(props) {
         const errorFound = {};
         const invalid = {};
 
-        if (rent <= 0) {
+        console.log(rent);
+
+        if (rent < 0.01) {
             errorFound.rent = "Rent can't be 0 or negative";
             invalid.rent = true;
 
@@ -144,15 +147,16 @@ function UpdateListing(props) {
                     <div>
                         <InputLabel
                             error={isInvalid.rent}
-                        > Rent Amount</InputLabel>
+                        > Rent Amount (in $NZ)</InputLabel>
                         <FormControl>
-                            <OutlinedInput
+                            <NumberFormat
                                 className="input"
-                                type="number"
-                                startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                                allowEmptyFormatting={true}
+                                fixedDecimalScale={true}
+                                allowNegative={false}
+                                decimalScale={2}
                                 required
-                                variant="outlined"
-                                value={rent}
+                                value={rent || 0}
                                 onChange={onChangeRent}
                             />
                             {error.rent && <div className="error-message">{error.rent}</div>}
