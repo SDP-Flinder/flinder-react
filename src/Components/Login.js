@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import axios from 'axios';
 import Button from '@mui/material/Button';
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import { Grid } from '@material-ui/core';
-import { GetListings } from './AxiosHelpers';
+import { GetUser } from './AxiosHelpers';
 
 function Login(props) {
     const [username, setUsername] = useState('');
@@ -14,16 +13,7 @@ function Login(props) {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        const account = {
-            username: username,
-            password: password
-        }
-
-        axios.post('http://localhost:4000/users/authenticate', account)
-            .then(res => {
-                props.updateUser(res.data);
-                GetListings({user: res.data, updateListings: props.updateListings});
-            })
+        GetUser({username: username, password: password, updateListings: props.updateListings, updateUser: props.updateUser});
 
         props.history.push('/account')
     }

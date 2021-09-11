@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { GetListing } from './AxiosHelpers';
 
 function ListingList(props) {
     const [listings] = useState(props.listings);
@@ -12,29 +12,15 @@ function ListingList(props) {
     console.log(listings);
 
     function selectListing(id) {
-        getListing(id);
+        GetListing({ id: id, user: user, updateListing: props.updateListing });
         props.history.push("/listings/listing");
-    }
-
-    const getListing = async (id) => {
-        const URL = 'http://localhost:4000/listings/'.concat(id);
-        const USER_TOKEN = user.token;
-
-        const config = {
-            headers: { Authorization: `Bearer ${USER_TOKEN}` }
-        };
-
-        console.log(user.id);
-
-        await axios.get(URL, config)
-            .then(res => props.updateListing(res.data));
     }
 
     const renderButtons = () => {
         return listings.map((listing) => (
             <Button
                 className="button"
-                variant="contained" 
+                variant="contained"
                 key={listing.id}
                 onClick={function () { selectListing(listing.id) }}
             >
@@ -55,7 +41,6 @@ function ListingList(props) {
             >
                 <h3>Current Listings</h3>
                 {renderButtons()}
-                {/* <div id="buttons"></div> */}
                 <br />
                 <ButtonGroup variant="contained" color="secondary">
                     <Button

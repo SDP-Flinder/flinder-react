@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import DatePicker from 'react-date-picker';
 import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
@@ -9,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
 import { Link as RouterLink } from 'react-router-dom';
-import { GetListings } from './AxiosHelpers';
+import { CreateNewListing } from './AxiosHelpers';
 
 function CreateListing(props) {
 
@@ -45,20 +44,6 @@ function CreateListing(props) {
         setUtilities(e.target.value);
     }
 
-    // const getUser = async () => {
-    //     const account = {
-    //         username: 'billymcdowd',
-    //         password: 'Datsyuk13'
-    //     }
-
-    //     axios.post('http://localhost:4000/users/authenticate', account)
-    //         .then(res => {
-    //             setUser(res.data);
-    //         })
-    // }
-
-    // useEffect(() => getUser(), []);
-
     const findError = () => {
         const errorFound = {};
         const invalid = {};
@@ -87,34 +72,17 @@ function CreateListing(props) {
             setInvalid(newError.invalid);
             console.log(isInvalid);
         } else {
-            const URL = 'http://localhost:4000/listings/add/'
-            const USER_TOKEN = user.token;
-
-            console.log(USER_TOKEN);
-
-            const config = {
-                headers: { Authorization: `Bearer ${USER_TOKEN}` }
-            };
-
-            const bodyParameters = {
+            CreateNewListing({
+                user: user,
                 flat_id: user.id,
                 description: description,
                 roomAvailable: roomAvailable,
                 rent: rent,
                 rentUnits: rentUnits,
                 utilities: utilities,
-                active: true
-            };
-
-            axios.post(
-                URL,
-                bodyParameters,
-                config
-            ).then(res => {
-                props.updateListing(res.data)
-            }).then(console.log).catch(console.log);
-
-            GetListings({ user: props.user, updateListings: props.updateListings });
+                updateListings: props.updateListings,
+                updateListing: props.updateListing
+            });
 
             props.history.push('/listings/listing');
         }

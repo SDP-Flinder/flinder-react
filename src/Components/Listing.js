@@ -3,17 +3,15 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { DeleteListing, GetListings } from './AxiosHelpers';
+import { DeleteListing, UpdateActive, GetListing } from './AxiosHelpers';
 import * as moment from 'moment'
-
-import axios from 'axios';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 function Listing(props) {
     const [listing, setListing] = useState(props.listing);
     const [date, setDate] = useState('');
-    const [active, setActive] = useState(props.listing.active);
+    const [active, setActive] = useState(props.listing.active || true);
 
     const convertDate = () => {
         if (listing.roomAvailable !== undefined) {
@@ -32,34 +30,15 @@ function Listing(props) {
 
     const handleChange = (event) => {
         setActive(event.target.checked);
+        UpdateActive({listing: listing, user: props.user, active: event.target.checked, updateListings: props.updateListings});
+        GetListing({id: listing.id, user: props.user, updateListing: props.updateListing});
         console.log(active);
     };
 
-    const updateActive = () => {
-        const URL = 'http://localhost:4000/listings/'.concat(listing.id);
-        const USER_TOKEN = props.user.token;
-
-        const config = {
-            headers: { Authorization: `Bearer ${USER_TOKEN}` }
-        };
-
-        const bodyParameters = {
-            active: active
-        };
-
-        axios.put(
-            URL,
-            bodyParameters,
-            config
-        ).then(console.log).catch(console.log);
-
-        GetListings({ user: props.user, updateListings: props.updateListings });
-    }
-
+    useEffect(() => setListing(props.listing), []);
     useEffect(() => setListing(props.listing), [props.listing]);
     useEffect(() => convertDate(), [listing]);
     useEffect(() => setActive(props.listing.active), [listing]);
-    useEffect(() => updateActive(), [active]);
 
     return (
         <div>
