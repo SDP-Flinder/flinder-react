@@ -9,6 +9,7 @@ export async function GetUser(props) {
     await axios.post('http://localhost:4000/users/authenticate', account)
         .then(res => {
             props.updateUser(res.data);
+            GetListings({user: res.data, updateListings: props.updateListings});
         })
 }
 
@@ -71,8 +72,8 @@ export async function UpdateActive(props) {
     GetListings({ user: props.user, updateListings: props.updateListings });
 }
 
-export async function UpdateListing(props) {
-    const URL = 'http://localhost:4000/listings/'.concat(props.listing.id);
+export async function UpdateCurrentListing(props) {
+    const URL = 'http://localhost:4000/listings/'.concat(props.id);
     const USER_TOKEN = props.user.token;
 
     const config = {
@@ -80,12 +81,12 @@ export async function UpdateListing(props) {
     };
 
     const bodyParameters = {
-        description: props.listing.description,
-        roomAvailable: props.listing.roomAvailable,
-        rent: props.listing.rent,
-        rentUnits: props.listing.rentUnits,
-        utilities: props.listing.utilities,
-        active: props.listing.active
+        description: props.description,
+        roomAvailable: props.roomAvailable,
+        rent: props.rent,
+        rentUnits: props.rentUnits,
+        utilities: props.utilities,
+        active: props.active
     };
 
     console.log(bodyParameters);
@@ -99,7 +100,7 @@ export async function UpdateListing(props) {
     GetListings({ user: props.user, updateListings: props.updateListings });
 }
 
-export async function CreateListing(props) {
+export async function CreateNewListing(props) {
     const URL = 'http://localhost:4000/listings/add/'
     const USER_TOKEN = props.user.token;
 
