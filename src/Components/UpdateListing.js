@@ -5,6 +5,8 @@ import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
 import { Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
@@ -25,6 +27,7 @@ function UpdateListing(props) {
     const [rent, setRent] = useState(props.listing.rent || 0);
     const [rentUnits, setRentUnits] = useState(props.listing.rentUnits || '');
     const [utilities, setUtilities] = useState(props.listing.utilities || '');
+    const [active, setActive] = useState(props.listing.active);
     const [id] = useState(props.listing.id || '');
 
     // const loadListing = async () => {
@@ -115,7 +118,8 @@ function UpdateListing(props) {
                 roomAvailable: roomAvailable,
                 rent: rent,
                 rentUnits: rentUnits,
-                utilities: utilities
+                utilities: utilities,
+                active: active
             };
 
             console.log(bodyParameters);
@@ -131,6 +135,11 @@ function UpdateListing(props) {
             props.history.push('/account');
         }
     }
+
+    const handleChange = (event) => {
+        setActive(event.target.checked);
+        console.log(active);
+    };
 
     return (
         <div>
@@ -219,6 +228,18 @@ function UpdateListing(props) {
                         />
                     </div>
                     <br />
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={active}
+                                onChange={handleChange}
+                                name="checked"
+                                color="primary"
+                            />
+                        }
+                        label="Active"
+                    />
+                    <br />
                     <ButtonGroup variant="contained" color="secondary">
                         <Button
                             className="button"
@@ -231,7 +252,7 @@ function UpdateListing(props) {
                             component={RouterLink}
                             to="/listings/"
                         >
-                            Back
+                            Cancel
                         </Button>
                     </ButtonGroup>
                 </Grid>

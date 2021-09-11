@@ -102,7 +102,8 @@ function CreateListing(props) {
                 roomAvailable: roomAvailable,
                 rent: rent,
                 rentUnits: rentUnits,
-                utilities: utilities
+                utilities: utilities,
+                active: true
             };
 
             axios.post(
