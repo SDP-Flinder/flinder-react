@@ -1,20 +1,16 @@
-// import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 // import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
-function AccountPage() {
+function AccountPage(props) {
+    const [user, setUser] = useState(props.user);
 
-    return (
-        <div>
-            <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-            >
+    const renderFlatButtons = () => {
+        if (user.role === 'flat') {
+            return (
                 <ButtonGroup variant="contained" color="secondary">
                     <Button
                         className="button"
@@ -31,6 +27,21 @@ function AccountPage() {
                         Create Listing
                     </Button>
                 </ButtonGroup>
+            );
+        }
+    }
+
+    useEffect(() => setUser(props.user), [props.user]);
+
+    return (
+        <div>
+            <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+            >
+                {renderFlatButtons()}
             </Grid>
         </div>
     );

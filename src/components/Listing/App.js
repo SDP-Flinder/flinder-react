@@ -37,13 +37,13 @@ const AppRouter = () => {
             <FlinderLogo className="logo-display" />
           </div>
           <Switch>
-          <Route
+            <Route
               render={(props) => (
                 <Login {...props} user={user} updateUser={updateUser} updateListings={updateListings} />
               )}
               path="/"
               exact={true} />
-              <Route
+            <Route
               render={(props) => (
                 <AccountPage {...props} user={user} updateListings={updateListings} />
               )}
@@ -55,19 +55,19 @@ const AppRouter = () => {
               )}
               path="/listings/add"
               exact={true} />
-              <Route
+            <Route
               render={(props) => (
                 <UpdateListing {...props} listing={listing} user={user} updateListings={updateListings} />
               )}
               path="/listings/update"
               exact={true} />
-              <Route
+            <Route
               render={(props) => (
                 <ListingList {...props} listing={listing} updateListing={updateListing} updateListings={updateListings} user={user} listings={listings} />
               )}
               path="/listings/"
               exact={true} />
-              <Route
+            <Route
               render={(props) => (
                 <Listing {...props} updateListings={updateListings} updateListing={updateListing} listing={listing} user={user} />
               )}
