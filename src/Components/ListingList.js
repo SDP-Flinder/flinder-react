@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
@@ -9,21 +9,11 @@ function ListingList(props) {
     const [listings] = useState(props.listings);
     const [user] = useState(props.user);
 
-    useEffect(() => listingList(), [props.listings]);
+    console.log(listings);
 
-    const listingList = () => {
-        listings.forEach(listing => {
-            var button = document.createElement("button");
-            button.type = 'button';
-            button.appendChild(document.createTextNode(listing.rent));
-            button.onclick = function () { selectListing(listing.id) };
-            document.getElementById("buttons").appendChild(button);
-        });
-
-        function selectListing(id) {
-            getListing(id);
-            props.history.push("/listings/listing");
-        }
+    function selectListing(id) {
+        getListing(id);
+        props.history.push("/listings/listing");
     }
 
     const getListing = async (id) => {
@@ -36,9 +26,24 @@ function ListingList(props) {
 
         console.log(user.id);
 
-        axios.get(URL, config)
+        await axios.get(URL, config)
             .then(res => props.updateListing(res.data));
     }
+
+    const renderButtons = () => {
+        return listings.map((listing) => (
+            <Button
+                className="button"
+                variant="contained" 
+                key={listing.id}
+                onClick={function () { selectListing(listing.id) }}
+            >
+                {listing.rent}
+            </Button>
+        ))
+    }
+
+    useEffect(() => renderButtons(), [props.listing]);
 
     return (
         <div>
@@ -49,8 +54,9 @@ function ListingList(props) {
                 alignItems="center"
             >
                 <h3>Current Listings</h3>
-                <div id="buttons"></div>
-                <br/>
+                {renderButtons()}
+                {/* <div id="buttons"></div> */}
+                <br />
                 <ButtonGroup variant="contained" color="secondary">
                     <Button
                         className="button"
