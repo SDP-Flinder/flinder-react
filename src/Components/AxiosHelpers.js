@@ -29,3 +29,17 @@ export function GetListings(props) {
     axios.get(URL, config)
         .then(res => props.updateListings(res.data));
 }
+
+export function DeleteListing(props) {
+    const URL = 'http://localhost:4000/listings/'.concat(props.id);
+    const USER_TOKEN = props.user.token;
+
+    const config = {
+        headers: { Authorization: `Bearer ${USER_TOKEN}` }
+    };
+
+    axios.delete(URL, config)
+        .then(res => {
+            console.log(res);
+        }).then(GetListings({user: props.user, updateListings: props.updateListings}))
+}
