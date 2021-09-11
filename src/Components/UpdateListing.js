@@ -6,6 +6,7 @@ import "react-date-picker/dist/DatePicker.css";
 import { Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
 import { Link as RouterLink } from 'react-router-dom';
 import { GetListings } from './AxiosHelpers';
@@ -83,7 +84,7 @@ function UpdateListing(props) {
             return { errorFound, invalid };
         }
 
-        return {errorFound, invalid};
+        return { errorFound, invalid };
     }
 
     const onSubmit = (e) => {
@@ -125,7 +126,7 @@ function UpdateListing(props) {
                 config
             ).then(console.log).catch(console.log);
 
-            GetListings({user: props.user, updateListings: props.updateListings});
+            GetListings({ user: props.user, updateListings: props.updateListings });
 
             props.history.push('/account');
         }
@@ -218,22 +219,21 @@ function UpdateListing(props) {
                         />
                     </div>
                     <br />
-                    <Button
-                        className="button"
-                        variant="contained"
-                        color="secondary"
-                        type="submit"
-                    >
-                        Update
-                    </Button>
-                    <Button className="button"
-                        variant="contained"
-                        color="secondary"
-                        component={RouterLink}
-                        to="/listings/"
-                    >
-                        Back
-                    </Button>
+                    <ButtonGroup variant="contained" color="secondary">
+                        <Button
+                            className="button"
+                            type="submit"
+                        >
+                            Update
+                        </Button>
+                        <Button
+                            className="button"
+                            component={RouterLink}
+                            to="/listings/"
+                        >
+                            Back
+                        </Button>
+                    </ButtonGroup>
                 </Grid>
             </form>
         </div>

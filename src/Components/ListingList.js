@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
 import Button from '@mui/material/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 function ListingList(props) {
     const [listings] = useState(props.listings);
     const [user] = useState(props.user);
 
-    useEffect(() => listingList(), []);
+    useEffect(() => listingList(), [props.listings]);
 
     const listingList = () => {
         listings.forEach(listing => {
@@ -40,22 +42,32 @@ function ListingList(props) {
 
     return (
         <div>
-            <Button component={RouterLink} to="/listings/">
-                Listings
-            </Button>
-            <Button component={RouterLink} to="/listings/add">
-                Create Listing
-            </Button>
-            <h3>Current Listings</h3>
-            <div id="buttons"></div>
-            <Button className="button"
-                variant="contained"
-                color="secondary"
-                component={RouterLink}
-                to="/account/"
+            <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
             >
-                Back
-            </Button>
+                <h3>Current Listings</h3>
+                <div id="buttons"></div>
+                <br/>
+                <ButtonGroup variant="contained" color="secondary">
+                    <Button
+                        className="button"
+                        component={RouterLink}
+                        to="/account/"
+                    >
+                        Account
+                    </Button>
+                    <Button
+                        className="button"
+                        component={RouterLink}
+                        to="/listings/add"
+                    >
+                        Create Listing
+                    </Button>
+                </ButtonGroup>
+            </Grid>
         </div>
     );
 }

@@ -1,36 +1,37 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+// import { useState, useEffect } from 'react';
+// import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
 import Button from '@mui/material/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
-function AccountPage(props) {
-    const [user] = useState(props.user);
-
-    const getListings = async () => {
-        const URL = 'http://localhost:4000/listings/flat/'.concat(user.id);
-        const USER_TOKEN = user.token;
-
-        const config = {
-            headers: { Authorization: `Bearer ${USER_TOKEN}` }
-        };
-
-        console.log(user.id);
-
-        axios.get(URL, config)
-            .then(res => props.updateListings(res.data));
-    }
-
-    // useEffect(() => getListings(), [])
-    useEffect(() => getListings(), [props.user])
+function AccountPage() {
 
     return (
         <div>
-            <Button component={RouterLink} to="/listings/">
-                Listings
-            </Button>
-            <Button component={RouterLink} to="/listings/add">
-                Create Listing
-            </Button>
+            <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+            >
+                <ButtonGroup variant="contained" color="secondary">
+                    <Button
+                        className="button"
+                        component={RouterLink}
+                        to="/listings/"
+                    >
+                        Listings
+                    </Button>
+                    <Button
+                        className="button"
+                        component={RouterLink}
+                        to="/listings/add"
+                    >
+                        Create Listing
+                    </Button>
+                </ButtonGroup>
+            </Grid>
         </div>
     );
 }
