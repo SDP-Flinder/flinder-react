@@ -4,8 +4,6 @@ import React from 'react';
 import Header from '../header';
 // import cards
 import Cards from '../cards';
-// import swipe buttons component
-import SwipeButtons from '../swipeButtons';
 
 // export and create app component
 const App = () => (
@@ -14,8 +12,6 @@ const App = () => (
     <Header />
     {/* Tinder cards */}
     <Cards />
-    {/* Swipe buttons */}
-    <SwipeButtons />
   </>
 );
 
