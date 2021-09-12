@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Typography } from "@material-ui/core";
 import { useAuth } from "../App/Authentication";
-import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -16,25 +15,30 @@ const useStyles = makeStyles((theme) => ({
       },
 }))
 
+
+
 export default function Profile() {
     const classes = useStyles();
-    const { user, isAuthed } = useAuth();
+    const { signout, isAuthed } = useAuth();
 
+    const handleLogout = (e) => {
+        e.preventDefault();
+        signout()
+    };
     return(
         <div className={classes.paper}>
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                 Profile Page
             </Typography>
+            {/* User should only be able to access this page when authorised, but just incase. Could remove check */}
             {isAuthed ? (
                 <Button
                 type="button"
-                component={RouterLink} 
-                to="/register" 
-                variant="contained" 
+                variant="contained"
                 color="primary"
-                fullWidth
                 className={classes.button}
-              > Log out </Button>
+                onClick={(e) => handleLogout(e)}
+                > Log out </Button>
             ) : ( null )}
         </div>
     );

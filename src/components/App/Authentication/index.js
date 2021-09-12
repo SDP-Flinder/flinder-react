@@ -99,17 +99,26 @@ const useProvideAuth = () => {
     })
   };
 
-  // // Handle sign out
-  // const signout = () => {
-  //   return Api.revoke();
-  // };
+  // Handle sign out
+  const signout = () => {
+    console.log(user)
+    return axiosapi.get('/users/revoke', { 
+      headers: { 'Authorization': `bearer ${getJWT()}`}
+    })
+    .then(function () {
+      localStorage.setItem('jwt', null);
+      sessionStorage.setItem('jwt', null);
+      setUser(null)
+    })
+    .catch((error) => error)
+  };
 
   // // Handle signing up
   // const signup = (data) => {
   //   return Api.register(data)
   // };
 
-  return { user, isAuthed, signin };
+  return { user, isAuthed, signin, signout };
 };
 
 export const Role = {
