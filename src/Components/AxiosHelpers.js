@@ -68,13 +68,9 @@ export async function UpdateActive(props) {
             headers: { Authorization: `Bearer ${USER_TOKEN}` }
         };
 
-        axios.put(
-            URL,
-            { active: props.active },
-            config
-        ).then(console.log).catch(console.log);
-
-        GetListings({ user: props.user, updateListings: props.updateListings });
+        axios.put(URL, { active: props.active }, config)
+            .then(GetListings({ user: props.user, updateListings: props.updateListings }))
+            .then(console.log).catch(console.log);
     }
 }
 
@@ -98,13 +94,9 @@ export async function UpdateCurrentListing(props) {
 
         console.log(bodyParameters);
 
-        axios.put(
-            URL,
-            bodyParameters,
-            config
-        ).then(console.log).catch(console.log);
-
-        GetListings({ user: props.user, updateListings: props.updateListings });
+        axios.put(URL, bodyParameters, config)
+            .then(GetListings({ user: props.user, updateListings: props.updateListings }))
+            .then(console.log).catch(console.log);
     }
 }
 
@@ -129,14 +121,10 @@ export async function CreateNewListing(props) {
             active: true
         };
 
-        axios.post(
-            URL,
-            bodyParameters,
-            config
-        ).then(res => {
-            props.updateListing(res.data)
-        }).then(console.log).catch(console.log);
-
-        GetListings({ user: props.user, updateListings: props.updateListings });
+        axios.post(URL, bodyParameters, config)
+            .then(res => {
+                props.updateListing(res.data)
+            }).then(GetListings({ user: props.user, updateListings: props.updateListings }))
+            .then(console.log).catch(console.log);
     }
 }

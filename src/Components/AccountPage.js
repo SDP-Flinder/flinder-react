@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 // import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
-import Button from '@mui/material/Button';
+import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 function AccountPage(props) {

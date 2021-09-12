@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
-import Button from '@mui/material/Button';
+import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { GetListing } from './AxiosHelpers';
 
@@ -17,6 +17,7 @@ function ListingList(props) {
     }
 
     const renderButtons = () => {
+        let count = 0;
         return listings.map((listing) => (
             <Button
                 className="button"
@@ -24,12 +25,10 @@ function ListingList(props) {
                 key={listing.id}
                 onClick={function () { selectListing(listing.id) }}
             >
-                {listing.rent}
+                {++count}
             </Button>
         ))
     }
-
-    useEffect(() => renderButtons(), [props.listing]);
 
     return (
         <div>
