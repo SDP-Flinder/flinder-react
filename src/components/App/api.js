@@ -7,6 +7,7 @@ const axiosapi = axios.create({
     baseURL : Config.Local_API_URL
 });
 
+// export const API = () => {
     /*** Authentication */
     /**
      * 
@@ -14,7 +15,7 @@ const axiosapi = axios.create({
      * @param {*} password 
      * @returns Response or Error object
      */
-    const authenticate = (username, password) => {
+     export const authenticate = (username, password) => {
         axiosapi.post('/users/authenticate', { 
             username: username, 
             password: password
@@ -31,7 +32,7 @@ const axiosapi = axios.create({
         })
     };
 
-    const getCurrentUser = (token) => {
+    export const getCurrentUser = (token) => {
         axiosapi.get('/users/current', { 
             headers: { 'Authorization': `bearer ${token}`}
         })
@@ -46,7 +47,11 @@ const axiosapi = axios.create({
                 console.log(error)
             return error;
         })
-        return null;
     };
 
-export { authenticate, getCurrentUser };
+
+//     return { 
+//         authenticate(username, password), 
+//         getCurrentUser(token) 
+//     }
+// };

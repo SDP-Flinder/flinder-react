@@ -52,9 +52,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function SignIn({ location }) {
+const Login = ({ location }) => {
   const classes = useStyles();
   const { signin, isAuthed } = useAuth();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
@@ -67,11 +68,20 @@ export default function SignIn({ location }) {
     e.preventDefault();
     signin(username, password, remember)
       .then((res) => {
+        console.log(res?.message)
         if (res?.error || res?.message) {
-          setError(res?.error || res?.message);
+          // setError(res?.error || res?.message);
+          setError('Username or password incorrect')
         }
       })
-      .catch((res) => setError(res));
+      .catch((error) => {
+        console.log(error)
+        // if (error?.message == "incorrect-username-password" ) {
+        //   setError("Username or Password Incorrect, Please try again.");
+        // } else if (error?.error || res?.message) {
+        //   setError(error?.error || res?.message);
+        // }
+      });
   };
 
   const handleCheckBoxChange = (event) => {
@@ -166,3 +176,5 @@ export default function SignIn({ location }) {
     </>
   );
 }
+
+export default Login;

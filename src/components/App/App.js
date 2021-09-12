@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ProvideAuth } from "./Authentication";
 // import Navigation from "./Navigation";
