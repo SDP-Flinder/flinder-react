@@ -12,6 +12,7 @@ const FlateeReview = (props) => {
         //Post the user data to the /users route
         try {
             const { user } = props;
+            const {profilePhoto} = props.formData;
             const userParam = {
               username: user.username,
               password: user.password,
@@ -22,6 +23,7 @@ const FlateeReview = (props) => {
               role: user.accountType.toLowerCase(),
               preferredArea: user.preferredArea,
               checklist: user.checklist,
+              photo: profilePhoto.name,
             };
             console.log(userParam)
             await axios.post('http://localhost:4000/users/register', {

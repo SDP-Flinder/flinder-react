@@ -4,6 +4,7 @@ import FlateeInfo from './FlateeSteps/FlateeInfo';
 import FlateePreferredAreas from './FlateeSteps/FlateePreferredAreas';
 import FlateeChecklist from './FlateeSteps/FlateeChecklist';
 import FlateeReview from './FlateeSteps/FlateeReview';
+import PhotoDisplay from './FlateeSteps/PhotoDisplay';
 
 const defaultData = {
     firstName: '',
@@ -21,6 +22,7 @@ const defaultData = {
             max: 3000,
         },
     },
+    profilePhoto: {},
 }
 
 const steps = [
@@ -28,6 +30,7 @@ const steps = [
     {id: "areas"},
     {id: "checklist"},
     {id: "confirmation"},
+    {id: "edit-photo"},
 ]
 
 const Flat = (props) => {
@@ -48,6 +51,8 @@ const Flat = (props) => {
             return <FlateeChecklist {...prop} user = {user} updateUser = {props.updateUser}/>
         case "confirmation": 
             return <FlateeReview {...prop} user = {user} updateUser = {props.updateUser}/>
+        case "edit-photo": 
+            return <PhotoDisplay {...prop} user = {user} updateUser = {props.updateUser}/>
     }
 
     return(
