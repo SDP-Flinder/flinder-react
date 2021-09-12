@@ -82,6 +82,19 @@ h1{
     padding: 40px;
 }
 
+.avatar {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    border: 0.5em solid rgb(0, 0, 0)
+}
+
+.display-avatar {
+    width: 300px;
+    height: 600px;
+    border-radius: 50%;
+}
+
 
 /* This is to style the input form layout
 .input-form {
