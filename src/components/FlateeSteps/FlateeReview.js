@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { withRouter } from 'react-router'
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
@@ -7,41 +7,60 @@ import axios from 'axios';
 const FlateeReview = (props) => {
     const {navigation} = props;
 
-    const handleSubmit = async () => {
+    const formData = new FormData();
+
+
+function buildFormData(formData, data, parentKey) {
+  if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+    Object.keys(data).forEach(key => {
+      buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+    });
+  } else {
+    const value = data == null ? '' : data;
+
+    formData.append(parentKey, value);
+  }
+}
+
+function jsonToFormData(data) {
+
+  buildFormData(formData, data);
+  
+  return formData;
+}
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
         //Post the user data to the /users route
         try {
             const { user } = props;
-            const {profilePhoto} = props.formData;
-            const userParam = {
-              username: user.username,
-              password: user.password,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              email: user.email,
-              dob: user.dob,
-              role: user.accountType.toLowerCase(),
-              preferredArea: user.preferredArea,
-              checklist: user.checklist,
-              photo: profilePhoto.name,
-            };
-            console.log(userParam)
-            await axios.post('http://localhost:4000/users/register', {
-              ...userParam
-            });
+
+            jsonToFormData(user)
+
+            await axios.post('http://localhost:4000/users/register', formData)
+            .then(res => console.log(res));
+
+
+            props.history.push('/sign-up/complete')
+            props.updateUser(props.formData);
+            console.log(props.user);
           } catch (error) {
             if (error.response) {
               console.log('error', error.response.data);
             }
           }
 
-        props.history.push('/sign-up/complete')
-        props.updateUser(props.formData);
-        console.log(props.user);
     }
+
+    //Update the states from the user
+    useEffect(() => {
+      console.log(props.user);
+    }, [props.user])
 
     return (
         <div>
+          <form onSubmit = {handleSubmit} encType="multipart/form-data" >
             <h6>Finally, check your information...</h6>
 
             <section>
@@ -89,7 +108,8 @@ const FlateeReview = (props) => {
             <br/>
             <Button className = "button"
             variant="contained" color="secondary"
-            onClick = {handleSubmit}>Complete</Button>
+            type = "submit">Complete</Button>
+          </form>
         </div>
     )
 }

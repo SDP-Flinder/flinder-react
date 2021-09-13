@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form';
 const FirstStep = (props) => {
   //This useState is used to store data from the API
   const [repo, setRepo] = useState([]);
+  const {user} = props;
 
   //Fetch authorised data from the API with token
   const getRepo = async () => {
@@ -58,20 +59,9 @@ const FirstStep = (props) => {
 
   const { handleSubmit } = useForm({});
 
-  //Store user information
-  const [inputUser, setUser] = useState({
-    username: '',
-    password: '',
-    email: '',
-    accountType: '',
-  });
-
   //Update the user information
   const setForm = (field, value) => {
-      setUser({
-        ...inputUser, //Pass any extra details from the users
-        [field]: value, //Add new values into the user
-      })
+      props.updateUser({[field]: value});
   }
 
   //Catch any errors
@@ -79,7 +69,7 @@ const FirstStep = (props) => {
   const findErrors = () => {
 
     //Deconstruct the user object
-    const {username, password, email, accountType} = inputUser;
+    const {username, password, email, accountType} = user;
     //This is to store new errors arising
     const foundError = {};
 
@@ -151,15 +141,13 @@ const FirstStep = (props) => {
     } else 
     {
       //For debugging
-      console.log(`This is the user info: ${inputUser.username}, which is a ${inputUser.accountType}`);
-      props.updateUser(inputUser);
-      console.log(inputUser);
+      console.log(props.user);
       //Redirect to the correct route
-      if(inputUser.accountType == 'flat'){
+      if(user.accountType == 'flat'){
         props.history.push('/sign-up/flat');
-      }else if(inputUser.accountType == 'flatee'){ 
+      }else if(user.accountType == 'flatee'){ 
         props.history.push('/sign-up/flatee');
-      }else if(inputUser.accountType ==''){
+      }else if(user.accountType ==''){
           alert('Choose one bitch!');
       }
     }
@@ -181,6 +169,8 @@ const FirstStep = (props) => {
           <TextField className = "input"
           label = "Username"
           variant="outlined"
+          name = "user.username"
+          value ={user.username}
           onChange = {e => setForm('username', e.target.value)}
           placeholder="Enter your username" 
           error = { !!error.username}
@@ -197,8 +187,8 @@ const FirstStep = (props) => {
           label="Password" 
           variant="outlined"
           type="password" 
-          name = "inputUser.password"
-          value = {inputUser.password}
+          name = "user.password"
+          value ={user.password}
           onChange = {e => setForm('password', e.target.value)}
           placeholder="Enter your password" 
           error = { !!error.password}
@@ -212,6 +202,8 @@ const FirstStep = (props) => {
           label = "Email"
           variant="outlined"  
           type="email" 
+          name = "user.email"
+          value ={user.email}
           onChange = {e => setForm('email', e.target.value)}
           placeholder="Enter your email" 
           error = { !!error.email}
@@ -226,8 +218,8 @@ const FirstStep = (props) => {
         <FormLabel component="legend">I'm looking for...</FormLabel>
         <RadioGroup
           aria-label="accountType"
-          name="inputUser.accountType"
-          value={inputUser.accountType}
+          name = "user.accountType"
+          value ={user.accountType}
           onChange = {e => setForm('accountType', e.target.value)}
         >
           <FormControlLabel value="flat" control={<Radio />} label="A Flatmate" />
@@ -241,7 +233,7 @@ const FirstStep = (props) => {
         <br />
         <Button className = "button"
         variant="contained" color="secondary" type ="submit"
-        disabled = {(!inputUser.username || !inputUser.password || !inputUser.email || !inputUser.accountType) ? true:false}>
+        disabled = {(!user.username || !user.password || !user.email || !user.accountType) ? true:false}>
           Next
         </Button>
 
