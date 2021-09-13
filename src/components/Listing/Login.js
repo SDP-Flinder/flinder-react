@@ -4,18 +4,26 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import { Grid } from '@material-ui/core';
-import { GetUser } from './AxiosHelpers';
+import axios from 'axios';
 
 //Placeholder login page for testing purposes - deeply flawed and only used as a means to pull user data from the DB
-
 function Login(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const onSubmit = (e) => {
+    //Checks user credentials against the DB then loads then into the parent user state
+    const onSubmit = async(e) => {
         e.preventDefault();
 
-        GetUser({username: username, password: password, updateUser: props.updateUser});
+        const account = {
+            username: username,
+            password: password
+        }
+    
+        await axios.post('http://localhost:4000/users/authenticate', account)
+            .then(res => {
+                props.updateUser(res.data)
+            })
 
         props.history.push('/account')
     }

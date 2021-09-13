@@ -6,26 +6,21 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import axios from 'axios';
 
 //Shows the current user all listings they have created, along with the ooption to create a new listing
-
 function ListingList(props) {
     const { user } = props;
     const [listings, setListings] = useState([]);
 
     console.log(listings);
 
-    //When a listing is selected via the buttons, fetch it's most up to date details for display on the listing page
-
+    //Passes the selected listing to the listing page for displaying
     function selectListing(id) {
         props.history.push({
             pathname: '/listings/listing',
             state: {id: id},
           });
-        // GetListing({ id: id, user: user, updateListing: props.updateListing });
-        // props.history.push("/listings/listing");
     }
 
     //Dynamically render individual buttons for each listing under the account
-
     const renderButtons = () => {
         let count = 0;
         return listings.map((listing) => (
@@ -40,6 +35,45 @@ function ListingList(props) {
         ))
     }
 
+    const renderListingsPage = () => {
+        if (user.role === 'flat') {
+            return(
+                <Grid
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                >
+                    <h3>Current Listings</h3>
+                    {renderButtons()}
+                    <br />
+                    <ButtonGroup variant="contained" color="secondary">
+                        <Button
+                            className="button"
+                            component={RouterLink}
+                            to="/account/"
+                        >
+                            Account
+                        </Button>
+                        <Button
+                            className="button"
+                            component={RouterLink}
+                            to="/listings/add"
+                        >
+                            Create Listing
+                        </Button>
+                    </ButtonGroup>
+                </Grid>
+            );
+        }
+        else {
+            return(
+                <h1>Error: Only a flat account may access this page</h1>
+            )
+        }
+    }
+
+    //Fetch all listings owned by the current user on page load
     useEffect(() => {
         async function getListings() {
             const URL = 'http://localhost:4000/listings/flat/'.concat(user.id);
@@ -60,32 +94,7 @@ function ListingList(props) {
 
     return (
         <div>
-            <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-            >
-                <h3>Current Listings</h3>
-                {renderButtons()}
-                <br />
-                <ButtonGroup variant="contained" color="secondary">
-                    <Button
-                        className="button"
-                        component={RouterLink}
-                        to="/account/"
-                    >
-                        Account
-                    </Button>
-                    <Button
-                        className="button"
-                        component={RouterLink}
-                        to="/listings/add"
-                    >
-                        Create Listing
-                    </Button>
-                </ButtonGroup>
-            </Grid>
+            {renderListingsPage()}
         </div>
     );
 }
