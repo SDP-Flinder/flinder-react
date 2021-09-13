@@ -5,16 +5,22 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { GetListing } from './AxiosHelpers';
 
+//Shows the current user all listings they have created, along with the ooption to create a new listing
+
 function ListingList(props) {
     const [listings] = useState(props.listings);
     const [user] = useState(props.user);
 
     console.log(listings);
 
+    //When a listing is selected via the buttons, fetch it's most up to date details for display on the listing page
+
     function selectListing(id) {
         GetListing({ id: id, user: user, updateListing: props.updateListing });
         props.history.push("/listings/listing");
     }
+
+    //Dynamically render individual buttons for each listing under the account
 
     const renderButtons = () => {
         let count = 0;

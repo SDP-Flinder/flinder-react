@@ -51,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Listing(props) {
     const classes = useStyles();
+
+    //Decided to try using onSubmit buttons rather than routers, with a button state to control which route is taken
+
     const [button, setButton] = useState(0);
 
     const onSubmit = (e) => {

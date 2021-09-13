@@ -6,6 +6,8 @@ import FormControl from '@material-ui/core/FormControl';
 import { Grid } from '@material-ui/core';
 import { GetUser } from './AxiosHelpers';
 
+//Placeholder login page for testing purposes - deeply flawed and only used as a means to pull user data from the DB
+
 function Login(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

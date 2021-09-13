@@ -5,6 +5,8 @@ import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
+//Placeholder account page for testing purposes
+
 function AccountPage(props) {
     const [user, setUser] = useState(props.user);
 

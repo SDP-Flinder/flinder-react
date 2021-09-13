@@ -10,6 +10,8 @@ import Listing from "./Listing";
 import Login from "./Login";
 import AccountPage from "./AccountPage";
 
+//Set up the rooutes and their required states and props to be passed in
+
 const AppRouter = () => {
   const [user, setUser] = useState({});
 
