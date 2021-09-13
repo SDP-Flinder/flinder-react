@@ -13,6 +13,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { UpdateCurrentListing } from './AxiosHelpers';
 import NumberFormat from 'react-number-format';
 
+//Form for a Flat user to update a selected listing
+
 function UpdateListing(props) {
 
     const [user] = useState(props.user);
@@ -29,6 +31,8 @@ function UpdateListing(props) {
     const [utilities, setUtilities] = useState(props.listing.utilities || '');
     const [active, setActive] = useState(props.listing.active);
     const [id] = useState(props.listing.id || '');
+
+    //Form change helper methods
 
     const onChangeDescription = (e) => {
         setDescription(e.target.value);
@@ -50,6 +54,8 @@ function UpdateListing(props) {
         setUtilities(e.target.value);
     }
 
+    //Method to check if an error is detected on form submit - rent can't be $0
+
     const findError = () => {
         const errorFound = {};
         const invalid = {};
@@ -65,6 +71,8 @@ function UpdateListing(props) {
 
         return { errorFound, invalid };
     }
+
+    //Form submit method - first checks for errors with the rent field, then passes relevant user and form info into the axios helper method to update the listing in the DB
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -98,10 +106,14 @@ function UpdateListing(props) {
         }
     }
 
+    //Event handler for the active switch - the owner accoount is able to toggle whether the listing is available or not directly from the listing page, without having to oopen the update listing page
+
     const handleChange = (event) => {
         setActive(event.target.checked);
         console.log(active);
     };
+
+    //Render the form fields
 
     return (
         <div>

@@ -11,6 +11,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { CreateNewListing } from './AxiosHelpers';
 import NumberFormat from 'react-number-format';
 
+//Form for a Flat user to create a new listing under their Flat account
+
 function CreateListing(props) {
 
     const [user] = useState(props.user);
@@ -24,6 +26,8 @@ function CreateListing(props) {
     const [rent, setRent] = useState(0);
     const [rentUnits, setRentUnits] = useState("");
     const [utilities, setUtilities] = useState("");
+
+    //Form change helper methods
 
     const onChangeDescription = (e) => {
         setDescription(e.target.value);
@@ -45,6 +49,8 @@ function CreateListing(props) {
         setUtilities(e.target.value);
     }
 
+    //Method to check if an error is detected on form submit - rent can't be $0
+
     const findError = () => {
         const errorFound = {};
         const invalid = {};
@@ -60,6 +66,8 @@ function CreateListing(props) {
 
         return { errorFound, invalid };
     }
+
+    //Form submit method - first checks for errors with the rent field, then passes relevant user and form info into the axios helper method to create a new listing in the DB
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -90,6 +98,8 @@ function CreateListing(props) {
             props.history.push('/listings/listing');
         }
     }
+
+    //Render the form fields
 
     return (
         <div>
