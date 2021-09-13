@@ -20,6 +20,7 @@ const FlatAddress = (props) => {
     
     return (
         <form onSubmit = {onSubmit}>
+        <br />
         <h6>Next, please provide you flat's address...</h6>
          <TextField
             id="outlined-basic"
