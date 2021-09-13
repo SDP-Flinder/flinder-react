@@ -4,11 +4,12 @@ import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { GetListing, GetListings } from './AxiosHelpers';
+import axios from 'axios';
 
 //Shows the current user all listings they have created, along with the ooption to create a new listing
 
 function ListingList(props) {
-    const {user} = props;
+    const { user } = props;
     const [listings, setListings] = useState([]);
 
     console.log(listings);
@@ -36,7 +37,23 @@ function ListingList(props) {
         ))
     }
 
-    useEffect(() => GetListings({user: user}).then(res => setListings(res)), []);
+    useEffect(() => {
+        async function getListings() {
+            const URL = 'http://localhost:4000/listings/flat/'.concat(user.id);
+            const USER_TOKEN = user.token;
+
+            const config = {
+                headers: { Authorization: `Bearer ${USER_TOKEN}` }
+            };
+
+            const listings = await axios.get(URL, config);
+
+            setListings(listings.data);
+        }
+        if (user.role === 'flat') {
+            getListings();
+        }
+    }, [user])
 
     return (
         <div>
