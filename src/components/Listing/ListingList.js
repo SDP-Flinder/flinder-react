@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { GetListing } from './AxiosHelpers';
+import { GetListing, GetListings } from './AxiosHelpers';
 
 //Shows the current user all listings they have created, along with the ooption to create a new listing
 
 function ListingList(props) {
-    const [listings] = useState(props.listings);
-    const [user] = useState(props.user);
+    const {user} = props;
+    const [listings, setListings] = useState([]);
 
     console.log(listings);
 
@@ -35,6 +35,8 @@ function ListingList(props) {
             </Button>
         ))
     }
+
+    useEffect(() => GetListings({user: user}).then(res => setListings(res)), []);
 
     return (
         <div>

@@ -33,6 +33,8 @@ export async function GetListing(props) {
 
 //Get alll listings belonging to the specified user and store in the app state
 export async function GetListings(props) {
+    let listings = []; 
+
     if (props.user.role === 'flat') {
         const URL = 'http://localhost:4000/listings/flat/'.concat(props.user.id);
         const USER_TOKEN = props.user.token;
@@ -44,8 +46,10 @@ export async function GetListings(props) {
         console.log(props.user.id);
 
         await axios.get(URL, config)
-            .then(res => props.updateListings(res.data));
+            .then(res => listings = res.data);
     }
+
+    return listings;
 }
 
 //Delete the specified listing from the database
