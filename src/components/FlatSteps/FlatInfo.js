@@ -35,7 +35,8 @@ const FlatInfo = (props) => {
     //Deconstruct the form details
     const {firstName, lastName} = props.formData;
     
-    const [dob, setDOB] = useState(new Date());
+    const [dob, setDOB] = useState(props.user.dob ? props.user.dob : new Date());
+
     //Declare errors
     const [error, setError] = useState({});
     const [isInvalid, setInvalid] = useState({});
