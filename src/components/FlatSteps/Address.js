@@ -212,6 +212,7 @@ const Address = (props) => {
             : <div> <br/> </div>}
 
             <Button variant="contained" className = "button"
+            disabled = {!addressName ? true : false}
             color = "secondary"
             type = "submit">
             Next
