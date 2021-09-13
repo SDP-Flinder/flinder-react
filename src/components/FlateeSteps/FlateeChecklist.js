@@ -7,9 +7,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { useState } from 'react';
-import PhotoUpload from './PhotoUpload';
-
-
 
 let prices = [];
 
@@ -21,10 +18,8 @@ const populatePriceRange = () => {
 
 
 const FlateeChecklist = (props) => {
-    const {checklist, profilePhoto} = props.formData;
+    const {checklist} = props.formData;
     const {navigation} = props;
-
-    const [photo, setPhoto] = useState('');
     populatePriceRange();
     
     const [error, setError] = useState({});
@@ -55,29 +50,20 @@ const FlateeChecklist = (props) => {
             setInvalid(newError.invalid);
             console.log(isInvalid);
         }else{
-            console.log(photo);
             props.updateUser({['checklist']: checklist});
 
-            //THIS IS WHERE THE ERROR HAPPENS
-            props.updateUser({['photo']: photo});
             console.log(props.user);
 
-            //Temporary fix: but not really good
-            profilePhoto.avatar = photo;
-            props.setForm;
             console.log(props.formData)
             navigation.next();
         }
     }
 
-    //They said to put it here to update state but it didn't work tbh
     useEffect(() => console.log(props.user), [props.user]);
 
     return (
         <div>
             <form onSubmit = {onSubmit} encType="multipart/form-data">
-                <PhotoUpload {...props} photo = {photo} setPhoto = {setPhoto}/>
-
                 <br />
                 <h6>Are you....</h6>
                 <FormGroup component="fieldset">
