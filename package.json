@@ -1,5 +1,5 @@
 {
-  "name": "flinder",
+  "name": "flinder-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,10 +8,15 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.21.4",
+    "moment": "^2.29.1",
     "react": "^16.13.1",
+    "react-calendar": "^3.4.0",
     "react-countup": "^4.3.3",
+    "react-date-picker": "^8.3.2",
     "react-dom": "^16.13.1",
     "react-icons": "^3.10.0",
+    "react-number-format": "^4.7.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-table": "^7.1.0",

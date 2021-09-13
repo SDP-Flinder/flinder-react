@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useState } from 'react';
-import './styles.css';
-import { ReactComponent as FlinderLogo } from './Components/assets/logo.svg';
-import CreateListing from "./Components/CreateListing";
-import UpdateListing from "./Components/UpdateListing";
-import ListingList from "./Components/ListingList";
-import Listing from "./Components/Listing";
-import Login from "./Components/Login";
-import AccountPage from "./Components/AccountPage";
+import '../../style/global.css';
+import { ReactComponent as FlinderLogo } from '../../assets/logo.svg';
+import CreateListing from "./CreateListing";
+import UpdateListing from "./UpdateListing";
+import ListingList from "./ListingList";
+import Listing from "./Listing";
+import Login from "./Login";
+import AccountPage from "./AccountPage";
 
 const AppRouter = () => {
   const [user, setUser] = useState({});
