@@ -21,7 +21,6 @@ const defaultData = {
             max: 3000,
         },
     },
-    profilePhoto: {},
 }
 
 const steps = [

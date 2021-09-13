@@ -95,6 +95,13 @@ h1{
     border-radius: 50%;
 }
 
+.display-flat {
+    width: 250px;
+    height: 400px;
+    border-radius: 5%;
+    border: 0.25em solid rgb(0, 0, 0)
+}
+
 
 /* This is to style the input form layout
 .input-form {
