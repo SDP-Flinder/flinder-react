@@ -8,8 +8,8 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
 import { Link as RouterLink } from 'react-router-dom';
-import { CreateNewListing } from './AxiosHelpers';
 import NumberFormat from 'react-number-format';
+import axios from 'axios';
 
 //Form for a Flat user to create a new listing under their Flat account
 
@@ -83,19 +83,34 @@ function CreateListing(props) {
             setInvalid(newError.invalid);
             console.log(isInvalid);
         } else {
-            CreateNewListing({
-                user: user,
+            createNewListing();
+            props.history.push('/listings');
+        }
+    }
+
+    const createNewListing = async () => {
+        if (props.user.role === 'flat') {
+            const URL = 'http://localhost:4000/listings/add/'
+            const USER_TOKEN = props.user.token;
+
+            console.log(USER_TOKEN);
+
+            const config = {
+                headers: { Authorization: `Bearer ${USER_TOKEN}` }
+            };
+
+            const bodyParameters = {
                 flat_id: user.id,
                 description: description,
                 roomAvailable: roomAvailable,
                 rent: rent,
                 rentUnits: rentUnits,
                 utilities: utilities,
-                updateListings: props.updateListings,
-                updateListing: props.updateListing
-            });
+                active: true
+            };
 
-            props.history.push('/listings/listing');
+            axios.post(URL, bodyParameters, config)
+                .then(console.log).catch(console.log);
         }
     }
 
