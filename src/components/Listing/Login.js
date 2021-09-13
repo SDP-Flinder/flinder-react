@@ -15,7 +15,7 @@ function Login(props) {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        GetUser({username: username, password: password, updateListings: props.updateListings, updateUser: props.updateUser});
+        GetUser({username: username, password: password, updateUser: props.updateUser});
 
         props.history.push('/account')
     }

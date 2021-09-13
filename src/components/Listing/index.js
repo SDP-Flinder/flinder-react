@@ -57,6 +57,8 @@ export default function Listing(props) {
     const [button, setButton] = useState(0);
 
     const onSubmit = (e) => {
+        e.preventDefault();
+
         if (button === 1) {
             props.history.push('/listing/list');
         }
