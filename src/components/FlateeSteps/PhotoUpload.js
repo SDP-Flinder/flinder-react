@@ -22,9 +22,11 @@ const PhotoUpload = (props) => {
 
     return (
         <div>
-                <h6>Choose a profile photo</h6>
+                {props.user.role == 'flatee'? <h6>Choose a profile photo</h6> :
+                <h6>What does your flat looks like?</h6>}
+                
                 {photo != '' &&  <img alt="Avatar"
-                className = "avatar"
+                className = {props.user.role == 'flatee' ? "avatar" : "display-flat"}
                 onClick = {console.log('click')}
                 src={photoDisplay} />}
 
