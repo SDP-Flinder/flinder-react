@@ -63,7 +63,7 @@ const FlateeChecklist = (props) => {
             console.log(props.user);
 
             //Temporary fix: but not really good
-            profilePhoto.name = photo;
+            profilePhoto.avatar = photo;
             props.setForm;
             console.log(props.formData)
             navigation.next();
@@ -75,7 +75,7 @@ const FlateeChecklist = (props) => {
 
     return (
         <div>
-            <form onSubmit = {onSubmit}>
+            <form onSubmit = {onSubmit} encType="multipart/form-data">
                 <PhotoUpload {...props} photo = {photo} setPhoto = {setPhoto}/>
 
                 <br />
