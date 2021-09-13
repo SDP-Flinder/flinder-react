@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-date-picker';
 import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
@@ -9,28 +9,29 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
-import { Link as RouterLink } from 'react-router-dom';
-import { UpdateCurrentListing } from './AxiosHelpers';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
+import axios from 'axios';
 
 //Form for a Flat user to update a selected listing
 
 function UpdateListing(props) {
 
     const [user] = useState(props.user);
+    const [listing, setListing] = useState([]);
     const currentDate = new Date();
+    const location = useLocation();
+    const id = location.state.id;
 
     const [error, setError] = useState({});
     const [isInvalid, setInvalid] = useState({});
 
-    const [flat_id] = useState(props.listing.flat_id || '');
-    const [description, setDescription] = useState(props.listing.description || '');
-    const [roomAvailable, setRoomAvailable] = useState(new Date(props.listing.roomAvailable) || new Date());
-    const [rent, setRent] = useState(props.listing.rent || 0);
-    const [rentUnits, setRentUnits] = useState(props.listing.rentUnits || '');
-    const [utilities, setUtilities] = useState(props.listing.utilities || '');
-    const [active, setActive] = useState(props.listing.active);
-    const [id] = useState(props.listing.id || '');
+    const [description, setDescription] = useState('');
+    const [roomAvailable, setRoomAvailable] = useState(new Date());
+    const [rent, setRent] = useState(0);
+    const [rentUnits, setRentUnits] = useState('');
+    const [utilities, setUtilities] = useState('');
+    const [active, setActive] = useState(true);
 
     //Form change helper methods
 
@@ -88,21 +89,33 @@ function UpdateListing(props) {
             setInvalid(newError.invalid);
             console.log(isInvalid);
         } else {
+            updateCurrentListing();
+            props.history.push('/listings');
+        }
+    }
 
-            UpdateCurrentListing({
-                user: user,
-                id: id,
-                flat_id: flat_id,
+    const updateCurrentListing = async () => {
+        if (user.role === 'flat') {
+            const URL = 'http://localhost:4000/listings/'.concat(id);
+            const USER_TOKEN = user.token;
+
+            const config = {
+                headers: { Authorization: `Bearer ${USER_TOKEN}` }
+            };
+
+            const bodyParameters = {
                 description: description,
                 roomAvailable: roomAvailable,
                 rent: rent,
                 rentUnits: rentUnits,
                 utilities: utilities,
-                active: active,
-                updateListings: props.updateListings
-            });
+                active: active
+            };
 
-            props.history.push('/account');
+            console.log(bodyParameters);
+
+            axios.put(URL, bodyParameters, config)
+                .then(console.log).catch(console.log);
         }
     }
 
@@ -112,6 +125,34 @@ function UpdateListing(props) {
         setActive(event.target.checked);
         console.log(active);
     };
+
+    useEffect(() => {
+        async function getListing() {
+            const URL = 'http://localhost:4000/listings/'.concat(id);
+            const USER_TOKEN = props.user.token;
+
+            console.log('location state is ' + id)
+
+            const config = {
+                headers: { Authorization: `Bearer ${USER_TOKEN}` }
+            };
+
+            const listing = await axios.get(URL, config)
+
+            setListing(listing.data);
+        }
+        getListing();
+    }, [props.user, id])
+
+    useEffect(() => {
+        if (listing.id !== undefined) {
+            setDescription(listing.description);
+            setRoomAvailable(listing.roomAvailable);
+            setRent(listing.rent);
+            setRentUnits(listing.rentUnits);
+            setUtilities(listing.utilities);
+        }
+    }, [listing])
 
     //Render the form fields
 

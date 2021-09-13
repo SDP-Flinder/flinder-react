@@ -19,18 +19,6 @@ const AppRouter = () => {
     setUser((prevUser) => ({ ...prevUser, ...data }));
   };
 
-  const [listing, setListing] = useState({});
-
-  const updateListing = (listing) => {
-    setListing(listing);
-  };
-
-  const [listings, setListings] = useState({});
-
-  const updateListings = (listings) => {
-    setListings(listings);
-  };
-
   return (
     <BrowserRouter>
       <div className="backround">
@@ -41,37 +29,37 @@ const AppRouter = () => {
           <Switch>
             <Route
               render={(props) => (
-                <Login {...props} user={user} updateUser={updateUser} updateListings={updateListings} />
+                <Login {...props} user={user} updateUser={updateUser} />
               )}
               path="/"
               exact={true} />
             <Route
               render={(props) => (
-                <AccountPage {...props} user={user} updateListings={updateListings} />
+                <AccountPage {...props} user={user} />
               )}
               path="/account"
               exact={true} />
             <Route
               render={(props) => (
-                <CreateListing {...props} user={user} updateListing={updateListing} updateListings={updateListings} />
+                <CreateListing {...props} user={user} />
               )}
               path="/listings/add"
               exact={true} />
             <Route
               render={(props) => (
-                <UpdateListing {...props} listing={listing} user={user} updateListings={updateListings} />
+                <UpdateListing {...props} user={user} />
               )}
               path="/listings/update"
               exact={true} />
             <Route
               render={(props) => (
-                <ListingList {...props} listing={listing} updateListing={updateListing} updateListings={updateListings} user={user} listings={listings} />
+                <ListingList {...props} user={user} />
               )}
               path="/listings/"
               exact={true} />
             <Route
               render={(props) => (
-                <Listing {...props} updateListings={updateListings} updateListing={updateListing} listing={listing} user={user} />
+                <Listing {...props} user={user} />
               )}
               path="/listings/listing"
               exact={true} />

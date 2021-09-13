@@ -3,7 +3,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { GetListing, GetListings } from './AxiosHelpers';
 import axios from 'axios';
 
 //Shows the current user all listings they have created, along with the ooption to create a new listing
@@ -17,8 +16,12 @@ function ListingList(props) {
     //When a listing is selected via the buttons, fetch it's most up to date details for display on the listing page
 
     function selectListing(id) {
-        GetListing({ id: id, user: user, updateListing: props.updateListing });
-        props.history.push("/listings/listing");
+        props.history.push({
+            pathname: '/listings/listing',
+            state: {id: id},
+          });
+        // GetListing({ id: id, user: user, updateListing: props.updateListing });
+        // props.history.push("/listings/listing");
     }
 
     //Dynamically render individual buttons for each listing under the account
