@@ -13,9 +13,14 @@ import Trial from './components/Trial';
 
 
 //This contains all the routes to the '/signup/'
-const AppRouter = () => {
+const App = () => {
   //Best place to store data entered by user is here
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    username: '',
+    password: '',
+    email: '',
+    accountType: '',
+  });
 
   const updateUser = (data) => {
     setUser((prevUser) => ({ ...prevUser, ...data }));
@@ -81,4 +86,4 @@ const AppRouter = () => {
   )
 };
 
-export default AppRouter;
+export default App;

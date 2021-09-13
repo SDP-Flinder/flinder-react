@@ -4,9 +4,10 @@
 
 
 import {render, screen} from '@testing-library/react';
+import '@testing-library/jest-dom'
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import FlatAddress from '../components/FlatSteps/FlatAddress';
+import FlatAddress from '../../components/FlatSteps/FlatAddress';
 
 test("Next button is disabled when a textfield is empty", async () => {
     const formData = {
@@ -16,7 +17,7 @@ test("Next button is disabled when a textfield is empty", async () => {
     }
     render(<FlatAddress formData = {formData} />);
 
-    expect(await screen.findByRole('button', {name: /next/i})).toBeDisabled;
+    expect(await screen.findByRole('button', {name: /next/i})).toBeDisabled();
 })
 
 test("Next button is enabled when user enter all the information", async () => {
@@ -27,9 +28,10 @@ test("Next button is enabled when user enter all the information", async () => {
     }
     render(<FlatAddress formData = {formData} />);
 
-    userEvent.type(screen.getByPlaceholderText(/Number of flatmates/i), "3");
+    userEvent.type(screen.getByRole('input', {
+        name: /existingFlatmates/i
+    }), "3");
     userEvent.type(screen.getByPlaceholderText(/brief description/i), "This is a house...");
-
-
-    expect(await screen.findByRole('button', {name: /next/i})).toBeEnabled;
+    //screen.debug();
+    expect(await screen.findByRole('button', {name: /next/i})).toBeEnabled();
 })
