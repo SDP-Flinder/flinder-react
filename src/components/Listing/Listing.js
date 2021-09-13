@@ -9,7 +9,6 @@ import Switch from '@material-ui/core/Switch';
 import axios from 'axios';
 
 //Component to display the details of the selected listing for the owner flat account
-
 function Listing(props) {
     const location = useLocation();
     const id = location.state.id;
@@ -17,9 +16,9 @@ function Listing(props) {
     const [date, setDate] = useState('');
     const [active, setActive] = useState(true);
     const [button, setButton] = useState(0);
+    const [owner, setOwner] = useState(false);
 
     //Submit button for deleting the selected listing
-
     const onSubmit = (e) => {
         e.preventDefault();
 
@@ -48,7 +47,6 @@ function Listing(props) {
     }
 
     //Event handler for the active switch - the owner accoount is able to toggle whether the listing is available or not directly from the listing page, without having to oopen the update listing page
-
     const handleChange = (event) => {
         setActive(event.target.checked);
         const activeStatus = event.target.checked;
@@ -69,8 +67,50 @@ function Listing(props) {
             .then(console.log).catch(console.log);
     }
 
-    //Methods to ensure current displayed information is accurate
+    //Check if the user viewing is the owner of the listing before rendering the update/delete buttons
+    const renderButtons = () => {
+        if (owner) {
+            return (
+                <ButtonGroup variant="contained" color="secondary">
+                    <Button
+                        onClick={() => (setButton(1))}
+                        className="button"
+                        type="submit"
+                    >
+                        Update Listing
+                    </Button>
+                    <Button
+                        onClick={() => (setButton(2))}
+                        className="button"
+                        type="submit"
+                    >
+                        Delete Listing
+                    </Button>
+                </ButtonGroup>
 
+            )
+        }
+    }
+
+    //Check if the user viewing is the owner of the listing before rendering the active switch
+    const renderSwitch = () => {
+        if (owner) {
+            return (
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={active}
+                            onChange={handleChange}
+                            name="checked"
+                            color="primary"
+                        />}
+                    label="Active"
+                />
+            );
+        }
+    }
+
+    //Methods to ensure current displayed information is accurate
     useEffect(() => {
         async function getListing() {
             const URL = 'http://localhost:4000/listings/'.concat(id);
@@ -99,6 +139,12 @@ function Listing(props) {
             setDate(moment(d).format("DD/MM/YYYY"));
         }
     }, [listing])
+
+    useEffect(() => {
+        if (listing.flat_id === props.user.id) {
+            setOwner(true)
+        }
+    }, [props.user, listing])
 
     return (
         <div>
@@ -134,32 +180,8 @@ function Listing(props) {
                         <h1>Rent: ${listing.rent} {listing.rentUnits}</h1>
                         <h1>Available: {date}</h1>
                     </div>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={active}
-                                onChange={handleChange}
-                                name="checked"
-                                color="primary"
-                            />}
-                        label="Active"
-                    />
-                    <ButtonGroup variant="contained" color="secondary">
-                        <Button
-                            onClick={() => (setButton(1))}
-                            className="button"
-                            type="submit"
-                        >
-                            Update Listing
-                        </Button>
-                        <Button
-                            onClick={() => (setButton(2))}
-                            className="button"
-                            type="submit"
-                        >
-                            Delete Listing
-                        </Button>
-                    </ButtonGroup>
+                    {renderSwitch()}
+                    {renderButtons()}
                 </Grid>
             </form>
         </div>
