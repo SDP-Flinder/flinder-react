@@ -63,7 +63,7 @@ const FlateeChecklist = (props) => {
 
     return (
         <div>
-            <form onSubmit = {onSubmit} encType="multipart/form-data">
+            <form onSubmit = {onSubmit}>
                 <br />
                 <h6>Are you....</h6>
                 <FormGroup component="fieldset">
