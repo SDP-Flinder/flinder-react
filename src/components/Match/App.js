@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 // import { useState } from 'react';
-import './styles.css';
-import {ReactComponent as FlinderLogo} from './Components/assets/logo.svg';
-import MatchList from "./Components/MatchList";
+import '../../style/global.css';
+import {ReactComponent as FlinderLogo} from '../../assets/logo.svg';
+import MatchList from "./MatchList";
 
 
 //This contains all the routes to the '/signup/'
