@@ -11,12 +11,13 @@ const PhotoUpload = (props) => {
 
     const handleChange = e => {
         setPhotoDisplay(URL.createObjectURL(e.target.files[0]));
-        console.log(e.target.files[0].name)
-        setPhoto(e.target.files[0].name);
+        console.log(e.target.files[0])
+        setPhoto(e.target.files[0]);
     }
 
     useEffect(() => {
         console.log('photo name is...', photo)
+        setPhoto(photo);
     }, [photo])
 
     return (
