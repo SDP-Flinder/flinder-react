@@ -12,29 +12,29 @@ import IconButton from '@material-ui/core/IconButton';
 import TinderCard from 'react-tinder-card';
 // import base url
 import {
-  instance, matchesForFlatee, unmatch, addFlat,
+  instance, matchesForFlat, unmatch, addFlatee,
 } from '../../utils/requests';
 // import styles
 import './styles.css';
 
 // create cards component and export it
-const Cards = () => {
+const CardsForFlat = () => {
   const alreadyRemoved = [];
   // eslint-disable-next-line no-unused-vars
   const [people, setPeople] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const childRefs = useMemo(() => Array(people.length).fill(0).map((i) => React.createRef()));
 
-  const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzA2NTY1MDgsImV4cCI6MTYzMTI2MTMwOH0._dmov_6spFJQ7b9v3gmSYrH6YCoxzrNJcGJmewLXdhg';
+  const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzE0MDY5NjcsImV4cCI6MTYzMjAxMTc2N30.yIXQXoZ2eTIh-OAsIZwTY1DhDkwk5ozL7-V_N_WG4YM';
   const AuthString = 'Bearer '.concat(USER_TOKEN);
-  const flateeUser = 'daniel'; // make a default //how to retrieve current user's username? assuming flatee pov
+  const flatUser = 'billymcdowd'; // make a default //how to retrieve current user's username? assuming flatee pov
   let matchparam = {
-    flateeUsername: flateeUser,
+    flatUsername: flatUser,
   };
   // use effect
   useEffect(() => {
     async function fetchData() {
-      await instance.get(matchesForFlatee, {
+      await instance.get(matchesForFlat, {
         params: matchparam,
         headers: { Authorization: AuthString },
       })
@@ -49,13 +49,13 @@ const Cards = () => {
   // swipe function
   const swiped = (direction, targetName) => {
     matchparam = {
-      flateeUsername: flateeUser,
-      flatUsername: targetName,
+      flateeUsername: targetName,
+      flatUsername: flatUser,
     };
     if (_isEqual(direction, 'left')) {
       instance.put(unmatch, matchparam, { headers: { Authorization: AuthString } });
     } else if (_isEqual(direction, 'right')) {
-      instance.post(addFlat, matchparam, { headers: { Authorization: AuthString } });
+      instance.post(addFlatee, matchparam, { headers: { Authorization: AuthString } });
     }
     alreadyRemoved.push(targetName);
   };
@@ -86,7 +86,7 @@ const Cards = () => {
               key={person.name}
               flickOnSwipe
               preventSwipe={['up', 'down']}
-              currentFlatCard={person.username}
+              currentFlateeCard={person.username}
               onSwipe={(dir) => swiped(dir, person.username)}
             >
               {/* Background image */}
@@ -122,4 +122,4 @@ const Cards = () => {
   );
 };
 
-export default Cards;
+export default CardsForFlat;

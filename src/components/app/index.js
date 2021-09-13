@@ -3,7 +3,11 @@ import React from 'react';
 // import Header component
 import Header from '../header';
 // import cards
-import Cards from '../cards';
+import CardsForFlatee from '../cardsForFlatee';
+
+// note: CardsForFlat and CardsForFlatee now exists. need to wait for Finn's login to store
+// variables for token, username, role.
+// if role == 'flat', show CardsForFlat; if role == 'flatee', show CardsForFlatee
 
 // export and create app component
 const App = () => (
@@ -11,7 +15,7 @@ const App = () => (
     {/* Header */}
     <Header />
     {/* Tinder cards */}
-    <Cards />
+    <CardsForFlatee />
   </>
 );
 
