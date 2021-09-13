@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-//All the axios server commands for the listings feature are stored here
-
-//Authenticate and populate the current user state
 export async function GetUser(props) {
     const account = {
         username: props.username,
@@ -16,7 +13,6 @@ export async function GetUser(props) {
         })
 }
 
-//Retrieve the specified listing from the database to be stored in the app state
 export async function GetListing(props) {
     const URL = 'http://localhost:4000/listings/'.concat(props.id);
     const USER_TOKEN = props.user.token;
@@ -31,7 +27,6 @@ export async function GetListing(props) {
         .then(res => props.updateListing(res.data));
 }
 
-//Get alll listings belonging to the specified user and store in the app state
 export async function GetListings(props) {
     if (props.user.role === 'flat') {
         const URL = 'http://localhost:4000/listings/flat/'.concat(props.user.id);
@@ -48,7 +43,6 @@ export async function GetListings(props) {
     }
 }
 
-//Delete the specified listing from the database
 export async function DeleteListing(props) {
     if (props.user.role === 'flat') {
         const URL = 'http://localhost:4000/listings/'.concat(props.id);
@@ -65,7 +59,6 @@ export async function DeleteListing(props) {
     }
 }
 
-//Update the state if the specified listing to be active or inactive
 export async function UpdateActive(props) {
     if (props.user.role === 'flat') {
         const URL = 'http://localhost:4000/listings/'.concat(props.listing.id);
@@ -81,7 +74,6 @@ export async function UpdateActive(props) {
     }
 }
 
-//Update the details of the specified listing in the database
 export async function UpdateCurrentListing(props) {
     if (props.user.role === 'flat') {
         const URL = 'http://localhost:4000/listings/'.concat(props.id);
@@ -108,7 +100,6 @@ export async function UpdateCurrentListing(props) {
     }
 }
 
-//Create a new listing, setting the flat_id as the current user's ObjectID
 export async function CreateNewListing(props) {
     if (props.user.role === 'flat') {
         const URL = 'http://localhost:4000/listings/add/'
