@@ -4,27 +4,6 @@ import Button from '@material-ui/core/Button';
 import moment from 'moment';
 import axios from 'axios';
 
-const formData = new FormData();
-
-function buildFormData(formData, data, parentKey) {
-  if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
-    Object.keys(data).forEach(key => {
-      buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
-    });
-  } else {
-    const value = data == null ? '' : data;
-
-    formData.append(parentKey, value);
-  }
-}
-
-function jsonToFormData(data) {
-
-  buildFormData(formData, data);
-  
-  return formData;
-}
-
 const FlatInfo = (props) => {
     const {navigation} = props;
 
@@ -33,10 +12,22 @@ const FlatInfo = (props) => {
         //Post the user data to the /users route
         try {
             const { user } = props;
-
-            jsonToFormData(user)
-
-            await axios.post('http://localhost:4000/users/register', formData);
+            const userParam = {
+              username: user.username,
+              password: user.password,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              dob: user.dob,
+              role: user.accountType.toLowerCase(),
+              address: user.address,
+              description: user.description,
+              existingFlatmates: user.existingFlatmates,
+            };
+            console.log(userParam)
+            await axios.post('http://localhost:4000/users/register', {
+              ...userParam
+            });
           } catch (error) {
             if (error.response) {
               console.log('error', error.response.data);
