@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import FirstStep from './components/FirstStep';
 // import FlinderHeader from './components/FlinderHeader';
-import Flatee from './components/Flatee';
-import Flat from './components/Flat';
+import Flatee from './components/FlateeSteps/Flatee';
+import Flat from './components/FlatSteps/Flat'
 import Confirmation from './components/Confirmation';
 import { useState } from 'react';
 import './styles.css';
