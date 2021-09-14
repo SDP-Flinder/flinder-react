@@ -1,9 +1,9 @@
-import { FaBars } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 import { NavLink as Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Nav = styled.nav`
-  background: #000;
+  background: #97D2FB;
   height: 80px;
   display: flex;
   justify-content: space-between;
@@ -26,7 +26,7 @@ export const NavLink = styled(Link)`
   }
 `;
 
-export const Bars = styled(FaBars)`
+export const Bars = styled(FaUser)`
   display: none;
   color: #fff;
   @media screen and (max-width: 768px) {
@@ -61,14 +61,14 @@ export const NavBtn = styled.nav`
   /* Third Nav */
   /* justify-content: flex-end;
   width: 100vw; */
-  @media screen and (max-width: 768px) {
+  /*@media screen and (max-width: 768px) {
     display: none;
-  }
+  }*/
 `;
 
 export const NavBtnLink = styled(Link)`
   border-radius: 4px;
-  background: #256ce1;
+  background: #585191;
   padding: 10px 22px;
   color: #fff;
   outline: none;
