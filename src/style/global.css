@@ -1,6 +1,10 @@
 /*
 COLOUR PALLETTE
-
+--queen-pink: #eccbd9ff;
+--purple-navy: #585191ff;
+--light-sky-blue: #97d2fbff;
+--dark-slate-blue: #4f359bff;
+--turquoise-blue: #80ffe8ff;
 */
 
 /* Global Styles
@@ -103,6 +107,110 @@ COLOUR PALLETTE
 .icon-display{
     width: 80px;
     height: 80px;
+}
+
+.profile-layout{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.profile-tab{
+    min-height: 500px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    border-right: 0.5px solid rgb(221, 221, 221);
+}
+
+.navigation-bar{
+    position: fixed;
+    bottom: 0%;
+}
+
+.profile-display {
+    float: right;
+    overflow-y: scroll;
+    width: 370px;
+    max-height: 500px;
+    margin: 40px auto;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid black; */
+    border-radius: 2%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.avt-display{
+    width: 370px;
+    height: 400px;
+    border-radius: 2%;
+}
+
+.habits{
+    display: flex;
+}
+
+.habit{
+    margin-left: 10px;
+    margin-right: 10px;
+    color: rgb(196, 196, 196);
+    padding: 5px;
+    border: 0.1em solid rgb(209, 209, 209);
+    border-radius: 30px;
+}
+
+.base-line{
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(209, 209, 209);
+}
+
+.profile-edit{
+        position: absolute; 
+        bottom: 3%;
+        right: 24.5%;
+        width: 100px; 
+        height: 30px;
+        margin: 30px;
+        border: 0px solid #d6d6d6;  
+        color: white;
+        background-image: linear-gradient(to right, #585191, #97D2FB);
+        border-radius: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.profile-edit:hover{
+        transition: all 0.4s ease-in-out;
+        background-image: linear-gradient(to right, #585191, #80ffe8ff);
+}
+
+.main-tab{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-image: linear-gradient(to right, #585191, #97D2FB);
+}
+
+.avt-icon{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.account-btn{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 50px;
+    background-color: transparent;
+    border: none;
+}
+
+.account-btn:hover{
+    transition: all 0.2 ease-in-out;
+    background-color: rgb(65, 58, 117);
 }
 
 /* This is to style the input form layout
