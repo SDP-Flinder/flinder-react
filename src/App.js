@@ -9,6 +9,10 @@ import { useState } from 'react';
 import './styles.css';
 import {ReactComponent as FlinderLogo} from './components/assets/logo.svg';
 import WelcomePage from './components/WelcomePage';
+import Navigationbar from './components/NavBar/NavigationBar';
+import Home from './components/NavBar/Home';
+import Profile from './components/NavBar/Profile';
+
 
 
 //This contains all the routes to the '/signup/'
@@ -19,10 +23,15 @@ const App = () => {
     password: '',
     email: '',
     accountType: '',
+    loggedIn: false,
   });
 
   const updateUser = (data) => {
     setUser((prevUser) => ({ ...prevUser, ...data }));
+  };
+
+  const resetUser = () => {
+    setUser({});
   };
 
   // const resetUser = () => {
@@ -31,49 +40,79 @@ const App = () => {
 
   return(
   <BrowserRouter>
-  <div className = "backround">
-    <div className = "layout">
-      <div>
-      <FlinderLogo className = "logo-display"/>
-      </div>
+    <div>
+      <Navigationbar user = {user} resetUser = {resetUser}/>
       <Switch>
         <Route   
           render={(props) => (
-          <WelcomePage {...props} user={user} updateUser={updateUser} />
+            <div className = "layout">
+            <FlinderLogo className = "logo-display"/>
+            <WelcomePage {...props} user={user} updateUser={updateUser} />
+            </div>
           )}
          path="/" 
          exact={true}/>
 
         <Route   
           render={(props) => (
-          <FirstStep {...props} user={user} updateUser={updateUser} />
+            <div className = "layout">
+            <FlinderLogo className = "logo-display"/>
+            <FirstStep {...props} user={user} updateUser={updateUser} />
+            </div>
           )}
          path="/sign-up/" 
          exact={true}/>
 
         <Route   
           render={(props) => (
-          <Flat {...props} user={user} updateUser={updateUser} />
+            <div className = "layout">
+            <FlinderLogo className = "logo-display"/>
+            <Flat {...props} user={user} updateUser={updateUser} />
+            </div>
           )}
          path="/sign-up/flat" 
          exact={true}/>
          
          <Route   
           render={(props) => (
-          <Flatee {...props} user={user} updateUser={updateUser} />
+            <div className = "layout">
+            <FlinderLogo className = "logo-display"/>
+            <Flatee {...props} user={user} updateUser={updateUser} />
+            </div>
           )}
          path="/sign-up/flatee" 
          exact={true}/>
 
         <Route   
           render={(props) => (
-          <Confirmation {...props} user={user} updateUser={updateUser} />
+            <div className = "layout">
+            <FlinderLogo className = "logo-display"/>
+            <Confirmation {...props} user={user} updateUser={updateUser} />
+            </div>
           )}
          path="/sign-up/complete" 
          exact={true}/>
+
+        <Route   
+          render={(props) => (
+            <div>
+            <Home {...props} user={user} updateUser={updateUser} />
+            </div>
+          )}
+         path="/home" 
+         exact={true}/>
+
+        <Route   
+          render={(props) => (
+            <div>
+            <Profile {...props} user={user} updateUser={updateUser} />
+            </div>
+          )}
+         path="/profile" 
+         exact={true}/>
+         
       </Switch>
     </div>
-  </div>
   </BrowserRouter>
   )
 };
