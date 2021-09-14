@@ -21,10 +21,13 @@ const Navigationbar = (props) => {
         <NavLink to='/home'>
             <FlinderLogo className = "icon-display"/>
         </NavLink>
-        <Bars />
 
         {props.user.loggedIn &&
         <NavMenu>
+          <NavLink to='/profile'>
+          <Bars />
+          </NavLink> 
+          
           <NavLink to='/home' activeStyle>
             Home
           </NavLink>
