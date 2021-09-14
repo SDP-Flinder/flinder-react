@@ -1,3 +1,5 @@
+/* THIS IS NOT AN OFFICIAL COMPONENT, THIS IS JUST A MOCK COMPONENT*/
+
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { useTwitterBtnStyles } from '@mui-treasury/styles/button/twitter';

@@ -2,9 +2,12 @@ import React from 'react'
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import { MenuItem } from '@material-ui/core';
 import Input from '@material-ui/core/Input';
+import { IconButton } from '@material-ui/core';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -85,17 +88,18 @@ const FlateePreferredAreas = (props) => {
 
       <br/>
       <br/>
-
-        <Button variant="contained" className = "button"
+      <div className = "display-button">
+      <IconButton variant="contained" className = "button"
+          onClick = {() => navigation.previous()}>
+          <ArrowBackIosIcon/>
+      </IconButton>
+      <IconButton variant="contained" className = "button"
+          disabled = {!preferredArea.city ? true: false}
           color = "secondary"
           type = "submit">
-          Next
-        </Button>
-
-        <Button variant="contained" className = "button"
-          onClick = {() => navigation.previous()}>
-          Back
-        </Button>
+          <ArrowForwardIosIcon/>
+      </IconButton>
+      </div>
         </form>
     )
 }

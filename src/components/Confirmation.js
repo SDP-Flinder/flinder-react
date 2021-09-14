@@ -1,4 +1,5 @@
-//Confirms that the user signs up successfully
+/* THIS IS NOT AN OFFICIAL COMPONENT, THIS IS JUST A MOCK COMPONENT*/
+
 import React from 'react'
 
 const Confirmation = (props) => {

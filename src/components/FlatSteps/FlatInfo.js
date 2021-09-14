@@ -1,10 +1,13 @@
 import React from 'react'
 import { withRouter } from 'react-router'
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import InputLabel from '@material-ui/core/InputLabel';
+import { IconButton } from '@material-ui/core';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
@@ -139,14 +142,21 @@ const FlatInfo = (props) => {
         {error.dob && <div className = "error-message">{error.dob}</div>}
         <br />
 
-        <Button className = "button" 
+        <div className = "display-button">
+        <IconButton className = "button" variant="contained"
+        onClick = {() => props.history.push('/sign-up/')}>
+          <ArrowBackIosIcon/>
+        </IconButton>
+        <IconButton className = "button" 
          variant="contained"
         color = "secondary" 
         disabled = {!firstName || !lastName ?true:false}
-        type="submit">Next</Button>
-        <br />
-        <Button className = "button" variant="contained"
-        onClick = {() => props.history.push('/sign-up/')}>Back</Button>
+        type="submit">
+          <ArrowForwardIosIcon/>
+        </IconButton>
+
+
+        </div>
         </form>
     )
 }
