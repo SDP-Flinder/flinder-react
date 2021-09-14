@@ -2,11 +2,14 @@ import React, { useEffect } from 'react'
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { useState } from 'react';
+import { IconButton } from '@material-ui/core';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 let prices = [];
 
@@ -142,17 +145,22 @@ const FlateeChecklist = (props) => {
                 <br />
                 {error.price && <div className = "error-message">{error.price}</div>}
                 <br/>
-                <Button variant="contained" className = "button"
+
+                <div className = "display-button">
+
+                <IconButton variant="contained" className = "button"
+                onClick = {() => navigation.previous()}>
+                    <ArrowBackIosIcon/>
+                </IconButton>
+
+                <IconButton variant="contained" className = "button"
                 disabled = {(checklist.priceRange.min == 0 || checklist.priceRange.max == 3000)? true : false}
                 color = "secondary"
                 type = "submit">
-                Next
-                </Button>
+                    <ArrowForwardIosIcon/>
+                </IconButton>
 
-                <Button variant="contained" className = "button"
-                onClick = {() => navigation.previous()}>
-                Back
-                </Button>
+                </div>
                 
             </form>
         </div>
