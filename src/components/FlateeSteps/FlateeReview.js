@@ -3,6 +3,8 @@ import { withRouter } from 'react-router'
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
 import axios from 'axios';
+import CreateIcon from '@material-ui/icons/Create';
+import { IconButton } from '@material-ui/core';
 
 const FlateeReview = (props) => {
     const {navigation} = props;
@@ -43,49 +45,58 @@ const FlateeReview = (props) => {
             <h6>Finally, check your information...</h6>
 
             <section>
+            <div className ="display-button">
             <h4>Account information</h4>
-            <p>Username: {props.user.username} </p>
-            <p>Email: {props.user.email} </p>
-            <Button variant="outlined" size="medium" color="primary"
+            <IconButton variant="outlined" size="medium" color="primary"
             onClick = {()  =>{
                 props.history.push("/sign-up/");
             }
-            }>Edit</Button>
+            }>
+              <CreateIcon/>
+            </IconButton>
+            </div>
+            <p>Username: {props.user.username} </p>
+            <p>Email: {props.user.email} </p>
             </section>
 
-            <p>_________________________________________________________</p>
 
             <section>
-
+            <div className ="display-button">
             <h4>Personal Information</h4>
-            <p>Full name: {props.user.firstName} {props.user.lastName} </p>
-            <p>D.O.B: {moment(props.user.dob).format('DD/MM/YYYY')}</p>
-
-            <Button variant="outlined" size="medium" color="primary"
+            <IconButton variant="outlined" size="medium" color="primary"
             onClick = {()  =>{
                 navigation.go("information");
             }
-            }>Edit</Button>
+            }>
+              <CreateIcon/>
+            </IconButton>
+            </div>
+            <p>Full name: {props.user.firstName} {props.user.lastName} </p>
+            <p>D.O.B: {moment(props.user.dob).format('DD/MM/YYYY')}</p>
+
             
             </section>
-            <p>_________________________________________________________</p>
+
             <section>
+            <div className ="display-button">
             <h4>Extra information</h4>
+            <IconButton variant="outlined" size="medium" color="primary"
+            onClick = {()  =>{
+                navigation.go("checklist");
+            }
+            }>
+              <CreateIcon/>
+            </IconButton>
+            </div>
             {props.user.checklist.isSmoker && <p>- Smoker</p>}
             {props.user.checklist.hasPet && <p>- Has Pet</p>}
             {props.user.checklist.isCouple && <p>- Lookng for a couple's room</p>}
 
             <p>- Looking for price range from ${props.user.checklist.priceRange.min} to ${props.user.checklist.priceRange.max}
             </p>
-
-            <Button variant="outlined" size="medium" color="primary"
-            onClick = {()  =>{
-                navigation.go("checklist");
-            }
-            }>Edit</Button>
             </section>
             <br/>
-            <Button className = "button"
+            <Button className = "single-button"
             variant="contained" color="secondary"
             onClick = {handleSubmit}>Complete</Button>
         </div>
