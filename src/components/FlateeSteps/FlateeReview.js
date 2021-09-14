@@ -30,7 +30,8 @@ const FlateeReview = (props) => {
               ...userParam
             });
 
-            props.history.push('/sign-up/complete')
+            props.updateUser({['loggedIn']:true});
+            props.history.push('/profile');
             props.updateUser(props.formData);
             console.log(props.user);
           } catch (error) {
