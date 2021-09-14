@@ -13,29 +13,7 @@ const FlatInfo = (props) => {
     const handleSubmit = async () => {
 
         //Post the user data to the /users route
-        try {
-            const { user } = props;
-            const userParam = {
-              username: user.username,
-              password: user.password,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              email: user.email,
-              dob: user.dob,
-              role: user.accountType.toLowerCase(),
-              address: user.address,
-              description: user.description,
-              existingFlatmates: user.existingFlatmates,
-            };
-            console.log(userParam)
-            await axios.post('http://localhost:4000/users/register', {
-              ...userParam
-            });
-          } catch (error) {
-            if (error.response) {
-              console.log('error', error.response.data);
-            }
-          }
+        await postUserToDatabase(props);
 
         props.history.push('/sign-up/complete')
         props.updateUser(props.formData);
@@ -113,4 +91,30 @@ const FlatInfo = (props) => {
 }
 
 export default withRouter(FlatInfo)
+
+async function postUserToDatabase(props) {
+  try {
+    const { user } = props;
+    const userParam = {
+      username: user.username,
+      password: user.password,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      dob: user.dob,
+      role: user.accountType.toLowerCase(),
+      address: user.address,
+      description: user.description,
+      existingFlatmates: user.existingFlatmates,
+    };
+    console.log(userParam);
+    await axios.post('http://localhost:4000/users/register', {
+      ...userParam
+    });
+  } catch (error) {
+    if (error.response) {
+      console.log('error', error.response.data);
+    }
+  }
+}
 
