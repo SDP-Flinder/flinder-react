@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -11,6 +11,8 @@ import { useForm } from 'react-hook-form';
  import { RadioGroup } from '@material-ui/core';
  import { FormControlLabel } from '@material-ui/core';
  import { Grid } from '@material-ui/core';
+ import { IconButton } from '@material-ui/core';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 
 const FirstStep = (props) => {
@@ -231,11 +233,11 @@ const FirstStep = (props) => {
         <br />
         <br />
         <br />
-        <Button className = "button"
+        <IconButton className = "button"
         variant="contained" color="secondary" type ="submit"
         disabled = {(!user.username || !user.password || !user.email || !user.accountType) ? true:false}>
-          Next
-        </Button>
+          <ArrowForwardIosIcon/>
+        </IconButton>
 
         </Grid>
       </form>
