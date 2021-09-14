@@ -14,8 +14,8 @@ const FlatInfo = (props) => {
 
         //Post the user data to the /users route
         await postUserToDatabase(props);
-
-        props.history.push('/sign-up/complete')
+        props.updateUser({['loggedIn']:true});
+        props.history.push('/profile');
         props.updateUser(props.formData);
         console.log(props.user);
     }

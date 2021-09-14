@@ -54,6 +54,7 @@ const FlateeChecklist = (props) => {
             console.log(isInvalid);
         }else{
             props.updateUser({['checklist']: checklist});
+            props.updateUser({['signedIn']:true});
 
             console.log(props.user);
 
