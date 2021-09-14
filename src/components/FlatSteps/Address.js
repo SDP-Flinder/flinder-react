@@ -3,10 +3,14 @@ import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng,
 } from 'react-places-autocomplete';
-import { Button } from '@material-ui/core';
+//import { Button } from '@material-ui/core';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
+import ClearIcon from '@material-ui/icons/Clear';
+import { IconButton } from '@material-ui/core';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const Address = (props) => {
     const {navigation} = props;
@@ -158,7 +162,8 @@ const Address = (props) => {
         <div>
             <form onSubmit = {onSubmit}>
             <h6> What's your address? </h6>
-            <PlacesAutocomplete
+            <div className = "display-address-search">
+            <PlacesAutocomplete 
             className = "autocomplete-dropdown-container "
             name = "address"
             value={addressName}
@@ -198,7 +203,11 @@ const Address = (props) => {
             </div>
             )}
             </PlacesAutocomplete>
-            <Button onClick = {clearAddress}>Clear</Button>
+            {addressName && 
+            <IconButton onClick = {clearAddress}>
+                <ClearIcon/>
+            </IconButton>}
+            </div>
 
             {addressName ?
             <div className = "address-information">
@@ -211,16 +220,18 @@ const Address = (props) => {
             </div>
             : <div> <br/> </div>}
 
-            <Button variant="contained" className = "button"
+            <div className = "display-button">
+            <IconButton variant="contained" className = "button"
+            onClick = {() => navigation.previous()}>
+                <ArrowBackIosIcon/>
+            </IconButton>
+            <IconButton variant="contained" className = "button"
             disabled = {!addressName ? true : false}
             color = "secondary"
             type = "submit">
-            Next
-            </Button>
-            <Button variant="contained" className = "button"
-            onClick = {() => navigation.previous()}>
-            Back
-            </Button>
+                <ArrowForwardIosIcon/>
+            </IconButton>
+            </div>
             </form>
         </div>
     )
