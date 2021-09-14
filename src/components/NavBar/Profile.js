@@ -1,10 +1,12 @@
 import React from 'react'
+import ProfileDisplay from './ProfileDisplay';
+import ProfileTabs from './ProfileTabs';
 
 const Profile = (props) => {
-    const {user} = props;
     return (
-        <div>
-            <h6>username: {user.username}</h6>
+        <div className = "profile-layout">
+            <ProfileTabs />
+            <ProfileDisplay user = {props.user} />
         </div>
     )
 }
