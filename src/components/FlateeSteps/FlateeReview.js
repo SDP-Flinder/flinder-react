@@ -13,24 +13,7 @@ const FlateeReview = (props) => {
 
         //Post the user data to the /users route
         try {
-            const { user } = props;
-            const userParam = {
-              username: user.username,
-              password: user.password,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              email: user.email,
-              dob: user.dob,
-              role: user.accountType.toLowerCase(),
-              preferredArea: user.preferredArea,
-              checklist: user.checklist,
-            };
-            console.log(userParam)
-            await axios.post('http://localhost:4000/users/register', {
-              ...userParam
-            });
-
-            props.updateUser({['loggedIn']:true});
+            await postUser(props);
             props.history.push('/profile');
             props.updateUser(props.formData);
             console.log(props.user);
@@ -105,3 +88,24 @@ const FlateeReview = (props) => {
 }
 
 export default withRouter(FlateeReview)
+async function postUser(props) {
+  const { user } = props;
+  const userParam = {
+    username: user.username,
+    password: user.password,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    dob: user.dob,
+    role: user.accountType.toLowerCase(),
+    preferredArea: user.preferredArea,
+    checklist: user.checklist,
+  };
+  console.log(userParam);
+  await axios.post('http://localhost:4000/users/register', {
+    ...userParam
+  });
+
+  props.updateUser({ ['loggedIn']: true });
+}
+

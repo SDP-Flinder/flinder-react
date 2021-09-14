@@ -1,6 +1,5 @@
 import React from 'react'
 import { withRouter } from 'react-router'
-// import Button from '@material-ui/core/Button';
 import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import DatePicker from 'react-date-picker';
@@ -42,30 +41,7 @@ const FlateeInfo = (props) => {
     const [error, setError] = useState({});
     const [isInvalid, setInvalid] = useState({});
 
-    const findError = () => {
-      const errorFound = {};
-      const invalid = {};
-
-      if(!firstName.match(/^[a-zA-Z]+$/)){
-        errorFound.firstName = "First name should contain letters only.";
-        invalid.firstName = true;
-      }
-
-      if(!lastName.match(/^[a-zA-Z]+$/)){
-        errorFound.lastName = "Last name should contain letters only.";
-        invalid.lastName = true;
-      }
-
-      if(dob.getFullYear() < 1921){
-        errorFound.dob = "Too old";
-        invalid.dob = true;
-      } else if (dob.getFullYear() > 2007){
-        errorFound.dob = "This app is for 15+";
-        invalid.dob = true;
-      }
-      
-      return {errorFound, invalid};
-    }
+    const findError = checkError(firstName, lastName, dob)
 
     const onSubmit = e => {
         e.preventDefault();
@@ -158,4 +134,31 @@ const FlateeInfo = (props) => {
 
  export default withRouter(FlateeInfo);
 
+
+function checkError(firstName, lastName, dob) {
+  return () => {
+    const errorFound = {};
+    const invalid = {};
+
+    if (!firstName.match(/^[a-zA-Z]+$/)) {
+      errorFound.firstName = "First name should contain letters only.";
+      invalid.firstName = true;
+    }
+
+    if (!lastName.match(/^[a-zA-Z]+$/)) {
+      errorFound.lastName = "Last name should contain letters only.";
+      invalid.lastName = true;
+    }
+
+    if (dob.getFullYear() < 1921) {
+      errorFound.dob = "Too old";
+      invalid.dob = true;
+    } else if (dob.getFullYear() > 2007) {
+      errorFound.dob = "This app is for 15+";
+      invalid.dob = true;
+    }
+
+    return { errorFound, invalid };
+  };
+}
 

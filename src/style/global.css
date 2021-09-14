@@ -29,7 +29,7 @@ COLOUR PALLETTE
     width: 350px;
     height: fit-content;
     padding: 10px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 0.3em;
 }
 
@@ -245,6 +245,21 @@ COLOUR PALLETTE
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     padding: 10px;
+}
+
+.btn{
+    width: 330px; 
+    height: 30px;
+    margin: 30px;
+    border: 0px solid #d6d6d6;  
+    color: white;
+    background-image: linear-gradient(to right, #585191, #97D2FB);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    @media screen and(min-height: 500px){
+        display: none;
+    }
 }
 /* This is to style the input form layout
 .input-form {
