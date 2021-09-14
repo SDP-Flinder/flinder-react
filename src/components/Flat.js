@@ -8,7 +8,6 @@ import Address from './FlatSteps/Address';
 const defaultData = {
     firstName: '',
     lastName: '',
-    birthday: new Date(),
     address: {
         street: '',
         suburb: '',
