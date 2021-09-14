@@ -28,9 +28,17 @@
   font-size: 2rem;
 }
 
-.card-content h1{
-  color: white !important;
+.card .card-content {
+  position: absolute;
+  right: 0;
+  margin: 3rem;
+  color: rgb(42, 51, 53) !important;
+  font-size: 1rem;
+  stroke: black;
+  background: rgba(204, 204, 204, 0.5);
+  border-radius: 2rem;
 }
+
 .see-more-button {
   color: white !important;
 }

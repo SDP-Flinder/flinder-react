@@ -1,10 +1,10 @@
 .card {
   position: relative;
   background-color: white !important;
-  width: 50rem;
-  padding: 2rem;
+  width: 100rem;
+  padding: 1rem;
   max-width: 85vw;
-  height: 60vh;
+  height: 65vh;
   box-shadow: 0px 1.8rem 5.3rem 0px rgba(0, 0, 0, 0.3);
   border-radius: 2rem;
   background-size: cover;
@@ -13,7 +13,7 @@
 .cards__cardContainer {
   display: flex;
   justify-content: center;
-  margin-top: 10vh;
+  margin-top: 5vh;
 }
 
 .swipe {
@@ -24,8 +24,23 @@
   position: absolute;
   bottom: 0;
   margin: 1rem;
-  color: rgba(22, 2, 2, 0.411);
+  color: white !important;
   font-size: 2rem;
+}
+
+.card .card-content {
+  position: absolute;
+  right: 0;
+  margin: 3rem;
+  color: rgb(224, 234, 236) !important;
+  font-size: 1rem;
+  stroke: black;
+  background: rgba(204, 204, 204, 0.5);
+  border-radius: 2rem;
+}
+
+.see-more-button {
+  color: white !important;
 }
 
 /*styles for swipe buttons component*/
