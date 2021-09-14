@@ -1,59 +1,26 @@
 import React from 'react';
-//import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
- import axios from 'axios';
- import { useEffect } from 'react';
- import FormControl from '@material-ui/core/FormControl';
- import { FormLabel } from '@material-ui/core';
- import { Radio } from '@material-ui/core';
- import { RadioGroup } from '@material-ui/core';
- import { FormControlLabel } from '@material-ui/core';
- import { Grid } from '@material-ui/core';
- import { IconButton } from '@material-ui/core';
+import axios from 'axios';
+import FormControl from '@material-ui/core/FormControl';
+import { FormLabel, Radio, RadioGroup, FormControlLabel, Grid, IconButton } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 
 const FirstStep = (props) => {
   //This useState is used to store data from the API
   const [repo, setRepo] = useState([]);
+
+  //Get the user props from the parent component
   const {user} = props;
 
   //Fetch authorised data from the API with token
   const getRepo = async () => {
     //Retrive the token
-    let token = '';
+    let token = await FetchToken();
 
-    const account = {
-        username: 'admin',
-        password: 'admin'
-    }
-    
-    await axios.post('http://localhost:4000/users/authenticate', account)
-    .then(res => {
-        token = res.data.token;
-    })
-
-
-    const URL = 'http://localhost:4000/users/'
-    const USER_TOKEN = token;
-    const AuthString = 'Bearer '.concat(USER_TOKEN); 
-  
-    //Using .get to retrieve data 
-    await axios.get(URL, { headers: { Authorization: AuthString } })
-    .then(response => {
-      //Display for debugging
-       console.log(response.data);
-       //Store data in a local variable
-       const myRepo = response.data;
-       //Updata the state
-       setRepo(myRepo);
-    })
-    .catch((error) => {
-      //Display error
-       console.log('error ' + error);
-    });
+    await FetchUserData(token, setRepo);
   }
 
   //Set the data in the local state
@@ -74,41 +41,17 @@ const FirstStep = (props) => {
     const {username, password, email, accountType} = user;
     //This is to store new errors arising
     const foundError = {};
-
-    //Username constraints
-    if(!username || username === ''){                     //Blank username
-      foundError.username = 'Username cannot be blank';
-    }else if(!username.match(/^[a-zA-Z0-9]+$/)){          //Username with special characters
-      foundError.username = 'Username should not contain special characters.'
-    }else if(username.length < 6){                        //Username too short
-      foundError.username = 'Username should have at least 6 characters.'
-    } 
-    
+    //Fetch user from the database
     const userExist = checkUser(username,email);
 
-    if(userExist.username == 'username'){
-      foundError.username = 'Username already exists'
-    }
+    //Username constraints
+    usernameCheck(username, foundError, userExist);
     
-    if(userExist.email == 'email'){
-      foundError.email = 'Email already exists'
-    }
+    //Email constraints
+    emailCheck(email, foundError, userExist);
     
     //Password constraints
-    if(!password || password === ''){                   //Blank password
-      foundError.password = 'Password cannot be empty';
-    } else if(password.length < 6){                    //Password too short
-      foundError.password = 'Password must be more than 6 characters';
-    }else if(password.includes(' ')){                 //Password has a whitespace
-      foundError.password = 'Password must not contain a whitespace';
-    }
-
-    //Email constraints
-    if(!email || email === ''){                       //Blank email
-      foundError.email = 'Email cannot be empty';
-    }else if(!email.match(/^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/)){ 
-      foundError.email = 'Please enter a valid email address';
-    }
+    passwordCheck(password, foundError);
 
     if(!accountType || accountType == ''){
       foundError.accountType = 'Choose one';
@@ -246,3 +189,76 @@ const FirstStep = (props) => {
 };
 
 export default FirstStep;
+
+function emailCheck(email, foundError, userExist) {
+  if (!email || email === '') { //Blank email
+    foundError.email = 'Email cannot be empty';
+  } else if (!email.match(/^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/)) {
+    foundError.email = 'Please enter a valid email address';
+  }
+
+  if (userExist.email == 'email') {
+    foundError.email = 'Email already exists';
+  }
+}
+
+function passwordCheck(password, foundError) {
+  if (!password || password === '') { //Blank password
+    foundError.password = 'Password cannot be empty';
+  } else if (password.length < 6) { //Password too short
+    foundError.password = 'Password must be more than 6 characters';
+  } else if (password.includes(' ')) { //Password has a whitespace
+    foundError.password = 'Password must not contain a whitespace';
+  }
+}
+
+function usernameCheck(username, foundError, userExist) {
+  if (!username || username === '') { //Blank username
+    foundError.username = 'Username cannot be blank';
+  } else if (!username.match(/^[a-zA-Z0-9]+$/)) { //Username with special characters
+    foundError.username = 'Username should not contain special characters.';
+  } else if (username.length < 6) { //Username too short
+    foundError.username = 'Username should have at least 6 characters.';
+  }
+
+  if (userExist.username == 'username') {
+    foundError.username = 'Username already exists';
+  }
+}
+
+async function FetchUserData(token, setRepo) {
+  const URL = 'http://localhost:4000/users/';
+  const USER_TOKEN = token;
+  const AuthString = 'Bearer '.concat(USER_TOKEN);
+
+  //Using .get to retrieve data 
+  await axios.get(URL, { headers: { Authorization: AuthString } })
+    .then(response => {
+      //Display for debugging
+      console.log(response.data);
+      //Store data in a local variable
+      const myRepo = response.data;
+      //Updata the state
+      setRepo(myRepo);
+    })
+    .catch((error) => {
+      //Display error
+      console.log('error ' + error);
+    });
+}
+
+async function FetchToken() {
+  let token = '';
+
+  const account = {
+    username: 'admin',
+    password: 'admin'
+  };
+
+  await axios.post('http://localhost:4000/users/authenticate', account)
+    .then(res => {
+      token = res.data.token;
+    });
+  return token;
+}
+
