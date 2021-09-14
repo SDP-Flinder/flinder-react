@@ -9,7 +9,6 @@ import { useState } from 'react';
 import './styles.css';
 import {ReactComponent as FlinderLogo} from './components/assets/logo.svg';
 import WelcomePage from './components/WelcomePage';
-import Trial from './components/Trial';
 
 
 //This contains all the routes to the '/signup/'
@@ -71,13 +70,6 @@ const App = () => {
           <Confirmation {...props} user={user} updateUser={updateUser} />
           )}
          path="/sign-up/complete" 
-         exact={true}/>
-
-        <Route   
-          render={(props) => (
-          <Trial {...props} user={user} updateUser={updateUser} />
-          )}
-         path="/trial" 
          exact={true}/>
       </Switch>
     </div>
