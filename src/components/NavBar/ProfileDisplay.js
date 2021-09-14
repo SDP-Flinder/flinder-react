@@ -13,9 +13,9 @@ const ProfileDisplay = () => {
             <p className = "habit">Smoker</p>
             <p className = "habit">Has Pet</p>
             </div>
-            <br/>
-            <br/>
-            <button className = "profile-edit"> Edit</button>
+            <div className = "button-wrapper">
+             <button className = "profile-edit"> Edit</button>
+            </div>
         </div>
     )
 }

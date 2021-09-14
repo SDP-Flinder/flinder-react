@@ -129,6 +129,7 @@ COLOUR PALLETTE
 }
 
 .profile-display {
+    position: relative;
     float: right;
     overflow-y: scroll;
     width: 370px;
@@ -167,10 +168,16 @@ COLOUR PALLETTE
     border-bottom: 1px solid rgb(209, 209, 209);
 }
 
+.button-wrapper{
+    position: absolute;
+    right: 60%;
+    width: 50px;
+}
+
 .profile-edit{
-        position: absolute; 
+        /* position: fixed; 
         bottom: 3%;
-        right: 24.5%;
+        right: 25%; */
         width: 100px; 
         height: 30px;
         margin: 30px;
@@ -179,6 +186,10 @@ COLOUR PALLETTE
         background-image: linear-gradient(to right, #585191, #97D2FB);
         border-radius: 20px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+        @media screen and(min-height: 500px){
+            display: none;
+        }
 }
 
 .profile-edit:hover{
@@ -213,6 +224,28 @@ COLOUR PALLETTE
     background-color: rgb(65, 58, 117);
 }
 
+.profile-info{
+    display: flex;
+    padding-right: 10px;
+    align-items:baseline;
+    justify-content: space-between;
+}
+
+.listing{
+    display: flex;
+    width: 80px;
+    height: 120px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: 2px dashed black;
+}
+
+.display-listing{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+}
 /* This is to style the input form layout
 .input-form {
 
