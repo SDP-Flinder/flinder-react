@@ -44,30 +44,7 @@ const FlatInfo = (props) => {
     const [error, setError] = useState({});
     const [isInvalid, setInvalid] = useState({});
 
-    const findError = () => {
-      const errorFound = {};
-      const invalid = {};
-
-      if(!firstName.match(/^[a-zA-Z]+$/)){
-        errorFound.firstName = "First name should contain letters only.";
-        invalid.firstName = true;
-      }
-
-      if(!lastName.match(/^[a-zA-Z]+$/)){
-        errorFound.lastName = "Last name should contain letters only.";
-        invalid.lastName = true;
-      }
-
-      if(dob.getFullYear() < 1921){
-        errorFound.dob = "Too old";
-        invalid.dob = true;
-      } else if (dob.getFullYear() > 2007){
-        errorFound.dob = "This app is for 15+";
-        invalid.dob = true;
-      }
-      
-      return {errorFound, invalid};
-    }
+    const findError = findNewError(firstName, lastName, dob)
 
     const onSubmit = e => {
         e.preventDefault();
@@ -163,4 +140,31 @@ const FlatInfo = (props) => {
 
  export default withRouter(FlatInfo);
 
+
+function findNewError(firstName, lastName, dob) {
+  return () => {
+    const errorFound = {};
+    const invalid = {};
+
+    if (!firstName.match(/^[a-zA-Z]+$/)) {
+      errorFound.firstName = "First name should contain letters only.";
+      invalid.firstName = true;
+    }
+
+    if (!lastName.match(/^[a-zA-Z]+$/)) {
+      errorFound.lastName = "Last name should contain letters only.";
+      invalid.lastName = true;
+    }
+
+    if (dob.getFullYear() < 1921) {
+      errorFound.dob = "Too old";
+      invalid.dob = true;
+    } else if (dob.getFullYear() > 2007) {
+      errorFound.dob = "This app is for 15+";
+      invalid.dob = true;
+    }
+
+    return { errorFound, invalid };
+  };
+}
 
