@@ -242,7 +242,7 @@ function assignComponentAddress(results, currentAddress) {
             currentAddress.suburb = results[0].address_components[k].long_name;
         }
 
-        if (results[0].address_components[k].types[0] == 'locality') {
+        if (results[0].address_components[k].types[0] == 'administrative_area_level_1') {
             currentAddress.city = results[0].address_components[k].long_name;
         }
 
