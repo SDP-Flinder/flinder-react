@@ -8,6 +8,9 @@ import Input from '@material-ui/core/Input';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { useState } from 'react';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -36,18 +39,23 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 const FlateePreferredAreas = (props) => {
     //Pass properties
     const {navigation} = props;
-    const {preferredArea} = props.formData;
+    const [city, setCity] = useState('');
+    const [suburb, setSuburb] = useState([]);
 
-  const onSubmit = e => {
-    e.preventDefault();
-    console.log(areas);
-    console.log(props.formData);
-    navigation.next();
-    props.updateUser({['preferredArea']: preferredArea});
+    const onSubmit = e => {
+      e.preventDefault();
+      let preferredArea = {
+        city: city,
+        suburb: suburb,
+      }
+      props.updateUser({['preferredArea']:preferredArea});
+      navigation.go("flatee-checklist");
     }
     
     return (
-        <form onSubmit = {onSubmit}>
+        <form className = "layout" onSubmit = {onSubmit}>
+          <FlinderLogo className = "logo-display"/>
+        
         <h6>Next, please choose your preferred flatting areas.</h6>
         <p>(You can change this later)</p>
 
@@ -55,9 +63,9 @@ const FlateePreferredAreas = (props) => {
         <InputLabel > City </InputLabel>
         <Select
           native
-          name = "preferredArea.city"
-          value = {preferredArea.city}
-          onChange = {props.setForm}
+          name = "city"
+          value = {city}
+          onChange = {e => setCity(e.target.value)}
         >
           <option value={''}/>
           <option value={'Auckland'}>Auckland</option>
@@ -66,15 +74,15 @@ const FlateePreferredAreas = (props) => {
 
     <br />
     <br />
-    {(preferredArea.city && preferredArea.suburb.length == 0 )&& <p style ={{"fontStyle":"italic", "color": "blue"}}> Then, select your preferred suburbs</p>}
+    {(city && suburb.length == 0 )&& <p style ={{"fontStyle":"italic", "color": "blue"}}> Then, select your preferred suburbs</p>}
     <FormControl>
         <InputLabel>Suburb</InputLabel>
         <Select className = "input"
-          disabled = {!preferredArea.city ? true : false}
+          disabled = {!city ? true : false}
           multiple
-          name = "preferredArea.suburb"
-          value={preferredArea.suburb}
-          onChange={props.setForm}
+          name = "suburb"
+          value={suburb}
+          onChange = {e => setSuburb(e.target.value)}
           input={<Input />}
           MenuProps={MenuProps}
         >
@@ -90,12 +98,12 @@ const FlateePreferredAreas = (props) => {
       <br/>
       <div className = "display-button">
       <IconButton variant="contained" className = "button"
-          onClick = {() => navigation.previous()}>
+          onClick = {() => navigation.go("flat-information")}>
           <ArrowBackIosIcon/>
       </IconButton>
       <IconButton variant="contained" className = "button"
-          disabled = {!preferredArea.city ? true: false}
-          color = "secondary"
+          disabled = {!city ? true: false}
+          color = "primary"
           type = "submit">
           <ArrowForwardIosIcon/>
       </IconButton>
