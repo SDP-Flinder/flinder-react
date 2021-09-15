@@ -2,7 +2,52 @@ import React, { useState } from 'react';
 import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
+import Avatar from '@material-ui/core/Avatar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Link from '@material-ui/core/Link';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import { Config } from '../../config';
+
+function Copyright() {
+    return (
+        <Typography variant="body2" color="textSecondary" align="center">
+            {'Copyright © '}
+            <Link color="inherit" href={`${Config.AppURL}`}>
+                {`${Config.AppName}`}
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
+
 function MatchList() {
+    const classes = useStyles();
+
     var match1 = { name: 'Bob', age: 25, key: 0 };
     var match2 = { name: 'John', age: 30, key: 1 };
     var match3 = { name: 'Jane', age: 28, key: 2 };
@@ -43,21 +88,26 @@ function MatchList() {
     }
 
     return (
-        <div>
-            <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-            >
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Listings
+                </Typography>
                 <h3>Pending Matches</h3>
                 {renderButtons()}
                 <br />
                 <h3>{currentMatch.name}</h3>
                 <h3>{currentMatch.age}</h3>
                 <p>{currentMatch.key}</p>
-            </Grid>
-        </div>
+            </div>
+            <Box mt={8}>
+                <Copyright />
+            </Box>
+        </Container>
     );
 }
 

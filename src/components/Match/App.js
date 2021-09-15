@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 // import { useState } from 'react';
 import '../../style/global.css';
-import {ReactComponent as FlinderLogo} from '../../assets/logo.svg';
 import MatchList from "./MatchList";
 
 
@@ -19,17 +18,10 @@ const AppRouter = () => {
   //   setUser({});
   // };
 
-  return(
-  <BrowserRouter>
-  <div className = "backround">
-    <div className = "layout">
-      <div>
-      <FlinderLogo className = "logo-display"/>
-      </div>
-        <Route path="/" exact component={MatchList} />
-    </div>
-  </div>
-  </BrowserRouter>
+  return (
+    <BrowserRouter>
+      <Route path="/" exact component={MatchList} />
+    </BrowserRouter>
   )
 };
 
