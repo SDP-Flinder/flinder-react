@@ -10,6 +10,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useState } from 'react';
 import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+import { Typography } from '@material-ui/core';
 
 
     const ITEM_HEIGHT = 48;
@@ -56,8 +57,8 @@ const FlateePreferredAreas = (props) => {
         <form className = "layout" onSubmit = {onSubmit}>
           <FlinderLogo className = "logo-display"/>
         
-        <h6>Next, please choose your preferred flatting areas.</h6>
-        <p>(You can change this later)</p>
+        <Typography component="p" variant="p">Next, please choose your preferred flatting areas.</Typography>
+        <Typography component="p" variant="p">(You can change this later)</Typography>
 
         <FormControl>
         <InputLabel > City </InputLabel>
@@ -81,6 +82,7 @@ const FlateePreferredAreas = (props) => {
           disabled = {!city ? true : false}
           multiple
           name = "suburb"
+          variant="outlined"
           value={suburb}
           onChange = {e => setSuburb(e.target.value)}
           input={<Input />}
