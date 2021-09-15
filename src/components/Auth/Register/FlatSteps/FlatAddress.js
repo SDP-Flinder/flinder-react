@@ -4,26 +4,28 @@ import TextField from '@material-ui/core/TextField';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+
 
 const FlatAddress = (props) => {
     //Pass properties
     const {navigation} = props;
-    const {address, existingFlatmates, description} = props.formData;
+
+    const setForm = (field, value) => {
+      props.updateUser({[field]: value});
+    }
 
   const onSubmit = e => {
       e.preventDefault();
         navigation.next();
-        console.log(address);
-        props.updateUser({['address']:address});
-        props.updateUser({['existingFlatmates']: existingFlatmates});
-        props.updateUser({['description']: description})
         console.log(props.user);
     }
 
     
     return (
-        <form onSubmit = {onSubmit}>
-        <br />
+        <form className = "layout" onSubmit = {onSubmit}>
+        <FlinderLogo className = "logo-display"/>
+
         <h6>Next, please provide you flat's details...</h6>
          <TextField
             id="outlined-basic"
@@ -31,9 +33,9 @@ const FlatAddress = (props) => {
             type = "number"
             label="Existing flatmate(s): "
             placeholder = "Number of flatmates"
-            name="existingFlatmates"
-            value = {existingFlatmates}
-            onChange = {props.setForm}
+            name="props.user.existingFlatmates"
+            value = {props.user.existingFlatmates}
+            onChange = {e => setForm('existingFlatmates', e.target.value)}
             autoComplete="off"
         /> 
         <br />
@@ -42,10 +44,10 @@ const FlatAddress = (props) => {
             id="outlined-basic"
             variant="outlined"
             label="Description"
-            name="description"
+            name="props.user.description"
             placeholder = "Brief description"
-            value = {description}
-            onChange = {props.setForm}
+            value = {props.user.description}
+            onChange = {e => setForm('description', e.target.value)}
             autoComplete="off"
             multiline
             rows={4}
@@ -56,6 +58,8 @@ const FlatAddress = (props) => {
         <br />
         <br />
         <br />
+        <br />
+
 
         <div className = "display-button">
         <IconButton variant="contained" className = "button"
@@ -64,8 +68,8 @@ const FlatAddress = (props) => {
         </IconButton>
         <IconButton variant="contained" className = "button"
           name = "next"
-          color = "secondary"
-          disabled = {!address.street || !address.city || !address.suburb || !address.country || !description || !existingFlatmates ? true : false}
+          color = "primary"
+          disabled = {!props.user.description || !props.user.existingFlatmates ? true : false}
           type = "submit">
           <ArrowForwardIosIcon/>
         </IconButton>

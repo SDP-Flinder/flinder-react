@@ -6,9 +6,12 @@ import axios from 'axios';
 import FormControl from '@material-ui/core/FormControl';
 import { FormLabel, Radio, RadioGroup, FormControlLabel, Grid, IconButton } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { Link } from '@material-ui/core';
+import {ReactComponent as FlinderLogo} from '../../assets/logo.svg';
 
 
 const FirstStep = (props) => {
+  const {navigation} = props;
   //This useState is used to store data from the API
   const [repo, setRepo] = useState([]);
 
@@ -89,9 +92,9 @@ const FirstStep = (props) => {
       console.log(props.user);
       //Redirect to the correct route
       if(user.accountType == 'flat'){
-        props.history.push('/sign-up/flat');
+        navigation.go("flat-information");
       }else if(user.accountType == 'flatee'){ 
-        props.history.push('/sign-up/flatee');
+        navigation.go("flat-information");
       }else if(user.accountType ==''){
           alert('Choose one bitch!');
       }
@@ -99,7 +102,8 @@ const FirstStep = (props) => {
   }
 
   return (
-    <div>
+    <div className = "layout">
+       <FlinderLogo className = "logo-display"/>
        <h6>Sign Up to find your new home.</h6>
        <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -172,18 +176,28 @@ const FirstStep = (props) => {
         </RadioGroup>
         {error.accountType && <div className = "error-message">{error.accountType} <br /> </div>}
         </FormControl>
-        <br />
-        <br />
-        <br />
-        <br />
+        <br/>
+        <br/>
+        <br/>
+
         <IconButton className = "button"
-        variant="contained" color="secondary" type ="submit"
+        variant="contained" color="primary" type ="submit"
         disabled = {(!user.username || !user.password || !user.email || !user.accountType) ? true:false}>
           <ArrowForwardIosIcon/>
         </IconButton>
-
         </Grid>
       </form>
+
+      <br/>
+      <br/>
+      
+        <Grid container justifyContent="flex-end">
+           <Grid item>
+           Already have an account? 
+           <Link href="#" variant="body2"> Sign in
+           </Link>
+         </Grid>
+        </Grid>
     </div>
   );
 };

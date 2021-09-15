@@ -26,7 +26,7 @@ COLOUR PALLETTE
 /*This one is to wrap around the sign up box*/
 .layout{
     margin: 50px auto;
-    width: 350px;
+    width: 330px;
     height: fit-content;
     padding: 10px;
     /* border: 1px solid black; */
@@ -39,6 +39,7 @@ COLOUR PALLETTE
 
 /**/
 .error-message{
+    margin: 10px 0px;
     font-size: 70%;
     color: rgb(219, 96, 96);
 }

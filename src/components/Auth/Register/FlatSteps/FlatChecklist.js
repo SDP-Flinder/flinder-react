@@ -5,6 +5,8 @@ import moment from 'moment';
 import axios from 'axios';
 import { IconButton } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+
 
 
 const FlatInfo = (props) => {
@@ -14,14 +16,15 @@ const FlatInfo = (props) => {
 
         //Post the user data to the /users route
         await postUserToDatabase(props);
-        props.updateUser({['loggedIn']:true});
         props.history.push('/profile');
         props.updateUser(props.formData);
         console.log(props.user);
     }
 
     return (
-        <div>
+        <div className = "layout">
+          <FlinderLogo className = "logo-display"/>
+
             <h6>Finally, check your information...</h6>
 
             <section>
@@ -30,7 +33,7 @@ const FlatInfo = (props) => {
             <IconButton variant="outlined" size="medium" color="primary" name = "account"
             placeholder = "edit username"
             onClick = {()  =>{
-                props.history.push("/sign-up/");
+                navigation.go("username");
             }
             }>
               <CreateIcon/>
@@ -49,7 +52,7 @@ const FlatInfo = (props) => {
             <IconButton variant="outlined" size="medium" color="primary" name = "info"
             placeholder = "edit info"
             onClick = {()  =>{
-                navigation.go("information");
+                navigation.go("flat-information");
             }
             }>
               <CreateIcon/>
@@ -69,7 +72,7 @@ const FlatInfo = (props) => {
             <IconButton variant="outlined" size="medium" color="primary" name = "flatAddress"
             placeholder = "edit address"
             onClick = {()  =>{
-                navigation.go("address");
+                navigation.go("flat-address");
             }
             }>
               <CreateIcon/>
@@ -84,7 +87,7 @@ const FlatInfo = (props) => {
             </section>
             <br/>
             <Button style = {{width: "330px"}}
-            variant="contained" color="secondary"
+            variant="contained" color="primary"
             onClick = {handleSubmit}>Complete</Button>
         </div>
     )

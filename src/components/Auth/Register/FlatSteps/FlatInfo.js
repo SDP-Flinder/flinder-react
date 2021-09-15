@@ -2,11 +2,13 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
-import DatePicker from 'react-date-picker';
+import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import InputLabel from '@material-ui/core/InputLabel';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+
 
 import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
@@ -30,22 +32,25 @@ injectGlobal`
   }
 `;
 
-const FlateeInfo = (props) => {
+
+const FlatInfo = (props) => {
     //Pass the navigation from the parent
     const {navigation} = props;
     //Deconstruct the form details
-    const {firstName, lastName} = props.formData;
+    const setForm = (field, value) => {
+      props.updateUser({[field]: value});
+    }
     
     const [dob, setDOB] = useState(props.user.dob ? props.user.dob : new Date());
+
     //Declare errors
     const [error, setError] = useState({});
     const [isInvalid, setInvalid] = useState({});
 
-    const findError = checkError(firstName, lastName, dob)
+    const findError = findNewError(props.user.firstName, props.user.lastName, dob)
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log(typeof props.user.preferredSuburb);
         //Check if all the inputs are valid
         const newError = findError();
         console.log(newError.errorFound);
@@ -58,26 +63,29 @@ const FlateeInfo = (props) => {
           setInvalid(newError.invalid);
           console.log(isInvalid);
         }else{
-          navigation.next();
+          if(props.user.accountType == 'flat'){
+            navigation.go("flat-address");
+          }else{
+            navigation.go("flatee-area");
+          }
           //Update the user details
-          props.updateUser({['firstName']:firstName});
-          props.updateUser({['lastName']:lastName});
           props.updateUser({['dob']: dob});
         }
     }
 
     return (
-        <form
+        <form className = "layout"
         onSubmit={onSubmit}>
+        <FlinderLogo className = "logo-display"/>
         <h6>First, tell us a little bit about you...</h6>
 
         <TextField className = "input"
             id="outlined-basic"
             variant="outlined"
             label="First Name"
-            name="firstName"
-            value={firstName}
-            onChange={props.setForm}
+            name="props.user.firstName"
+            value={props.user.firstName}
+            onChange={e => setForm('firstName', e.target.value)}
             placeholder = "Enter your first name...."
             autoComplete="off"
             error = {isInvalid.firstName}
@@ -91,9 +99,9 @@ const FlateeInfo = (props) => {
             id="outlined-basic"
             variant="outlined"
             label="Last Name"
-            name="lastName"
-            value={lastName}
-            onChange={props.setForm}
+            name="props.user.lastName"
+            value={props.user.lastName}
+            onChange={e => setForm('lastName', e.target.value)}
             placeholder = "Enter your last name...."
             autoComplete="off"
             error = {isInvalid.lastName}
@@ -105,11 +113,13 @@ const FlateeInfo = (props) => {
         <InputLabel
             error = {isInvalid.dob}
         > D.O.B </InputLabel>
-        <DatePicker
+        <DatePicker id = 'datePicker'
+        className = "calendar-display"
         label = "D.O.B"
+        placeholder = "dob"
         onChange={setDOB}
         value={dob}
-        dateFormat = "YYYY-MM-DDTHH:mm:ss.sssZ"
+        format = "dd/MM/yyyy"
         />
         <br />
         {error.dob && <div className = "error-message">{error.dob}</div>}
@@ -117,25 +127,26 @@ const FlateeInfo = (props) => {
 
         <div className = "display-button">
         <IconButton className = "button" variant="contained"
-        onClick = {() => props.history.push('/sign-up/')}>
+        onClick = {() => props.navigation.go("username")}>
           <ArrowBackIosIcon/>
         </IconButton>
         <IconButton className = "button" 
          variant="contained"
-        color = "secondary" 
-        disabled = {!firstName || !lastName ?true:false}
+        color = "primary" 
+        disabled = {!props.user.firstName || !props.user.lastName ?true:false}
         type="submit">
           <ArrowForwardIosIcon/>
         </IconButton>
+
+
         </div>
         </form>
     )
 }
 
- export default withRouter(FlateeInfo);
+export default withRouter(FlatInfo);
 
-
-function checkError(firstName, lastName, dob) {
+function findNewError(firstName, lastName, dob) {
   return () => {
     const errorFound = {};
     const invalid = {};
