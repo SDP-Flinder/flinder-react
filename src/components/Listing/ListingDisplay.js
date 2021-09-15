@@ -11,7 +11,7 @@ import { useAuth } from '../App/Authentication';
 
 //Component to display the details of the selected listing for the owner flat account
 function ListingDisplay(props) {
-    const { user } = useAuth();
+    const { user, getJWT } = useAuth();
     const location = useLocation();
     const id = location.state.id;
     const [listing, setListing] = useState([]);
@@ -26,19 +26,19 @@ function ListingDisplay(props) {
 
         if (button === 1) {
             props.history.push({
-                pathname: '/listing/update',
+                pathname: '/updatelisting',
                 state: { id: listing.id },
             });
         }
         if (button === 2) {
             deleteListing();
-            props.history.push('/listing/list');
+            props.history.push('/listings');
         }
     }
 
     const deleteListing = async () => {
         const URL = 'http://localhost:4000/listings/'.concat(listing.id);
-        const USER_TOKEN = user.token;
+        const USER_TOKEN = getJWT();
 
         const config = {
             headers: { Authorization: `Bearer ${USER_TOKEN}` }
@@ -57,7 +57,7 @@ function ListingDisplay(props) {
 
     const updateActive = async (activeStatus) => {
         const URL = 'http://localhost:4000/listings/'.concat(listing.id);
-        const USER_TOKEN = user.token;
+        const USER_TOKEN = getJWT();
 
         const config = {
             headers: { Authorization: `Bearer ${USER_TOKEN}` }
@@ -116,7 +116,7 @@ function ListingDisplay(props) {
     useEffect(() => {
         async function getListing() {
             const URL = 'http://localhost:4000/listings/'.concat(id);
-            const USER_TOKEN = user.token;
+            const USER_TOKEN = getJWT();
 
             const config = {
                 headers: { Authorization: `Bearer ${USER_TOKEN}` }

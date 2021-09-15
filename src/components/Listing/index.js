@@ -60,10 +60,10 @@ export default function Listing(props) {
         e.preventDefault();
 
         if (button === 1) {
-            props.history.push('/listing/list');
+            props.history.push('/listings');
         }
         if (button === 2) {
-            props.history.push('/listing/create');
+            props.history.push('/newlisting');
         }
     }
 

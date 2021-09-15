@@ -10,7 +10,11 @@ import Listing from "./ListingDisplay";
 import Login from "./Login";
 import AccountPage from "./AccountPage";
 
-//Set up the rooutes and their required states and props to be passed in
+//
+//Redundant file
+//
+//Keeping in case I missed something
+//
 
 const ListingRouter = () => {
   const [user, setUser] = useState({});

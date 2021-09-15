@@ -8,7 +8,7 @@ import { useAuth } from '../App/Authentication';
 
 //Shows the current user all listings they have created, along with the ooption to create a new listing
 function ListingList(props) {
-    const { user } = useAuth();
+    const { user, getJWT } = useAuth();
     const [listings, setListings] = useState([]);
 
     console.log(listings);
@@ -52,14 +52,14 @@ function ListingList(props) {
                         <Button
                             className="button"
                             component={RouterLink}
-                            to="/account/"
+                            to="/listing/"
                         >
                             Account
                         </Button>
                         <Button
                             className="button"
                             component={RouterLink}
-                            to="/listing/create"
+                            to="/newlisting"
                         >
                             Create Listing
                         </Button>
@@ -78,7 +78,7 @@ function ListingList(props) {
     useEffect(() => {
         async function getListings() {
             const URL = 'http://localhost:4000/listings/flat/'.concat(user.id);
-            const USER_TOKEN = user.token;
+            const USER_TOKEN = getJWT();
 
             const config = {
                 headers: { Authorization: `Bearer ${USER_TOKEN}` }

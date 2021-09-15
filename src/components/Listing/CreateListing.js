@@ -15,7 +15,7 @@ import { useAuth } from '../App/Authentication';
 //Form for a Flat user to create a new listing under their Flat account
 function CreateListing(props) {
 
-    const { user } = useAuth();
+    const { user, getJWT } = useAuth();
     const currentDate = new Date();
 
     const [error, setError] = useState({});
@@ -68,7 +68,7 @@ function CreateListing(props) {
     const createNewListing = async () => {
         // if (props.user.role === 'flat') {
         const URL = 'http://localhost:4000/listings/add/'
-        const USER_TOKEN = user.token;
+        const USER_TOKEN = getJWT();
 
         console.log(USER_TOKEN);
 
@@ -190,7 +190,7 @@ function CreateListing(props) {
                             </Button>
                             <Button className="button"
                                 component={RouterLink}
-                                to="/listing/list"
+                                to="/listings"
                             >
                                 Cancel
                             </Button>
