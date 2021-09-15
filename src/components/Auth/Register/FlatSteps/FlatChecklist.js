@@ -5,7 +5,6 @@ import moment from 'moment';
 import axios from 'axios';
 import { IconButton } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
-import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
 import { Typography } from '@material-ui/core';
 
 
@@ -23,8 +22,7 @@ const FlatInfo = (props) => {
     }
 
     return (
-        <div className = "layout">
-          <FlinderLogo className = "logo-display"/>
+        <div>
 
             <Typography component="p" variant="p">Finally, check your information...</Typography>
 
