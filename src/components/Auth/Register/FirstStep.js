@@ -8,6 +8,7 @@ import { FormLabel, Radio, RadioGroup, FormControlLabel, Grid, IconButton } from
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Link } from '@material-ui/core';
 import {ReactComponent as FlinderLogo} from '../../assets/logo.svg';
+import { Typography } from '@material-ui/core';
 
 
 const FirstStep = (props) => {
@@ -104,7 +105,10 @@ const FirstStep = (props) => {
   return (
     <div className = "layout">
        <FlinderLogo className = "logo-display"/>
-       <h6>Sign Up to find your new home.</h6>
+       <Typography component="p" variant="p">
+          Sign Up to find your new home
+       </Typography>
+       <br />
        <form onSubmit={handleSubmit(onSubmit)}>
 
         <Grid
