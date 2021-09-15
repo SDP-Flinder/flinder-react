@@ -66,7 +66,7 @@ function UpdateListing(props) {
             console.log(isInvalid);
         } else {
             updateCurrentListing();
-            props.history.push('/listings');
+            props.history.push('/listing/list');
         }
     }
 
@@ -215,7 +215,7 @@ function UpdateListing(props) {
                             <Button
                                 className="button"
                                 component={RouterLink}
-                                to="/listings/"
+                                to="/listing/list"
                             >
                                 Cancel
                             </Button>

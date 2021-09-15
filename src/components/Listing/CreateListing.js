@@ -59,7 +59,7 @@ function CreateListing(props) {
             console.log(isInvalid);
         } else {
             createNewListing();
-            props.history.push('/listings');
+            props.history.push('/listing/list');
         }
     }
 
@@ -189,7 +189,7 @@ function CreateListing(props) {
                             </Button>
                             <Button className="button"
                                 component={RouterLink}
-                                to="/account/"
+                                to="/listing/list"
                             >
                                 Cancel
                             </Button>

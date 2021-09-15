@@ -15,7 +15,7 @@ function ListingList(props) {
     //Passes the selected listing to the listing page for displaying
     function selectListing(id) {
         props.history.push({
-            pathname: '/listings/listing',
+            pathname: '/listing/display',
             state: {id: id},
           });
     }
@@ -58,7 +58,7 @@ function ListingList(props) {
                         <Button
                             className="button"
                             component={RouterLink}
-                            to="/listings/add"
+                            to="/listing/create"
                         >
                             Create Listing
                         </Button>
