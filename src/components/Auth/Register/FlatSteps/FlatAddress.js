@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { Typography } from '@material-ui/core';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
 
 
 const FlatAddress = (props) => {
@@ -23,11 +23,10 @@ const FlatAddress = (props) => {
 
     
     return (
-        <form onSubmit = {onSubmit}>
-      
-        <Typography component="p" variant="p">Next, please provide you flat's details...</Typography>
+        <form className = "layout" onSubmit = {onSubmit}>
+        <FlinderLogo className = "logo-display"/>
 
-        <br/>
+        <h6>Next, please provide you flat's details...</h6>
          <TextField
             id="outlined-basic"
             variant="outlined"

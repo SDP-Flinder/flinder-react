@@ -7,7 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { Typography } from '@material-ui/core';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
 
 
 import "react-calendar/dist/Calendar.css";
@@ -74,12 +74,11 @@ const FlatInfo = (props) => {
     }
 
     return (
-        <form
+        <form className = "layout"
         onSubmit={onSubmit}>
-        <Typography component="p" variant="p">
-        First, tell us a little bit about you...
-       </Typography>
-        <br/>
+        <FlinderLogo className = "logo-display"/>
+        <h6>First, tell us a little bit about you...</h6>
+
         <TextField className = "input"
             id="outlined-basic"
             variant="outlined"

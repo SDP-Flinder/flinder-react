@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { Typography } from '@material-ui/core';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
 
 
 let prices = [];
@@ -82,8 +82,9 @@ const FlateeChecklist = (props) => {
 
     return (
         <div>
-            <form onSubmit = {onSubmit}>
-                <Typography component="p" variant="p">Are you....</Typography>
+            <form className = "layout" onSubmit = {onSubmit}>
+                <FlinderLogo className = "logo-display"/>
+                <h6>Are you....</h6>
                 <FormGroup component="fieldset">
                 <FormControlLabel
                     control={<Checkbox
@@ -124,8 +125,7 @@ const FlateeChecklist = (props) => {
                 </FormGroup>
 
                 <br />
-                <Typography component="p" variant="p">Your price range (per week):</Typography>
-                <br />
+                <h6>Your price range (per week):</h6>
                 <FormControl variant="outlined">
                 <InputLabel htmlFor="outlined-age-native-simple">From</InputLabel>
                 <Select
