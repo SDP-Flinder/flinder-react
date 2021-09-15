@@ -13,11 +13,53 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
 import { useAuth } from '../App/Authentication';
+import Avatar from '@material-ui/core/Avatar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Link from '@material-ui/core/Link';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import { Config } from '../../config';
+
+function Copyright() {
+    return (
+        <Typography variant="body2" color="textSecondary" align="center">
+            {'Copyright © '}
+            <Link color="inherit" href={`${Config.AppURL}`}>
+                {`${Config.AppName}`}
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
 
 //Form for a Flat user to update a selected listing
-
 function UpdateListing(props) {
 
+    const classes = useStyles();
     const { user, getJWT } = useAuth();
     const [listing, setListing] = useState([]);
     const currentDate = new Date();
@@ -103,11 +145,46 @@ function UpdateListing(props) {
         console.log(active);
     };
 
-    //Only render the form if the current user is the owner of the listing
-    const renderForm = () => {
-        //Added flat conditional to check it's working as intended
-        if (user.id === listing.flat_id && user.role === 'flat') {
-            return (
+    //Load the listing passed by the previous page from the DB
+    useEffect(() => {
+        async function getListing() {
+            const URL = 'http://localhost:4000/listings/'.concat(id);
+            const USER_TOKEN = getJWT();
+
+            console.log('location state is ' + id)
+
+            const config = {
+                headers: { Authorization: `Bearer ${USER_TOKEN}` }
+            };
+
+            const listing = await axios.get(URL, config)
+
+            setListing(listing.data);
+        }
+        getListing();
+    }, [user, id])
+
+    //Populate the form with the passed in listings details
+    useEffect(() => {
+        if (listing.id !== undefined) {
+            setDescription(listing.description);
+            setRoomAvailable(listing.roomAvailable);
+            setRent(listing.rent);
+            setRentUnits(listing.rentUnits);
+            setUtilities(listing.utilities);
+        }
+    }, [listing])
+
+    return (
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Update Listing
+                </Typography>
                 <form onSubmit={onSubmit}>
                     <Grid
                         container
@@ -115,7 +192,6 @@ function UpdateListing(props) {
                         justifyContent="center"
                         alignItems="center"
                     >
-                        <h2>Update Listing</h2>
                         <div>
                             <FormControl>
                                 <TextField className="input"
@@ -206,7 +282,7 @@ function UpdateListing(props) {
                             label="Active"
                         />
                         <br />
-                        <ButtonGroup variant="contained" color="secondary">
+                        <ButtonGroup variant="contained" color="primary">
                             <Button
                                 className="button"
                                 type="submit"
@@ -223,49 +299,11 @@ function UpdateListing(props) {
                         </ButtonGroup>
                     </Grid>
                 </form>
-            );
-        }
-        else {
-            return (
-                <h1>Error: Only the owner account may access this page</h1>
-            );
-        }
-    }
-
-    //Load the listing passed by the previous page from the DB
-    useEffect(() => {
-        async function getListing() {
-            const URL = 'http://localhost:4000/listings/'.concat(id);
-            const USER_TOKEN = getJWT();
-
-            console.log('location state is ' + id)
-
-            const config = {
-                headers: { Authorization: `Bearer ${USER_TOKEN}` }
-            };
-
-            const listing = await axios.get(URL, config)
-
-            setListing(listing.data);
-        }
-        getListing();
-    }, [user, id])
-
-    //Populate the form with the passed in listings details
-    useEffect(() => {
-        if (listing.id !== undefined) {
-            setDescription(listing.description);
-            setRoomAvailable(listing.roomAvailable);
-            setRent(listing.rent);
-            setRentUnits(listing.rentUnits);
-            setUtilities(listing.utilities);
-        }
-    }, [listing])
-
-    return (
-        <div>
-            {renderForm()}
-        </div>
+            </div>
+            <Box mt={8}>
+                <Copyright />
+            </Box>
+        </Container>
     );
 }
 

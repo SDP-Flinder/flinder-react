@@ -8,9 +8,52 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import axios from 'axios';
 import { useAuth } from '../App/Authentication';
+import Avatar from '@material-ui/core/Avatar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Link from '@material-ui/core/Link';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import { Config } from '../../config';
+
+function Copyright() {
+    return (
+        <Typography variant="body2" color="textSecondary" align="center">
+            {'Copyright © '}
+            <Link color="inherit" href={`${Config.AppURL}`}>
+                {`${Config.AppName}`}
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
 
 //Component to display the details of the selected listing for the owner flat account
 function ListingDisplay(props) {
+    const classes = useStyles();
     const { user, getJWT } = useAuth();
     const location = useLocation();
     const id = location.state.id;
@@ -73,7 +116,7 @@ function ListingDisplay(props) {
     const renderButtons = () => {
         if (owner) {
             return (
-                <ButtonGroup variant="contained" color="secondary">
+                <ButtonGroup variant="contained" color="primary">
                     <Button
                         onClick={() => (setButton(1))}
                         className="button"
@@ -149,44 +192,56 @@ function ListingDisplay(props) {
     }, [user, listing])
 
     return (
-        <div>
-            <form onSubmit={onSubmit}>
-                <Grid
-                    container
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
-                >
-                    <ButtonGroup variant="contained" color="secondary">
-                        <Button
-                            className="button"
-                            component={RouterLink}
-                            to="/listing/list"
-                        >
-                            Listings
-                        </Button>
-                        <Button
-                            className="button"
-                            component={RouterLink}
-                            to="/listing/create"
-                        >
-                            Create Listing
-                        </Button>
-                    </ButtonGroup>
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Listings
+                </Typography>
+                <form onSubmit={onSubmit}>
+                    <Grid
+                        container
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <ButtonGroup variant="contained" color="primary">
+                            <Button
+                                className="button"
+                                component={RouterLink}
+                                to="/listings"
+                            >
+                                Listings
+                            </Button>
+                            <Button
+                                className="button"
+                                component={RouterLink}
+                                to="/listing/create"
+                            >
+                                Create Listing
+                            </Button>
+                        </ButtonGroup>
 
-                    {/* Placeholder listing information - will replace with a more elegant display, such as cards, once developed */}
+                        {/* Placeholder listing information - will replace with a more elegant display, such as cards, once developed */}
 
-                    <div>
-                        <h1>Description: {listing.description}</h1>
-                        <h1>Utilities: {listing.utilities}</h1>
-                        <h1>Rent: ${listing.rent} {listing.rentUnits}</h1>
-                        <h1>Available: {date}</h1>
-                    </div>
-                    {renderSwitch()}
-                    {renderButtons()}
-                </Grid>
-            </form>
-        </div>
+                        <div>
+                            <h1>Description: {listing.description}</h1>
+                            <h1>Utilities: {listing.utilities}</h1>
+                            <h1>Rent: ${listing.rent} {listing.rentUnits}</h1>
+                            <h1>Available: {date}</h1>
+                        </div>
+                        {renderSwitch()}
+                        {renderButtons()}
+                    </Grid>
+                </form>
+            </div>
+            <Box mt={8}>
+                <Copyright />
+            </Box>
+        </Container>
     );
 }
 
