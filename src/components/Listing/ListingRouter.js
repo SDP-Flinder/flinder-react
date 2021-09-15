@@ -6,13 +6,13 @@ import { ReactComponent as FlinderLogo } from '../../assets/logo.svg';
 import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
 import ListingList from "./ListingList";
-import Listing from "./Listing";
+import Listing from "./ListingDisplay";
 import Login from "./Login";
 import AccountPage from "./AccountPage";
 
 //Set up the rooutes and their required states and props to be passed in
 
-const AppRouter = () => {
+const ListingRouter = () => {
   const [user, setUser] = useState({});
 
   const updateUser = (data) => {
@@ -70,4 +70,4 @@ const AppRouter = () => {
   )
 };
 
-export default AppRouter;
+export default ListingRouter;

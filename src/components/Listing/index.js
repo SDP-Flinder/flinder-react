@@ -105,9 +105,6 @@ export default function Listing(props) {
             <Box mt={8}>
                 <Copyright />
             </Box>
-            {/* <BrowserRouter basename="/listing"> */}
-                <ListingRouter />
-            {/* </BrowserRouter> */}
         </Container>
     );
 };

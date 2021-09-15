@@ -9,7 +9,7 @@ import Switch from '@material-ui/core/Switch';
 import axios from 'axios';
 
 //Component to display the details of the selected listing for the owner flat account
-function Listing(props) {
+function ListingDisplay(props) {
     const location = useLocation();
     const id = location.state.id;
     const [listing, setListing] = useState([]);
@@ -24,13 +24,13 @@ function Listing(props) {
 
         if (button === 1) {
             props.history.push({
-                pathname: '/listings/update',
+                pathname: '/listing/update',
                 state: { id: listing.id },
             });
         }
         if (button === 2) {
             deleteListing();
-            props.history.push('/account');
+            props.history.push('/listing/list');
         }
     }
 
@@ -159,14 +159,14 @@ function Listing(props) {
                         <Button
                             className="button"
                             component={RouterLink}
-                            to="/listings/"
+                            to="/listing/list"
                         >
                             Listings
                         </Button>
                         <Button
                             className="button"
                             component={RouterLink}
-                            to="/listings/add"
+                            to="/listing/create"
                         >
                             Create Listing
                         </Button>
@@ -188,4 +188,4 @@ function Listing(props) {
     );
 }
 
-export default Listing;
+export default ListingDisplay;

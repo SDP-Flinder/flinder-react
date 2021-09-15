@@ -16,14 +16,14 @@ function AccountPage(props) {
                     <Button
                         className="button"
                         component={RouterLink}
-                        to="/listings/"
+                        to="/listing/list"
                     >
                         Listings
                     </Button>
                     <Button
                         className="button"
                         component={RouterLink}
-                        to="/listings/add"
+                        to="/listing/create"
                     >
                         Create Listing
                     </Button>
