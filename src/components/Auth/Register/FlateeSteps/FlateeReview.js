@@ -5,6 +5,8 @@ import moment from 'moment';
 import axios from 'axios';
 import CreateIcon from '@material-ui/icons/Create';
 import { IconButton } from '@material-ui/core';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+
 
 const FlateeReview = (props) => {
     const {navigation} = props;
@@ -14,7 +16,7 @@ const FlateeReview = (props) => {
         //Post the user data to the /users route
         try {
             await postUser(props);
-            props.history.push('/profile');
+            props.history.push('/signin');
             props.updateUser(props.formData);
             console.log(props.user);
           } catch (error) {
@@ -25,7 +27,9 @@ const FlateeReview = (props) => {
     }
 
     return (
-        <div>
+        <div className = "layout">
+            <FlinderLogo className = "logo-display"/>
+
             <h6>Finally, check your information...</h6>
 
             <section>
@@ -33,7 +37,7 @@ const FlateeReview = (props) => {
             <h4>Account information</h4>
             <IconButton variant="outlined" size="medium" color="primary"
             onClick = {()  =>{
-                props.history.push("/sign-up/");
+                navigation.go("username");
             }
             }>
               <CreateIcon/>
@@ -49,7 +53,7 @@ const FlateeReview = (props) => {
             <h4>Personal Information</h4>
             <IconButton variant="outlined" size="medium" color="primary"
             onClick = {()  =>{
-                navigation.go("information");
+                navigation.go("flat-information");
             }
             }>
               <CreateIcon/>
@@ -66,7 +70,7 @@ const FlateeReview = (props) => {
             <h4>Extra information</h4>
             <IconButton variant="outlined" size="medium" color="primary"
             onClick = {()  =>{
-                navigation.go("checklist");
+                navigation.go("flatee-checklist");
             }
             }>
               <CreateIcon/>
@@ -81,7 +85,7 @@ const FlateeReview = (props) => {
             </section>
             <br/>
             <Button className = "single-button"
-            variant="contained" color="secondary"
+            variant="contained" color="primary"
             onClick = {handleSubmit}>Complete</Button>
         </div>
     )

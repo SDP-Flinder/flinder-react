@@ -9,10 +9,11 @@ import ClearIcon from '@material-ui/icons/Clear';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+
 
 const Address = (props) => {
     const {navigation} = props;
-    const {address} = props.formData;
     //const {address} = props;
 
     const [addressName, setAddress] = React.useState('');
@@ -52,12 +53,10 @@ const Address = (props) => {
             setError(newError);
         } else {
             console.log('submitting....');
-            address.street = componentAddress.street;
-            address.suburb = componentAddress.suburb;
-            address.city = componentAddress.city;
-            address.country = componentAddress.country;
-            props.setForm;
-            console.log(props.formData);
+            props.user.address.street = componentAddress.street;
+            props.user.address.suburb = componentAddress.suburb;
+            props.user.address.city = componentAddress.city;
+            props.user.address.country = componentAddress.country;
             console.log(props.user);
             navigation.next();
         }
@@ -78,8 +77,10 @@ const Address = (props) => {
   useEffect(()=>getRepo(), []);
 
     return (
-        <div>
+        <div className = "layout">
             <form onSubmit = {onSubmit}>
+            <FlinderLogo className = "logo-display"/>
+
             <h6> What's your address? </h6>
             <div className = "display-address-search">
             <PlacesAutocomplete 
@@ -146,7 +147,7 @@ const Address = (props) => {
             </IconButton>
             <IconButton variant="contained" className = "button"
             disabled = {!addressName ? true : false}
-            color = "secondary"
+            color = "primary"
             type = "submit">
                 <ArrowForwardIosIcon/>
             </IconButton>

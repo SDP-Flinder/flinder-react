@@ -9,6 +9,8 @@ import { useState } from 'react';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+
 
 let prices = [];
 
@@ -20,9 +22,19 @@ const populatePriceRange = () => {
 
 
 const FlateeChecklist = (props) => {
-    const {checklist} = props.formData;
+
+    const [smoker, setSmoker] = useState(false);
+    const [couple, setCouple] = useState(false);
+    const [pet, setPet] = useState(false);
+    const [min, setMin] = useState(0);
+    const [max, setMax] = useState(3000);
+
     const {navigation} = props;
     populatePriceRange();
+
+    // const setForm = (field, value) => {
+    //     props.updateUser({[field]: value});
+    // }
     
     const [error, setError] = useState({});
     const [isInvalid, setInvalid] = useState({});
@@ -31,9 +43,9 @@ const FlateeChecklist = (props) => {
       const errorFound = {};
       const invalid = {};
 
-      if((checklist.priceRange.max - checklist.priceRange.min) <= 0){
-        console.log(checklist.priceRange.min);
-        console.log(checklist.priceRange.max);
+      if((max - min) <= 0){
+        console.log(min);
+        console.log(max);
         errorFound.price = "The maximum value must be larger than the minimum."
         invalid.price = true;
       }
@@ -52,13 +64,17 @@ const FlateeChecklist = (props) => {
             setInvalid(newError.invalid);
             console.log(isInvalid);
         }else{
+            let checklist = {
+                isCouple: couple,
+                isSmoker: smoker,
+                hasPet: pet,
+                priceRange: {
+                    min: min,
+                    max: max,
+                },
+            }
             props.updateUser({['checklist']: checklist});
-            props.updateUser({['signedIn']:true});
-
-            console.log(props.user);
-
-            console.log(props.formData)
-            navigation.next();
+            navigation.go("flatee-review");
         }
     }
 
@@ -66,14 +82,17 @@ const FlateeChecklist = (props) => {
 
     return (
         <div>
-            <form onSubmit = {onSubmit}>
-                <br />
+            <form className = "layout" onSubmit = {onSubmit}>
+                <FlinderLogo className = "logo-display"/>
                 <h6>Are you....</h6>
                 <FormGroup component="fieldset">
                 <FormControlLabel
                     control={<Checkbox
-                    name = "checklist.isSmoker"
-                    checked={checklist.isSmoker} onChange={props.setForm}/>}
+                    name = "smoker"
+                    color = "primary"
+                    checked={smoker} 
+                    onChange={() => {setSmoker(!smoker)}}
+                    />}
                     label="A smoker"
                     labelPlacement = "end"
                 />
@@ -82,8 +101,11 @@ const FlateeChecklist = (props) => {
                 <FormGroup component="fieldset">
                 <FormControlLabel
                     control={<Checkbox 
-                    name = "checklist.hasPet"
-                    checked={checklist.hasPet} onChange={props.setForm}/>}
+                    name = "pet"
+                    color = "primary"
+                    checked={pet} 
+                    onChange={() => {setPet(!pet)}}
+                    />}
                     label="Having pet(s)"
                     labelPlacement = "end"
                 />
@@ -92,8 +114,11 @@ const FlateeChecklist = (props) => {
                 <FormGroup component="fieldset">
                 <FormControlLabel
                     control={<Checkbox 
-                    name = "checklist.isCouple"
-                    checked={checklist.isCouple} onChange={props.setForm}/>}
+                    name = "couple"
+                    color = "primary"
+                    checked={couple}
+                    onChange={() => {setCouple(!couple)}}
+                    />}
                     label="A couple"
                     labelPlacement = "end"
                 />
@@ -105,9 +130,9 @@ const FlateeChecklist = (props) => {
                 <InputLabel htmlFor="outlined-age-native-simple">From</InputLabel>
                 <Select
                 native
-                value={checklist.priceRange.min}
+                value={min}
                 placeholder = "min"
-                onChange={props.setForm}
+                onChange={e => setMin(e.target.value)}
                 label="From"
                 inputProps={{
                     name: 'checklist.priceRange.min',
@@ -126,10 +151,10 @@ const FlateeChecklist = (props) => {
                 <InputLabel htmlFor="outlined-age-native-simple">To</InputLabel>
                 <Select
                 native
-                value={checklist.priceRange.max}
+                value={max}
                 placeholder = "max"
-                onChange={props.setForm}
-                label="From"
+                onChange={e => setMax(e.target.value)}
+                label="To"
                 inputProps={{
                     name: 'checklist.priceRange.max',
                     id: 'outlined-age-native-simple',
@@ -149,13 +174,13 @@ const FlateeChecklist = (props) => {
                 <div className = "display-button">
 
                 <IconButton variant="contained" className = "button"
-                onClick = {() => navigation.previous()}>
+                onClick = {() => navigation.go("flatee-area")}>
                     <ArrowBackIosIcon/>
                 </IconButton>
 
                 <IconButton variant="contained" className = "button"
-                disabled = {(checklist.priceRange.min == 0 || checklist.priceRange.max == 3000)? true : false}
-                color = "secondary"
+                disabled = {(min == 0 || max == 3000)? true : false}
+                color = "primary"
                 type = "submit">
                     <ArrowForwardIosIcon/>
                 </IconButton>
