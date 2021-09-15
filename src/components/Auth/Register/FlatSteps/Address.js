@@ -10,6 +10,7 @@ import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+import { Typography } from '@material-ui/core';
 
 
 const Address = (props) => {
@@ -80,8 +81,9 @@ const Address = (props) => {
         <div className = "layout">
             <form onSubmit = {onSubmit}>
             <FlinderLogo className = "logo-display"/>
-
-            <h6> What's your address? </h6>
+            <Typography component="p" variant="p">
+                 What's your address?
+            </Typography>
             <div className = "display-address-search">
             <PlacesAutocomplete 
             className = "autocomplete-dropdown-container "
@@ -131,11 +133,11 @@ const Address = (props) => {
 
             {addressName ?
             <div className = "address-information">
-            <h6> Street number: {componentAddress.street} </h6>
+            <Typography component="p" variant="p"> Street number: {componentAddress.street} </Typography>
             {error.street && <div className = "error-message">{error.street}</div>}
-            <h6> Suburb: {componentAddress.suburb} </h6>
-            <h6> City: {componentAddress.city} </h6>
-            <h6> Country: {componentAddress.country} </h6>
+            <Typography component="p" variant="p"> Suburb: {componentAddress.suburb} </Typography>
+            <Typography component="p" variant="p"> City: {componentAddress.city} </Typography>
+            <Typography component="p" variant="p"> Country: {componentAddress.country} </Typography>
             {error.country && <div className = "error-message">{error.country}</div>}
             </div>
             : <div> <br/> </div>}
