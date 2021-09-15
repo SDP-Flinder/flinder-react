@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,7 +12,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Alert from '@material-ui/lab/Alert';
+import { Link as RouterLink, Redirect } from "react-router-dom";
 import { Config } from '../../../config'
+import { useAuth } from "../../App/Authentication";
+import { MemoryRouter as Router } from 'react-router';
 
 function Copyright() {
   return (
@@ -42,15 +46,51 @@ const useStyles = makeStyles((theme) => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
-  submit: {
+  button: {
     margin: theme.spacing(3, 0, 2),
   },
 }));
 
-export default function SignIn() {
+
+const Login = ({ location }) => {
   const classes = useStyles();
+  const { signin, isAuthed } = useAuth();
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(false);
+  const [error, setError] = useState('');
+
+  // Reditect to previous page or home page
+  let { from } = location.state || { from: { pathname: "/" } };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    signin(username, password, remember)
+      .then((res) => {
+        console.log(res?.message)
+        if (res?.error || res?.message) {
+          // setError(res?.error || res?.message);
+          setError('Username or password incorrect')
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        // if (error?.message == "incorrect-username-password" ) {
+        //   setError("Username or Password Incorrect, Please try again.");
+        // } else if (error?.error || res?.message) {
+        //   setError(error?.error || res?.message);
+        // }
+      });
+  };
+
+  const handleCheckBoxChange = (event) => {
+    setRemember(event.target.checked);
+  };
 
   return (
+    <>
+    {isAuthed && <Redirect to={from} />}
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -66,11 +106,14 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            type="username"
+            name="username"
+            value={username}
+            autoComplete="username"
             autoFocus
+            onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -81,38 +124,61 @@ export default function SignIn() {
             label="Password"
             type="password"
             id="password"
+            value={password}
             autoComplete="current-password"
+            onChange={(e) => setPassword(e.target.value)}
           />
+          {error && (
+            <Alert severity="error">{error}</Alert>
+          )}
+
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={<Checkbox 
+              value="remember" 
+              color="primary" 
+              checked={remember}
+              onChange={handleCheckBoxChange}
+            />}
             label="Remember me"
           />
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            className={classes.button}
+            onClick={(e) => handleLogin(e)}
           >
             Sign In
           </Button>
+
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
+            <Router>
+              <Grid item xs>
+                <Link component={RouterLink} to="/forgot" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <RouterLink to="/register" variant="body2">
+                  Don't have an account? Sign Up
+                </RouterLink>
+                {/* <RouterLink to="/register">
+                      I don't have an account
+                    </RouterLink> */}
+
+              </Grid>
+            </Router>
           </Grid>
+            
         </form>
       </div>
       <Box mt={8}>
         <Copyright />
       </Box>
     </Container>
+    </>
   );
 }
+
+export default Login;

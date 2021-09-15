@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useAuth } from ".";
-import ErrorRoute, { Icon } from "../Router/ErrorRoute";
+import ErrorRoute from "../Router/ErrorRoute";
 
 const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
   const { isAuthed, user } = useAuth();
@@ -17,7 +17,6 @@ const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
             return (
               <ErrorRoute
                 title="Insufficient Permissions"
-                icon={Icon.EXCLAMATION_MARK}
               >
                 You have insufficient permissions to view this page.
               </ErrorRoute>
@@ -29,7 +28,7 @@ const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
           return (
             <Redirect
               to={{
-                pathname: "/login",
+                pathname: "/landing",
                 state: {
                   from: props.location,
                 },

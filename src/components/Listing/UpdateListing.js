@@ -18,7 +18,7 @@ import { useAuth } from '../App/Authentication';
 
 function UpdateListing(props) {
 
-    const { user } = useAuth();
+    const { user, getJWT } = useAuth();
     const [listing, setListing] = useState([]);
     const currentDate = new Date();
     const location = useLocation();
@@ -67,7 +67,7 @@ function UpdateListing(props) {
             console.log(isInvalid);
         } else {
             updateCurrentListing();
-            props.history.push('/listing/list');
+            props.history.push('/listings');
         }
     }
 
@@ -75,7 +75,7 @@ function UpdateListing(props) {
     const updateCurrentListing = async () => {
         // if (user.role === 'flat') {
         const URL = 'http://localhost:4000/listings/'.concat(id);
-        const USER_TOKEN = user.token;
+        const USER_TOKEN = getJWT();
 
         const config = {
             headers: { Authorization: `Bearer ${USER_TOKEN}` }
@@ -216,7 +216,7 @@ function UpdateListing(props) {
                             <Button
                                 className="button"
                                 component={RouterLink}
-                                to="/listing/list"
+                                to="/listings"
                             >
                                 Cancel
                             </Button>
@@ -236,7 +236,7 @@ function UpdateListing(props) {
     useEffect(() => {
         async function getListing() {
             const URL = 'http://localhost:4000/listings/'.concat(id);
-            const USER_TOKEN = user.token;
+            const USER_TOKEN = getJWT();
 
             console.log('location state is ' + id)
 
