@@ -9,7 +9,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
 import { Typography } from '@material-ui/core';
 
 
@@ -78,9 +77,8 @@ const Address = (props) => {
   useEffect(()=>getRepo(), []);
 
     return (
-        <div className = "layout">
+        <div>
             <form onSubmit = {onSubmit}>
-            <FlinderLogo className = "logo-display"/>
             <Typography component="p" variant="p">
                  What's your address?
             </Typography>
