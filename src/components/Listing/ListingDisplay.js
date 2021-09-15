@@ -7,9 +7,11 @@ import * as moment from 'moment';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import axios from 'axios';
+import { useAuth } from '../App/Authentication';
 
 //Component to display the details of the selected listing for the owner flat account
 function ListingDisplay(props) {
+    const { user } = useAuth();
     const location = useLocation();
     const id = location.state.id;
     const [listing, setListing] = useState([]);
@@ -36,7 +38,7 @@ function ListingDisplay(props) {
 
     const deleteListing = async () => {
         const URL = 'http://localhost:4000/listings/'.concat(listing.id);
-        const USER_TOKEN = props.user.token;
+        const USER_TOKEN = user.token;
 
         const config = {
             headers: { Authorization: `Bearer ${USER_TOKEN}` }
@@ -55,7 +57,7 @@ function ListingDisplay(props) {
 
     const updateActive = async (activeStatus) => {
         const URL = 'http://localhost:4000/listings/'.concat(listing.id);
-        const USER_TOKEN = props.user.token;
+        const USER_TOKEN = user.token;
 
         const config = {
             headers: { Authorization: `Bearer ${USER_TOKEN}` }
@@ -114,7 +116,7 @@ function ListingDisplay(props) {
     useEffect(() => {
         async function getListing() {
             const URL = 'http://localhost:4000/listings/'.concat(id);
-            const USER_TOKEN = props.user.token;
+            const USER_TOKEN = user.token;
 
             const config = {
                 headers: { Authorization: `Bearer ${USER_TOKEN}` }
@@ -125,7 +127,7 @@ function ListingDisplay(props) {
             setListing(listing.data);
         }
         getListing();
-    }, [props.user, id])
+    }, [user, id])
 
     useEffect(() => {
         if (listing.active !== undefined) {
@@ -141,10 +143,10 @@ function ListingDisplay(props) {
     }, [listing])
 
     useEffect(() => {
-        if (listing.flat_id === props.user.id) {
+        if (listing.flat_id === user.id) {
             setOwner(true)
         }
-    }, [props.user, listing])
+    }, [user, listing])
 
     return (
         <div>

@@ -12,12 +12,13 @@ import TextField from '@material-ui/core/TextField';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
+import { useAuth } from '../App/Authentication';
 
 //Form for a Flat user to update a selected listing
 
 function UpdateListing(props) {
 
-    const [user] = useState(props.user);
+    const { user } = useAuth();
     const [listing, setListing] = useState([]);
     const currentDate = new Date();
     const location = useLocation();
@@ -235,7 +236,7 @@ function UpdateListing(props) {
     useEffect(() => {
         async function getListing() {
             const URL = 'http://localhost:4000/listings/'.concat(id);
-            const USER_TOKEN = props.user.token;
+            const USER_TOKEN = user.token;
 
             console.log('location state is ' + id)
 
@@ -248,7 +249,7 @@ function UpdateListing(props) {
             setListing(listing.data);
         }
         getListing();
-    }, [props.user, id])
+    }, [user, id])
 
     //Populate the form with the passed in listings details
     useEffect(() => {

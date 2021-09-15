@@ -4,10 +4,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { useAuth } from '../App/Authentication';
 
 //Placeholder account page for testing purposes
 function AccountPage(props) {
-    const [user, setUser] = useState(props.user);
+    const { user } = useAuth();
 
     const renderFlatButtons = () => {
         if (user.role === 'flat') {
@@ -32,7 +33,7 @@ function AccountPage(props) {
         }
     }
 
-    useEffect(() => setUser(props.user), [props.user]);
+    // useEffect(() => setUser(props.user), [props.user]);
 
     return (
         <div>
