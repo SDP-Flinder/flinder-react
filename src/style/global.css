@@ -10,6 +10,10 @@ COLOUR PALLETTE
 /* Global Styles
 ------------------------*/
 
+* {
+    font-family: 'Raleway', sans-serif;
+}
+
 .logo-display{
     height: 100px;
     width: 200px;
