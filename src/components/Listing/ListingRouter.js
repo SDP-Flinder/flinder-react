@@ -7,8 +7,6 @@ import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
 import ListingList from "./ListingList";
 import Listing from "./ListingDisplay";
-import Login from "./Login";
-import AccountPage from "./AccountPage";
 
 //
 //Redundant file
@@ -31,18 +29,6 @@ const ListingRouter = () => {
             <FlinderLogo className="logo-display" />
           </div>
           <Switch>
-            <Route
-              render={(props) => (
-                <Login {...props} user={user} updateUser={updateUser} />
-              )}
-              path="/"
-              exact={true} />
-            <Route
-              render={(props) => (
-                <AccountPage {...props} user={user} />
-              )}
-              path="/account"
-              exact={true} />
             <Route
               render={(props) => (
                 <CreateListing {...props} user={user} />
@@ -74,4 +60,4 @@ const ListingRouter = () => {
   )
 };
 
-export default ListingRouter;
+// export default ListingRouter;
