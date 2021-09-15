@@ -10,11 +10,12 @@ import TextField from '@material-ui/core/TextField';
 import { Link as RouterLink } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
+import { useAuth } from '../App/Authentication';
 
 //Form for a Flat user to create a new listing under their Flat account
 function CreateListing(props) {
 
-    const [user] = useState(props.user);
+    const { user } = useAuth();
     const currentDate = new Date();
 
     const [error, setError] = useState({});
@@ -67,7 +68,7 @@ function CreateListing(props) {
     const createNewListing = async () => {
         // if (props.user.role === 'flat') {
         const URL = 'http://localhost:4000/listings/add/'
-        const USER_TOKEN = props.user.token;
+        const USER_TOKEN = user.token;
 
         console.log(USER_TOKEN);
 

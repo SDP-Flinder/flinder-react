@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import { Grid } from '@material-ui/core';
 import axios from 'axios';
+import { useAuth } from '../App/Authentication';
 
 //Placeholder login page for testing purposes - deeply flawed and only used as a means to pull user data from the DB
 function Login(props) {
