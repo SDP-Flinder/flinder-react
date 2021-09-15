@@ -94,9 +94,9 @@ function ListingList(props) {
 
             setListings(listings.data);
         }
-        if (user.role === 'flat') {
+        // if (user.role === 'flat') {
             getListings();
-        }
+        // }
     }, [user])
 
     return (

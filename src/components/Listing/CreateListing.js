@@ -103,7 +103,7 @@ function CreateListing(props) {
             console.log(isInvalid);
         } else {
             createNewListing();
-            props.history.push('/listing/list');
+            props.history.push('/listings');
         }
     }
 

@@ -219,7 +219,7 @@ function ListingDisplay(props) {
                             <Button
                                 className="button"
                                 component={RouterLink}
-                                to="/listing/create"
+                                to="/newlisting"
                             >
                                 Create Listing
                             </Button>
