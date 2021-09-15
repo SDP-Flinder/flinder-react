@@ -46,6 +46,7 @@ COLOUR PALLETTE
     margin: 10px 0px;
     font-size: 70%;
     color: rgb(219, 96, 96);
+    align-items: left;
 }
 
 /*Used for more than one buttons on 1 page*/
