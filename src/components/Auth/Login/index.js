@@ -160,9 +160,13 @@ const Login = ({ location }) => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link component={RouterLink} to="/register" variant="body2">
+                <RouterLink to="/register" variant="body2">
                   Don't have an account? Sign Up
-                </Link>
+                </RouterLink>
+                {/* <RouterLink to="/register">
+                      I don't have an account
+                    </RouterLink> */}
+
               </Grid>
             </Router>
           </Grid>

@@ -17,9 +17,14 @@ import { useAuth } from "../../App/Authentication";
 import { MemoryRouter as Router } from 'react-router';
 import { Link as RouterLink, Redirect } from "react-router-dom";
 import Stepper from '@material-ui/core/Stepper';
+import Paper from '@material-ui/core/Paper';
+import StepContent from '@material-ui/core/StepContent';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Step1 from './Step1';
+import StepInitial from './StepInitial';
+import StepFlat from './StepFlat';
+import StepFlatee from './StepFlatee';
+import StepComformation from './StepComformation';
 
 function Copyright() {
   return (
@@ -61,11 +66,13 @@ function getSteps() {
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <Step1 />;
+      return <StepInitial />;
     case 1:
-      return 'What is an ad group anyways?';
+      return <StepFlat />;
     case 2:
-      return 'This is the bit I really care about!';
+      return <StepFlatee />;
+    case 3:
+      return <StepComformation />;
     default:
       return 'Unknown step';
   }
@@ -74,18 +81,13 @@ function getStepContent(step) {
 export default function SignUp() {
   const classes = useStyles();
   const { signup, isAuthed } = useAuth();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [organisation, setOrganisation] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
 
   const isStepOptional = (step) => {
-    return step === 1;
+    //return step === 1;
   };
 
   const isStepSkipped = (step) => {
@@ -126,16 +128,16 @@ export default function SignUp() {
     setActiveStep(0);
   };
 
-  const handleRegistration = (e) => {
-    e.preventDefault();
-    signup(firstName, lastName, organisation, email, password)
-      .then((res) => {
-        if (res?.error || res?.message) {
-          setError(res?.error || res?.message);
-        }
-      })
-      .catch((res) => setError(res));
-  };
+  // const handleRegistration = (e) => {
+  //   e.preventDefault();
+  //   signup(firstName, lastName, organisation, email, password)
+  //     .then((res) => {
+  //       if (res?.error || res?.message) {
+  //         setError(res?.error || res?.message);
+  //       }
+  //     })
+  //     .catch((res) => setError(res));
+  // };
 
   return (
     <>
@@ -149,94 +151,44 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign Up
-            </Button> */}
-<form>
-            <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = <Typography variant="caption">Optional</Typography>;
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
+          <Stepper activeStep={activeStep} orientation="vertical">
+        {steps.map((label, index) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+            <StepContent>
+              <Typography>{getStepContent(index)}</Typography>
+              <div className={classes.actionsContainer}>
+                <div>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    className={classes.button}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
+                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  </Button>
+                </div>
+              </div>
+            </StepContent>
+          </Step>
+        ))}
       </Stepper>
-      <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
-            </Button>
-          </div>
-        ) : (
-          <div>
-            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-            <div>
-              <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                Back
-              </Button>
-              {isStepOptional(activeStep) && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSkip}
-                  className={classes.button}
-                >
-                  Skip
-                </Button>
-              )}
-
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-              >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
-
-            <Grid container justifyContent="flex-end">
-              <Router>
-                <Grid item>
-                  <Link component={RouterLink} to="/login" variant="body2">
-                    Already have an account? Sign in
-                  </Link>
-                </Grid>
-              </Router>
-            </Grid>
-
-            </form>
-        </div>
+      {activeStep === steps.length && (
+        <Paper square elevation={0} className={classes.resetContainer}>
+          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Button onClick={handleReset} className={classes.button}>
+            Reset
+          </Button>
+        </Paper>
+      )}
+    </div>
         <Box mt={5}>
           <Copyright />
         </Box>

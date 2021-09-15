@@ -101,16 +101,23 @@ const useProvideAuth = () => {
 
   // Handle sign out
   const signout = () => {
-    console.log(user)
-    return axiosapi.get('/users/revoke', { 
+    console.log('Sign Out Called:');
+    console.log(user);
+    console.log(getJWT());
+    return axiosapi.get('/logout', { 
       headers: { 'Authorization': `bearer ${getJWT()}`}
     })
     .then(function () {
-      localStorage.setItem('jwt', null);
-      sessionStorage.setItem('jwt', null);
+      localStorage.removeItem('jwt');
+      sessionStorage.removeItem('jwt');
       setUser(null)
     })
-    .catch((error) => error)
+    .catch(function(error) {
+      console.log(error);
+      localStorage.removeItem('jwt');
+      sessionStorage.removeItem('jwt');
+      setUser(null)
+    })
   };
 
   // // Handle signing up
