@@ -151,9 +151,8 @@ import FlatChecklist from './FlatSteps/FlatChecklist';
 import FlateePreferredAreas from './FlateeSteps/FlateePreferredAreas';
 import FlateeChecklist from './FlateeSteps/FlateeChecklist';
 import FlateeReview from './FlateeSteps/FlateeReview';
-import '../../../style/global.css';
-import { Button } from '@material-ui/core';
-import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+import '../../../style/global.css'
+
 
 const steps = [
   {id: "username"},
@@ -166,28 +165,6 @@ const steps = [
   {id: "flatee-checklist"},
   {id: "flatee-review"},
 ]
-
-const renderStep = (step, prop, user, updateUser) => {
-  switch(step.id){
-    case "username":
-        return <FirstStep className = "layout" {...prop} user = {user} updateUser = {updateUser}/>;
-    case "flat-information":
-        return <FlatInfo {...prop} user = {user} updateUser = {updateUser}/>;
-    case "flat-address":
-        return <Address {...prop} user = {user} updateUser = {updateUser}/>;
-    case "flat-description":
-        return <FlatAddress {...prop} user = {user} updateUser = {updateUser}/>;
-    case "flat-checklist":
-        return <FlatChecklist {...prop} user = {user} updateUser = {updateUser}/>;
-    case "flatee-area":
-        return <FlateePreferredAreas {...prop} user = {user} updateUser = {updateUser}/>;
-    case "flatee-checklist":
-          return <FlateeChecklist {...prop} user = {user} updateUser = {updateUser}/>;
-    case "flatee-review":
-          return <FlateeReview {...prop} user = {user} updateUser = {updateUser}/>;
-    
-  }
-}
 
 export default function SignUp () {
   const [user, setUser] = useState({
@@ -236,15 +213,29 @@ export default function SignUp () {
 
   const prop = {navigation};
 
+  switch(step.id){
+      case "username":
+          return <FirstStep className = "layout" {...prop} user = {user} updateUser = {updateUser}/>;
+      case "flat-information":
+          return <FlatInfo {...prop} user = {user} updateUser = {updateUser}/>;
+      case "flat-address":
+          return <Address {...prop} user = {user} updateUser = {updateUser}/>;
+      case "flat-description":
+          return <FlatAddress {...prop} user = {user} updateUser = {updateUser}/>;
+      case "flat-checklist":
+          return <FlatChecklist {...prop} user = {user} updateUser = {updateUser}/>;
+      case "flatee-area":
+          return <FlateePreferredAreas {...prop} user = {user} updateUser = {updateUser}/>;
+      case "flatee-checklist":
+            return <FlateeChecklist {...prop} user = {user} updateUser = {updateUser}/>;
+      case "flatee-review":
+            return <FlateeReview {...prop} user = {user} updateUser = {updateUser}/>;
+      
+  }
 
   return (
-    <div className = "layout">
-        <FlinderLogo className = "logo-display"/>
-
-      {renderStep(step, prop, user, updateUser)}
-      {step.id == "flatee-review" &&  <Button className = "single-button"
-        variant="contained" color="primary"
-       >Complete</Button>}
+    <div>
+      Sign Up
     </div>
   )
 }

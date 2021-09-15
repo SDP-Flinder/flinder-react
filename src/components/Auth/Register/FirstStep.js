@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { FormLabel, Radio, RadioGroup, FormControlLabel, Grid, IconButton } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Link } from '@material-ui/core';
-import { Typography } from '@material-ui/core';
+import {ReactComponent as FlinderLogo} from '../../assets/logo.svg';
 
 
 const FirstStep = (props) => {
@@ -102,11 +102,9 @@ const FirstStep = (props) => {
   }
 
   return (
-    <div>
-       <Typography component="p" variant="p">
-          Sign Up to find your new home
-       </Typography>
-       <br />
+    <div className = "layout">
+       <FlinderLogo className = "logo-display"/>
+       <h6>Sign Up to find your new home.</h6>
        <form onSubmit={handleSubmit(onSubmit)}>
 
         <Grid
@@ -114,9 +112,8 @@ const FirstStep = (props) => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing = {2}
         >
-       <Grid item>
+       <div>
        <FormControl>
           <TextField className = "input"
           label = "Username"
@@ -127,12 +124,13 @@ const FirstStep = (props) => {
           placeholder="Enter your username" 
           error = { !!error.username}
           />
-          <br/>
-          {error.username && <div className = "error-message">{error.username}</div>}
+        <br />
+          {error.username && <div className = "error-message">{error.username} <br /> </div>}
         </FormControl>
-        </Grid>
+        </div>
+        <br />
 
-        <Grid item>
+
         <FormControl>
         <TextField className = "input"
           label="Password" 
@@ -147,9 +145,7 @@ const FirstStep = (props) => {
           <br />
           {error.password && <div className = "error-message">{error.password} <br /> </div>}
         </FormControl>
-        </Grid>
-        
-        <Grid item>
+        <br />
         <FormControl>
         <TextField className = "input"
           label = "Email"
@@ -164,9 +160,7 @@ const FirstStep = (props) => {
           <br />
           {error.email && <div className = "error-message">{error.email} <br /> </div>}
         </FormControl>
-        </Grid>
         <br />
-        
         <FormControl className = "input"          
         error = {!!error.accountType}  
         component="fieldset">
