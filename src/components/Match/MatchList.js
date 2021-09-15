@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
@@ -11,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
+import { useAuth } from '../App/Authentication'
+
 
 function Copyright() {
     return (
@@ -47,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 function MatchList() {
     const classes = useStyles();
+    const { user, getJWT } = useAuth();
 
     var match1 = { name: 'Bob', age: 25, key: 0 };
     var match2 = { name: 'John', age: 30, key: 1 };
@@ -95,9 +97,8 @@ function MatchList() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Listings
+                    Pending Matches
                 </Typography>
-                <h3>Pending Matches</h3>
                 {renderButtons()}
                 <br />
                 <h3>{currentMatch.name}</h3>
