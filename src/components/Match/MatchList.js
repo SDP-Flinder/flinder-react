@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function MatchList() {
+function MatchList(props) {
     const classes = useStyles();
     const { user, getJWT } = useAuth();
     const [matches, setMatches] = useState([]);
@@ -82,14 +82,17 @@ function MatchList() {
         ))
     }
 
-    const selectMatch = (key) => {
+    const selectMatch = (id) => {
         matches.forEach(match => {
-            if (match.id === key) {
-                setCurrentMatch(match);
+            if (match.id === id) {
+                props.history.push({
+                    pathname: '/match',
+                    state: { match: match },
+                });
                 return;
             }
         })
-        console.log(key);
+        console.log(id);
     }
 
     useEffect(() => {
