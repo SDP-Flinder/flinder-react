@@ -13,7 +13,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TinderCard from 'react-tinder-card';
 // import base url
 import {
-  instance, matchesForFlatee, unmatch, addFlat,
+  instance, matchesForFlatee, flatsForFlatee, unmatch, addListing,
 } from '../../utils/requests';
 // import styles
 import './styles.css';
@@ -21,13 +21,12 @@ import './styles.css';
 // create cards component and export it
 const CardsForFlatee = () => {
   const alreadyRemoved = [];
-  // eslint-disable-next-line no-unused-vars
-  const [people, setPeople] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+  const [listings, setListings] = useState([]);
+  const [listingOwners, setListingsOwners] = useState([]);
   const [readMore, setReadMore] = useState(null);
   const [showMore, setShowMore] = useState(true);
   // eslint-disable-next-line no-unused-vars
-  const childRefs = useMemo(() => Array(people.length).fill(0).map((i) => React.createRef()));
+  const childRefs = useMemo(() => Array(listings.length).fill(0).map((i) => React.createRef()));
 
   const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzE0MDY5NjcsImV4cCI6MTYzMjAxMTc2N30.yIXQXoZ2eTIh-OAsIZwTY1DhDkwk5ozL7-V_N_WG4YM';
   const AuthString = 'Bearer '.concat(USER_TOKEN);
@@ -35,33 +34,45 @@ const CardsForFlatee = () => {
   let matchparam = {
     flateeUsername: flateeUser,
   };
-  // use effect
+
   useEffect(() => {
-    async function fetchData() {
+    async function fetchListings() {
       await instance.get(matchesForFlatee, {
         params: matchparam,
         headers: { Authorization: AuthString },
       })
         .then((res) => {
-          setPeople(res.data);
+          setListings(res.data);
         });
     }
+    fetchListings();
+  }, []);
 
-    fetchData();
+  useEffect(() => {
+    async function fetchListingOwners() {
+      await instance.get(flatsForFlatee, {
+        params: matchparam,
+        headers: { Authorization: AuthString },
+      })
+        .then((res) => {
+          setListingsOwners(res.data);
+        });
+    }
+    fetchListingOwners();
   }, []);
 
   // swipe function
-  const swiped = (direction, targetName) => {
+  const swiped = (direction, id) => {
     matchparam = {
       flateeUsername: flateeUser,
-      flatUsername: targetName,
+      listingID: id,
     };
     if (_isEqual(direction, 'left')) {
       instance.put(unmatch, matchparam, { headers: { Authorization: AuthString } });
     } else if (_isEqual(direction, 'right')) {
-      instance.post(addFlat, matchparam, { headers: { Authorization: AuthString } });
+      instance.post(addListing, matchparam, { headers: { Authorization: AuthString } });
     }
-    alreadyRemoved.push(targetName);
+    alreadyRemoved.push(id);
 
     setShowMore(true);
     setReadMore(null);
@@ -69,37 +80,47 @@ const CardsForFlatee = () => {
 
   // automate swiping feature through buttons
   const swipe = (dir) => {
-    const cardsLeft = people.filter((person) => !alreadyRemoved.includes(person.username));
+    const cardsLeft = listings.filter((listing) => !alreadyRemoved.includes(listing.id));
     if (cardsLeft.length) {
       // eslint-disable-next-line max-len
-      const toBeRemoved = cardsLeft[cardsLeft.length - 1].username; // Find the card object to be removed
+      const toBeRemoved = cardsLeft[cardsLeft.length - 1].id; // Find the card object to be removed
       // eslint-disable-next-line max-len
-      const index = people.map((person) => person.username).indexOf(toBeRemoved); // Find the index of which to make the reference to
+      const index = listings.map((listing) => listing.id).indexOf(toBeRemoved); // Find the index of which to make the reference to
       // eslint-disable-next-line max-len
       alreadyRemoved.push(toBeRemoved); // Make sure the next card gets removed next time if this card do not have time to exit the screen
       childRefs[index].current.swipe(dir); // Swipe the card!
     }
   };
 
-  const changeText = (person) => {
-    setShowMore(!showMore);
-    if (showMore) {
-      const text = (
-        <h2 style={{
-          padding: 15,
-        }}
-        >
-          {`Description: ${person.description}`}
-          <br />
-          {`Location: ${person.address.suburb}`}
-          <br />
-          {`${person.existingFlatmates} Flatmate(s)`}
-        </h2>
-      );
-      setReadMore(text);
-    } else {
-      const text = null;
-      setReadMore(text);
+  const changeText = (Listing) => {
+    const cardsLeft = listings.filter((listing) => !alreadyRemoved.includes(listing.id));
+    if (cardsLeft.length) {
+      // eslint-disable-next-line max-len
+      const toBeTargeted = cardsLeft[cardsLeft.length - 1].id; // Find the card object to retrieve extra info
+      // eslint-disable-next-line max-len
+      const index = listings.map((listing) => listing.id).indexOf(toBeTargeted); // Find the index of which to make the reference to
+      setShowMore(!showMore);
+
+      if (showMore) {
+        const text = (
+          <h2 style={{
+            padding: 15,
+          }}
+          >
+            {`Flat Description: ${listingOwners[index].description}`}
+            <br />
+            {`Listing Description: ${Listing.description}`}
+            <br />
+            {`Location: ${listingOwners[index].address.suburb}`}
+            <br />
+            {`${listingOwners[index].existingFlatmates} Flatmate(s)`}
+          </h2>
+        );
+        setReadMore(text);
+      } else {
+        const text = null;
+        setReadMore(text);
+      }
     }
   };
 
@@ -108,15 +129,15 @@ const CardsForFlatee = () => {
       {/* All the cards */}
       <div className="cards">
         <div className="cards__cardContainer">
-          {people.map((person, index) => (
+          {listings.map((listing, index) => (
             <TinderCard
               ref={childRefs[index]}
               className="swipe"
-              key={person.name}
+              key={listing.id}
               flickOnSwipe
               preventSwipe={['up', 'down']}
-              currentFlatCard={person.username}
-              onSwipe={(dir) => swiped(dir, person.username)}
+              currentFlatCard={listing.id}
+              onSwipe={(dir) => swiped(dir, listing.id)}
             >
               {/* Background image */}
               <div
@@ -129,13 +150,12 @@ const CardsForFlatee = () => {
                   {readMore}
                 </body>
                 <IconButton
-                  onClick={() => changeText(person)}
+                  onClick={() => changeText(listing)}
                   className="see-more-button"
                 >
                   <MoreVertIcon fontSize="large" />
                 </IconButton>
-                {/* Name */}
-                <h3>{person.username}</h3>
+                <h3>{listingOwners[index].username}</h3>
               </div>
             </TinderCard>
           ))}
