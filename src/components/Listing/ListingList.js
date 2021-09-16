@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import axios from 'axios';
 import { useAuth } from '../App/Authentication';
-
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
@@ -109,12 +108,6 @@ function ListingList(props) {
                 <Typography component="h1" variant="h5">
                     Listings
                 </Typography>
-                <Grid
-                    container
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
-                >
                     {renderButtons()}
                     <br />
                     <ButtonGroup variant="contained" color="primary">
@@ -133,7 +126,7 @@ function ListingList(props) {
                             Create Listing
                         </Button>
                     </ButtonGroup>
-                </Grid>
+                {/* </Grid> */}
             </div>
             <Box mt={8}>
                 <Copyright />

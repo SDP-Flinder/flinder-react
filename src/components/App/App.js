@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ProvideAuth } from "./Authentication";
 // import Navigation from "./Navigation";
 import Router from "./Router";
+import "../../style/global.css"
 
 const App = () => {
   return (
