@@ -12,17 +12,19 @@ import Home from "../../Home"
 import { Role } from "../Authentication";
 import ProtectedRoute from "../Authentication/ProtectedRoute";
 import ErrorRoute from "./ErrorRoute";
+import Forgot from "../../Auth/Forgot";
 
 const Router = () => (
   <Switch>
     <Route exact path="/login" component={Login} />
     <Route exact path="/logout" component={Logout} />
     <Route exact path="/register" component={Register} />
+    <Route exact path="/forgot" component={Forgot} />
     <Route exact path="/landing" component={Landing} />
     {/* Protected */}
+    <ProtectedRoute exact path="/" component={Home} />
     <ProtectedRoute exact roles={[Role.Admin]} path="/dashboard" component={Dashboard} />
     <ProtectedRoute exact roles={[Role.Flat]} path="/newlisting" component={NewListing} />
-    <ProtectedRoute exact path="/" component={Home} />
     <ProtectedRoute exact path="/listing" component={Listing} />
     <ProtectedRoute exact path="/profile" component={Profile} />
     <Route component={ErrorRoute} />

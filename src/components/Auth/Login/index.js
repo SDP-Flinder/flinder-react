@@ -1,17 +1,7 @@
 import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import {Avatar, Button, Container, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
 import { Link as RouterLink, Redirect } from "react-router-dom";
 import { Config } from '../../../config'
@@ -69,7 +59,7 @@ const Login = ({ location }) => {
     signin(username, password, remember)
       .then((res) => {
         console.log(res?.message)
-        if (res?.error || res?.message) {
+        if (res?.error || res?.message) { //TODO: Display correct error message
           // setError(res?.error || res?.message);
           setError('Username or password incorrect')
         }

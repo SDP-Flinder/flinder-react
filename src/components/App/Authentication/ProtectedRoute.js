@@ -12,18 +12,18 @@ const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
       {...rest}
       render={(props) => {
         if (isAuthed) {
-          // RBAC if route is restricted by role
+          // Return back error if route is restricted by role
           if (roles && roles.indexOf(role) === -1) {
             return (
               <ErrorRoute
                 title="Insufficient Permissions"
-              >
-                You have insufficient permissions to view this page.
-              </ErrorRoute>
+                children="You have insufficient permissions to view this page."
+              />
             );
           }
           // Return component
           return <Component {...rest} {...props} />;
+          
         } else {
           return (
             <Redirect

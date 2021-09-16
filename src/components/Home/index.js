@@ -18,13 +18,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
     const classes = useStyles();
+    const {user} = useAuth();
 
     return(
         <>
             <Navigation />
             <div className={classes.paper}>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                    Home
+                    {`Hello ${user.firstName} ${user.lastName}`}
                 </Typography>
                 {/* User should only be able to access this page when authorised, but just incase. Could remove check */}
                 
