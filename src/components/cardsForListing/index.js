@@ -13,17 +13,15 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TinderCard from 'react-tinder-card';
 // import base url
 import {
-  instance, matchesForFlat, unmatch, addFlatee,
+  instance, matchesForListing, unmatch, addFlatee,
 } from '../../utils/requests';
 // import styles
 import './styles.css';
 
 // create cards component and export it
-const CardsForFlat = () => {
+const CardsForListing = () => {
   const alreadyRemoved = [];
-  // eslint-disable-next-line no-unused-vars
   const [people, setPeople] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [readMore, setReadMore] = useState(null);
   const [showMore, setShowMore] = useState(true);
   // eslint-disable-next-line no-unused-vars
@@ -31,14 +29,14 @@ const CardsForFlat = () => {
 
   const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzE0MDY5NjcsImV4cCI6MTYzMjAxMTc2N30.yIXQXoZ2eTIh-OAsIZwTY1DhDkwk5ozL7-V_N_WG4YM';
   const AuthString = 'Bearer '.concat(USER_TOKEN);
-  const flatUser = 'billymcd'; // make a default //how to retrieve current user's username? assuming flatee pov
+  const listingID = '613af6a36acb285058d0fd36'; // RETRIEVE LISTING ID
   let matchparam = {
-    flatUsername: flatUser,
+    listingID: listingID,
   };
   // use effect
   useEffect(() => {
     async function fetchData() {
-      await instance.get(matchesForFlat, {
+      await instance.get(matchesForListing, {
         params: matchparam,
         headers: { Authorization: AuthString },
       })
@@ -166,4 +164,4 @@ const CardsForFlat = () => {
   );
 };
 
-export default CardsForFlat;
+export default CardsForListing;

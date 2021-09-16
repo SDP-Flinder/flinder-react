@@ -30,7 +30,7 @@ const CardsForFlatee = () => {
 
   const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzE0MDY5NjcsImV4cCI6MTYzMjAxMTc2N30.yIXQXoZ2eTIh-OAsIZwTY1DhDkwk5ozL7-V_N_WG4YM';
   const AuthString = 'Bearer '.concat(USER_TOKEN);
-  const flateeUser = 'daniel'; // make a default //how to retrieve current user's username? assuming flatee pov
+  const flateeUser = 'daniel'; // RETRIEVE FLATEE_USERNAME
   let matchparam = {
     flateeUsername: flateeUser,
   };

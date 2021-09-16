@@ -13,4 +13,3 @@ export const matchesForListing = '/matches/potentialMatchesForListing';
 export const addListing = '/matches/addListing';
 export const addFlatee = '/matches/addFlatee';
 export const unmatch = '/matches/unmatch';
-export const getFlatAccDetails = '/users/:id';
