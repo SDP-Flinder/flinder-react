@@ -3,7 +3,7 @@ import React from 'react';
 // import Header component
 import Header from '../header';
 // import cards
-import CardsForFlatee from '../cardsForFlatee';
+import CardsForFlatee from '../../cardsForFlatee';
 
 // note: CardsForFlat and CardsForFlatee now exists. need to wait for Finn's login to store
 // variables for token, username, role.
