@@ -33,7 +33,8 @@ const CardsForListing = () => {
   let matchparam = {
     listingID: listingID,
   };
-  // use effect
+
+  // use effect to gather potential matches for this listing
   useEffect(() => {
     async function fetchData() {
       await instance.get(matchesForListing, {
@@ -79,6 +80,7 @@ const CardsForListing = () => {
     }
   };
 
+  // show additional info of card if triggered
   const changeText = (person) => {
     setShowMore(!showMore);
     if (showMore) {

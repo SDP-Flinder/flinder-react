@@ -35,6 +35,7 @@ const CardsForFlatee = () => {
     flateeUsername: flateeUser,
   };
 
+  // use effect to gather potential listings for this flatee
   useEffect(() => {
     async function fetchListings() {
       await instance.get(matchesForFlatee, {
@@ -48,6 +49,7 @@ const CardsForFlatee = () => {
     fetchListings();
   }, []);
 
+  // use effect to gather potential listing owners for this listing
   useEffect(() => {
     async function fetchListingOwners() {
       await instance.get(flatsForFlatee, {
@@ -92,6 +94,7 @@ const CardsForFlatee = () => {
     }
   };
 
+  // show additional info of card if triggered
   const changeText = (Listing) => {
     const cardsLeft = listings.filter((listing) => !alreadyRemoved.includes(listing.id));
     if (cardsLeft.length) {
