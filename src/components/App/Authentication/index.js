@@ -137,7 +137,23 @@ const useProvideAuth = () => {
       console.log('reachced here');
       return await axiosapi.post('/users/register', {
         ...userParam
-      }).then(res => console.log(res));
+      }).then(function (response) {
+        if(Config.Logging){
+          console.log(response)
+        }
+
+        setUser(response.data);
+
+        if(Config.Logging)
+            console.log(`User object after signin: ${user}`);
+
+        return response;
+    })
+    .catch(function (error) {
+        if(Config.Logging)
+            console.log(error)
+        return error;
+    });
     } else if(user.accountType == 'flat'){
       const userParam = {
         username: user.username,
@@ -154,7 +170,23 @@ const useProvideAuth = () => {
       console.log('reachced here');
       return await axiosapi.post('/users/register', {
         ...userParam
-      }).then(res => console.log(res));
+      }).then(function (response) {
+        if(Config.Logging){
+          console.log(response)
+        }
+
+        setUser(response.data);
+
+        if(Config.Logging)
+            console.log(`User object after signin: ${user}`);
+
+        return response;
+    })
+    .catch(function (error) {
+        if(Config.Logging)
+            console.log(error)
+        return error;
+    });
     }
   };
 
