@@ -85,9 +85,9 @@ const FlatInfo = (props) => {
 
             </section>
             <br/>
-            <Button style = {{width: "330px"}}
+            {/* <Button style = {{width: "330px"}}
             variant="contained" color="primary"
-            onClick = {handleSubmit}>Complete</Button>
+            onClick = {handleSubmit}>Complete</Button> */}
         </div>
     )
 }

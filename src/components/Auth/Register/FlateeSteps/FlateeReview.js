@@ -82,9 +82,9 @@ const FlateeReview = (props) => {
             </p>
             </section>
             <br/>
-            <Button className = "single-button"
+            {/* <Button className = "single-button"
             variant="contained" color="primary"
-            onClick = {handleSubmit}>Complete</Button>
+            onClick = {handleSubmit}>Complete</Button> */}
         </div>
     )
 }

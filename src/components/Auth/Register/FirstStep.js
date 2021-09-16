@@ -124,6 +124,7 @@ const FirstStep = (props) => {
           variant="outlined"
           name = "user.username"
           value ={user.username}
+          autoFocus
           onChange = {e => setForm('username', e.target.value)}
           placeholder="Enter your username" 
           error = { !!error.username}
@@ -206,7 +207,7 @@ const FirstStep = (props) => {
         <Grid container justifyContent="flex-end">
            <Grid item>
            Already have an account? 
-           <Link href="login/" variant="body2"> Sign in
+           <Link href="login/" variant="body1"> Sign in
            </Link>
          </Grid>
         </Grid>
