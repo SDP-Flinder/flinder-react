@@ -27,7 +27,7 @@
     "recharts": "^1.8.5",
     "uuid": "^8.1.0"
   },
-  "proxy": "http://localhost:9000/",
+  "proxy": "http://localhost:4000/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

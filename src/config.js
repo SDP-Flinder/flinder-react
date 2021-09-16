@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const Config = {
     AppName: 'Flinder',
     AppURL: 'https://flinder.herokuapp.com',
