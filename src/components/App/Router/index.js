@@ -5,9 +5,9 @@ import Logout from "../../Auth/Logout";
 import Register from "../../Auth/Register";
 import Dashboard from "../../Dashboard";
 import Landing from "../../Landing";
-import Listing from "../../Listing";
+// import Listing from "../../Listing";
 import Profile from "../../Profile";
-import NewListing from "../../Listing/newListing"
+// import NewListing from "../../Listing/newListing"
 import Home from "../../Home"
 import { Role } from "../Authentication";
 import ProtectedRoute from "../Authentication/ProtectedRoute";
@@ -24,8 +24,8 @@ const Router = () => (
     {/* Protected */}
     <ProtectedRoute exact path="/" component={Home} />
     <ProtectedRoute exact roles={[Role.Admin]} path="/dashboard" component={Dashboard} />
-    <ProtectedRoute exact roles={[Role.Flat]} path="/newlisting" component={NewListing} />
-    <ProtectedRoute exact path="/listing" component={Listing} />
+    {/* <ProtectedRoute exact roles={[Role.Flat]} path="/newlisting" component={NewListing} /> */}
+    {/* <ProtectedRoute exact path="/listing" component={Listing} /> */}
     <ProtectedRoute exact path="/profile" component={Profile} />
     <Route component={ErrorRoute} />
   </Switch>

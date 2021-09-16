@@ -36,8 +36,8 @@ const useProvideAuth = () => {
    */
   const jwt = getJWT();
   const [user, setUser] = useState(null);
-  const isAuthed = user?.id ? true : false;
-  // const isAuthed = (jwt && jwtDecode(jwt).exp > Date.now) ? true : false;;
+  // const isAuthed = user?.id ? true : false;
+  const isAuthed = (user && jwt && jwtDecode(jwt).exp * 1000 > Date.now()) ? true : false;
 
   // Get current user data, if they are logged in
   useEffect(() => {
@@ -46,7 +46,6 @@ const useProvideAuth = () => {
         headers: { 'Authorization': `bearer ${getJWT()}`}
       })
       .then((response) => {
-        console.log(`UseEffect current user response ${response.data.json()}`)
         setUser({
           firstName: response.data.firstName, 
           lastName: response.data.lastName,
@@ -66,7 +65,7 @@ const useProvideAuth = () => {
     console.log(jwt);
     // If JWT is stored then load user
     if (jwt != null) {getUser()}
-    console.log(`User object : ${user}`);
+    console.log(`User object: ${user}`);
     console.log(`Is authed: ${isAuthed}`);
 
     return () => {

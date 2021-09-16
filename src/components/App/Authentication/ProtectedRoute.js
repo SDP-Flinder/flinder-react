@@ -2,9 +2,10 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useAuth } from ".";
 import ErrorRoute from "../Router/ErrorRoute";
+import jwtDecode from 'jwt-decode';
 
 const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
-  const { isAuthed, user } = useAuth();
+  const { jwt, isAuthed, user } = useAuth();
   const role = user?.role;
 
   return (

@@ -59,6 +59,7 @@ const Login = ({ location }) => {
     signin(username, password, remember)
       .then((res) => {
         console.log(res?.message)
+        // if (res.status === 400){ //incorrect username or password
         if (res?.error || res?.message) { //TODO: Display correct error message
           // setError(res?.error || res?.message);
           setError('Username or password incorrect')
@@ -66,11 +67,7 @@ const Login = ({ location }) => {
       })
       .catch((error) => {
         console.log(error)
-        // if (error?.message == "incorrect-username-password" ) {
-        //   setError("Username or Password Incorrect, Please try again.");
-        // } else if (error?.error || res?.message) {
-        //   setError(error?.error || res?.message);
-        // }
+        //   setError(error?.error);
       });
   };
 
@@ -124,6 +121,7 @@ const Login = ({ location }) => {
 
           <FormControlLabel
             control={<Checkbox 
+              name="rememberme"
               value="remember" 
               color="primary" 
               checked={remember}
