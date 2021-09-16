@@ -79,8 +79,8 @@ const Address = (props) => {
     return (
         <div>
             <form onSubmit = {onSubmit}>
-            <Typography component="p" variant="p">
-                 What's your address?
+            <Typography component="h3">
+                 What&apos;s your address?
             </Typography>
             <div className = "display-address-search">
             <PlacesAutocomplete 

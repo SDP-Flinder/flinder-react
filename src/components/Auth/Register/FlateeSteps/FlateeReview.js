@@ -28,7 +28,7 @@ const FlateeReview = (props) => {
     return (
         <div>
 
-            <Typography component="p" variant="p">Finally, check your information...</Typography>
+            <Typography component="h4">Finally, check your information...</Typography>
 
             <section>
             <div className ="display-button">
@@ -76,7 +76,7 @@ const FlateeReview = (props) => {
             </div>
             {props.user.checklist.isSmoker && <p>- Smoker</p>}
             {props.user.checklist.hasPet && <p>- Has Pet</p>}
-            {props.user.checklist.isCouple && <p>- Lookng for a couple's room</p>}
+            {props.user.checklist.isCouple && <p>- Lookng for a couple&apos;s room</p>}
 
             <p>- Looking for price range from ${props.user.checklist.priceRange.min} to ${props.user.checklist.priceRange.max}
             </p>

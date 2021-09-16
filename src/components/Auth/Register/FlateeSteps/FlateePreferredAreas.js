@@ -55,8 +55,8 @@ const FlateePreferredAreas = (props) => {
     return (
         <form onSubmit = {onSubmit}>
         
-        <Typography component="p" variant="p">Next, please choose your preferred flatting areas.</Typography>
-        <Typography component="p" variant="p">(You can change this later)</Typography>
+        <Typography component="h3">Next, please choose your preferred flatting areas.</Typography>
+        <Typography component="h6">(You can change this later)</Typography>
 
         <FormControl>
         <InputLabel > City </InputLabel>

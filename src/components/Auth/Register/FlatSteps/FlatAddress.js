@@ -25,7 +25,7 @@ const FlatAddress = (props) => {
     return (
         <form onSubmit = {onSubmit}>
       
-        <Typography component="p" variant="p">Next, please provide you flat's details...</Typography>
+        <Typography component="h3">Next, please provide you flat&apos;s details...</Typography>
 
         <br/>
          <TextField

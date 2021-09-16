@@ -103,7 +103,7 @@ const FirstStep = (props) => {
 
   return (
     <div>
-       <Typography component="p" variant="p">
+       <Typography component="h3">
           Sign Up to find your new home
        </Typography>
        <br />
@@ -170,7 +170,7 @@ const FirstStep = (props) => {
         <FormControl className = "input"          
         error = {!!error.accountType}  
         component="fieldset">
-        <FormLabel component="legend">I'm looking for...</FormLabel>
+        <FormLabel component="legend">I am looking for...</FormLabel>
         <RadioGroup
           aria-label="accountType"
           name = "user.accountType"

@@ -76,7 +76,7 @@ const FlatInfo = (props) => {
     return (
         <form
         onSubmit={onSubmit}>
-        <Typography component="p" variant="p">
+        <Typography component="h3">
         First, tell us a little bit about you...
        </Typography>
         <br/>
