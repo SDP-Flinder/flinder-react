@@ -101,16 +101,8 @@ export default function SignUp ({ location }) {
   let { from } = location.state || { from: { pathname: "/" } };
 
   const handleSignUp = (e) => {
-      setOpen(true);
-      const newUser = user;
-      console.log(newUser);
       e.preventDefault();
-      signup(newUser).then((res) => {
-        console.log(res?.message)
-      })
-      .catch((error) => {
-        console.log(error)
-      });
+      setOpen(true);
   }
 
   const prop = {navigation};
@@ -120,6 +112,15 @@ export default function SignUp ({ location }) {
   const redirectToMain = () => {
     //Redirect to the main page
       handleClose();
+    //Submit the form
+      const newUser = user;
+      console.log(newUser);
+      signup(newUser).then((res) => {
+        console.log(res?.message)
+      })
+      .catch((error) => {
+        console.log(error)
+      });
   }
 
   const handleClose = () => {
@@ -128,7 +129,7 @@ export default function SignUp ({ location }) {
 
   return (
     <div className = "layout">
-        {/* THIS DOES NOT WORK: {isAuthed && <Redirect to={from} />} */}
+        {isAuthed && <Redirect to={from} />}
         <FlinderLogo className = "logo-display"/>
        {renderStep(step, prop, user, updateUser)}
        {(step.id == "flatee-review" || step.id == "flat-checklist") && 
