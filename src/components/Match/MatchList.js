@@ -53,6 +53,11 @@ function MatchList() {
     const [matches, setMatches] = useState([]);
     const [currentMatch, setCurrentMatch] = useState({ name: '', age: 0, key: 0 });
 
+    const listingID = '6141abba9a0320596c17bc57'; // RETRIEVE LISTING ID
+    let matchparam = {
+        listingID: listingID,
+    };
+
     // const getMatches = async () => {
     //     matchList();
 
@@ -86,20 +91,29 @@ function MatchList() {
     }
 
     useEffect(() => {
+        async function getListings() {
+            getMatches();
+        }
+
         async function getMatches() {
-            const URL = 'http://localhost:4000/potentialmatchesForListing/user?flatUsername='.concat(user.username);
+            const URL = 'http://localhost:4000/matches/potentialMatchesForListing';
             const USER_TOKEN = getJWT();
 
             const config = {
+                params: matchparam,
                 headers: { Authorization: `Bearer ${USER_TOKEN}` }
             };
 
-            const matches = await axios.get(URL, config);
+            const tempMatches = await axios.get(URL, config);
 
-            setMatches(matches.data);
+            setMatches([...matches, tempMatches.data]);
         }
-            getMatches();
+        if (user !== null) {
+            getListings()
+        }
     }, [user, getJWT])
+
+
 
     return (
         <Container component="main" maxWidth="xs">
