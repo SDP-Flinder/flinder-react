@@ -24,7 +24,7 @@ const FlatInfo = (props) => {
     return (
         <div>
 
-            <Typography component="p" variant="p">Finally, check your information...</Typography>
+            <Typography component="h3" variant="p">Finally, check your information...</Typography>
 
             <section>
             <div className = "display-button">

@@ -149,7 +149,7 @@ const Login = ({ location }) => {
               </Grid>
               <Grid item>
                 <RouterLink to="/register" variant="body2">
-                  Don't have an account? Sign Up
+                  Don&apos;t have an account? Sign Up
                 </RouterLink>
                 {/* <RouterLink to="/register">
                       I don't have an account

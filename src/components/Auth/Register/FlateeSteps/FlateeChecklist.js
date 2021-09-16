@@ -83,7 +83,7 @@ const FlateeChecklist = (props) => {
     return (
         <div>
             <form onSubmit = {onSubmit}>
-                <Typography component="p" variant="p">Are you....</Typography>
+                <Typography component="h4">Are you....</Typography>
                 <FormGroup component="fieldset">
                 <FormControlLabel
                     control={<Checkbox
@@ -124,7 +124,7 @@ const FlateeChecklist = (props) => {
                 </FormGroup>
 
                 <br />
-                <Typography component="p" variant="p">Your price range (per week):</Typography>
+                <Typography component="h4">Your price range (per week):</Typography>
                 <br />
                 <FormControl variant="outlined">
                 <InputLabel htmlFor="outlined-age-native-simple">From</InputLabel>
