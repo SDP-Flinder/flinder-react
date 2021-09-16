@@ -10,6 +10,8 @@ import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Typography } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+
 
 
 const Address = (props) => {
@@ -131,14 +133,14 @@ const Address = (props) => {
 
             {addressName ?
             <div className = "address-information">
-            <Typography component="p" variant="p"> Street number: {componentAddress.street} </Typography>
-            {error.street && <div className = "error-message">{error.street}</div>}
-            <Typography component="p" variant="p"> Suburb: {componentAddress.suburb} </Typography>
-            <Typography component="p" variant="p"> City: {componentAddress.city} </Typography>
-            <Typography component="p" variant="p"> Country: {componentAddress.country} </Typography>
-            {error.country && <div className = "error-message">{error.country}</div>}
+            <Typography component="h5" variant="p"> Street number: {componentAddress.street} </Typography>
+            <Typography component="h5" variant="p"> Suburb: {componentAddress.suburb} </Typography>
+            <Typography component="h5" variant="p"> City: {componentAddress.city} </Typography>
+            <Typography component="h5" variant="p"> Country: {componentAddress.country} </Typography>
             </div>
-            : <div> <br/> </div>}
+            : <div>  </div>}
+            {error.street && <Alert severity = "error">{error.street}</Alert>}
+            {error.country && <Alert severity = "error">{error.country}</Alert>}
 
             <div className = "display-button">
             <IconButton variant="contained" className = "button"

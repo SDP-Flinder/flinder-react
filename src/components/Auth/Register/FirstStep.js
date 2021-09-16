@@ -8,6 +8,7 @@ import { FormLabel, Radio, RadioGroup, FormControlLabel, Grid, IconButton } from
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Link } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 
 
 const FirstStep = (props) => {
@@ -128,7 +129,9 @@ const FirstStep = (props) => {
           error = { !!error.username}
           />
           <br/>
-          {error.username && <div className = "error-message">{error.username}</div>}
+          <br/>
+
+          {error.username && <Alert severity = "error">{error.username}</Alert>}
         </FormControl>
         </Grid>
 
@@ -145,7 +148,8 @@ const FirstStep = (props) => {
           error = { !!error.password}
           />
           <br />
-          {error.password && <div className = "error-message">{error.password} <br /> </div>}
+          <br />
+          {error.password && <Alert severity = "error">{error.password}</Alert>}
         </FormControl>
         </Grid>
         
@@ -162,7 +166,9 @@ const FirstStep = (props) => {
           error = { !!error.email}
           />
           <br />
-          {error.email && <div className = "error-message">{error.email} <br /> </div>}
+          <br />
+
+          {error.email && <Alert severity = "error">{error.email}</Alert>}
         </FormControl>
         </Grid>
         <br />
@@ -200,7 +206,7 @@ const FirstStep = (props) => {
         <Grid container justifyContent="flex-end">
            <Grid item>
            Already have an account? 
-           <Link href="#" variant="body2"> Sign in
+           <Link href="login/" variant="body2"> Sign in
            </Link>
          </Grid>
         </Grid>

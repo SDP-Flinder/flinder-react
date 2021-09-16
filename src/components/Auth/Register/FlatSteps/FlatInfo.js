@@ -8,6 +8,8 @@ import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Typography } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+
 
 
 import "react-calendar/dist/Calendar.css";
@@ -93,7 +95,9 @@ const FlatInfo = (props) => {
         /> 
         <br/>
         <br/>
-        {error.firstName && <div className = "error-message">{error.firstName}</div>}
+        <br/>
+
+        {error.firstName && <Alert severity = "error">{error.firstName}</Alert>}
         <br/>
 
         <TextField className = "input"
@@ -109,7 +113,9 @@ const FlatInfo = (props) => {
         />
         <br />
         <br />
-        {error.lastName && <div className = "error-message">{error.lastName}</div>}
+        <br />
+
+        {error.lastName && <Alert severity = "error">{error.lastName}</Alert>}
         <br/>
         <InputLabel
             error = {isInvalid.dob}
@@ -123,7 +129,9 @@ const FlatInfo = (props) => {
         format = "dd/MM/yyyy"
         />
         <br />
-        {error.dob && <div className = "error-message">{error.dob}</div>}
+        <br />
+
+        {error.dob && <Alert severity = "error">{error.dob}</Alert>}
         <br />
 
         <div className = "display-button">
