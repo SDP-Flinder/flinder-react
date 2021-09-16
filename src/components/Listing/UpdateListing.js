@@ -162,7 +162,7 @@ function UpdateListing(props) {
             setListing(listing.data);
         }
         getListing();
-    }, [user, id])
+    }, [user, id, getJWT])
 
     //Populate the form with the passed in listings details
     useEffect(() => {
