@@ -151,11 +151,8 @@ function MatchList(props) {
                 <Typography component="h1" variant="h5">
                     Pending Matches
                 </Typography>
-                {renderButtons()}
                 <br />
-                <h3>{currentMatch.name}</h3>
-                <h3>{currentMatch.age}</h3>
-                <p>{currentMatch.key}</p>
+                {renderButtons()}
             </div>
             <Box mt={8}>
                 <Copyright />
