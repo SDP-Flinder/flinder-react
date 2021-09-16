@@ -125,6 +125,7 @@ const FirstStep = (props) => {
           name = "user.username"
           value ={user.username}
           autoFocus
+          required
           onChange = {e => setForm('username', e.target.value)}
           placeholder="Enter your username" 
           error = { !!error.username}
@@ -142,6 +143,7 @@ const FirstStep = (props) => {
           label="Password" 
           variant="outlined"
           type="password" 
+          required
           name = "user.password"
           value ={user.password}
           onChange = {e => setForm('password', e.target.value)}
@@ -160,6 +162,7 @@ const FirstStep = (props) => {
           label = "Email"
           variant="outlined"  
           type="email" 
+          required
           name = "user.email"
           value ={user.email}
           onChange = {e => setForm('email', e.target.value)}
