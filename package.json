@@ -1,5 +1,5 @@
 {
-  "name": "flinder-react",
+  "name": "flinder",
   "version": "0.1.0",
   "private": true,
   "homepage": "hhttp://localhost:3000",
@@ -20,8 +20,14 @@
     "react-scroll": "^1.8.4",
     "react-sliding-pane": "^7.0.0",
     "react-tinder-card": "^1.4.0",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "react-countup": "^4.3.3",
+    "react-icons": "^3.10.0",
+    "react-table": "^7.1.0",
+    "recharts": "^1.8.5",
+    "uuid": "^8.1.0"
   },
+  "proxy": "http://localhost:9000/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -29,10 +35,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [
