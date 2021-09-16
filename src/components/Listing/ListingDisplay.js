@@ -170,7 +170,7 @@ function ListingDisplay(props) {
             setListing(listing.data);
         }
         getListing();
-    }, [user, id])
+    }, [user, id, getJWT])
 
     useEffect(() => {
         if (listing.active !== undefined) {

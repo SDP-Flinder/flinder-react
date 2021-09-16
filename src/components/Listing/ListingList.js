@@ -97,7 +97,7 @@ function ListingList(props) {
         // if (user.role === 'flat') {
             getListings();
         // }
-    }, [user])
+    }, [user, getJWT])
 
     return (
         <Container component="main" maxWidth="xs">
