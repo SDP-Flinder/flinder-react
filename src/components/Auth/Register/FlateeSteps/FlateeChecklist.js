@@ -10,6 +10,8 @@ import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Typography } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+
 
 
 let prices = [];
@@ -168,7 +170,7 @@ const FlateeChecklist = (props) => {
                 </Select>
                 </FormControl>
                 <br />
-                {error.price && <div className = "error-message">{error.price}</div>}
+                {error.price && <Alert severity = "error">{error.price}</Alert>}
                 <br/>
 
                 <div className = "display-button">
