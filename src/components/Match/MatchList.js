@@ -52,6 +52,7 @@ function MatchList() {
     const { user, getJWT } = useAuth();
     const [matches, setMatches] = useState([]);
     const [currentMatch, setCurrentMatch] = useState({ name: '', age: 0, key: 0 });
+    const [listings, setListings] = useState([]);
 
     const listingID = '6141abba9a0320596c17bc57'; // RETRIEVE LISTING ID
     let matchparam = {
@@ -69,14 +70,15 @@ function MatchList() {
     // }
 
     const renderButtons = () => {
+        let count = 0;
         return matches.map((match) => (
             <Button
                 className="button"
                 variant="contained"
-                key={match.id}
+                key={++count}
                 onClick={function () { selectMatch(match.id) }}
             >
-                {match.name}
+                {match.id}
             </Button>
         ))
     }
@@ -88,32 +90,52 @@ function MatchList() {
                 return;
             }
         })
+        console.log(key);
     }
 
     useEffect(() => {
         async function getListings() {
-            getMatches();
-        }
-
-        async function getMatches() {
-            const URL = 'http://localhost:4000/matches/potentialMatchesForListing';
+            const URL = 'http://localhost:4000/listings/flat/'.concat(user.id);
             const USER_TOKEN = getJWT();
 
             const config = {
-                params: matchparam,
                 headers: { Authorization: `Bearer ${USER_TOKEN}` }
             };
 
-            const tempMatches = await axios.get(URL, config);
-
-            setMatches([...matches, tempMatches.data]);
+            const listings = await axios.get(URL, config);
+            console.log(listings.data)
+            setListings(listings.data);
         }
         if (user !== null) {
             getListings()
         }
     }, [user, getJWT])
 
+    useEffect(() => {
+        async function getMatches(listing) {
+            const URL = 'http://localhost:4000/matches/potentialMatchesForListing';
+            const USER_TOKEN = getJWT();
 
+            console.log(listing.id)
+
+            const config = {
+                params: { listingID: listing.id },
+                headers: { Authorization: `Bearer ${USER_TOKEN}` }
+            };
+
+            const tempMatches = await axios.get(URL, config);
+
+            console.log(tempMatches.data);
+
+            setMatches(matches => [...matches, tempMatches.data[0]]);
+            console.log(matches);
+        }
+        if (listings.length > 0) {
+            listings.forEach(listing => {
+                getMatches(listing);
+            })
+        }
+    }, [listings, getJWT])
 
     return (
         <Container component="main" maxWidth="xs">
