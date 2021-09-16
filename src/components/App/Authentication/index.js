@@ -135,17 +135,12 @@ const useProvideAuth = () => {
         checklist: user.checklist,
       };
       console.log('reachced here');
-      return await axiosapi.post('/users/register', {
+      await axiosapi.post('/users/register', {
         ...userParam
       }).then(function (response) {
         if(Config.Logging){
           console.log(response)
         }
-
-        setUser(response.data);
-
-        if(Config.Logging)
-            console.log(`User object after signin: ${user}`);
 
         return response;
     })
@@ -168,18 +163,12 @@ const useProvideAuth = () => {
         existingFlatmates: user.existingFlatmates,
       };
       console.log('reachced here');
-      return await axiosapi.post('/users/register', {
+      await axiosapi.post('/users/register', {
         ...userParam
       }).then(function (response) {
         if(Config.Logging){
           console.log(response)
         }
-
-        setUser(response.data);
-
-        if(Config.Logging)
-            console.log(`User object after signin: ${user}`);
-
         return response;
     })
     .catch(function (error) {
@@ -188,6 +177,8 @@ const useProvideAuth = () => {
         return error;
     });
     }
+
+    return signin(user.username, user.password, false);
   };
 
   return { user, isAuthed, signin, signout, signup };
