@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -8,7 +7,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -17,6 +15,8 @@ import { Link as RouterLink, Redirect } from "react-router-dom";
 import { Config } from '../../../config'
 import { useAuth } from "../../App/Authentication";
 import { MemoryRouter as Router } from 'react-router';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+
 
 function Copyright() {
   return (
@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -82,6 +81,8 @@ const Login = ({ location }) => {
         //   setError(error?.error || res?.message);
         // }
       });
+
+      console.log('AUthemaoisjfa', isAuthed)
   };
 
   const handleCheckBoxChange = (event) => {
@@ -94,12 +95,7 @@ const Login = ({ location }) => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
+        <FlinderLogo className = "logo-display"/>
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -160,9 +156,9 @@ const Login = ({ location }) => {
                 </Link>
               </Grid>
               <Grid item>
-                <RouterLink to="/register" variant="body2">
+                <Link href="/register" variant="body2">
                   Don&apos;t have an account? Sign Up
-                </RouterLink>
+                </Link>
                 {/* <RouterLink to="/register">
                       I don't have an account
                     </RouterLink> */}

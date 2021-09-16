@@ -120,12 +120,45 @@ const useProvideAuth = () => {
     })
   };
 
-  // // Handle signing up
-  // const signup = (data) => {
-  //   return Api.register(data)
-  // };
+  // Handle signing up
+  const signup = async (user) => {
+    if(user.accountType == 'flatee'){
+      const userParam = {
+        username: user.username,
+        password: user.password,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        dob: user.dob,
+        role: user.accountType.toLowerCase(),
+        preferredArea: user.preferredArea,
+        checklist: user.checklist,
+      };
+      console.log('reachced here');
+      return await axiosapi.post('/users/register', {
+        ...userParam
+      }).then(res => console.log(res));
+    } else if(user.accountType == 'flat'){
+      const userParam = {
+        username: user.username,
+        password: user.password,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        dob: user.dob,
+        role: user.accountType.toLowerCase(),
+        address: user.address,
+        description: user.description,
+        existingFlatmates: user.existingFlatmates,
+      };
+      console.log('reachced here');
+      return await axiosapi.post('/users/register', {
+        ...userParam
+      }).then(res => console.log(res));
+    }
+  };
 
-  return { user, isAuthed, signin, signout };
+  return { user, isAuthed, signin, signout, signup };
 };
 
 export const Role = {
