@@ -52,12 +52,11 @@ function MatchList() {
     const { user, getJWT } = useAuth();
     const [matches, setMatches] = useState([]);
     const [currentMatch, setCurrentMatch] = useState({ name: '', age: 0, key: 0 });
-    const [listings, setListings] = useState([]);
 
-    const listingID = '6141abba9a0320596c17bc57'; // RETRIEVE LISTING ID
-    let matchparam = {
-        listingID: listingID,
-    };
+    // const listingID = '6141abba9a0320596c17bc57'; // RETRIEVE LISTING ID
+    // let matchparam = {
+    //     listingID: listingID,
+    // };
 
     // const getMatches = async () => {
     //     matchList();
@@ -78,7 +77,7 @@ function MatchList() {
                 key={++count}
                 onClick={function () { selectMatch(match.id) }}
             >
-                {match.id}
+                {match.username}
             </Button>
         ))
     }
@@ -103,15 +102,16 @@ function MatchList() {
             };
 
             const listings = await axios.get(URL, config);
-            console.log(listings.data)
-            setListings(listings.data);
-        }
-        if (user !== null) {
-            getListings()
-        }
-    }, [user, getJWT])
 
-    useEffect(() => {
+            const listingList = listings.data;
+            console.log(listingList);
+
+            listingList.forEach(listing => {
+                getMatches(listing);
+            })
+            console.log(matches);
+        }
+
         async function getMatches(listing) {
             const URL = 'http://localhost:4000/matches/potentialMatchesForListing';
             const USER_TOKEN = getJWT();
@@ -127,15 +127,16 @@ function MatchList() {
 
             console.log(tempMatches.data);
 
-            setMatches(matches => [...matches, tempMatches.data[0]]);
-            console.log(matches);
-        }
-        if (listings.length > 0) {
-            listings.forEach(listing => {
-                getMatches(listing);
+            tempMatches.data.forEach(match => {
+                setMatches(matches => [...matches, match])
             })
         }
-    }, [listings, getJWT])
+        if (user !== null) {
+            getListings()
+        }
+    }, [user, getJWT])
+
+    
 
     return (
         <Container component="main" maxWidth="xs">
