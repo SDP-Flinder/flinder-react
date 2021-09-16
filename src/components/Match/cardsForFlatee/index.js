@@ -14,7 +14,7 @@ import TinderCard from 'react-tinder-card';
 // import base url
 import {
   instance, matchesForFlatee, flatsForFlatee, unmatch, addListing,
-} from '../../utils/requests';
+} from '../../../utils/requests';
 // import styles
 import './styles.css';
 
