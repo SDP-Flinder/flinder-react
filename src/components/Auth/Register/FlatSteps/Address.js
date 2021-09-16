@@ -133,10 +133,10 @@ const Address = (props) => {
 
             {addressName ?
             <div className = "address-information">
-            <Typography component="h5" variant="p"> Street number: {componentAddress.street} </Typography>
-            <Typography component="h5" variant="p"> Suburb: {componentAddress.suburb} </Typography>
-            <Typography component="h5" variant="p"> City: {componentAddress.city} </Typography>
-            <Typography component="h5" variant="p"> Country: {componentAddress.country} </Typography>
+            <Typography component="h5" > Street number: {componentAddress.street} </Typography>
+            <Typography component="h5" > Suburb: {componentAddress.suburb} </Typography>
+            <Typography component="h5" > City: {componentAddress.city} </Typography>
+            <Typography component="h5" > Country: {componentAddress.country} </Typography>
             </div>
             : <div>  </div>}
             {error.street && <Alert severity = "error">{error.street}</Alert>}
@@ -172,7 +172,6 @@ const Address = (props) => {
 
             for (let k = 0; k < repo.length; k++) {
                 if (repo[k].role == 'flat') {
-                    console.log(repo[k]);
                     if (repo[k].address.street == componentAddress.street
                         && repo[k].address.suburb == componentAddress.suburb
                         && repo[k].address.city == componentAddress.city) {
