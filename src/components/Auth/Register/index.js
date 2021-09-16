@@ -240,12 +240,12 @@ export default function SignUp () {
   return (
     <div className = "layout">
         <FlinderLogo className = "logo-display"/>
-
-      {renderStep(step, prop, user, updateUser)}
-      {step.id == "flatee-review" &&  <Button className = "single-button"
-        variant="contained" color="primary"
-       >Complete</Button>}
     </div>
   )
 }
+
+// {renderStep(step, prop, user, updateUser)}
+// {step.id == "flatee-review" &&  <Button className = "single-button"
+//   variant="contained" color="primary"
+//  >Complete</Button>}
 
