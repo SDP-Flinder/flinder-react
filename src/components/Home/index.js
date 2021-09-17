@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   const { user } = useAuth();
-  const [bio, setBio] = useState('')
+  const [bio, setBio] = useState('');
 
   const renderBio = () => {
     if (user.role === 'flatee') {
@@ -44,7 +44,7 @@ export default function Home() {
     }
   }
 
-  useEffect(() => setBio(user.bio),[])
+  useEffect(() => setBio(user.bio),[bio, user])
 
   return (
     <>
