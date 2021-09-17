@@ -65,8 +65,8 @@ const useProvideAuth = () => {
     console.log(jwt);
     // If JWT is stored then load user
     if (jwt != null) {getUser()}
-    console.log(`User object: ${user}`);
-    console.log(`Is authed: ${isAuthed}`);
+    // console.log(`User object: ${user}`);
+    // console.log(`Is authed: ${isAuthed}`);
 
     return () => {
       setUser(null);
@@ -121,24 +121,26 @@ const useProvideAuth = () => {
   };
 
   // Handle signing up
-  const signup = async(data) => {
-    return await axiosapi.put('/users/register', 
-      data.json()
-    )
-    .then(function (response) {
-        if(Config.Logging) 
+  const signup = async(user) => {
+    if(user.accountType == 'flatee'){
+      const userParam = {
+        username: user.username,
+        password: user.password,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        dob: user.dob,
+        role: user.accountType.toLowerCase(),
+        preferredArea: user.preferredArea,
+        checklist: user.checklist,
+      };
+      console.log('reachced here');
+      await axiosapi.post('/users/register', {
+        ...userParam
+      }).then(function (response) {
+        if(Config.Logging){
           console.log(response)
-        // Hey Hacker! This is great for XSS isn't it?
-        // if (remember) { // Local storage, Remember the user after they close the browser
-        //   localStorage.setItem('jwt', response.data?.token);
-        //   setUser(response.data);
-        // } else { // Session storage, Don't remember the user after they close the browser
-          sessionStorage.setItem('jwt', response.data?.token);
-          setUser(response.data);
-          
-        // }
-        if(Config.Logging)
-            console.log(`User object after signin: ${user}`);
+        }
 
         return response;
     })
@@ -146,7 +148,37 @@ const useProvideAuth = () => {
         if(Config.Logging)
             console.log(error)
         return error;
+    });
+    } else if(user.accountType == 'flat'){
+      const userParam = {
+        username: user.username,
+        password: user.password,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        dob: user.dob,
+        role: user.accountType.toLowerCase(),
+        address: user.address,
+        description: user.description,
+        existingFlatmates: user.existingFlatmates,
+      };
+      console.log('reachced here');
+      await axiosapi.post('/users/register', {
+        ...userParam
+      }).then(function (response) {
+        if(Config.Logging){
+          console.log(response)
+        }
+        return response;
     })
+    .catch(function (error) {
+        if(Config.Logging)
+            console.log(error)
+        return error;
+    });
+    }
+
+    return signin(user.username, user.password, false);
   };
   return { user, jwt, isAuthed, signin, signout, signup };
 };

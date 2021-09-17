@@ -32,7 +32,6 @@ const Router = () => (
     <ProtectedRoute exact path="/listing/display" component={ListingDisplay} />
     <ProtectedRoute exact path="/profile" component={Profile} />
     <Route component={ErrorRoute} />
-
   </Switch>
 );
 

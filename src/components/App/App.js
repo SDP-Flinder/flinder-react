@@ -6,6 +6,7 @@ import { ThemeProvider} from '@material-ui/styles';
 import { createTheme } from '@material-ui/core/styles';
 
 
+
 const THEME = createTheme({
   typography: {
    "fontFamily": `"Raleway", "Helvetica", "Arial", sans-serif`,
@@ -14,8 +15,8 @@ const THEME = createTheme({
    "fontWeightMedium": 500
   }
 });
-
 const App = () => {
+  
   return (
     <ThemeProvider theme={THEME}>
     <ProvideAuth>
