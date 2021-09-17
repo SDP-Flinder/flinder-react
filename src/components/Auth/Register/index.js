@@ -132,7 +132,6 @@ export default function SignUp ({ location }) {
     //Submit the form
       const newUser = user;
       signup(newUser).then((res) => {
-        console.log('User has been added to the server');
         console.log(res?.message)
       })
       .catch((error) => {

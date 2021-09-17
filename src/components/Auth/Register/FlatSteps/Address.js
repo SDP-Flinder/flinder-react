@@ -27,7 +27,7 @@ const Address = (props) => {
         geocodeByAddress(address)
           .then(results => {
               getLatLng(results[0])
-              console.log(results);
+
               setAddress(results[0].formatted_address);
               let currentAddress = {
                   street: '',
@@ -37,7 +37,7 @@ const Address = (props) => {
               }
 
               assignComponentAddress(results, currentAddress);
-              console.log(currentAddress);
+
               setComponent(currentAddress);
             })
           .catch(error => console.error('Error', error));
@@ -50,18 +50,17 @@ const Address = (props) => {
     const onSubmit = e => {
         e.preventDefault();
         const newError = findError();
-        console.log(newError);
-        console.log(error);
+
         if(Object.keys(newError).length > 0){
             //Found errors and set the errors to the useState
             setError(newError);
         } else {
-            console.log('submitting....');
+
             props.user.address.street = componentAddress.street;
             props.user.address.suburb = componentAddress.suburb;
             props.user.address.city = componentAddress.city;
             props.user.address.country = componentAddress.country;
-            console.log(props.user);
+ 
             navigation.next();
         }
     }
@@ -202,8 +201,6 @@ function getUserData(setRepo) {
         //Using .get to retrieve data 
         await axios.get(URL, { headers: { Authorization: AuthString } })
             .then(response => {
-                //Display for debugging
-                console.log(response.data);
                 //Store data in a local variable
                 const myRepo = response.data;
                 //Updata the state

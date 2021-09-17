@@ -17,7 +17,6 @@ const FlatAddress = (props) => {
   const onSubmit = e => {
       e.preventDefault();
         navigation.next();
-        console.log(props.user);
     }
 
     

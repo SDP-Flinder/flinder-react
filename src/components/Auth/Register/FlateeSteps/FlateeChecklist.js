@@ -42,8 +42,6 @@ const FlateeChecklist = (props) => {
       const invalid = {};
 
       if((max - min) <= 0){
-        console.log(min);
-        console.log(max);
         errorFound.price = "The maximum value must be larger than the minimum."
         invalid.price = true;
       }
@@ -54,13 +52,11 @@ const FlateeChecklist = (props) => {
     const onSubmit = e => {
         e.preventDefault();
         const newError = findError();
-        console.log(error);
 
         if(Object.keys(newError.errorFound).length > 0){
             //Found errors and set the errors to the useState
             setError(newError.errorFound);
             setInvalid(newError.invalid);
-            console.log(isInvalid);
         }else{
             let checklist = {
                 isCouple: couple,
@@ -76,7 +72,7 @@ const FlateeChecklist = (props) => {
         }
     }
 
-    useEffect(() => console.log(props.user), [props.user]);
+    useEffect(() => null, [props.user]);
 
     return (
         <div>
