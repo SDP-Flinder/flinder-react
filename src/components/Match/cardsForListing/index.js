@@ -53,7 +53,7 @@ const CardsForListing = (props) => {
   const swiped = (direction, targetName) => {
     matchparam = {
       flateeUsername: targetName,
-      flatUsername: flatUser,
+      listingID: listingID,
     };
     if (_isEqual(direction, 'left')) {
       instance.put(unmatch, matchparam, { headers: { Authorization: AuthString } });

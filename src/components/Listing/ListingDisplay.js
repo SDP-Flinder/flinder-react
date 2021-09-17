@@ -17,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
+import CardsForListing from "../Match/cardsForListing/index";
 
 function Copyright() {
     return (
@@ -219,15 +220,15 @@ function ListingDisplay(props) {
                         </ButtonGroup>
 
                         {/* Placeholder listing information - will replace with a more elegant display, such as cards, once developed */}
-
-                        <div>
+                        <div >
                             <h1>Description: {listing.description}</h1>
                             <h1>Utilities: {listing.utilities}</h1>
                             <h1>Rent: ${listing.rent} {listing.rentUnits}</h1>
                             <h1>Available: {date}</h1>
+                            {renderSwitch()}
+                            {renderButtons()}
+                            <CardsForListing token = {user.token} listingID = {listing.id} />
                         </div>
-                        {renderSwitch()}
-                        {renderButtons()}
                     </Grid>
                 </form>
             </div>
