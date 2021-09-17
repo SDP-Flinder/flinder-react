@@ -2,10 +2,9 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useAuth } from ".";
 import ErrorRoute from "../Router/ErrorRoute";
-import jwtDecode from 'jwt-decode';
 
 const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
-  const { jwt, isAuthed, user } = useAuth();
+  const { isAuthed, user } = useAuth();
   const role = user?.role;
 
   return (
@@ -17,9 +16,10 @@ const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
           if (roles && roles.indexOf(role) === -1) {
             return (
               <ErrorRoute
-                title="Insufficient Permissions"
-                children="You have insufficient permissions to view this page."
-              />
+                title="Insufficient Permissions" 
+              >
+                You have insufficient permissions to view this page.
+              </ErrorRoute>
             );
           }
           // Return component
