@@ -1,7 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router'
 import moment from 'moment';
-import axios from 'axios';
 import { IconButton } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { Typography } from '@material-ui/core';
