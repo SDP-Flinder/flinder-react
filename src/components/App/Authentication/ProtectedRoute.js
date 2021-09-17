@@ -1,10 +1,11 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useAuth } from ".";
-import ErrorRoute, { Icon } from "../Router/ErrorRoute";
+import ErrorRoute from "../Router/ErrorRoute";
+import jwtDecode from 'jwt-decode';
 
 const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
-  const { isAuthed, user } = useAuth();
+  const { jwt, isAuthed, user } = useAuth();
   const role = user?.role;
 
   return (
@@ -12,24 +13,23 @@ const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
       {...rest}
       render={(props) => {
         if (isAuthed) {
-          // RBAC if route is restricted by role
+          // Return back error if route is restricted by role
           if (roles && roles.indexOf(role) === -1) {
             return (
               <ErrorRoute
                 title="Insufficient Permissions"
-                icon={Icon.EXCLAMATION_MARK}
-              >
-                You have insufficient permissions to view this page.
-              </ErrorRoute>
+                children="You have insufficient permissions to view this page."
+              />
             );
           }
           // Return component
           return <Component {...rest} {...props} />;
+          
         } else {
           return (
             <Redirect
               to={{
-                pathname: "/login",
+                pathname: "/landing",
                 state: {
                   from: props.location,
                 },

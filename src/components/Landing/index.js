@@ -3,20 +3,22 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
+// import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Config } from '../../config'
+import { Config } from '../../config';
+import { Link as RouterLink, Redirect } from 'react-router-dom';
+import { useAuth } from "../App/Authentication";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href={`${Config.AppURL}`}>
-        {`${Config.AppName}`}
+      <Link color="inherit" href={Config.AppURL}>
+        {Config.AppName}
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -39,15 +41,24 @@ const useStyles = makeStyles((theme) => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
-  submit: {
+  button: {
     margin: theme.spacing(3, 0, 2),
   },
 }));
 
-export default function Landing() {
+
+/*
+ * Future Feature: Should check whether a user is authenticatied 
+ */
+export default function Landing({ location }) {
   const classes = useStyles();
+  const { signin, isAuthed } = useAuth();
+
+  let { from } = location.state || { from: { pathname: "/" } };
 
   return (
+    <>
+    {isAuthed && <Redirect to={from} />}
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -55,33 +66,35 @@ export default function Landing() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Welcome to {Config.AppName}
         </Typography>
           <Button
-            type="submit"
-            fullWidth
-            variant="contained"
+            type="button"
+            component={RouterLink} 
+            to="/login" 
+            variant="contained" 
             color="primary"
-            className={classes.submit}
+            fullWidth
+            className={classes.button}
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
+          <Button
+            type="button"
+            component={RouterLink} 
+            to="/register" 
+            variant="contained" 
+            color="primary"
+            fullWidth
+            className={classes.button}
+          >
+            Sign Up
+          </Button>
       </div>
       <Box mt={8}>
         <Copyright />
       </Box>
     </Container>
+    </>
   );
 }

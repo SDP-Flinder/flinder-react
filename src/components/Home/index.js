@@ -1,8 +1,8 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core";
+import { useAuth } from "../App/Authentication";
 import Navigation from "../App/Navigation";
-import TabGroup from "./TabGroup";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -16,18 +16,20 @@ const useStyles = makeStyles((theme) => ({
       },
 }))
 
-export default function Profile() {
+export default function Home() {
     const classes = useStyles();
-    
+    const {user} = useAuth();
+
     return(
         <>
             <Navigation />
             <div className={classes.paper}>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                    Profile
+                    {`Hello ${user.firstName} ${user.lastName}`}
                 </Typography>
+                {/* User should only be able to access this page when authorised, but just incase. Could remove check */}
+                
             </div>
         </>
     );
 };
-
