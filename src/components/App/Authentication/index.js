@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import jwt from 'jsonwebtoken';
 import { Config } from '../../../config';
 
 const axiosapi = axios.create({
@@ -32,12 +32,11 @@ export const ProvideAuth = ({ children }) => {
 
 const useProvideAuth = () => {
   /* User object
-   * {role, firstname, lastname, username, createdDate, id}
+   * {role, firstname, lastname, username, createdDate, id, token, tokenExp}
    */
-  const jwt = getJWT();
   const [user, setUser] = useState(null);
-  // const isAuthed = user?.id ? true : false;
-  const isAuthed = (user && jwt && jwtDecode(jwt).exp * 1000 > Date.now()) ? true : false;
+  const isAuthed = (user) ? true : false;
+  // const isAuthed = (user && jwt.decode(user.token, { complete: true }).payload.exp > Date.now) ? true : false;
 
   // Get current user data, if they are logged in
   useEffect(() => {
@@ -45,28 +44,25 @@ const useProvideAuth = () => {
       await axiosapi.get('/users/current', { 
         headers: { 'Authorization': `bearer ${getJWT()}`}
       })
-      .then((response) => {
-        setUser({
-          firstName: response.data.firstName, 
-          lastName: response.data.lastName,
-          role: response.data.role,
-          id: response.data.id,
-          username: response.data.username
-        })
-        
+      .then(function (response) {
+          if (response.status == 200 && response.data?.id) {
+            setUser(response.data);
+            console.log(response.data)
+            console.log(user)
+          } else {
+            setUser(null);
+          }
       })
       .catch(function (error) {
           if(Config.Logging) 
             console.log(error)
+
           setUser(null)
       })
     }
 
-    console.log(jwt);
     // If JWT is stored then load user
-    if (jwt != null) {getUser()}
-    console.log(`User object: ${user}`);
-    console.log(`Is authed: ${isAuthed}`);
+    if (getJWT() != null) {getUser()}
 
     return () => {
       setUser(null);
@@ -81,7 +77,7 @@ const useProvideAuth = () => {
     })
     .then(function (response) {
         if(Config.Logging) 
-          console.log(`Sign in Response: ${response}`);
+          console.log(response)
         // Hey Hacker! This is great for XSS isn't it?
         if (remember) { // Local storage, Remember the user after they close the browser
           localStorage.setItem('jwt', response.data?.token);
@@ -89,12 +85,16 @@ const useProvideAuth = () => {
         } else { // Session storage, Don't remember the user after they close the browser
           sessionStorage.setItem('jwt', response.data?.token);
           setUser(response.data);
+          
         }
+        if(Config.Logging)
+            console.log(`User object after signin: ${user}`);
+
         return response;
     })
     .catch(function (error) {
         if(Config.Logging)
-            console.log(`Sign in Error: ${error}`);
+            console.log(error)
         return error;
     })
   };
@@ -121,24 +121,26 @@ const useProvideAuth = () => {
   };
 
   // Handle signing up
-  const signup = async(data) => {
-    return await axiosapi.put('/users/register', 
-      data.json()
-    )
-    .then(function (response) {
-        if(Config.Logging) 
+  const signup = async (user) => {
+    if(user.accountType == 'flatee'){
+      const userParam = {
+        username: user.username,
+        password: user.password,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        dob: user.dob,
+        role: user.accountType.toLowerCase(),
+        preferredArea: user.preferredArea,
+        checklist: user.checklist,
+      };
+      console.log('reachced here');
+      await axiosapi.post('/users/register', {
+        ...userParam
+      }).then(function (response) {
+        if(Config.Logging){
           console.log(response)
-        // Hey Hacker! This is great for XSS isn't it?
-        // if (remember) { // Local storage, Remember the user after they close the browser
-        //   localStorage.setItem('jwt', response.data?.token);
-        //   setUser(response.data);
-        // } else { // Session storage, Don't remember the user after they close the browser
-          sessionStorage.setItem('jwt', response.data?.token);
-          setUser(response.data);
-          
-        // }
-        if(Config.Logging)
-            console.log(`User object after signin: ${user}`);
+        }
 
         return response;
     })
@@ -146,10 +148,40 @@ const useProvideAuth = () => {
         if(Config.Logging)
             console.log(error)
         return error;
+    });
+    } else if(user.accountType == 'flat'){
+      const userParam = {
+        username: user.username,
+        password: user.password,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        dob: user.dob,
+        role: user.accountType.toLowerCase(),
+        address: user.address,
+        description: user.description,
+        existingFlatmates: user.existingFlatmates,
+      };
+      console.log('reachced here');
+      await axiosapi.post('/users/register', {
+        ...userParam
+      }).then(function (response) {
+        if(Config.Logging){
+          console.log(response)
+        }
+        return response;
     })
-  };
+    .catch(function (error) {
+        if(Config.Logging)
+            console.log(error)
+        return error;
+    });
+    }
 
-  return { user, isAuthed, signin, signout, signup, jwt };
+    return signin(user.username, user.password, false);
+  };
+  
+  return { user, jwt, isAuthed, signin, signout, signup };
 };
 
 export const Role = {

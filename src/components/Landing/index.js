@@ -12,6 +12,8 @@ import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { useAuth } from "../App/Authentication";
+import {ReactComponent as FlinderLogo} from '../../assets/logo.svg';
+
 
 function Copyright() {
   return (
@@ -62,9 +64,7 @@ export default function Landing({ location }) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <FlinderLogo className = "logo-display"/>
         <Typography component="h1" variant="h5">
           Welcome to {Config.AppName}
         </Typography>
