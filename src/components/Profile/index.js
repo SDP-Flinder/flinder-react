@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core";
 import Navigation from "../App/Navigation";
-import TabGroup from "./TabGroup";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -27,6 +26,7 @@ export default function Profile() {
                     Profile
                 </Typography>
             </div>
+
         </>
     );
 };
