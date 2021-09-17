@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# Flinder Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Build Status](https://travis-ci.com/SDP-Flinder/flinder-react.svg?branch=develop)](https://travis-ci.com/SDP-Flinder/flinder-react)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Heroku](http://heroku-badge.herokuapp.com/?app=heroku-badge&style=flat&svg=1)
 
-## Available Scripts
+Flinder is a social media app that helps you find your ideal flatmate based on their personality and living preferences. Either you can be a Flatee (a person who looks for a flat to stay in), or a Flat (a person looking for a flatmate to fill in the spot). 
 
-In the project directory, you can run:
+## Getting Started (Locally)
+### Prerequisites
 
-### `npm start`
+This project uses Node.js, follow the installation documentation on it at [https://nodejs.dev/](https://nodejs.dev/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+It also relies on a RESTful API, follow the documentation on it at [https://github.com/SDP-Flinder/flinder-express](https://github.com/SDP-Flinder/flinder-express)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Installation
+1. Fork and/ or clone the repository 
+2. Open a terminal window to the `/flinder-react` directory and install node packages (run `npm install`)
+3. Start the development server with `npm start` 
 
-### `npm test`
+## Authors
+- [Daniel Tran](https://github.com/danieltran-512)
+- [Prunella Parisa](https://github.com/prunellaparisa)
+- [Billy McCarthy-Dowd](https://github.com/billymcd)
+- [Finn Stainton](https://github.com/finn-stainton)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Version History
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## License
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+MIT
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Acknowledgements
