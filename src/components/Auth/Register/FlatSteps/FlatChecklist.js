@@ -1,34 +1,22 @@
 import React from 'react'
 import { withRouter } from 'react-router'
-import Button from '@material-ui/core/Button';
 import moment from 'moment';
-import axios from 'axios';
 import { IconButton } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { Typography } from '@material-ui/core';
 
-
-
+//This step is used to check their information before submission
 const FlatInfo = (props) => {
     const {navigation} = props;
-
-    const handleSubmit = async () => {
-
-        //Post the user data to the /users route
-        await postUserToDatabase(props);
-        props.history.push('/profile');
-        props.updateUser(props.formData);
-        console.log(props.user);
-    }
-
+    console.log(props.user.address);
     return (
         <div>
 
-            <Typography component="h3" variant="p">Finally, check your information...</Typography>
+            <Typography component="h3">Finally, check your information...</Typography>
 
             <section>
             <div className = "display-button">
-            <Typography component="h4" variant="p">Account information</Typography>
+            <h4>Account information</h4>
             <IconButton variant="outlined" size="medium" color="primary" name = "account"
             placeholder = "edit username"
             onClick = {()  =>{
@@ -85,38 +73,8 @@ const FlatInfo = (props) => {
 
             </section>
             <br/>
-            {/* <Button style = {{width: "330px"}}
-            variant="contained" color="primary"
-            onClick = {handleSubmit}>Complete</Button> */}
         </div>
     )
 }
 
 export default withRouter(FlatInfo)
-
-async function postUserToDatabase(props) {
-  try {
-    const { user } = props;
-    const userParam = {
-      username: user.username,
-      password: user.password,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      dob: user.dob,
-      role: user.accountType.toLowerCase(),
-      address: user.address,
-      description: user.description,
-      existingFlatmates: user.existingFlatmates,
-    };
-    console.log(userParam);
-    await axios.post('http://localhost:4000/users/register', {
-      ...userParam
-    });
-  } catch (error) {
-    if (error.response) {
-      console.log('error', error.response.data);
-    }
-  }
-}
-

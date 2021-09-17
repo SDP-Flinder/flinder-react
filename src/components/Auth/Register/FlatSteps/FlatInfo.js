@@ -11,7 +11,7 @@ import { Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 
-
+//Styling the react calendar
 import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
 import { injectGlobal } from "@emotion/css";
@@ -55,15 +55,13 @@ const FlatInfo = (props) => {
         e.preventDefault();
         //Check if all the inputs are valid
         const newError = findError();
-        console.log(newError.errorFound);
-        console.log(newError.invalid);
 
         //Proceed to the next step if inputs are valid
         if(Object.keys(newError.errorFound).length > 0){
           //Found errors and set the errors to the useState
           setError(newError.errorFound);
           setInvalid(newError.invalid);
-          console.log(isInvalid);
+
         }else{
           if(props.user.accountType == 'flat'){
             navigation.go("flat-address");
@@ -135,11 +133,11 @@ const FlatInfo = (props) => {
         <br />
 
         <div className = "display-button">
-        <IconButton className = "button" variant="contained"
+        <IconButton  variant="contained"
         onClick = {() => props.navigation.go("username")}>
           <ArrowBackIosIcon/>
         </IconButton>
-        <IconButton className = "button" 
+        <IconButton 
          variant="contained"
         color = "primary" 
         disabled = {!props.user.firstName || !props.user.lastName ?true:false}

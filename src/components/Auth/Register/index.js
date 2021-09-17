@@ -13,7 +13,6 @@ import '../../../style/global.css';
 import { Button } from '@material-ui/core';
 import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
 import { useAuth } from "../../App/Authentication";
-import { useEffect } from 'react';
 import { Redirect } from 'react-router';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -21,6 +20,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+
+//This is the steps of the form
 const steps = [
   {id: "username"},
   {id: "flat-information"},
@@ -33,6 +34,8 @@ const steps = [
   {id: "flatee-review"},
 ]
 
+
+//Render the current step
 const renderStep = (step, prop, user, updateUser) => {
   switch(step.id){
     case "username":
@@ -55,9 +58,15 @@ const renderStep = (step, prop, user, updateUser) => {
   }
 }
 
+
+//The main component
 export default function SignUp ({ location }) {
+
+  //Retrive the signup for posting data to the API
   const { signup, isAuthed } = useAuth();
 
+
+  //Store the user information
   const [user, setUser] = useState({
     username: '', 
     password: '',
@@ -66,6 +75,8 @@ export default function SignUp ({ location }) {
     firstName: '',
     lastName: '',
     dob: '',
+
+    //This part is for user type flat
     address: {
       street: '',
       suburb: '',
@@ -74,6 +85,8 @@ export default function SignUp ({ location }) {
     },
     existingFlatmates: '',
     description: '',
+
+    //This part is for user type flatee
     preferredArea:{
         city: '',
         suburb: [],
@@ -89,15 +102,18 @@ export default function SignUp ({ location }) {
     },
   });
 
+  //This is to navigate through different steps
   const {step, navigation} = useStep({
     steps,
-    initialStep: 0,
+    initialStep: 0,   //The initial step will render the FirstStep component
   });
 
+  //Update the user once they fill in their information
   const updateUser = (data) => {
     setUser((prevUser) => ({ ...prevUser, ...data }));
   };
 
+  //This is to redirect the user to their home page upon completion
   let { from } = location.state || { from: { pathname: "/" } };
 
   const handleSignUp = (e) => {
@@ -107,6 +123,7 @@ export default function SignUp ({ location }) {
 
   const prop = {navigation};
 
+  //This is to open the confimation dialog page
   const [open, setOpen] = React.useState(false);
 
   const redirectToMain = () => {
@@ -114,7 +131,6 @@ export default function SignUp ({ location }) {
       handleClose();
     //Submit the form
       const newUser = user;
-      console.log(newUser);
       signup(newUser).then((res) => {
         console.log(res?.message)
       })
@@ -160,8 +176,4 @@ export default function SignUp ({ location }) {
     </div>
   )
 }
-
-// {step.id == "flatee-review" &&  <Button className = "single-button"
-// variant="contained" color="primary"
-// >Complete</Button>}
 

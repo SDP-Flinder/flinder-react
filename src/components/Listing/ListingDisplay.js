@@ -220,7 +220,9 @@ function ListingDisplay(props) {
                         </ButtonGroup>
 
                         {/* Placeholder listing information - will replace with a more elegant display, such as cards, once developed */}
-                        <div >
+
+                        <div>
+
                             <h1>Description: {listing.description}</h1>
                             <h1>Utilities: {listing.utilities}</h1>
                             <h1>Rent: ${listing.rent} {listing.rentUnits}</h1>

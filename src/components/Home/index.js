@@ -14,14 +14,16 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-      },
+    },
     button: {
         margin: theme.spacing(3, 0, 2),
-      },
+    },
 }))
 
 export default function Home() {
     const classes = useStyles();
+    const { user } = useAuth();
+
 
     //Retrieve the user information from the authentication
     const {user} = useAuth();
@@ -59,7 +61,8 @@ export default function Home() {
                 //  If the user is a flatee, render this card
                  <CardsForFlatee token = {user.token} username = {user.username} />:
                 // If the user is a flat, render this card. listingID = {?}
-                renderFlatButtons()}
+                {renderFlatButtons()}
+
 
             </div>
         </>

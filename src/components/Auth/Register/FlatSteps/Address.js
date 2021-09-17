@@ -11,6 +11,9 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import { Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 
 
 
@@ -19,13 +22,29 @@ const Address = (props) => {
     //const {address} = props;
 
     const [addressName, setAddress] = React.useState('');
-    const [componentAddress, setComponent] = React.useState({});
+    const [componentAddress, setComponent] = React.useState({
+        street: '',
+        suburb: '',
+        city: '',
+        country: '',
+    });
+
+
+    //The user wants to enter the address manually
+    const [manual, setManual] = React.useState(false);
+
+    const manualEdit = () => {
+        setManual(true);
+        clearAddress();
+    }
 
     const handleSelect = address => {
+
+        //Get the user address from Google API
         geocodeByAddress(address)
           .then(results => {
               getLatLng(results[0])
-              console.log(results);
+
               setAddress(results[0].formatted_address);
               let currentAddress = {
                   street: '',
@@ -35,7 +54,7 @@ const Address = (props) => {
               }
 
               assignComponentAddress(results, currentAddress);
-              console.log(currentAddress);
+
               setComponent(currentAddress);
             })
           .catch(error => console.error('Error', error));
@@ -48,19 +67,18 @@ const Address = (props) => {
     const onSubmit = e => {
         e.preventDefault();
         const newError = findError();
-        console.log(newError);
-        console.log(error);
+
         if(Object.keys(newError).length > 0){
             //Found errors and set the errors to the useState
             setError(newError);
         } else {
-            console.log('submitting....');
+
             props.user.address.street = componentAddress.street;
             props.user.address.suburb = componentAddress.suburb;
             props.user.address.city = componentAddress.city;
             props.user.address.country = componentAddress.country;
-            console.log(props.user);
-            navigation.next();
+ 
+            navigation.go("flat-description");
         }
     }
 
@@ -84,6 +102,7 @@ const Address = (props) => {
             <Typography component="h3">
                  What&apos;s your address?
             </Typography>
+            {!manual && <div>
             <div className = "display-address-search">
             <PlacesAutocomplete 
             className = "autocomplete-dropdown-container "
@@ -141,14 +160,116 @@ const Address = (props) => {
             : <div>  </div>}
             {error.street && <Alert severity = "error">{error.street}</Alert>}
             {error.country && <Alert severity = "error">{error.country}</Alert>}
+        
+
+            <Grid
+                container
+                direction="column"
+                justifyContent="space-between"
+                alignItems="center"
+            >
+            
+            <Typography  > Can&apos;t find your address? </Typography>
+            <Button variant="contained" color="primary" onClick = {manualEdit}>
+               Enter manually
+            </Button>
+
+
+            
+            </Grid>
+            </div>}
+
+            {manual &&
+            <div>
+            <Alert severity = "warning">
+                We highly reccommend using address finder to increase the accuracy of the address
+            </Alert>
+
+            <Grid
+                container
+                direction="column"
+                justifyContent="space-between"
+                alignItems="center"
+            >
+            <Button variant = "contained" color="primary" onClick = {() => setManual(false)}>
+               Use address finder
+            </Button>
+            
+            </Grid>
+
+            <br />
+
+            <Grid
+                container
+                spacing = {2}
+            >
+
+            <Grid item >
+                <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="Street"
+                name = "componentAddress.street"
+                value = {componentAddress.street}
+                onChange = {e => setComponent((prevUser) => ({ ...prevUser, ...{street: e.target.value} }))}
+                placeholder = "Street no."
+                autoComplete="off"
+                required
+                /> 
+            </Grid>
+
+            <Grid item xs={6} md={8}>
+            <TextField 
+            id="outlined-basic"
+            variant="outlined"
+            name = "componentAddress.suburb"
+            value = {componentAddress.suburb}
+            onChange = {e => setComponent((prevUser) => ({ ...prevUser, ...{suburb: e.target.value} }))}
+            disabled = {!componentAddress.street ? true : false}
+            label="Suburb"
+            placeholder = "Suburb"
+            autoComplete="off"
+            /> 
+            </Grid>
+            <Grid item xs={6} md={4} >
+            <TextField
+            id="outlined-basic"
+            variant="outlined"
+            name = "componentAddress.city"
+            value = {componentAddress.city}
+            onChange = {e => {
+                setComponent((prevUser) => ({ ...prevUser, ...{city: e.target.value} }))
+                setComponent((prevUser) => ({ ...prevUser, ...{country: 'New Zealand'} }))
+                setAddress(`${componentAddress.street}, ${componentAddress.suburb}, ${componentAddress.city}, New Zealand`)
+                }
+            }
+            label="City"
+            placeholder = "City"
+            autoComplete="off"
+            required
+            /> 
+            </Grid>
+
+            <Grid>
+            <Typography variant = "body1"> &nbsp;&nbsp; Country: New Zealand
+            </Typography> 
+            </Grid>
+
+            {error.street && <Alert severity = "error">{error.street}</Alert>}
+
+            </Grid>
+            </div>}
+
+            <br />
+            <br />
 
             <div className = "display-button">
-            <IconButton variant="contained" className = "button"
-            onClick = {() => navigation.previous()}>
+            <IconButton variant="contained"
+            onClick = {() => navigation.go("flat-information")}>
                 <ArrowBackIosIcon/>
             </IconButton>
-            <IconButton variant="contained" className = "button"
-            disabled = {!addressName ? true : false}
+            <IconButton variant="contained"
+            disabled = {(!addressName)? true : false}
             color = "primary"
             type = "submit">
                 <ArrowForwardIosIcon/>
@@ -200,8 +321,6 @@ function getUserData(setRepo) {
         //Using .get to retrieve data 
         await axios.get(URL, { headers: { Authorization: AuthString } })
             .then(response => {
-                //Display for debugging
-                console.log(response.data);
                 //Store data in a local variable
                 const myRepo = response.data;
                 //Updata the state

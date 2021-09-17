@@ -1,6 +1,5 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField';
-// import Button from '@material-ui/core/Button';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -17,8 +16,7 @@ const FlatAddress = (props) => {
 
   const onSubmit = e => {
       e.preventDefault();
-        navigation.next();
-        console.log(props.user);
+        navigation.go("flat-checklist");
     }
 
     
@@ -63,11 +61,11 @@ const FlatAddress = (props) => {
 
 
         <div className = "display-button">
-        <IconButton variant="contained" className = "button"
-          onClick = {() => navigation.previous()}>
+        <IconButton variant="contained"
+          onClick = {() => navigation.go("flat-address")}>
           <ArrowBackIosIcon/>
         </IconButton>
-        <IconButton variant="contained" className = "button"
+        <IconButton variant="contained"
           name = "next"
           color = "primary"
           disabled = {!props.user.description || !props.user.existingFlatmates ? true : false}

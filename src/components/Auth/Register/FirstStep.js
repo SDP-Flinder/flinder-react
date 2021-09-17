@@ -83,14 +83,13 @@ const FirstStep = (props) => {
   const onSubmit = () => {
     //Find any new errors in the form
     const newError = findErrors();
-    console.log(newError);
+
     if(Object.keys(newError).length > 0){
       //Found errors and set the errors to the useState
       setError(newError);
     } else 
     {
-      //For debugging
-      console.log(props.user);
+
       //Redirect to the correct route
       if(user.accountType == 'flat'){
         navigation.go("flat-information");
@@ -196,7 +195,7 @@ const FirstStep = (props) => {
         <br/>
         <br/>
 
-        <IconButton className = "button"
+        <IconButton
         variant="contained" color="primary" type ="submit"
         disabled = {(!user.username || !user.password || !user.email || !user.accountType) ? true:false}>
           <ArrowForwardIosIcon/>
@@ -264,8 +263,6 @@ async function FetchUserData(token, setRepo) {
   //Using .get to retrieve data 
   await axios.get(URL, { headers: { Authorization: AuthString } })
     .then(response => {
-      //Display for debugging
-      console.log(response.data);
       //Store data in a local variable
       const myRepo = response.data;
       //Updata the state

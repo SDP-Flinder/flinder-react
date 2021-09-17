@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+import {Avatar, Button, Container, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
 import { Link as RouterLink, Redirect } from "react-router-dom";
 import { Config } from '../../../config'
@@ -40,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -68,21 +60,16 @@ const Login = ({ location }) => {
     signin(username, password, remember)
       .then((res) => {
         console.log(res?.message)
-        if (res?.error || res?.message) {
+        // if (res.status === 400){ //incorrect username or password
+        if (res?.error || res?.message) { //TODO: Display correct error message
           // setError(res?.error || res?.message);
           setError('Username or password incorrect')
         }
       })
       .catch((error) => {
         console.log(error)
-        // if (error?.message == "incorrect-username-password" ) {
-        //   setError("Username or Password Incorrect, Please try again.");
-        // } else if (error?.error || res?.message) {
-        //   setError(error?.error || res?.message);
-        // }
+        //   setError(error?.error);
       });
-
-      console.log('AUthemaoisjfa', isAuthed)
   };
 
   const handleCheckBoxChange = (event) => {
@@ -96,6 +83,10 @@ const Login = ({ location }) => {
       <CssBaseline />
       <div className={classes.paper}>
         <FlinderLogo className = "logo-display"/>
+
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -130,6 +121,7 @@ const Login = ({ location }) => {
 
           <FormControlLabel
             control={<Checkbox 
+              name="rememberme"
               value="remember" 
               color="primary" 
               checked={remember}
