@@ -181,7 +181,7 @@ const useProvideAuth = () => {
     return signin(user.username, user.password, false);
   };
 
-  return { user, isAuthed, signin, signout, signup };
+  return { user, isAuthed, signin, signout, signup, jwt};
 };
 
 export const Role = {

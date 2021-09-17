@@ -38,6 +38,7 @@
     "react-hooks-helper": "^1.6.0",
     "react-icons": "^4.2.0",
     "react-material-ui-form-validator": "^2.1.4",
+    "react-number-format": "^4.7.3",
     "react-places-autocomplete": "^7.3.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
