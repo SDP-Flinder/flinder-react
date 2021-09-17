@@ -18,7 +18,6 @@ const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
             return (
               <ErrorRoute
                 title="Insufficient Permissions"
-                children="You have insufficient permissions to view this page."
               />
             );
           }
