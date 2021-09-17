@@ -21,6 +21,10 @@ COLOUR PALLETTE
     margin: auto;
 }
 
+.small-logo{
+    height: 30px;
+    width: 30px;
+}
 
 .input {
     width: 330px;
