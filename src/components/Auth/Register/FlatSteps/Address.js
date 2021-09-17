@@ -22,6 +22,8 @@ const Address = (props) => {
     const [componentAddress, setComponent] = React.useState({});
 
     const handleSelect = address => {
+
+        //Get the user address from Google API
         geocodeByAddress(address)
           .then(results => {
               getLatLng(results[0])

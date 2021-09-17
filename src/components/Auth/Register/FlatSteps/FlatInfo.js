@@ -11,7 +11,7 @@ import { Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 
-
+//Styling the react calendar
 import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
 import { injectGlobal } from "@emotion/css";
