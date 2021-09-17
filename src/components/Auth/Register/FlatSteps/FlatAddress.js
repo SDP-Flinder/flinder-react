@@ -16,7 +16,7 @@ const FlatAddress = (props) => {
 
   const onSubmit = e => {
       e.preventDefault();
-        navigation.next();
+        navigation.go("flat-checklist");
     }
 
     
@@ -61,11 +61,11 @@ const FlatAddress = (props) => {
 
 
         <div className = "display-button">
-        <IconButton variant="contained" className = "button"
-          onClick = {() => navigation.previous()}>
+        <IconButton variant="contained"
+          onClick = {() => navigation.go("flat-address")}>
           <ArrowBackIosIcon/>
         </IconButton>
-        <IconButton variant="contained" className = "button"
+        <IconButton variant="contained"
           name = "next"
           color = "primary"
           disabled = {!props.user.description || !props.user.existingFlatmates ? true : false}

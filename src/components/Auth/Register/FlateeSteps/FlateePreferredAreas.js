@@ -96,11 +96,11 @@ const FlateePreferredAreas = (props) => {
       <br/>
       <br/>
       <div className = "display-button">
-      <IconButton variant="contained" className = "button"
+      <IconButton variant="contained"
           onClick = {() => navigation.go("flat-information")}>
           <ArrowBackIosIcon/>
       </IconButton>
-      <IconButton variant="contained" className = "button"
+      <IconButton variant="contained"
           disabled = {!city ? true: false}
           color = "primary"
           type = "submit">
