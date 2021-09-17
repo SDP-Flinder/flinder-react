@@ -65,7 +65,6 @@ const Address = (props) => {
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log(componentAddress);
         const newError = findError();
 
         if(Object.keys(newError).length > 0){
@@ -78,7 +77,7 @@ const Address = (props) => {
             props.user.address.city = componentAddress.city;
             props.user.address.country = componentAddress.country;
  
-            navigation.next();
+            navigation.go("flat-description");
         }
     }
 
@@ -169,7 +168,7 @@ const Address = (props) => {
                 alignItems="center"
             >
             
-            <Typography component="subtitle2" > Can&apos;t find your address? </Typography>
+            <Typography  > Can&apos;t find your address? </Typography>
             <Button variant="contained" color="primary" onClick = {manualEdit}>
                Enter manually
             </Button>
@@ -259,11 +258,11 @@ const Address = (props) => {
             <br />
 
             <div className = "display-button">
-            <IconButton variant="contained" className = "button"
-            onClick = {() => navigation.previous()}>
+            <IconButton variant="contained"
+            onClick = {() => navigation.go("flat-information")}>
                 <ArrowBackIosIcon/>
             </IconButton>
-            <IconButton variant="contained" className = "button"
+            <IconButton variant="contained"
             disabled = {(!addressName && !componentAddress.city )? true : false}
             color = "primary"
             type = "submit">
