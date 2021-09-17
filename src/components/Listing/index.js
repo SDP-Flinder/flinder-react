@@ -111,7 +111,7 @@ function ListingList(props) {
                         <Button
                             className="button"
                             component={RouterLink}
-                            to="/listings"
+                            to="/"
                         >
                             Account
                         </Button>
