@@ -105,6 +105,7 @@ function AddBio(props) {
                   multiline
                   maxRows={3}
                   minRows={3}
+                  inputProps={{ maxLength: 256 }}
                   autoFocus
                   required
                   value={bio}

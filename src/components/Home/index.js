@@ -29,7 +29,7 @@ export default function Home() {
     if (user.role === 'flatee') {
       return (
         <div>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          <Typography component="h1" variant="b1" color="inherit" className={classes.title}>
             {`Bio: ${bio}`}
           </Typography>
           <Button
