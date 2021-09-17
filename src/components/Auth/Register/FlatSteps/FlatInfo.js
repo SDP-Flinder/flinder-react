@@ -55,15 +55,13 @@ const FlatInfo = (props) => {
         e.preventDefault();
         //Check if all the inputs are valid
         const newError = findError();
-        console.log(newError.errorFound);
-        console.log(newError.invalid);
 
         //Proceed to the next step if inputs are valid
         if(Object.keys(newError.errorFound).length > 0){
           //Found errors and set the errors to the useState
           setError(newError.errorFound);
           setInvalid(newError.invalid);
-          console.log(isInvalid);
+
         }else{
           if(props.user.accountType == 'flat'){
             navigation.go("flat-address");
