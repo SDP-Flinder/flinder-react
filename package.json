@@ -23,7 +23,6 @@
     "framer-motion": "^4.1.17",
     "jest-environment-jsdom": "^27.1.0",
     "jsonwebtoken": "^8.5.1",
-    "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
     "node": "^16.6.1",
     "node-sass": "^6.0.1",
