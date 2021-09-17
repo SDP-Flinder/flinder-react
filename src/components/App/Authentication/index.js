@@ -34,6 +34,7 @@ const useProvideAuth = () => {
   /* User object
    * {role, firstname, lastname, username, createdDate, id, token, tokenExp}
    */
+  const jwt = getJWT();
   const [user, setUser] = useState(null);
   const isAuthed = (user) ? true : false;
   // const isAuthed = (user && jwt.decode(user.token, { complete: true }).payload.exp > Date.now) ? true : false;

@@ -13,6 +13,7 @@ import { Role } from "../Authentication";
 import ProtectedRoute from "../Authentication/ProtectedRoute";
 import ErrorRoute from "./ErrorRoute";
 import Forgot from "../../Auth/Forgot";
+import AddBio from "../../Profile/AddBio";
 
 const Router = () => (
   <Switch>
@@ -24,6 +25,7 @@ const Router = () => (
     {/* Protected */}
     <ProtectedRoute exact path="/" component={Home} />
     <ProtectedRoute exact roles={[Role.Admin]} path="/dashboard" component={Dashboard} />
+    <ProtectedRoute exact roles={[Role.Flatee]} path="/addbio" component={AddBio} />
     {/* <ProtectedRoute exact roles={[Role.Flat]} path="/newlisting" component={NewListing} /> */}
     {/* <ProtectedRoute exact path="/listing" component={Listing} /> */}
     <ProtectedRoute exact path="/profile" component={Profile} />
