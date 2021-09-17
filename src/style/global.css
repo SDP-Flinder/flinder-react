@@ -55,6 +55,8 @@ COLOUR PALLETTE
 
 /*Used for more than one buttons on 1 page*/
 .button{
+    color: white;
+    width: 240px;
     /* width: 165px; */
 }
 
