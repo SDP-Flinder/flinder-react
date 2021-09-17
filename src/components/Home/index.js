@@ -4,7 +4,6 @@ import { Typography } from "@material-ui/core";
 import { useAuth } from "../App/Authentication";
 import Navigation from "../App/Navigation";
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
