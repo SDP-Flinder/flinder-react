@@ -149,7 +149,7 @@ const useProvideAuth = () => {
     })
   };
 
-  return { user, isAuthed, signin, signout, signup };
+  return { user, isAuthed, signin, signout, signup, jwt };
 };
 
 export const Role = {

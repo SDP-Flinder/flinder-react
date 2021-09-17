@@ -78,7 +78,6 @@ export default function Listing(props) {
                     Listings
                 </Typography>
                 <form className={classes.form} onSubmit={onSubmit} noValidate>
-                    {/* <ButtonGroup variant="contained" color="primary"> */}
                     <Button
                         onClick={() => (setButton(1))}
                         type="submit"
@@ -99,7 +98,6 @@ export default function Listing(props) {
                     >
                         Create Listing
                     </Button>
-                    {/* </ButtonGroup> */}
                 </form>
             </div>
             <Box mt={8}>

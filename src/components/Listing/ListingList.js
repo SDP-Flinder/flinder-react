@@ -51,10 +51,8 @@ const useStyles = makeStyles((theme) => ({
 //Shows the current user all listings they have created, along with the ooption to create a new listing
 function ListingList(props) {
     const classes = useStyles();
-    const { user, getJWT } = useAuth();
+    const { user, jwt } = useAuth();
     const [listings, setListings] = useState([]);
-
-    console.log(listings);
 
     //Passes the selected listing to the listing page for displaying
     function selectListing(id) {
@@ -83,10 +81,9 @@ function ListingList(props) {
     useEffect(() => {
         async function getListings() {
             const URL = 'http://localhost:4000/listings/flat/'.concat(user.id);
-            const USER_TOKEN = getJWT();
 
             const config = {
-                headers: { Authorization: `Bearer ${USER_TOKEN}` }
+                headers: { Authorization: `Bearer ${jwt}` }
             };
 
             const listings = await axios.get(URL, config);
@@ -96,7 +93,7 @@ function ListingList(props) {
         // if (user.role === 'flat') {
             getListings();
         // }
-    }, [user, getJWT])
+    }, [user, jwt])
 
     return (
         <Container component="main" maxWidth="xs">

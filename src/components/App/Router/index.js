@@ -15,20 +15,14 @@ import CreateListing from '../../Listing/CreateListing';
 import UpdateListing from '../../Listing/UpdateListing';
 import ListingList from '../../Listing/ListingList';
 import ListingDisplay from '../../Listing/ListingDisplay';
+import Forgot from "../../Auth/Forgot";
 
 const Router = () => (
   <Switch>
-    <Route exact path="/" component={Landing} />
-    {/* <ProtectedRoute
-      exact
-      roles={[Role.Admin]}
-      path="/dashboard"
-      component={Dashboard}
-    /> */}
-
     <Route exact path="/login" component={Login} />
     <Route exact path="/logout" component={Logout} />
     <Route exact path="/register" component={Register} />
+    <Route exact path="/forgot" component={Forgot} />
     <Route exact path="/landing" component={Landing} />
     {/* Protected */}
     <ProtectedRoute exact roles={[Role.Admin]} path="/dashboard" component={Dashboard} />

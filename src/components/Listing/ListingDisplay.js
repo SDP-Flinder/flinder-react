@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 //Component to display the details of the selected listing for the owner flat account
 function ListingDisplay(props) {
     const classes = useStyles();
-    const { user, getJWT } = useAuth();
+    const { user, jwt } = useAuth();
     const location = useLocation();
     const id = location.state.id;
     const [listing, setListing] = useState([]);
@@ -81,14 +81,12 @@ function ListingDisplay(props) {
 
     const deleteListing = async () => {
         const URL = 'http://localhost:4000/listings/'.concat(listing.id);
-        const USER_TOKEN = getJWT();
 
         const config = {
-            headers: { Authorization: `Bearer ${USER_TOKEN}` }
+            headers: { Authorization: `Bearer ${jwt}` }
         };
 
-        await axios.delete(URL, config)
-            .then(res => console.log(res))
+        await axios.delete(URL, config);
     }
 
     //Event handler for the active switch - the owner accoount is able to toggle whether the listing is available or not directly from the listing page, without having to oopen the update listing page
@@ -100,16 +98,12 @@ function ListingDisplay(props) {
 
     const updateActive = async (activeStatus) => {
         const URL = 'http://localhost:4000/listings/'.concat(listing.id);
-        const USER_TOKEN = getJWT();
 
         const config = {
-            headers: { Authorization: `Bearer ${USER_TOKEN}` }
+            headers: { Authorization: `Bearer ${jwt}` }
         };
 
-        console.log(activeStatus);
-
-        await axios.put(URL, { active: activeStatus }, config)
-            .then(console.log).catch(console.log);
+        await axios.put(URL, { active: activeStatus }, config);
     }
 
     //Check if the user viewing is the owner of the listing before rendering the update/delete buttons
@@ -159,10 +153,9 @@ function ListingDisplay(props) {
     useEffect(() => {
         async function getListing() {
             const URL = 'http://localhost:4000/listings/'.concat(id);
-            const USER_TOKEN = getJWT();
 
             const config = {
-                headers: { Authorization: `Bearer ${USER_TOKEN}` }
+                headers: { Authorization: `Bearer ${jwt}` }
             };
 
             const listing = await axios.get(URL, config)
@@ -170,7 +163,7 @@ function ListingDisplay(props) {
             setListing(listing.data);
         }
         getListing();
-    }, [user, id, getJWT])
+    }, [user, id, jwt])
 
     useEffect(() => {
         if (listing.active !== undefined) {

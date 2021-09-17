@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 function CreateListing(props) {
 
     const classes = useStyles();
-    const { user, getJWT } = useAuth();
+    const { user, jwt } = useAuth();
     const currentDate = new Date();
 
     const [error, setError] = useState({});
@@ -75,8 +75,6 @@ function CreateListing(props) {
         const errorFound = {};
         const invalid = {};
 
-        console.log(rent);
-
         if (rent < 0.01) {
             errorFound.rent = "Rent can't be 0";
             invalid.rent = true;
@@ -92,15 +90,12 @@ function CreateListing(props) {
         e.preventDefault();
 
         const newError = findError();
-        console.log(newError.errorFound);
-        console.log(newError.invalid);
 
         //Proceed to the next step if inputs are valid
         if (Object.keys(newError.errorFound).length > 0) {
             //Found errors and set the errors to the useState
             setError(newError.errorFound);
             setInvalid(newError.invalid);
-            console.log(isInvalid);
         } else {
             createNewListing();
             props.history.push('/listings');
@@ -111,12 +106,9 @@ function CreateListing(props) {
     const createNewListing = async () => {
         // if (props.user.role === 'flat') {
         const URL = 'http://localhost:4000/listings/add/'
-        const USER_TOKEN = getJWT();
-
-        console.log(USER_TOKEN);
 
         const config = {
-            headers: { Authorization: `Bearer ${USER_TOKEN}` }
+            headers: { Authorization: `Bearer ${jwt}` }
         };
 
         const bodyParameters = {
@@ -129,8 +121,7 @@ function CreateListing(props) {
             active: true
         };
 
-        axios.post(URL, bodyParameters, config)
-            .then(console.log).catch(console.log);
+        axios.post(URL, bodyParameters, config);
         // }
     }
 

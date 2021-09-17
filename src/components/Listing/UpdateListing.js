@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 function UpdateListing(props) {
 
     const classes = useStyles();
-    const { user, getJWT } = useAuth();
+    const { user, jwt } = useAuth();
     const [listing, setListing] = useState([]);
     const currentDate = new Date();
     const location = useLocation();
@@ -81,8 +81,6 @@ function UpdateListing(props) {
         const errorFound = {};
         const invalid = {};
 
-        console.log(rent);
-
         if (rent < 0.01) {
             errorFound.rent = "Rent can't be 0 or negative";
             invalid.rent = true;
@@ -98,15 +96,13 @@ function UpdateListing(props) {
         e.preventDefault();
 
         const newError = findError();
-        console.log(newError.errorFound);
-        console.log(newError.invalid);
-
+        
+        //Taken from Daniel's code
         //Proceed to the next step if inputs are valid
         if (Object.keys(newError.errorFound).length > 0) {
             //Found errors and set the errors to the useState
             setError(newError.errorFound);
             setInvalid(newError.invalid);
-            console.log(isInvalid);
         } else {
             updateCurrentListing();
             props.history.push('/listings');
@@ -117,10 +113,10 @@ function UpdateListing(props) {
     const updateCurrentListing = async () => {
         // if (user.role === 'flat') {
         const URL = 'http://localhost:4000/listings/'.concat(id);
-        const USER_TOKEN = getJWT();
+        ;
 
         const config = {
-            headers: { Authorization: `Bearer ${USER_TOKEN}` }
+            headers: { Authorization: `Bearer ${jwt}` }
         };
 
         const bodyParameters = {
@@ -132,29 +128,22 @@ function UpdateListing(props) {
             active: active
         };
 
-        console.log(bodyParameters);
-
-        axios.put(URL, bodyParameters, config)
-            .then(console.log).catch(console.log);
+        axios.put(URL, bodyParameters, config);
         // }
     }
 
     //Event handler for the active switch - the owner accoount is able to toggle whether the listing is available or not directly from the listing page, without having to oopen the update listing page
     const handleChange = (event) => {
         setActive(event.target.checked);
-        console.log(active);
     };
 
     //Load the listing passed by the previous page from the DB
     useEffect(() => {
         async function getListing() {
             const URL = 'http://localhost:4000/listings/'.concat(id);
-            const USER_TOKEN = getJWT();
-
-            console.log('location state is ' + id)
 
             const config = {
-                headers: { Authorization: `Bearer ${USER_TOKEN}` }
+                headers: { Authorization: `Bearer ${jwt}` }
             };
 
             const listing = await axios.get(URL, config)
@@ -162,7 +151,7 @@ function UpdateListing(props) {
             setListing(listing.data);
         }
         getListing();
-    }, [user, id, getJWT])
+    }, [user, id, jwt])
 
     //Populate the form with the passed in listings details
     useEffect(() => {
