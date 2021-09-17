@@ -55,14 +55,15 @@
 .swipe-buttons {
   position: fixed;
   bottom: 5vh;
-  display: flex;
+  left: 0;
+  display: inline-flex;
   width: 100%;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 @media only screen and (max-width: 600px) {
   .swipe-buttons {
-    bottom: 1vh;
+    display: none;
   }
 }
 

@@ -19,7 +19,7 @@ import {
 import './styles.css';
 
 // create cards component and export it
-const CardsForFlatee = () => {
+const CardsForFlatee = (props) => {
   const alreadyRemoved = [];
   const [listings, setListings] = useState([]);
   const [listingOwners, setListingsOwners] = useState([]);
@@ -28,9 +28,9 @@ const CardsForFlatee = () => {
   // eslint-disable-next-line no-unused-vars
   const childRefs = useMemo(() => Array(listings.length).fill(0).map((i) => React.createRef()));
 
-  const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzE0MDY5NjcsImV4cCI6MTYzMjAxMTc2N30.yIXQXoZ2eTIh-OAsIZwTY1DhDkwk5ozL7-V_N_WG4YM';
+  const USER_TOKEN = props.token;
   const AuthString = 'Bearer '.concat(USER_TOKEN);
-  const flateeUser = 'daniel'; // RETRIEVE FLATEE_USERNAME
+  const flateeUser = props.username; // RETRIEVE FLATEE_USERNAME
   let matchparam = {
     flateeUsername: flateeUser,
   };
@@ -110,6 +110,8 @@ const CardsForFlatee = () => {
             padding: 15,
           }}
           >
+            {`${listingOwners[index].username}`}
+            <br />
             {`Flat Description: ${listingOwners[index].description}`}
             <br />
             {`Listing Description: ${Listing.description}`}
@@ -121,7 +123,14 @@ const CardsForFlatee = () => {
         );
         setReadMore(text);
       } else {
-        const text = null;
+        const text = (
+          <h2 style={{
+            padding: 15,
+          }}
+          >
+            {`${listingOwners[index].username}`}
+          </h2>
+        );
         setReadMore(text);
       }
     }
@@ -158,7 +167,6 @@ const CardsForFlatee = () => {
                 >
                   <MoreVertIcon fontSize="large" />
                 </IconButton>
-                <h3>{listingOwners[index].username}</h3>
               </div>
             </TinderCard>
           ))}

@@ -37,9 +37,9 @@ export default function Home() {
                
                 {user.role == "flatee"?
                 //  If the user is a flatee, render this card
-                 <CardsForFlatee />:
-                // If the user is a flat, render this card
-                 <CardsForFlat />}
+                 <CardsForFlatee token = {user.token} username = {user.username} />:
+                // If the user is a flat, render this card. listingID = {?}
+                 <CardsForFlat token = {user.token} />}
 
             </div>
         </>

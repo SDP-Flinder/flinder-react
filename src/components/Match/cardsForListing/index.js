@@ -19,7 +19,7 @@ import {
 import './styles.css';
 
 // create cards component and export it
-const CardsForListing = () => {
+const CardsForListing = (props) => {
   const alreadyRemoved = [];
   const [people, setPeople] = useState([]);
   const [readMore, setReadMore] = useState(null);
@@ -27,9 +27,9 @@ const CardsForListing = () => {
   // eslint-disable-next-line no-unused-vars
   const childRefs = useMemo(() => Array(people.length).fill(0).map((i) => React.createRef()));
 
-  const USER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTJkNTJmN2ZmOGQ4YWM4NzJjMGRjMGEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzE0MDY5NjcsImV4cCI6MTYzMjAxMTc2N30.yIXQXoZ2eTIh-OAsIZwTY1DhDkwk5ozL7-V_N_WG4YM';
+  const USER_TOKEN = props.token;
   const AuthString = 'Bearer '.concat(USER_TOKEN);
-  const listingID = '613af6a36acb285058d0fd36'; // RETRIEVE LISTING ID
+  const listingID = props.listingID; // RETRIEVE LISTING ID
   let matchparam = {
     listingID: listingID,
   };
