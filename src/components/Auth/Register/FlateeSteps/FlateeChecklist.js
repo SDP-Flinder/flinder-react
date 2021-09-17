@@ -33,10 +33,6 @@ const FlateeChecklist = (props) => {
 
     const {navigation} = props;
     populatePriceRange();
-
-    // const setForm = (field, value) => {
-    //     props.updateUser({[field]: value});
-    // }
     
     const [error, setError] = useState({});
     const [isInvalid, setInvalid] = useState({});

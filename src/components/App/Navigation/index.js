@@ -28,7 +28,8 @@ import { Config } from '../../../config';
 import { useAuth } from "../Authentication";
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
-// import Link from '@material-ui/core/List'
+import {ReactComponent as FlinderLogo} from '../../../assets/icon-display-white.svg';
+
 
 const drawerWidth = 240;
 
@@ -263,8 +264,9 @@ export default function Navigation() {
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
           >
-            <MenuIcon />
+              <FlinderLogo className ="small-logo"/>
           </IconButton>
+
           <Typography className={classes.title} variant="h6" noWrap>
             {Config.AppName}
           </Typography>
