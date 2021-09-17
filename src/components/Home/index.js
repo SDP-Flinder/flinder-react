@@ -5,6 +5,9 @@ import { useAuth } from "../App/Authentication";
 import Navigation from "../App/Navigation";
 import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
+import Test from "../App/Navigation/Test";
+import { Box } from "@mui/system";
+import { CssBaseline } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -42,6 +45,8 @@ export default function Home() {
 
     return (
         <>
+            <Box sx={{ pb: 7 }}>
+            <CssBaseline />
             <Navigation />
             <div className={classes.paper}>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
@@ -50,6 +55,10 @@ export default function Home() {
                 {/* User should only be able to access this page when authorised, but just incase. Could remove check */}
                 {renderFlatButtons()}
             </div>
+
+            <Test />
+
+            </Box>
         </>
     );
 };
