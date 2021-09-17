@@ -18,6 +18,7 @@ const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
             return (
               <ErrorRoute
                 title="Insufficient Permissions"
+                
               />
             );
           }
