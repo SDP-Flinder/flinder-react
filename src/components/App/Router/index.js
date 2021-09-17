@@ -15,6 +15,7 @@ import UpdateListing from '../../Listing/UpdateListing';
 import ListingList from '../../Listing';
 import ListingDisplay from '../../Listing/ListingDisplay';
 import Forgot from "../../Auth/Forgot";
+import AddBio from "../../Profile/AddBio";
 
 const Router = () => (
   <Switch>
@@ -25,6 +26,7 @@ const Router = () => (
     <Route exact path="/landing" component={Landing} />
     {/* Protected */}
     <ProtectedRoute exact roles={[Role.Admin]} path="/dashboard" component={Dashboard} />
+    <ProtectedRoute exact roles={[Role.Flatee]} path="/addbio" component={AddBio} />
     <ProtectedRoute exact roles={[Role.Flat]} path="/newlisting" component={CreateListing} />
     <ProtectedRoute exact path="/" component={Home} />
     <ProtectedRoute exact roles={[Role.Flat]} path="/updatelisting" component={UpdateListing} />
