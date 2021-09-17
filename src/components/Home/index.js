@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core";
 import { useAuth } from "../App/Authentication";
 import Navigation from "../App/Navigation";
+import CardsForFlatee from "../Match/cardsForFlatee/index";
 import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box } from "@mui/system";
 import { CssBaseline } from "@material-ui/core";
-
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -24,26 +24,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
     const classes = useStyles();
     const { user } = useAuth();
-    const [bio, setBio] = useState('');
-
-    const renderBio = () => {
-      if (user.role === 'flatee') {
-        return (
-          <div>
-            <Typography component="h1" variant="b1" color="inherit" className={classes.title}>
-              {`Bio: ${bio}`}
-            </Typography>
-            <Button
-              className="button"
-              component={RouterLink}
-              to="/addbio"
-            >
-              Edit Bio
-            </Button>
-          </div>
-        )
-      }
-    }
 
     const renderFlatButtons = () => {
         if(user.role === 'flat') {
@@ -73,8 +53,11 @@ export default function Home() {
                     {`Hello ${user.firstName} ${user.lastName}`}
                 </Typography>
                 {/* User should only be able to access this page when authorised, but just incase. Could remove check */}
-                {renderFlatButtons()}
-                {renderBio()}
+                {user.role == "flatee"?
+                //  If the user is a flatee, render this card
+                 <CardsForFlatee token = {user.token} username = {user.username} />:
+                // If the user is a flat, render this card. listingID = {?}
+                renderFlatButtons()}
             </div>
             </Box>
         </>

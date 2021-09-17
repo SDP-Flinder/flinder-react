@@ -46,13 +46,7 @@ const useProvideAuth = () => {
         headers: { 'Authorization': `bearer ${getJWT()}`}
       })
       .then((response) => {
-        setUser({
-          firstName: response.data.firstName, 
-          lastName: response.data.lastName,
-          role: response.data.role,
-          id: response.data.id,
-          username: response.data.username
-        })
+        setUser(response.data)
         
       })
       .catch(function (error) {

@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core"
+import { useAuth } from "../App/Authentication";;
 import Navigation from "../App/Navigation";
+import Button from '@material-ui/core/Button';
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -17,6 +20,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profile() {
     const classes = useStyles();
+    const { user } = useAuth();
+    const [bio, setBio] = useState('');
+
+    const renderBio = () => {
+      if (user.role === 'flatee') {
+        return (
+          <div>
+            <Typography component="h1" variant="b1" color="inherit" className={classes.title}>
+              {`Bio: ${bio}`}
+            </Typography>
+            <Button
+              className="button"
+              component={RouterLink}
+              to="/addbio"
+            >
+              Edit Bio
+            </Button>
+          </div>
+        )
+      }
+    }
+
+    useEffect(() => setBio(user.bio))
     
     return(
         <>
@@ -25,6 +51,7 @@ export default function Profile() {
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                     Profile
                 </Typography>
+                {renderBio()}
             </div>
 
         </>
