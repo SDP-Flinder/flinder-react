@@ -11,6 +11,9 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import { Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 
 
 
@@ -19,7 +22,20 @@ const Address = (props) => {
     //const {address} = props;
 
     const [addressName, setAddress] = React.useState('');
-    const [componentAddress, setComponent] = React.useState({});
+    const [componentAddress, setComponent] = React.useState({
+        street: '',
+        suburb: '',
+        city: '',
+        country: 'New Zealand',
+    });
+
+
+    //The user wants to enter the address manually
+    const [manual, setManual] = React.useState(false);
+
+    const manualEdit = () => {
+        setManual(true);
+    }
 
     const handleSelect = address => {
 
@@ -61,7 +77,7 @@ const Address = (props) => {
             props.user.address.city = componentAddress.city;
             props.user.address.country = componentAddress.country;
  
-            navigation.next();
+            navigation.go("flat-description");
         }
     }
 
@@ -85,6 +101,7 @@ const Address = (props) => {
             <Typography component="h3">
                  What&apos;s your address?
             </Typography>
+            {!manual && <div>
             <div className = "display-address-search">
             <PlacesAutocomplete 
             className = "autocomplete-dropdown-container "
@@ -142,14 +159,111 @@ const Address = (props) => {
             : <div>  </div>}
             {error.street && <Alert severity = "error">{error.street}</Alert>}
             {error.country && <Alert severity = "error">{error.country}</Alert>}
+        
+
+            <Grid
+                container
+                direction="column"
+                justifyContent="space-between"
+                alignItems="center"
+            >
+            
+            <Typography  > Can&apos;t find your address? </Typography>
+            <Button variant="contained" color="primary" onClick = {manualEdit}>
+               Enter manually
+            </Button>
+
+
+            
+            </Grid>
+            </div>}
+
+            {manual &&
+            <div>
+            <Alert severity = "warning">
+                We highly reccommend using address finder to increase the accuracy of the address
+            </Alert>
+
+            <Grid
+                container
+                direction="column"
+                justifyContent="space-between"
+                alignItems="center"
+            >
+            <Button variant = "contained" color="primary" onClick = {() => setManual(false)}>
+               Use address finder
+            </Button>
+            
+            </Grid>
+
+            <br />
+
+            <Grid
+                container
+                spacing = {2}
+            >
+
+            <Grid item >
+                <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="Street"
+                name = "componentAddress.street"
+                value = {componentAddress.street}
+                onChange = {e => setComponent((prevUser) => ({ ...prevUser, ...{street: e.target.value} }))}
+                placeholder = "Street no."
+                autoComplete="off"
+                required
+                /> 
+            </Grid>
+
+            <Grid item xs={6} md={8}>
+            <TextField 
+            id="outlined-basic"
+            variant="outlined"
+            name = "componentAddress.suburb"
+            value = {componentAddress.suburb}
+            onChange = {e => setComponent((prevUser) => ({ ...prevUser, ...{suburb: e.target.value} }))}
+            disabled = {!componentAddress.street ? true : false}
+            label="Suburb"
+            placeholder = "Suburb"
+            autoComplete="off"
+            /> 
+            </Grid>
+            <Grid item xs={6} md={4} >
+            <TextField
+            id="outlined-basic"
+            variant="outlined"
+            name = "componentAddress.city"
+            value = {componentAddress.city}
+            onChange = {e => setComponent((prevUser) => ({ ...prevUser, ...{city: e.target.value} }))}
+            label="City"
+            placeholder = "City"
+            autoComplete="off"
+            required
+            /> 
+            </Grid>
+
+            <Grid>
+            <Typography variant = "body1"> &nbsp;&nbsp; Country: New Zealand
+            </Typography> 
+            </Grid>
+
+            {error.street && <Alert severity = "error">{error.street}</Alert>}
+
+            </Grid>
+            </div>}
+
+            <br />
+            <br />
 
             <div className = "display-button">
-            <IconButton variant="contained" className = "button"
-            onClick = {() => navigation.previous()}>
+            <IconButton variant="contained"
+            onClick = {() => navigation.go("flat-information")}>
                 <ArrowBackIosIcon/>
             </IconButton>
-            <IconButton variant="contained" className = "button"
-            disabled = {!addressName ? true : false}
+            <IconButton variant="contained"
+            disabled = {(!addressName && !componentAddress.city )? true : false}
             color = "primary"
             type = "submit">
                 <ArrowForwardIosIcon/>

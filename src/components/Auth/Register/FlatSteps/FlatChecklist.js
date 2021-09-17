@@ -8,7 +8,7 @@ import { Typography } from '@material-ui/core';
 //This step is used to check their information before submission
 const FlatInfo = (props) => {
     const {navigation} = props;
-
+    console.log(props.user.address);
     return (
         <div>
 
