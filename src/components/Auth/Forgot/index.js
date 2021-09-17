@@ -28,7 +28,7 @@ const Forgot = () => {
                     <SentimentVeryDissatisfiedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                Bad luck, You're an alpha user. 
+                Bad luck, You&apos;re an alpha user. 
                 </Typography>
             </div>
         </Container>
