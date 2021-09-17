@@ -26,7 +26,7 @@ const Address = (props) => {
         street: '',
         suburb: '',
         city: '',
-        country: 'New Zealand',
+        country: '',
     });
 
 
@@ -35,6 +35,7 @@ const Address = (props) => {
 
     const manualEdit = () => {
         setManual(true);
+        clearAddress();
     }
 
     const handleSelect = address => {
@@ -236,7 +237,12 @@ const Address = (props) => {
             variant="outlined"
             name = "componentAddress.city"
             value = {componentAddress.city}
-            onChange = {e => setComponent((prevUser) => ({ ...prevUser, ...{city: e.target.value} }))}
+            onChange = {e => {
+                setComponent((prevUser) => ({ ...prevUser, ...{city: e.target.value} }))
+                setComponent((prevUser) => ({ ...prevUser, ...{country: 'New Zealand'} }))
+                setAddress(`${componentAddress.street}, ${componentAddress.suburb}, ${componentAddress.city}, New Zealand`)
+                }
+            }
             label="City"
             placeholder = "City"
             autoComplete="off"
@@ -263,7 +269,7 @@ const Address = (props) => {
                 <ArrowBackIosIcon/>
             </IconButton>
             <IconButton variant="contained"
-            disabled = {(!addressName && !componentAddress.city )? true : false}
+            disabled = {(!addressName)? true : false}
             color = "primary"
             type = "submit">
                 <ArrowForwardIosIcon/>
