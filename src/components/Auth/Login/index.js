@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import {Avatar, Button, Container, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography} from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
 import { Link as RouterLink, Redirect } from "react-router-dom";
 import { Config } from '../../../config'
 import { useAuth } from "../../App/Authentication";
 import { MemoryRouter as Router } from 'react-router';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo.svg';
+
 
 function Copyright() {
   return (
@@ -81,9 +82,8 @@ const Login = ({ location }) => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <FlinderLogo className = "logo-display"/>
+
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
@@ -148,9 +148,9 @@ const Login = ({ location }) => {
                 </Link>
               </Grid>
               <Grid item>
-                <RouterLink to="/register" variant="body2">
-                  Don't have an account? Sign Up
-                </RouterLink>
+                <Link href="/register" variant="body2">
+                  Don&apos;t have an account? Sign Up
+                </Link>
                 {/* <RouterLink to="/register">
                       I don't have an account
                     </RouterLink> */}

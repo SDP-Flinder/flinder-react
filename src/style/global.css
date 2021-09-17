@@ -1,13 +1,17 @@
 /*
 COLOUR PALLETTE
-
+--queen-pink: #eccbd9ff;
+--purple-navy: #585191ff;
+--light-sky-blue: #97d2fbff;
+--dark-slate-blue: #4f359bff;
+--turquoise-blue: #80ffe8ff;
 */
 
 /* Global Styles
 ------------------------*/
-h1{
-    text-align: center;
-    color: #70A0AF;
+
+* {
+    font-family: 'Raleway', sans-serif;
 }
 
 .logo-display{
@@ -17,63 +21,269 @@ h1{
     margin: auto;
 }
 
+.small-logo{
+    height: 30px;
+    width: 30px;
+}
 
 .input {
-    width: 480px;
+    width: 330px;
     height: 30px;
 }
 
 /*This one is to wrap around the sign up box*/
 .layout{
     margin: 50px auto;
-    width: 500px;
+    width: 330px;
     height: fit-content;
     padding: 10px;
-    border: 1px solid black;
-    border-radius: 10px;
+    /* border: 1px solid black; */
+    border-radius: 0.3em;
 }
 
 .background{
-    background-color: cornflowerblue;
+    background-color: cadetblue;
 }
 
+/**/
 .error-message{
+    margin: 10px 0px;
     font-size: 70%;
     color: rgb(219, 96, 96);
+    align-items: left;
 }
 
+/*Used for more than one buttons on 1 page*/
 .button{
-    color: white;
-    width: 480px;
+    /* width: 165px; */
 }
 
+/*Used for just a single button*/
+.single-button{
+    width: 330px;
+}
+
+/*This is for the address search*/
+.location-search-input,
+.location-search-input:focus,
+.location-search-input:active {
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+  border: honeydew;
+  padding: 16px;
+  font-size: 16px;
+  border-radius: 2px;
+  outline: none;
+}
+
+
+/*Display the dropdown button*/
 .autocomplete-dropdown-container {
     border-bottom: honeydew;
     border-left: honeydew;
     border-right: honeydew;
     border-top: 1px solid #e6e6e6;
+    margin: auto;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     position: absolute;
-    z-index: 1000;
     border-radius: 0 0 2px 2px;
 }
 
+/*Display the address information*/
 .address-information{
     color: rgb(56, 56, 56);
-    background-color: #ffdfdf;
+    background-color: #f5f5f5;
     margin: 30px auto;
     border-radius: 10px;
     padding: 10px;
 }
 
 .buttons {
-    display: felx;
+    display: flex;
     align-items: center;
     margin: 30px;
     padding: 40px;
 }
 
 
+/*Make the two buttons display side by side*/
+.display-button {
+    width: 330px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/*Display the search area and the clear button*/
+.display-address-search{
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.display-inputs{
+    display: grid;
+    grid-template-columns: 325px;
+    grid-template-rows: 100px;
+}
+
+.icon-display{
+    width: 80px;
+    height: 80px;
+}
+
+.profile-layout{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.profile-tab{
+    min-height: 500px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    border-right: 0.5px solid rgb(221, 221, 221);
+}
+
+.navigation-bar{
+    position: fixed;
+    bottom: 0%;
+}
+
+.profile-display {
+    position: relative;
+    float: right;
+    overflow-y: scroll;
+    width: 370px;
+    max-height: 500px;
+    margin: 40px auto;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid black; */
+    border-radius: 2%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.avt-display{
+    width: 370px;
+    height: 400px;
+    border-radius: 2%;
+}
+
+.habits{
+    display: flex;
+}
+
+.habit{
+    margin-left: 10px;
+    margin-right: 10px;
+    color: rgb(196, 196, 196);
+    padding: 5px;
+    border: 0.1em solid rgb(209, 209, 209);
+    border-radius: 30px;
+}
+
+.base-line{
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(209, 209, 209);
+}
+
+.button-wrapper{
+    position: absolute;
+    right: 60%;
+    width: 50px;
+}
+
+.profile-edit{
+        /* position: fixed; 
+        bottom: 3%;
+        right: 25%; */
+        width: 100px; 
+        height: 30px;
+        margin: 30px;
+        border: 0px solid #d6d6d6;  
+        color: white;
+        background-image: linear-gradient(to right, #585191, #97D2FB);
+        border-radius: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+        @media screen and(min-height: 500px){
+            display: none;
+        }
+}
+
+.profile-edit:hover{
+        transition: all 0.4s ease-in-out;
+        background-image: linear-gradient(to right, #585191, #80ffe8ff);
+}
+
+.main-tab{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-image: linear-gradient(to right, #585191, #97D2FB);
+}
+
+.avt-icon{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.account-btn{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 50px;
+    background-color: transparent;
+    border: none;
+}
+
+.account-btn:hover{
+    transition: all 0.2 ease-in-out;
+    background-color: rgb(65, 58, 117);
+}
+
+.profile-info{
+    display: flex;
+    padding-right: 10px;
+    align-items:baseline;
+    justify-content: space-between;
+}
+
+.listing{
+    display: flex;
+    width: 80px;
+    height: 120px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: 2px dashed black;
+}
+
+.display-listing{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+}
+
+.btn{
+    width: 330px; 
+    height: 30px;
+    margin: 30px;
+    border: 0px solid #d6d6d6;  
+    color: white;
+    background-image: linear-gradient(to right, #585191, #97D2FB);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    @media screen and(min-height: 500px){
+        display: none;
+    }
+}
 /* This is to style the input form layout
 .input-form {
 
