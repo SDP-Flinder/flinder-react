@@ -6,12 +6,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -27,8 +24,9 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import { Config } from '../../../config';
 import { useAuth } from "../Authentication";
 import { Link } from 'react-router-dom';
-import { Button } from '@material-ui/core';
 import {ReactComponent as FlinderLogo} from '../../../assets/icon-display-white.svg';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import ForumIcon from '@mui/icons-material/Forum';
 
 
 const drawerWidth = 240;
@@ -191,18 +189,8 @@ export default function Navigation() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem containerElement={<Link to="/about" />}>Profile</MenuItem>
+      <MenuItem containerElement={<Link to="/profile" />}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      {useAuth().isAuthed ? (
-          <Button component={Link} to="/logout" variant="contained" color="primary">
-          Log out
-        </Button>
-        // <MenuItem>
-        //     <Link component={RouterLink} to="/logout" onClick={handleMenuClose}>
-        //         Log out 
-        //     </Link>
-        // </MenuItem>
-      ) : (null)}
     </Menu>
   );
 
@@ -260,7 +248,7 @@ export default function Navigation() {
         <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            href = "/"
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
           >
@@ -285,21 +273,28 @@ export default function Navigation() {
           </div> */}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
+            <IconButton href ="/profile" aria-label="show 17 new notifications" color="inherit">
+              <Badge color="secondary">
+                <AccountCircle />
               </Badge>
             </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
+
+            <IconButton href ="/match" aria-label="show 17 new notifications" color="inherit">
+              <Badge badgeContent={1} color="secondary">
+                <ForumIcon />
+              </Badge>
             </IconButton>
+
+            {useAuth().isAuthed ? (
+            <IconButton component={Link} to="/logout" >
+                <ExitToAppIcon/>
+            </IconButton>
+          // <MenuItem>
+          //     <Link component={RouterLink} to="/logout" onClick={handleMenuClose}>
+          //         Log out 
+          //     </Link>
+          // </MenuItem>
+        ) : (null)}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -313,6 +308,7 @@ export default function Navigation() {
             </IconButton>
           </div>
         </Toolbar>
+        
       </AppBar>
 
       <Drawer

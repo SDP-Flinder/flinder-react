@@ -167,12 +167,12 @@ const FlateeChecklist = (props) => {
 
                 <div className = "display-button">
 
-                <IconButton variant="contained" className = "button"
+                <IconButton variant="contained"
                 onClick = {() => navigation.go("flatee-area")}>
                     <ArrowBackIosIcon/>
                 </IconButton>
 
-                <IconButton variant="contained" className = "button"
+                <IconButton variant="contained"
                 disabled = {(min == 0 || max == 3000)? true : false}
                 color = "primary"
                 type = "submit">

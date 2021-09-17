@@ -195,7 +195,7 @@ const FirstStep = (props) => {
         <br/>
         <br/>
 
-        <IconButton className = "button"
+        <IconButton
         variant="contained" color="primary" type ="submit"
         disabled = {(!user.username || !user.password || !user.email || !user.accountType) ? true:false}>
           <ArrowForwardIosIcon/>
