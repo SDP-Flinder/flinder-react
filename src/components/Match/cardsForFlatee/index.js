@@ -119,6 +119,8 @@ const CardsForFlatee = (props) => {
             {`Location: ${listingOwners[index].address.suburb}`}
             <br />
             {`${listingOwners[index].existingFlatmates} Flatmate(s)`}
+            <br />
+            {`$${Listing.rent} ${Listing.rentUnits}`}
           </h2>
         );
         setReadMore(text);
