@@ -5,7 +5,7 @@
   padding: 1rem;
   max-width: 85vw;
   height: 65vh;
-  box-shadow: 0px 1.8rem 5.3rem 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0rem 1.5rem 0px rgba(0, 0, 0, 0.3);
   border-radius: 2rem;
   background-size: cover;
 }
@@ -46,7 +46,7 @@
 /*styles for swipe buttons component*/
 .swipe-buttons {
   position: fixed;
-  bottom: 5vh;
+  bottom: 15vh;
   left: 0;
   display: inline-flex;
   width: 100%;
@@ -55,7 +55,7 @@
 
 @media only screen and (max-width: 600px) {
   .swipe-buttons {
-    bottom: 1vh;
+    bottom: 15vh;
   }
 }
 

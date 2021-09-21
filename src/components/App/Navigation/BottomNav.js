@@ -11,8 +11,8 @@ import PersonIcon from '@mui/icons-material/Person';
 
 import Home from '../../Home';
 
-export default function Test() {
-    const [value, setValue] = React.useState(0);
+export default function Test(props) {
+    const [value, setValue] = React.useState(props.activeStep);
 
   return (
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>

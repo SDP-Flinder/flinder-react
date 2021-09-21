@@ -5,6 +5,7 @@ import { useAuth } from "../App/Authentication";;
 import Navigation from "../App/Navigation";
 import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
+import BottomNav from '../App/Navigation/BottomNav';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -53,7 +54,7 @@ export default function Profile() {
                 </Typography>
                 {renderBio()}
             </div>
-
+            <BottomNav activeStep = {2}/>
         </>
     );
 };

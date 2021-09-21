@@ -8,10 +8,11 @@ import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box } from "@mui/system";
 import { CssBaseline } from "@material-ui/core";
+import BottomNav from '../App/Navigation/BottomNav';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: theme.spacing(10),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -60,6 +61,7 @@ export default function Home() {
                 renderFlatButtons()}
             </div>
             </Box>
+            <BottomNav activeStep = {1}/>
         </>
     );
 };
