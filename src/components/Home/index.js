@@ -48,7 +48,7 @@ export default function Home() {
         <>
             <Box sx={{ pb: 7 }}>
             <CssBaseline />
-            <Navigation />
+            <Navigation currentPath = "home"/>
             <div className={classes.paper}>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                     {`Hello ${user.firstName} ${user.lastName}`}

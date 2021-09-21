@@ -2,14 +2,11 @@ import * as React from 'react';
 import { Paper } from '@mui/material';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import ForumIcon from '@mui/icons-material/Forum';
 import { Link } from 'react-router-dom';
 
 import HomeIcon from '@mui/icons-material/Home';
-import AddReactionIcon from '@mui/icons-material/AddReaction';
 import PersonIcon from '@mui/icons-material/Person';
-
-import Home from '../../Home';
 
 export default function Test(props) {
     const [value, setValue] = React.useState(props.activeStep);
@@ -27,7 +24,7 @@ export default function Test(props) {
         component={Link}
         to="/match" 
         label="Matches" 
-        icon={<AddReactionIcon />} />
+        icon={<ForumIcon />} />
 
         <BottomNavigationAction 
         component={Link}

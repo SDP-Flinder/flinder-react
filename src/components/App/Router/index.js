@@ -16,6 +16,7 @@ import ListingList from '../../Listing';
 import ListingDisplay from '../../Listing/ListingDisplay';
 import Forgot from "../../Auth/Forgot";
 import AddBio from "../../Profile/AddBio";
+import Match from "../../Match/Match";
 
 const Router = () => (
   <Switch>
@@ -33,6 +34,7 @@ const Router = () => (
     <ProtectedRoute exact roles={[Role.Flat]} path="/listings" component={ListingList} />
     <ProtectedRoute exact path="/listing/display" component={ListingDisplay} />
     <ProtectedRoute exact path="/profile" component={Profile} />
+    <ProtectedRoute exact path="/match" component={Match} />
     <Route component={ErrorRoute} />
   </Switch>
 );
