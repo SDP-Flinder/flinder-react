@@ -17,8 +17,31 @@ import ListingDisplay from '../../Listing/ListingDisplay';
 import Forgot from "../../Auth/Forgot";
 import AddBio from "../../Profile/AddBio";
 import Match from "../../Match/Match";
+import BottomNav from "../Navigation/BottomNav";
+import { useLocation } from "react-router";
 
-const Router = () => (
+//Display the navigation bar if the user is in those 3 routes
+const displayNav = (route) => {
+  switch(route){
+    case "/":
+      return true;
+    case "/match":
+      return true;
+    case "/profile":
+      return true;
+    default:
+      return false;
+  }
+}
+
+const Router = () => {
+  //Retrive the location of the curernt path
+  const location = useLocation();
+  //Check if the user is in home, message, or profile page to display the navigation bar
+  const setDisplay = displayNav(location.pathname);
+
+  return (
+  <>
   <Switch>
     <Route exact path="/login" component={Login} />
     <Route exact path="/logout" component={Logout} />
@@ -37,6 +60,9 @@ const Router = () => (
     <ProtectedRoute exact path="/match" component={Match} />
     <Route component={ErrorRoute} />
   </Switch>
-);
+  {setDisplay && <BottomNav/>}
+  </>
+  )
+};
 
 export default Router;

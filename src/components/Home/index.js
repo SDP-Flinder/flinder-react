@@ -61,7 +61,6 @@ export default function Home() {
                 renderFlatButtons()}
             </div>
             </Box>
-            <BottomNav activeStep = {1}/>
         </>
     );
 };

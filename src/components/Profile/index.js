@@ -54,7 +54,6 @@ export default function Profile() {
                 </Typography>
                 {renderBio()}
             </div>
-            <BottomNav activeStep = {2}/>
         </>
     );
 };

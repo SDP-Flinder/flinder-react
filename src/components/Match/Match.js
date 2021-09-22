@@ -31,7 +31,6 @@ export default function Match() {
                     This is the match page for {user.firstName}
                 </Typography>
             </div>
-            <BottomNav activeStep = {0}/>
         </>
     );
 };
