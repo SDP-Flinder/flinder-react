@@ -54,7 +54,7 @@
 /*styles for swipe buttons component*/
 .swipe-buttons {
   position: fixed;
-  bottom: 5vh;
+  bottom: 15vh;
   left: 0;
   display: inline-flex;
   width: 100%;

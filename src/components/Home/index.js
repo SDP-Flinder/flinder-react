@@ -8,10 +8,11 @@ import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box } from "@mui/system";
 import { CssBaseline } from "@material-ui/core";
+import BottomNav from '../App/Navigation/BottomNav';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: theme.spacing(10),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -47,7 +48,7 @@ export default function Home() {
         <>
             <Box sx={{ pb: 7 }}>
             <CssBaseline />
-            <Navigation />
+            <Navigation currentPath = "home"/>
             <div className={classes.paper}>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                     {`Hello ${user.firstName} ${user.lastName}`}

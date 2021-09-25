@@ -9,24 +9,15 @@ import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import { Config } from '../../../config';
 import { useAuth } from "../Authentication";
 import { Link } from 'react-router-dom';
 import {ReactComponent as FlinderLogo} from '../../../assets/icon-display-white.svg';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import ForumIcon from '@mui/icons-material/Forum';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+// import { InputBase } from '@material-ui/core';
+// import SearchIcon from '@mui/icons-material/Search';
 
 
 const drawerWidth = 240;
@@ -143,7 +134,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Navigation() {
+export default function Navigation(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -205,33 +196,31 @@ export default function Navigation() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      {props.currentPath == "home" &&
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
+        <IconButton aria-label="show filter" color="inherit">
+          <Badge color="secondary">
+            <ManageSearchIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+        <p>Filter</p>
+      </MenuItem>}
+
+      {useAuth().isAuthed ? (
+            <MenuItem component={Link} to="/logout">
+            <IconButton 
+            color = "inherit" >
+                <ExitToAppIcon/>
+            </IconButton>
+            <p>Log Out</p>
+            </MenuItem>
+          // <MenuItem>
+          //     <Link component={RouterLink} to="/logout" onClick={handleMenuClose}>
+          //         Log out 
+          //     </Link>
+          // </MenuItem>
+        ) : (null)}
+      
     </Menu>
   );
 
@@ -248,7 +237,8 @@ export default function Navigation() {
         <IconButton
             color="inherit"
             aria-label="open drawer"
-            href = "/"
+            component={Link}
+            to="/" 
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
           >
@@ -270,23 +260,22 @@ export default function Navigation() {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div> */}
+          </div>  */}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton href ="/profile" aria-label="show 17 new notifications" color="inherit">
+            {props.currentPath == "home" &&
+            <IconButton 
+            aria-label="filter search"
+            onClick = {() => window.alert('This button is to filter the profiles')} 
+            color="inherit">
               <Badge color="secondary">
-                <AccountCircle />
+                <ManageSearchIcon />
               </Badge>
-            </IconButton>
-
-            <IconButton href ="/match" aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={1} color="secondary">
-                <ForumIcon />
-              </Badge>
-            </IconButton>
+            </IconButton>}
 
             {useAuth().isAuthed ? (
-            <IconButton component={Link} to="/logout" >
+            <IconButton component={Link} to="/logout"
+            color = "inherit" >
                 <ExitToAppIcon/>
             </IconButton>
           // <MenuItem>
@@ -310,41 +299,6 @@ export default function Navigation() {
         </Toolbar>
         
       </AppBar>
-
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-
       </React.Fragment>
       {renderMobileMenu}
       {renderMenu}

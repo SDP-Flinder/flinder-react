@@ -19,40 +19,17 @@ const useStyles = makeStyles((theme) => ({
       },
 }))
 
-export default function Profile() {
+export default function Match() {
     const classes = useStyles();
     const { user } = useAuth();
-    const [bio, setBio] = useState('');
-
-    const renderBio = () => {
-      if (user.role === 'flatee') {
-        return (
-          <div>
-            <Typography component="h1" variant="b1" color="inherit" className={classes.title}>
-              {`Bio: ${bio}`}
-            </Typography>
-            <Button
-              className="button"
-              component={RouterLink}
-              to="/addbio"
-            >
-              Edit Bio
-            </Button>
-          </div>
-        )
-      }
-    }
-
-    useEffect(() => setBio(user.bio))
     
     return(
         <>
             <Navigation />
             <div className={classes.paper}>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                    Profile
+                    This is the match page for {user.firstName}
                 </Typography>
-                {renderBio()}
             </div>
         </>
     );
