@@ -135,7 +135,7 @@ const FlateePreferredAreas = (props) => {
           {city &&
           <Grid item>
           <FormControl variant="standard" className={classes.formControl}>
-          <InputLabel> Region (Optional) </InputLabel>
+          <InputLabel> District (Optional) </InputLabel>
           <Select
             native
             placeholder = "Optional"
