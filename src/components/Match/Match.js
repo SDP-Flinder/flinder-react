@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core"
 import { useAuth } from "../App/Authentication";;
 import Navigation from "../App/Navigation";
-import Button from '@material-ui/core/Button';
-import { Link as RouterLink } from 'react-router-dom';
-import BottomNav from '../App/Navigation/BottomNav';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -25,7 +22,7 @@ export default function Match() {
     
     return(
         <>
-            <Navigation />
+            <Navigation pageName = "Match"/>
             <div className={classes.paper}>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                     This is the match page for {user.firstName}

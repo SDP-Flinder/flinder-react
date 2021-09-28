@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import {ReactComponent as FlinderLogo} from '../../../assets/icon-display-white.svg';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { Button } from '@material-ui/core';
 // import { InputBase } from '@material-ui/core';
 // import SearchIcon from '@mui/icons-material/Search';
 
@@ -234,7 +235,7 @@ export default function Navigation(props) {
         })}
       >
         <Toolbar>
-        <IconButton
+        <Button
             color="inherit"
             aria-label="open drawer"
             component={Link}
@@ -243,10 +244,9 @@ export default function Navigation(props) {
             className={clsx(classes.menuButton, open && classes.hide)}
           >
               <FlinderLogo className ="small-logo"/>
-          </IconButton>
-
+          </Button>
           <Typography className={classes.title} variant="h6" noWrap>
-            {Config.AppName}
+            {Config.AppName} | {props.pageName}
           </Typography>
           {/* <div className={classes.search}>
             <div className={classes.searchIcon}>

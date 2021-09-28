@@ -1,11 +1,12 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core"
+import { Button, Typography } from "@material-ui/core"
 import { useAuth } from "../App/Authentication";;
 import Navigation from "../App/Navigation";
 import FlateeProfile from "./FlateeProfile";
 import FlatProfile from "./FlatProfile";
 import '../../style/global.css';
+import DeleteAccount from "./DeleteAccount";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,12 +40,13 @@ export default function Profile() {
 
   return (
     <>
-      <Navigation />
+      <Navigation pageName = "Profile"/>
       <div className={classes.paper}>
         <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
           Profile
         </Typography>
         {renderProfile()}
+        <DeleteAccount/>
       </div>
     </>
   );
