@@ -160,6 +160,7 @@ const Address = (props) => {
             : <div>  </div>}
             {error.street && <Alert severity = "error">{error.street}</Alert>}
             {error.country && <Alert severity = "error">{error.country}</Alert>}
+            {error.city && <Alert severity = "error">{error.city}</Alert>}
         
 
             <Grid
@@ -218,7 +219,7 @@ const Address = (props) => {
                 /> 
             </Grid>
 
-            <Grid item xs={6} md={8}>
+            <Grid item xs={5} md={6}>
             <TextField 
             id="outlined-basic"
             variant="outlined"
@@ -231,7 +232,7 @@ const Address = (props) => {
             autoComplete="off"
             /> 
             </Grid>
-            <Grid item xs={6} md={4} >
+            <Grid item xs={5} md={6} >
             <TextField
             id="outlined-basic"
             variant="outlined"
@@ -256,6 +257,8 @@ const Address = (props) => {
             </Grid>
 
             {error.street && <Alert severity = "error">{error.street}</Alert>}
+            {error.city && <Alert severity = "error">{error.city}</Alert>}
+
 
             </Grid>
             </div>}
@@ -285,6 +288,19 @@ const Address = (props) => {
 
             if (componentAddress.country != 'New Zealand') {
                 errorFound.country = 'This app is only currently available for New Zealand adresses.';
+            }
+
+            if(componentAddress.country == 'New Zealand'){
+
+                switch(componentAddress.city.toLowerCase()){
+                    case "auckland":
+                    case "wellington":
+                        break;
+                    default: 
+                        errorFound.city = 'This app is only currently available for Auckland and Wellington addresses.';
+                        break;
+
+                }
             }
 
             if (!componentAddress.street) {
