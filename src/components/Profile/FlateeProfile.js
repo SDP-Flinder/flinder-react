@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core"
-import { useAuth } from "../App/Authentication";;
-import Navigation from "../App/Navigation";
+import { useAuth } from "../App/Authentication";
 import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
 import { CssBaseline } from "@material-ui/core";
+import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,38 +29,47 @@ export default function FlateeProfile() {
 
   return (
     <>
-      <CssBaseline />
-      <Navigation />
-      <div className={classes.paper}>
-        <Typography component="h4" variant="h5" color="inherit" noWrap className={classes.title}>
-          {`Username: ${user.username}`}
-        </Typography>
-        <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
-          {`Full Name: ${user.firstName} ${user.lastName}`}
-        </Typography>
-        <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
-          {`Couple: ${user.checklist.isCouple}`}
-        </Typography>
-        <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
-          {`Smoker: ${user.checklist.isSmoker}`}
-        </Typography>
-        <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
-          {`Pets: ${user.checklist.hasPet}`}
-        </Typography>
-        <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
-          {`Price Range: ${user.checklist.priceRange.min} - ${user.checklist.priceRange.max}`}
-        </Typography>
-        <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
-          {`Bio: ${bio}`}
-        </Typography>
-        <Button
-          className="button"
-          component={RouterLink}
-          to="/addbio"
-        >
-          Edit Bio
-        </Button>
-      </div>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h2" variant="b1" color="inherit" className={classes.title}>
+            {`Username: ${user.username}`}
+          </Typography>
+          <br />
+          <Typography component="h3" variant="b1" color="inherit" className={classes.title}>
+            {`Full Name: ${user.firstName} ${user.lastName}`}
+          </Typography>
+          <br />
+          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+            {`Couple: ${user.checklist.isCouple}`}
+          </Typography>
+          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+            {`Smoker: ${user.checklist.isSmoker}`}
+          </Typography>
+          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+            {`Pets: ${user.checklist.hasPet}`}
+          </Typography>
+          <br />
+          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+            {`Price Range: $${user.checklist.priceRange.min} - $${user.checklist.priceRange.max}`}
+          </Typography>
+          <br />
+          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+            Bio:
+          </Typography>
+          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+            {user.bio}
+          </Typography>
+          <br />
+          <Button
+            className="button"
+            component={RouterLink}
+            to="/addbio"
+          >
+            Edit Bio
+          </Button>
+        </div>
+      </Container>
     </>
   );
 };

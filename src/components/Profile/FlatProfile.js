@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core"
 import { useAuth } from "../App/Authentication";;
-import Navigation from "../App/Navigation";
 import { CssBaseline } from "@material-ui/core";
+import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -24,22 +24,26 @@ export default function FlatProfile() {
 
   return (
     <>
-      <CssBaseline />
-      <Navigation />
-      <div className={classes.paper}>
-        <Typography component="h4" variant="h5" color="inherit" noWrap className={classes.title}>
-          {`Username: ${user.username}`}
-        </Typography>
-        <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
-          {`Full Name: ${user.firstName} ${user.lastName}`}
-        </Typography>
-        <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
-          {`Address: ${user.address.street}, ${user.address.suburb}, ${user.address.city}`}
-        </Typography>
-        <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
-          {`Flat Description: ${user.description}`}
-        </Typography>
-      </div>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h2" variant="b1" color="inherit" noWrap className={classes.title}>
+            {`Username: ${user.username}`}
+          </Typography>
+          <br />
+          <Typography component="h3" variant="b1" color="inherit" noWrap className={classes.title}>
+            {`Full Name: ${user.firstName} ${user.lastName}`}
+          </Typography>
+          <br />
+          <Typography component="h4" variant="b1" color="inherit" className={classes.title}>
+            {`Address: ${user.address.street}, ${user.address.suburb}, ${user.address.city}`}
+          </Typography>
+          <br />
+          <Typography component="h4" variant="b1" color="inherit" className={classes.title}>
+            {`Flat Description: ${user.description}`}
+          </Typography>
+        </div>
+      </Container>
     </>
   );
 };

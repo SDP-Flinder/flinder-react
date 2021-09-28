@@ -7,16 +7,16 @@ import TextField from '@material-ui/core/TextField';
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../App/Authentication';
-import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
 import "../../style/global.css";
+import Navigation from "../App/Navigation";
+import {ReactComponent as FlinderLogo} from '../../assets/logo.svg';
 
 function Copyright() {
   return (
@@ -84,10 +84,9 @@ function AddBio(props) {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      <Navigation />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+      <FlinderLogo className = "logo-display"/>
         <Typography component="h1" variant="h5">
           Add Bio
         </Typography>
