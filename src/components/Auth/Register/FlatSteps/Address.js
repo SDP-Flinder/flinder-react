@@ -14,6 +14,7 @@ import Alert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
+import { Config } from '../../../../config';
 
 
 
@@ -330,7 +331,7 @@ function getUserData(setRepo) {
         //Retrive the token
         let token = await getToken();
 
-        const URL = 'http://localhost:4000/users/';
+        const URL = `${Config.Local_API_URL}/users/`;
         const USER_TOKEN = token;
         const AuthString = 'Bearer '.concat(USER_TOKEN);
 
@@ -357,7 +358,7 @@ async function getToken() {
         password: 'admin'
     };
 
-    await axios.post('http://localhost:4000/users/authenticate', account)
+    await axios.post(`${Config.Local_API_URL}/users/authenticate`, account)
         .then(res => {
             token = res.data.token;
         });

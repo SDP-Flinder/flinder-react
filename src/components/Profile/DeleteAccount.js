@@ -11,8 +11,7 @@ import axios from 'axios';
 import {Config} from '../../config';
 import { Redirect } from "react-router-dom";
 
-
-
+//Get the token to retrive data
 async function FetchToken() {
     let token = '';
   
@@ -21,13 +20,14 @@ async function FetchToken() {
       password: 'admin'
     };
   
-    await axios.post('http://localhost:4000/users/authenticate', account)
+    await axios.post(`${Config.Local_API_URL}/users/authenticate`, account)
       .then(res => {
         token = res.data.token;
       });
     return token;
 }
 
+//Delete the user from the database
 async function deleteUser(user) {
     let token = await FetchToken();
 
@@ -45,7 +45,7 @@ async function deleteUser(user) {
     console.log(URL);
 }
   
-
+//Render the Dialog component
 const renderDialog = (open, handleCancel, handleClose) => (
     <Dialog open={open} onClose={handleClose}>
         <FlinderLogo className = "logo-display"/>
@@ -65,21 +65,28 @@ const renderDialog = (open, handleCancel, handleClose) => (
 )
 
 const DeleteAccount = () => {
+    //Manage the open state of the Dialog
     const [open, setOpen] = React.useState(false);
+
+    //Retrive user information
     const {user} = useAuth();
+
+    //Confirm delete
     const [confirm, setConfirm] = React.useState(false);
 
     let { from } = { from: { pathname: "/logout" } };
 
-
+    //Open the dialog
     const handleClickOpen = () => {
       setOpen(true);
     };
 
+    //Cancel delete
     const handleCancel = () => {
         setOpen(false);
     }
   
+    //Confirm delete
     const handleClose = () => {
       deleteUser(user);
       setConfirm(true);

@@ -9,6 +9,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Link } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import { Config } from '../../../config';
 
 
 const FirstStep = (props) => {
@@ -256,7 +257,7 @@ function usernameCheck(username, foundError, userExist) {
 }
 
 async function FetchUserData(token, setRepo) {
-  const URL = 'http://localhost:4000/users/';
+  const URL = `${Config.Local_API_URL}/users/`;
   const USER_TOKEN = token;
   const AuthString = 'Bearer '.concat(USER_TOKEN);
 
@@ -282,7 +283,7 @@ async function FetchToken() {
     password: 'admin'
   };
 
-  await axios.post('http://localhost:4000/users/authenticate', account)
+  await axios.post(`${Config.Local_API_URL}/users/authenticate`, account)
     .then(res => {
       token = res.data.token;
     });
