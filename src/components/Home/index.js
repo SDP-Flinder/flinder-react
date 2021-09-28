@@ -11,56 +11,56 @@ import { CssBaseline } from "@material-ui/core";
 import BottomNav from '../App/Navigation/BottomNav';
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
-        marginTop: theme.spacing(10),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    button: {
-        margin: theme.spacing(3, 0, 2),
-    },
+  paper: {
+    marginTop: theme.spacing(10),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  button: {
+    margin: theme.spacing(3, 0, 2),
+  },
 }))
 
 export default function Home() {
-    const classes = useStyles();
-    const { user } = useAuth();
+  const classes = useStyles();
+  const { user } = useAuth();
 
-    const renderFlatButtons = () => {
-        if(user.role === 'flat') {
-            return (
-                <div>
-                    <Button
-                        className="button"
-                        variant="contained" 
-                        color="primary"
-                        component={RouterLink}
-                        to="/listings"
-                    >
-                        Listings
-                    </Button>
-                </div>
-            )
-        }
+  const renderFlatButtons = () => {
+    if (user.role === 'flat') {
+      return (
+        <div>
+          <Button
+            className="button"
+            variant="contained"
+            color="primary"
+            component={RouterLink}
+            to="/listings"
+          >
+            Listings
+          </Button>
+        </div>
+      )
     }
+  }
 
-    return (
-        <>
-            <Box sx={{ pb: 7 }}>
-            <CssBaseline />
-            <Navigation currentPath = "home"/>
-            <div className={classes.paper}>
-                <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                    {`Hello ${user.firstName} ${user.lastName}`}
-                </Typography>
-                {/* User should only be able to access this page when authorised, but just incase. Could remove check */}
-                {user.role == "flatee"?
-                //  If the user is a flatee, render this card
-                 <CardsForFlatee token = {user.token} username = {user.username} />:
-                // If the user is a flat, render this card. listingID = {?}
-                renderFlatButtons()}
-            </div>
-            </Box>
-        </>
-    );
+  return (
+    <>
+      <Box sx={{ pb: 7 }}>
+        <CssBaseline />
+        <Navigation currentPath="home" />
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+            {`Hello ${user.firstName} ${user.lastName}`}
+          </Typography>
+          {/* User should only be able to access this page when authorised, but just incase. Could remove check */}
+          {user.role == "flatee" ?
+            //  If the user is a flatee, render this card
+            <CardsForFlatee token={user.token} username={user.username} /> :
+            // If the user is a flat, render this card. listingID = {?}
+            renderFlatButtons()}
+        </div>
+      </Box>
+    </>
+  );
 };
