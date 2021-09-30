@@ -27,19 +27,19 @@ export default function FlatProfile() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h2" variant="b1" color="inherit" noWrap className={classes.title}>
+          <Typography component="h2" variant="h4" color="inherit" noWrap className={classes.title}>
             {`Username: ${user.username}`}
           </Typography>
           <br />
-          <Typography component="h3" variant="b1" color="inherit" noWrap className={classes.title}>
+          <Typography component="h3" variant="h5" color="inherit" noWrap className={classes.title}>
             {`Full Name: ${user.firstName} ${user.lastName}`}
           </Typography>
           <br />
-          <Typography component="h4" variant="b1" color="inherit" className={classes.title}>
+          <Typography component="h4" variant="body1" color="inherit" className={classes.title}>
             {`Address: ${user.address.street}, ${user.address.suburb}, ${user.address.city}`}
           </Typography>
           <br />
-          <Typography component="h4" variant="b1" color="inherit" className={classes.title}>
+          <Typography component="h4" variant="body1" color="inherit" className={classes.title}>
             {`Flat Description: ${user.description}`}
           </Typography>
         </div>

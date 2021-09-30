@@ -32,32 +32,32 @@ export default function FlateeProfile() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h2" variant="b1" color="inherit" className={classes.title}>
+          <Typography component="h2" variant="h4" color="inherit" className={classes.title}>
             {`Username: ${user.username}`}
           </Typography>
           <br />
-          <Typography component="h3" variant="b1" color="inherit" className={classes.title}>
+          <Typography component="h3" variant="h5" color="inherit" className={classes.title}>
             {`Full Name: ${user.firstName} ${user.lastName}`}
           </Typography>
           <br />
-          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+          <Typography component="h4" variant="body1" color="inherit" className={classes.title}>
             {`Couple: ${user.checklist.isCouple}`}
           </Typography>
-          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+          <Typography component="h4" variant="body1" color="inherit" className={classes.title}>
             {`Smoker: ${user.checklist.isSmoker}`}
           </Typography>
-          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+          <Typography component="h4" variant="body1" color="inherit" className={classes.title}>
             {`Pets: ${user.checklist.hasPet}`}
           </Typography>
           <br />
-          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+          <Typography component="h4" variant="body1" color="inherit" className={classes.title}>
             {`Price Range: $${user.checklist.priceRange.min} - $${user.checklist.priceRange.max}`}
           </Typography>
           <br />
-          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+          <Typography component="h4" variant="body1" color="inherit" className={classes.title}>
             Bio:
           </Typography>
-          <Typography component="b1" variant="b1" color="inherit" className={classes.title}>
+          <Typography component="h4" variant="body1" color="inherit" className={classes.title}>
             {user.bio}
           </Typography>
           <br />
