@@ -13,7 +13,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TinderCard from 'react-tinder-card';
 // import base url
 import {
-  instance, matchesForFlatee, flatsForFlatee, unmatch, addListing,
+  instance, matchesForFlatee, unmatch, addListing,
 } from '../../../utils/requests';
 // import styles
 import './styles.css';
@@ -22,7 +22,6 @@ import './styles.css';
 const CardsForFlatee = (props) => {
   const alreadyRemoved = [];
   const [listings, setListings] = useState([]);
-  const [listingOwners, setListingsOwners] = useState([]);
   const [readMore, setReadMore] = useState(null);
   const [showMore, setShowMore] = useState(true);
   // eslint-disable-next-line no-unused-vars
@@ -47,20 +46,6 @@ const CardsForFlatee = (props) => {
         });
     }
     fetchListings();
-  }, []);
-
-  // use effect to gather potential listing owners for this listing
-  useEffect(() => {
-    async function fetchListingOwners() {
-      await instance.get(flatsForFlatee, {
-        params: matchparam,
-        headers: { Authorization: AuthString },
-      })
-        .then((res) => {
-          setListingsOwners(res.data);
-        });
-    }
-    fetchListingOwners();
   }, []);
 
   // swipe function
@@ -110,29 +95,22 @@ const CardsForFlatee = (props) => {
             padding: 15,
           }}
           >
-            {`${listingOwners[index].username}`}
+            {`${Listing.accountUser.username}`}
             <br />
-            {`Flat Description: ${listingOwners[index].description}`}
+            {`Flat Description: ${Listing.listing.description}`}
             <br />
-            {`Listing Description: ${Listing.description}`}
+            {`Listing Description: ${Listing.accountUser.description}`}
             <br />
-            {`Location: ${listingOwners[index].address.suburb}`}
+            {`Location: ${Listing.accountUser.address.suburb}`}
             <br />
-            {`${listingOwners[index].existingFlatmates} Flatmate(s)`}
+            {`${Listing.accountUser.existingFlatmates} Flatmate(s)`}
             <br />
-            {`$${Listing.rent} ${Listing.rentUnits}`}
+            {`$${Listing.listing.rent} ${Listing.listing.rentUnits}`}
           </h2>
         );
         setReadMore(text);
       } else {
-        const text = (
-          <h2 style={{
-            padding: 15,
-          }}
-          >
-            {`${listingOwners[index].username}`}
-          </h2>
-        );
+        const text = null;
         setReadMore(text);
       }
     }
@@ -169,6 +147,8 @@ const CardsForFlatee = (props) => {
                 >
                   <MoreVertIcon fontSize="large" />
                 </IconButton>
+                {/* Name */}
+                <h3>{listing.accountUser.username}</h3>
               </div>
             </TinderCard>
           ))}
