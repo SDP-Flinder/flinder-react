@@ -11,38 +11,38 @@ import { CssBaseline } from "@material-ui/core";
 import BottomNav from '../App/Navigation/BottomNav';
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
-        marginTop: theme.spacing(10),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    button: {
-        margin: theme.spacing(3, 0, 2),
-    },
+  paper: {
+    marginTop: theme.spacing(10),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  button: {
+    margin: theme.spacing(3, 0, 2),
+  },
 }))
 
 export default function Home() {
-    const classes = useStyles();
-    const { user } = useAuth();
+  const classes = useStyles();
+  const { user } = useAuth();
 
-    const renderFlatButtons = () => {
-        if(user.role === 'flat') {
-            return (
-                <div>
-                    <Button
-                        className="button"
-                        variant="contained" 
-                        color="primary"
-                        component={RouterLink}
-                        to="/listings"
-                    >
-                        Listings
-                    </Button>
-                </div>
-            )
-        }
+  const renderFlatButtons = () => {
+    if (user.role === 'flat') {
+      return (
+        <div>
+          <Button
+            className="button"
+            variant="contained"
+            color="primary"
+            component={RouterLink}
+            to="/listings"
+          >
+            Listings
+          </Button>
+        </div>
+      )
     }
+  }
 
     return (
         <>
