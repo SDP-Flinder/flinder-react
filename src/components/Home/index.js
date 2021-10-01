@@ -44,23 +44,24 @@ export default function Home() {
     }
   }
 
-  return (
-    <>
-      <Box sx={{ pb: 7 }}>
-        <CssBaseline />
-        <Navigation currentPath="home" />
-        <div className={classes.paper}>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            {`Hello ${user.firstName} ${user.lastName}`}
-          </Typography>
-          {/* User should only be able to access this page when authorised, but just incase. Could remove check */}
-          {user.role == "flatee" ?
-            //  If the user is a flatee, render this card
-            <CardsForFlatee token={user.token} username={user.username} /> :
-            // If the user is a flat, render this card. listingID = {?}
-            renderFlatButtons()}
-        </div>
-      </Box>
-    </>
-  );
+    return (
+        <>
+            <Box sx={{ pb: 7 }}>
+            <CssBaseline />
+            <Navigation currentPath = "home" pageName = "Home"/>
+            <div className={classes.paper}>
+                <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+                    {`Hello ${user.firstName} ${user.lastName}`}
+                </Typography>
+                {/* User should only be able to access this page when authorised, but just incase. Could remove check */}
+                {user.role == "flatee"?
+                //  If the user is a flatee, render this card
+                 <CardsForFlatee token = {user.token} username = {user.username} />:
+                // If the user is a flat, render this card. listingID = {?}
+                renderFlatButtons()}
+            </div>
+            </Box>
+        </>
+    );
+
 };

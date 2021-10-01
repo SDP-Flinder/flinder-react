@@ -22,8 +22,13 @@ COLOUR PALLETTE
 }
 
 .small-logo{
-    height: 30px;
-    width: 30px;
+    height: 50px;
+    width: 50px;
+}
+
+.nav-logo-display{
+    height: 50px;
+    width: 150px;
 }
 
 .input {
