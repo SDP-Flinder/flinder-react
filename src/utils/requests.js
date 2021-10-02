@@ -7,7 +7,6 @@ export const instance = axios.create({
 });
 
 // create the base url
-export const flatsForFlatee = '/matches/getPotentialFlatAccountsForFlatee';
 export const matchesForFlatee = '/matches/potentialMatchesForFlatee';
 export const matchesForListing = '/matches/potentialMatchesForListing';
 export const addListing = '/matches/addListing';

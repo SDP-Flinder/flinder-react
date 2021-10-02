@@ -121,7 +121,11 @@ const CardsForFlatee = (props) => {
       {/* All the cards */}
       <div className="cards">
         <div className="cards__cardContainer">
-          {listings.map((listing, index) => (
+          {listings
+          .filter(place => 
+            place.listing.rent > props.min && place.listing.rent < props.max && 
+            props.suburb.includes(place.accountUser.address.suburb))
+          .map((listing, index) => (
             <TinderCard
               ref={childRefs[index]}
               className="swipe"
