@@ -6,6 +6,10 @@ import { Button, Typography } from "@material-ui/core";
 import DeleteAccount from "./DeleteAccount";
 import { useAuth } from "../App/Authentication";
 import { Slide } from "@material-ui/core";
+import moment from "moment";
+
+
+//use for animation
 const checked = true;
 
 const useStyles = makeStyles(theme => ({
@@ -75,10 +79,12 @@ const renderUserInfo = (classes, user) => (
                         <Paper className={classes.userInfo}>{user.firstName} {user.lastName}</Paper>
                     </Grid>
                     <Grid item xs={6}>
-                        <Paper className={classes.infoDisplay}>Age</Paper>
+                        <Paper className={classes.infoDisplay}>D.O.B</Paper>
                     </Grid>
                     <Grid item xs={6}>
-                        <Paper className={classes.userInfo}>{user.dob}</Paper>
+                        <Paper className={classes.userInfo}>
+                          {moment.utc(user.dob).format('MM/DD/YYYY')}
+                        </Paper>
                     </Grid>
                     <Grid item xs = {12}>
                         <Button variant = "contained" color = "primary">Edit</Button>
