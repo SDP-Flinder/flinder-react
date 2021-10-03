@@ -7,12 +7,13 @@ import FlateeProfile from "./FlateeProfile";
 import FlatProfile from "./FlatProfile";
 import '../../style/global.css';
 import DeleteAccount from "./DeleteAccount";
+import ProfileDisplay from "./Profile";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(8),
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
   },
   button: {
@@ -42,11 +43,12 @@ export default function Profile() {
     <>
       <Navigation pageName = "Profile"/>
       <div className={classes.paper}>
-        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+        {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
           Profile
         </Typography>
         {renderProfile()}
-        <DeleteAccount/>
+        <DeleteAccount/> */}
+              <ProfileDisplay/>
       </div>
     </>
   );
