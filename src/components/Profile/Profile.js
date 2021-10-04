@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -8,6 +8,9 @@ import { useAuth } from "../App/Authentication";
 import { Slide } from "@material-ui/core";
 import moment from "moment";
 import EditDialog from "./EditBio/EditDialog";
+import { Link as RouterLink } from 'react-router-dom';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { IconButton } from "@material-ui/core";
 
 
 //use for animation
@@ -224,6 +227,23 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
                     </Paper>
                 </Grid>
 
+                <Grid item xs={6}>
+                    <Paper className={classes.infoDisplay}>Bio</Paper>
+                </Grid>
+                <Grid item xs={5}>
+                    <Paper className={classes.userInfo}>
+                        {user.bio}
+                    </Paper>
+                </Grid>
+                <Grid item xs = {1}>
+                    <IconButton variant = "contained" color = "primary"
+                      component={RouterLink}
+                      to="/addbio"
+                    > 
+                      <ModeEditIcon/>
+                    </IconButton>
+                </Grid>   
+
                 <Grid item xs = {12}>
                 <Typography className = {classes.bold}>
                     Flatee Preferences
@@ -242,6 +262,7 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
                     id = "flatee-info" onClick = {handleClickOpen}
                     >Edit</Button>
                 </Grid>   
+
             </Grid>
     </Paper>
     </Grid>
@@ -250,6 +271,7 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
 export default function CenteredGrid() {
   const classes = useStyles();
   const {user} = useAuth();
+
 
   //open dialog
   const [open, setOpen] = React.useState(false);

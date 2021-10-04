@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormControl } from '@mui/material';
 import { InputLabel } from '@mui/material';
 import { OutlinedInput } from '@mui/material';
@@ -9,6 +9,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Paper } from '@mui/material';
 import { Grid } from '@mui/material';
 import { makeStyles } from "@material-ui/core/styles";
+import FormHelperText from '@mui/material/FormHelperText';
 
 
 const useStyles = makeStyles(theme => ({
@@ -22,8 +23,9 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+
 const ChangePass = (props) => {
-    const {username} = props.newUser;
+    const { error } = props;
 
     const [oldPass, setOldPass] = React.useState('');
 
@@ -48,6 +50,7 @@ const ChangePass = (props) => {
                     <InputLabel htmlFor="outlined-adornment-password">Old Pass</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
+                        error = {error.oldPassword? true: false}
                         type={showPassword ? 'text' : 'password'}
                         value = {oldPass}
                         onChange = {e => setOldPass(e.target.value)}
@@ -70,11 +73,16 @@ const ChangePass = (props) => {
                     </Grid>
 
                 <Grid item xs = {12}>
-                    <FormControl variant="outlined" fullWidth>
+                    <FormControl 
+                        variant="outlined"
+                        error = {error.password? true: false}
+                        fullWidth
+                    >
                     <InputLabel htmlFor="outlined-adornment-password">New Pass</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
                         type={showPassword ? 'text' : 'password'}
+                        value = {props.newUser.password}
                         onChange = {e => {
                             props.setUser((prevUser) => ({ 
                                 ...prevUser, 
@@ -95,6 +103,7 @@ const ChangePass = (props) => {
                         }
                         label="Password"
                     />
+                    {error.password && <FormHelperText> {error.password} </FormHelperText>}
                     </FormControl>
 
                     </Grid>

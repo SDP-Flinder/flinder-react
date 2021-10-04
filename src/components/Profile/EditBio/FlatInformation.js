@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
 
 const FlatInformation = (props) => {
     const classes = useStyles();
+    const {error} = props;
     
     return (
         <Paper className = {classes.paper} variant="outlined">
@@ -33,6 +34,7 @@ const FlatInformation = (props) => {
                             } }
                             ));
                      }}
+                     required
                     />
                 </Grid>
 
@@ -49,6 +51,7 @@ const FlatInformation = (props) => {
                             } }
                             ));
                      }}
+                     required
                     />
                 </Grid>
 
@@ -89,6 +92,9 @@ const FlatInformation = (props) => {
                             ...{existingFlatmates: e.target.value} }
                             ));
                      }}
+                     required
+                     error = {error.flatmates ? true : false}
+                     helperText = {error.flatmates ? error.flatmates : null}
                     />
                 </Grid>
 
@@ -107,6 +113,9 @@ const FlatInformation = (props) => {
                      multiline
                      rows={4}
                     fullWidth
+                    required
+                    error = {error.description ? true : false}
+                    helperText = {error.description ? error.description : null}
                     />
                 </Grid>
                 

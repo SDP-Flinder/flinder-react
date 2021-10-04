@@ -19,21 +19,8 @@ const useStyles = makeStyles(theme => ({
 const UserInformation = (props) => {
     const classes = useStyles();
     const [date, setDate] = React.useState(new Date());
-    const [error, setError] = React.useState({});
+    const {error} = props;
 
-    const checkError = () => {
-        if(!props.newUser.firstName.match(/^[a-zA-Z]+$/)){
-            error.firstName = true;
-        } else if (props.newUser.firstName.match(/^[a-zA-Z]+$/)) {
-            error.firstName = false;
-        }
-
-        if(!props.newUser.lastName.match(/^[a-zA-Z]+$/)){
-            error.lastName = true;
-        }
-    }
-    
-    
     return (
         <Paper className = {classes.paper} variant="outlined">
             <Grid container spacing = {2} xs = {12}>
@@ -49,7 +36,7 @@ const UserInformation = (props) => {
                             ...{firstName: e.target.value} }
                             ));
                      }}
-                    helperText = {error.firstName && "Name should not have special characters."}
+                    helperText = {error.firstName && error.firstName}
                     />
                 </Grid>
 
@@ -64,7 +51,7 @@ const UserInformation = (props) => {
                             ...{lastName: e.target.value} }
                             ));
                      }}
-                    helperText = {error.lastName && "Name should not have special characters."}
+                    helperText = {error.lastName && error.lastName}
                     />
                 </Grid>
 
