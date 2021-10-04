@@ -13,6 +13,8 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
+import { Config } from '../../../../config';
+
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -32,17 +34,6 @@ const useStyles = makeStyles((theme) => ({
     },
     };
 
-  const areas = [
-    'Auckland CBD',
-    'Eden Terrace',
-    'Freemans Bay',
-    'Grafton',
-    'Grey Lynn',
-    'Kingsland',
-    'Mt Eden',
-    'Parnell',
-    'Ponsonby'
-  ]
   
 const FlateePreferredAreas = (props) => {
     const classes = useStyles();
@@ -81,7 +72,15 @@ const FlateePreferredAreas = (props) => {
 
       //Set the preferred suburb to ALL if the user leaves this field blank
       if(suburb.length == 0){
-        preferredArea.suburb.push("All suburbs");
+        if(regionbDisplay.length != 0){
+          preferredArea.suburb.push(suburbDisplay);
+        } 
+
+        if(region == ''){
+          for(let k =0; k<repo.length;k++){
+            preferredArea.suburb.push(...repo[k].region.suburb);
+          }
+        }
       }
 
       props.updateUser({['preferredArea']:preferredArea});
@@ -215,7 +214,7 @@ async function FetchToken() {
     password: 'admin'
   };
 
-  await axios.post('http://localhost:4000/users/authenticate', account)
+  await axios.post(`${Config.Local_API_URL}/users/authenticate`, account)
     .then(res => {
       token = res.data.token;
     });
@@ -223,7 +222,7 @@ async function FetchToken() {
 }
 
 async function FetchLocationData(token, setRepo) {
-  const URL = 'http://localhost:4000/locations/';
+  const URL = `${Config.Local_API_URL}/locations/`;
   const USER_TOKEN = token;
   const AuthString = 'Bearer '.concat(USER_TOKEN);
 
