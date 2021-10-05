@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Grid, Paper, TextField } from '@mui/material';
 import { makeStyles } from "@material-ui/core/styles";
 import { InputLabel } from '@mui/material';
@@ -47,8 +47,7 @@ const UserInformation = (props) => {
     const dob = moment(props.newUser.dob).format("YYYY,MM,DD");
     //Break down dates
     const dobComponent = dob.split(',');
-    // let day = parseInt(dobComponent[2]-1);
-    // dobComponent[2] = day;
+
     let month = parseInt(dobComponent[1]) - 1;
     dobComponent[1] = month;
     
