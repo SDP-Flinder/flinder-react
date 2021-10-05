@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
 import BottomNav from '../App/Navigation/BottomNav';
 import axios from 'axios';
+import {Config} from '../../config';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -24,6 +25,12 @@ export default function Match(props) {
   const classes = useStyles();
   const { user, jwt } = useAuth();
   const [matches, setMatches] = useState([]);
+
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
 
   const renderButtons = () => {
     let count = 0;
@@ -55,17 +62,7 @@ export default function Match(props) {
   }
 
   const getFlatUsername = async(match) => {
-    var URL = 'http://localhost:4000/listings/'.concat(match.listingID);
-
-    const config = {
-      headers: { Authorization: `Bearer ${jwt}` }
-    };
-
-    const listing = await axios.get(URL, config);
-
-    URL = 'http://localhost:4000/users/'.concat(listing.data.flat_id);
-
-    const matchedUser = axios.get(URL, config);
+    const matchedUser = await instance.get('/listings/flatAccount/'.concat(match.listingID));
 
     return matchedUser.data.username;
   }
@@ -79,13 +76,7 @@ export default function Match(props) {
 
   useEffect(() => {
     async function getListings() {
-      const URL = 'http://localhost:4000/listings/flat/'.concat(user.id);
-
-      const config = {
-        headers: { Authorization: `Bearer ${jwt}` }
-      };
-
-      const listings = await axios.get(URL, config);
+      const listings = await instance.get('/listings/flat/'.concat(user.id));
 
       const listingList = listings.data;
 
@@ -95,14 +86,7 @@ export default function Match(props) {
     }
 
     async function getListingMatches(listing) {
-      const URL = 'http://localhost:4000/matches/getSuccessMatchesForListing';
-
-      const config = {
-        params: { listingID: listing.id },
-        headers: { Authorization: `Bearer ${jwt}` }
-      };
-
-      const tempMatches = await axios.get(URL, config);
+      const tempMatches = await instance.get('/matches/getSuccessMatchesForListing/'.concat(listing.id));
 
       tempMatches.data.forEach(match => {
         setMatches(matches => [...matches, match])
@@ -110,15 +94,13 @@ export default function Match(props) {
     }
 
     async function getFlateeMatches() {
-      const URL = 'http://localhost:4000/matches/getSuccessMatchesForFlatee';
+      const tempMatches = await instance.get('/matches/getSuccessMatchesForFlatee/'.concat(user.id));
 
-      const config = {
-        params: { flateeUsername: user.username },
-        headers: { Authorization: `Bearer ${jwt}` }
-      };
+      console.log(typeof tempMatches.data)
 
-      const tempMatches = await axios.get(URL, config);
+      console.log(tempMatches.data[0].listingID);
 
+      // setMatches(tempMatches.data);
       tempMatches.data.forEach(match => {
         setMatches(matches => [...matches, match])
       })

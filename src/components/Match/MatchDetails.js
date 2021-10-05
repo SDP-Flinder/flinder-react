@@ -71,15 +71,20 @@ export default function MatchDetails() {
   useEffect(() => {
     async function getMatch() {
       let URL = '';
+      let body = '';
       if (user.role === 'flat') {
         // needs to be reworked to get info on matched flatee
-        URL = 'http://localhost:4000/users/'.concat(user.id);
+        URL = 'http://localhost:4000/matches/findFlatee';
+        body = { username: match.flateeUsername };
       }
       else if (user.role === 'flatee') {
         URL = 'http://localhost:4000/listings/'.concat(match.listingID);
       }
 
+      console.log(body);
+
       const config = {
+        bodyParams: body, 
         headers: { Authorization: `Bearer ${jwt}` }
       };
 
