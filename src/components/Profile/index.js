@@ -1,12 +1,7 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography } from "@material-ui/core"
-import { useAuth } from "../App/Authentication";;
 import Navigation from "../App/Navigation";
-import FlateeProfile from "./FlateeProfile";
-import FlatProfile from "./FlatProfile";
 import '../../style/global.css';
-import DeleteAccount from "./DeleteAccount";
 import ProfileDisplay from "./Profile";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,31 +18,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profile() {
   const classes = useStyles();
-  const { user } = useAuth();
-
-  //Check what type of user is signed in, then render the corresponding profile display
-  const renderProfile = () => {
-    if (user.role === 'flatee') {
-      return (
-        <FlateeProfile></FlateeProfile>
-      )
-    }
-    else if (user.role === 'flat') {
-      return (
-        <FlatProfile></FlatProfile>
-      )
-    }
-  }
 
   return (
     <>
       <Navigation pageName = "Profile"/>
       <div className={classes.paper}>
-        {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-          Profile
-        </Typography>
-        {renderProfile()}
-        <DeleteAccount/> */}
               <ProfileDisplay/>
       </div>
     </>

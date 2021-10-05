@@ -10,6 +10,7 @@ import { Paper } from '@mui/material';
 import { Grid } from '@mui/material';
 import { makeStyles } from "@material-ui/core/styles";
 import FormHelperText from '@mui/material/FormHelperText';
+import { Alert } from '@mui/material';
 
 
 const useStyles = makeStyles(theme => ({
@@ -87,12 +88,9 @@ const ChangePass = (props) => {
                     <OutlinedInput
                         id="outlined-adornment-password"
                         type={showPassword ? 'text' : 'password'}
-                        value = {props.newUser.password}
+                        value = {props.pw}
                         onChange = {e => {
-                            props.setUser((prevUser) => ({ 
-                                ...prevUser, 
-                                ...{password: e.target.value} }
-                                ));
+                            props.setPw(e.target.value);
                         }}
                         endAdornment={
                         <InputAdornment position="end">
@@ -111,6 +109,10 @@ const ChangePass = (props) => {
                     {error.password && <FormHelperText> {error.password} </FormHelperText>}
                     </FormControl>
 
+                    </Grid>
+
+                    <Grid item>
+                    <Alert severity ="warning">Once you save changes, you will be automatically logged out of the system.</Alert>
                     </Grid>
                 </Grid>
             </Paper>

@@ -15,6 +15,7 @@ import ChangePass from './ChangePass';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { Config } from '../../../config';
+import { Redirect } from 'react-router';
 
 //Transition effect
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -22,7 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 //Render component based on the button clicked
-const renderComponents = (buttonID, newUser, setUser, error, oldPass, setOldPass) => {
+const renderComponents = (buttonID, newUser, setUser, error, oldPass, setOldPass, pw, setPw) => {
     switch (buttonID){
         case 'user-info':
             return (<UserInformation newUser = {newUser} setUser = {setUser} error = {error}/>);
@@ -33,7 +34,7 @@ const renderComponents = (buttonID, newUser, setUser, error, oldPass, setOldPass
         case 'flatee-info':
             return (<FlateeInforamtion newUser = {newUser} setUser = {setUser} error = {error}/>);
         case 'pass':
-            return (<ChangePass newUser = {newUser} setUser = {setUser} error = {error} oldPass = {oldPass} setOldPass = {setOldPass}/>);
+            return (<ChangePass newUser = {newUser} setUser = {setUser} error = {error} oldPass = {oldPass} setOldPass = {setOldPass} pw={pw} setPw={setPw}/>);
         default:
             return (<p>Fuck!!!</p>);
     }
@@ -46,6 +47,7 @@ export default function EditDialog(props) {
     const {user} = useAuth();
     //New data entered by the user
     const [newUser, setUser] = React.useState(user);
+    const [pw, setPw] = React.useState('');
 
     //Get the data from the database
     const [data, setData] = React.useState({});
@@ -101,18 +103,19 @@ export default function EditDialog(props) {
           //Set the display user
           props.setUser(newUser);
           if(buttonID != "pass"){
-            delete newUser.password;
-            console.log('reached');
             updateUser();
+            
           } else if (buttonID == "pass"){
-            console.log(newUser.password);
             updateUser();
+            //Log out once the user change password
+            setChangePw(true);
           }
         }
     }
 
     //Update the new user information
     const updateUser = async () => {
+        console.log('pass is',pw);
         const URL = `${Config.Local_API_URL}/users/`.concat(user.id);
         const TOKEN = await FetchToken();
 
@@ -120,10 +123,33 @@ export default function EditDialog(props) {
             headers: { Authorization: `Bearer ${TOKEN}`}
         };
 
-        const bodyParameters = newUser;
+        const bodyParameters = {
+            username: newUser.username,
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            email: newUser.email,
+            dob: newUser.dob,
+            role: newUser.role.toLowerCase(),
+            address: newUser.address,
+            description: newUser.description,
+            existingFlatmates: newUser.existingFlatmates,
+            preferredArea: newUser.preferredArea,
+            checklist: newUser.checklist,
+        };
+
+        if(buttonID == "pass"){
+            bodyParameters.password = pw;
+        }
+
+        console.log(bodyParameters);
 
         axios.put(URL, bodyParameters, config);
     }
+
+    //Confirm delete
+    const [changePw, setChangePw] = React.useState(false);
+
+    let { from } = { from: { pathname: "/logout" } };
 
     //Old password edit
     const [oldPass, setOldPass] = React.useState('');
@@ -184,11 +210,11 @@ export default function EditDialog(props) {
                 }
             }
 
-            if (!newUser.password || newUser.password === '') { //Blank password
+            if (!pw || pw === '') { //Blank password
                 errorFound.password = 'Password cannot be empty';
-            } else if (newUser.password.length < 6) { //Password too short
+            } else if (pw.length < 6) { //Password too short
                 errorFound.password = 'Password must be more than 6 characters';
-            } else if (newUser.password.includes(' ')) { //Password has a whitespace
+            } else if (pw.includes(' ')) { //Password has a whitespace
                 errorFound.password = 'Password must not contain a whitespace';
             }
         }
@@ -242,6 +268,9 @@ export default function EditDialog(props) {
     //Render component
     return (
     <div>
+        
+      {changePw && <Redirect to={from} />}
+      
       <Dialog
         disableEscapeKeyDown = {true}
         open={open}
@@ -262,7 +291,7 @@ export default function EditDialog(props) {
             },
             }}
             >
-                {renderComponents(buttonID, newUser, setUser, error, oldPass, setOldPass)}
+                {renderComponents(buttonID, newUser, setUser, error, oldPass, setOldPass, pw, setPw)}
             </Box>
 
             <DialogActions>
