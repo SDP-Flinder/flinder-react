@@ -72,7 +72,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const renderUserInfo = (classes, user, handleClickOpen) => (
+const renderUserInfo = (classes, user, handleClickOpen) => {
+  const dob = moment(user.dob).format("YYYY,MM,DD");
+  const dobComponent = dob.split(',');
+
+  return(
     <Grid item xs={12}>
         <Paper variant="outlined" className={classes.paper}>
             <Grid item xs container direction="row" spacing={1}>
@@ -92,7 +96,7 @@ const renderUserInfo = (classes, user, handleClickOpen) => (
                     </Grid>
                     <Grid item xs={6}>
                         <Paper className={classes.userInfo}>
-                          {moment.utc(user.dob).format('DD/MM/YYYY')}
+                          {dobComponent[2]}/{dobComponent[1]}/{dobComponent[0]}
                         </Paper>
                     </Grid>
                     <Grid item xs = {12}>
@@ -104,7 +108,8 @@ const renderUserInfo = (classes, user, handleClickOpen) => (
                 </Grid>
         </Paper>
     </Grid>
-)
+  )
+}
 
 const renderAccountInfo = (classes, user, handleClickOpen) => (
     <Grid item xs={12}>
@@ -268,9 +273,15 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
     </Grid>
 )
 
+const getUser = () => {
+  const {user} = useAuth();
+
+  return user;
+}
+
 export default function CenteredGrid() {
   const classes = useStyles();
-  const {user} = useAuth();
+  const [user,setUser]= React.useState(getUser());
   user.password = '';
 
   //open dialog
@@ -342,7 +353,7 @@ export default function CenteredGrid() {
         </Slide>
       </Paper>
 
-      <EditDialog buttonID = {buttonID} open = {open} handleClose = {handleClose}/>
+      <EditDialog buttonID = {buttonID} open = {open} handleClose = {handleClose} setUser={setUser}/>
     </div>
   );
 }

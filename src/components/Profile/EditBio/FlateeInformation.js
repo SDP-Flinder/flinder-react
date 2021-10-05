@@ -8,6 +8,7 @@ import { Select } from '@mui/material';
 import { FormControl } from '@mui/material';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
+import { FormHelperText } from '@material-ui/core';
 
 
 let prices = [];
@@ -31,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 
 const FlateeInformation = (props) => {
     const classes = useStyles();
-
+    const {error} = props;
     populatePriceRange();
     
     return (
@@ -85,7 +86,9 @@ const FlateeInformation = (props) => {
                 </Grid>
 
                 <Grid item xs = {12}>
-                    <FormGroup component="fieldset">
+                    <FormGroup 
+                    component="fieldset"
+                    >
                     <FormControlLabel
                         control={<Checkbox
                         name = "smoker"
@@ -108,14 +111,20 @@ const FlateeInformation = (props) => {
                 </Grid>
 
                 <Grid item xs = {12} direction = "row">
-                    <Grid item xs = {6}>
+                        <Grid item xs = {12}>
                         <Typography variant = "h6">
                             Price Range
                         </Typography>
-                    </Grid>
+                        </Grid>
 
-                        <FormControl variant="outlined">
-                        <InputLabel htmlFor="outlined-age-native-simple">From</InputLabel>
+                        <Grid item>
+                        <FormControl 
+                        variant="outlined"
+                        error = {error.price?true:false}
+                        >
+                        <InputLabel htmlFor="outlined-age-native-simple"
+                        error = {error.price?true:false}
+                        >From</InputLabel>
                         <Select
                         native
                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -147,38 +156,46 @@ const FlateeInformation = (props) => {
                         </Select>
                         </FormControl>
                     
-                    <FormControl variant="outlined">
-                        <InputLabel htmlFor="outlined-age-native-simple">To</InputLabel>
-                        <Select
-                        native
-                        startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                        value={props.newUser.checklist.priceRange.max}
-                        placeholder = "max"
-                        onChange={e => {
-                            props.setUser((prevUser) => ({ 
-                                ...prevUser, 
-                                checklist: {
-                                    ...prevUser.checklist,
-                                    priceRange: {
-                                        ...prevUser.checklist.priceRange,
-                                        max: e.target.value,
-                                    }
-                                }}
-                                ));
-                        }}
-                        label="To"
-                        inputProps={{
-                            name: 'checklist.priceRange.max',
-                            id: 'outlined-age-native-simple',
-                        }}
+                        <FormControl variant="outlined"
+                            error = {error.price?true:false}
                         >
-                        <option aria-label="None" value="" />
-                        {prices.map((price) => (
-                            <option key = {price} value = {price}> {price} </option>
-                        ))}
-                        </Select>
-                        </FormControl>
-                    
+                            <InputLabel 
+                            htmlFor="outlined-age-native-simple"
+                            error = {error.price?true:false}
+                            >To</InputLabel>
+                            <Select
+                            native
+                            startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                            value={props.newUser.checklist.priceRange.max}
+                            placeholder = "max"
+                            onChange={e => {
+                                props.setUser((prevUser) => ({ 
+                                    ...prevUser, 
+                                    checklist: {
+                                        ...prevUser.checklist,
+                                        priceRange: {
+                                            ...prevUser.checklist.priceRange,
+                                            max: e.target.value,
+                                        }
+                                    }}
+                                    ));
+                            }}
+                            label="To"
+                            inputProps={{
+                                name: 'checklist.priceRange.max',
+                                id: 'outlined-age-native-simple',
+                            }}
+                            >
+                            <option aria-label="None" value="" />
+                            {prices.map((price) => (
+                                <option key = {price} value = {price}> {price} </option>
+                            ))}
+                            </Select>
+                            </FormControl>
+                            </Grid>
+                            <FormHelperText styles = {{color:"red"}}>
+                                {error.price?error.price:null}
+                            </FormHelperText>
                 </Grid>
 
                 

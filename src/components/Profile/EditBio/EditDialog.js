@@ -31,7 +31,7 @@ const renderComponents = (buttonID, newUser, setUser, error, oldPass, setOldPass
         case 'flat-info':
             return (<FlatInformation newUser = {newUser} setUser = {setUser} error = {error}/>);
         case 'flatee-info':
-            return (<FlateeInforamtion newUser = {newUser} setUser = {setUser}/>);
+            return (<FlateeInforamtion newUser = {newUser} setUser = {setUser} error = {error}/>);
         case 'pass':
             return (<ChangePass newUser = {newUser} setUser = {setUser} error = {error} oldPass = {oldPass} setOldPass = {setOldPass}/>);
         default:
@@ -98,6 +98,8 @@ export default function EditDialog(props) {
           //Clear errors
           setError({});
 
+          //Set the display user
+          props.setUser(newUser);
           if(buttonID != "pass"){
             delete newUser.password;
             console.log('reached');
@@ -106,11 +108,6 @@ export default function EditDialog(props) {
             console.log(newUser.password);
             updateUser();
           }
-          //Refresh the page after update
-          //window.location.reload();
-
-          //Delete user password
-          //delete newUser.password;
         }
     }
 
@@ -233,6 +230,9 @@ export default function EditDialog(props) {
 
         if(buttonID == "flatee-info"){
             //Flatee constraint
+            if((newUser.checklist.priceRange.max - newUser.checklist.priceRange.min) <= 0){
+                errorFound.price = "The maximum value must be larger than the minimum."
+            }
         }
 
         console.log('err', errorFound);
