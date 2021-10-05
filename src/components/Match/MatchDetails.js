@@ -1,24 +1,65 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core"
-import { useAuth } from "../App/Authentication";;
+import { useAuth } from "../App/Authentication";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 import Navigation from "../App/Navigation";
-import Button from '@material-ui/core/Button';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import BottomNav from '../App/Navigation/BottomNav';
 import axios from 'axios';
+import moment from "moment";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  bold: {
+    fontWeight: 600,
+    textAlign: "left"
+  },
   paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
   },
-  button: {
-    margin: theme.spacing(3, 0, 2),
+  first: {
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
   },
-}))
+  second: {
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    boxShadow: "none"
+  },
+  parentPaper: {
+    padding: theme.spacing(2),
+    margin: "auto",
+    maxWidth: 1600
+  },
+  standalone: {
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    height: 70,
+    boxShadow: "none",
+  },
+  infoDisplay: {
+    padding: theme.spacing(2),
+    fontWeight: 600,
+    textAlign: "left",
+    color: theme.palette.text.secondary,
+    boxShadow: "none",
+  },
+  userInfo: {
+    padding: theme.spacing(2),
+    textAlign: "right",
+    color: theme.palette.text.secondary,
+    boxShadow: "none",
+  }
+}));
 
 export default function MatchDetails() {
   const classes = useStyles();
@@ -63,25 +104,52 @@ export default function MatchDetails() {
   }, [user, jwt])
 
   return (
-    <>
-      <Navigation />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-          Its a match!
-        </Typography>
-        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-          {matchedUser.username}
-        </Typography>
-        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-          {matchedUser.firstName} {matchedUser.lastName}
-        </Typography>
-        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-          Matched on
-        </Typography>
-        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-          {match.matchedDate}
-        </Typography>
-      </div>
-    </>
+    <div className={classes.root}>
+    <Navigation pageName = "Match"/>
+    <br/><br/><br/>
+      <Paper className={classes.parentPaper}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} container>
+            <Grid item xs container direction="column" spacing={3}>
+              <Grid item xs={7}>
+                <Paper className={classes.second}>
+                  <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                      <Grid item xs container direction="row" spacing={1}>
+                        <Grid item xs={12}>
+                          <Typography className={classes.bold}>
+                            Match Information
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.infoDisplay}>Username</Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.userInfo}>{matchedUser.username}</Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.infoDisplay}>Name</Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.userInfo}>{matchedUser.firstName} {matchedUser.lastName}</Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.infoDisplay}>Matched on</Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.userInfo}>
+                            {moment.utc(match.matchedDate).format('MM/DD/YYYY')}
+                          </Paper>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  </Grid>
+                </Paper>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
+    </div>
   );
 };
