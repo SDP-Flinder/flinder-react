@@ -61,6 +61,7 @@ function AddBio(props) {
 
     addUserBio();
     props.history.push('/profile');
+
     //Refresh the page
     window.location.reload();
   }

@@ -3,6 +3,30 @@ import { Grid, Paper, TextField } from '@mui/material';
 import { makeStyles } from "@material-ui/core/styles";
 import { InputLabel } from '@mui/material';
 import DatePicker from 'react-date-picker';
+import moment from "moment";
+
+//Styling the react calendar
+import "react-calendar/dist/Calendar.css";
+import "react-date-picker/dist/DatePicker.css";
+import { injectGlobal } from "@emotion/css";
+
+injectGlobal`
+  .react-calendar {
+    height: auto;
+  },
+  .react-calendar__navigation{
+    height: 30px;
+    margin-bottom: 0;
+  }
+  .react-calendar__year-view .react-calendar__tile, 
+  .react-calendar__decade-view .react-calendar__tile, .react-calendar__century-view .react-calendar__tile{
+    padding: 1em 0.5em;
+  }
+  .react-date-picker__calendar{
+    position: absolute;
+    height: 143px
+  }
+`;
 
 
 const useStyles = makeStyles(theme => ({
@@ -18,7 +42,15 @@ const useStyles = makeStyles(theme => ({
 
 const UserInformation = (props) => {
     const classes = useStyles();
-    const [date, setDate] = React.useState(new Date());
+
+    //Convert ISO date into readable data
+    const dob = moment(props.newUser.dob).format("YYYY,MM,DD");
+    //Break down dates
+    const dobComponent = dob.split(',');
+    let month = parseInt(dobComponent[1]) - 1;
+    dobComponent[1] = month;
+    
+    const [date, setDate] = React.useState(new Date(dobComponent[0], dobComponent[1], dobComponent[2]));
     const {error} = props;
 
     return (
@@ -37,6 +69,8 @@ const UserInformation = (props) => {
                             ));
                      }}
                     helperText = {error.firstName && error.firstName}
+                    fullWidth
+
                     />
                 </Grid>
 
@@ -52,6 +86,8 @@ const UserInformation = (props) => {
                             ));
                      }}
                     helperText = {error.lastName && error.lastName}
+                    fullWidth
+
                     />
                 </Grid>
 
@@ -61,7 +97,15 @@ const UserInformation = (props) => {
                     className = "calendar-display"
                     label = "D.O.B"
                     value = {date}
-                    onChange = {setDate}
+                    minDate = {new Date(1921,2,1)}
+                    maxDate = {new Date(2006,2,1)}
+                    onChange = {e => {
+                        setDate(e);
+                        props.setUser((prevUser) => ({ 
+                            ...prevUser, 
+                            ...{dob: e} }
+                        ));
+                    }}
                     placeholder = "dob"
                     format = "dd/MM/yyyy"
                     />

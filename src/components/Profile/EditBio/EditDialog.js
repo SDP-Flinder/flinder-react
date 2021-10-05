@@ -12,6 +12,9 @@ import FlateeInforamtion from './FlateeInformation';
 import { useAuth } from "../../App/Authentication";
 import { Box } from '@mui/system';
 import ChangePass from './ChangePass';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { Config } from '../../../config';
 
 //Transition effect
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -19,18 +22,18 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 //Render component based on the button clicked
-const renderComponents = (buttonID, newUser, setUser, error) => {
+const renderComponents = (buttonID, newUser, setUser, error, oldPass, setOldPass) => {
     switch (buttonID){
         case 'user-info':
             return (<UserInformation newUser = {newUser} setUser = {setUser} error = {error}/>);
         case 'account-info':
-            return (<AccountInformation newUser = {newUser} setUser = {setUser}/>);
+            return (<AccountInformation newUser = {newUser} setUser = {setUser} error = {error}/>);
         case 'flat-info':
             return (<FlatInformation newUser = {newUser} setUser = {setUser} error = {error}/>);
         case 'flatee-info':
             return (<FlateeInforamtion newUser = {newUser} setUser = {setUser}/>);
         case 'pass':
-            return (<ChangePass newUser = {newUser} setUser = {setUser} error = {error}/>);
+            return (<ChangePass newUser = {newUser} setUser = {setUser} error = {error} oldPass = {oldPass} setOldPass = {setOldPass}/>);
         default:
             return (<p>Fuck!!!</p>);
     }
@@ -44,6 +47,26 @@ export default function EditDialog(props) {
     //New data entered by the user
     const [newUser, setUser] = React.useState(user);
 
+    //Get the data from the database
+    const [data, setData] = React.useState({});
+    //Get all the user data
+    useEffect(() => {
+        async function getData() {
+          const URL = `${Config.Local_API_URL}/users/`;
+          const TOKEN = await FetchToken();
+    
+          const config = {
+            headers: { Authorization: `Bearer ${TOKEN}` }
+          };
+    
+          const userData = await axios.get(URL, config)
+    
+          setData(userData.data);
+        }
+        getData();
+    }, []);
+
+
     //When the user clicks CANCEL or clicks on the backdrop
     const checkData = () => {
         //Set the user to the old state
@@ -51,6 +74,8 @@ export default function EditDialog(props) {
         console.log(newUser);
         //Clear errors
         setError({});
+        if(buttonID == "pass")
+        setOldPass('');
         //Close dialog
         handleClose();
     }
@@ -73,13 +98,51 @@ export default function EditDialog(props) {
           //Clear errors
           setError({});
 
-          //Refresh the page
-          window.location.reload();
-          
-          delete newUser.password;
-          console.log(newUser);
+          if(buttonID != "pass"){
+            delete newUser.password;
+            console.log('reached');
+            updateUser();
+          } else if (buttonID == "pass"){
+            console.log(newUser.password);
+            updateUser();
+          }
+          //Refresh the page after update
+          //window.location.reload();
+
+          //Delete user password
+          //delete newUser.password;
         }
     }
+
+    //Update the new user information
+    const updateUser = async () => {
+        const URL = `${Config.Local_API_URL}/users/`.concat(user.id);
+        const TOKEN = await FetchToken();
+
+        const config = {
+            headers: { Authorization: `Bearer ${TOKEN}`}
+        };
+
+        const bodyParameters = newUser;
+
+        axios.put(URL, bodyParameters, config);
+    }
+
+    //Old password edit
+    const [oldPass, setOldPass] = React.useState('');
+    //Validate old password entered
+    const [isIncorrect, setIsIncorrect] = React.useState(false);
+    //Check if username and password match
+    useEffect(() => {
+        async function checkPassword () {
+            if(buttonID == "pass"){
+                const incorrect = await validatePassword(user.username, oldPass);
+                setIsIncorrect(incorrect);
+            }
+        }
+
+        checkPassword();
+    }, [oldPass])
 
     //Input validation
     const [error, setError] = React.useState({});
@@ -89,23 +152,39 @@ export default function EditDialog(props) {
         
         if(buttonID == "user-info"){
             if (!newUser.firstName.match(/^[a-zA-Z]+$/)) {
-                errorFound.firstName = "First name should contain letters only.";
+                errorFound.firstName = "This should contain letters only.";
             }
     
             if (!newUser.lastName.match(/^[a-zA-Z]+$/)) {
-                errorFound.lastName = "Last name should contain letters only.";
+                errorFound.lastName = "This should contain letters only.";
             }
-
-            //Birthday constraint
         }
 
         if(buttonID == "account-info"){
             //Email constraint
+            if (!newUser.email || newUser.email === '') { //Blank email
+                errorFound.email = 'Email cannot be empty';
+              } else if (!newUser.email.match(/^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/)) {
+                errorFound.email = 'Please enter a valid email address';
+            }
+
+            for(let k = 0; k < data.length; k++){
+                if(data[k].email == newUser.email && data[k].username != newUser.username){
+                    errorFound.email = 'Email has already been used.';
+                }
+            }
         }
 
         if(buttonID == 'pass'){
-            if(newUser.oldPass != ''){
-                //check username and password
+
+            if (!oldPass || oldPass === '') { //Blank password
+                errorFound.oldPass = 'Old password cannot be empty';
+            }
+
+            if(oldPass != ''){
+                if(isIncorrect == true){
+                    errorFound.oldPass = 'Incorrect password';
+                }
             }
 
             if (!newUser.password || newUser.password === '') { //Blank password
@@ -119,6 +198,29 @@ export default function EditDialog(props) {
 
         if(buttonID == 'flat-info'){
             //Address constraint
+            if (!newUser.address.street || newUser.address.street === ''){
+                errorFound.street = "Street cannot be empty";
+            }
+
+
+            for(let k = 0; k < data.length; k++){
+                if(data[k].role == 'flat'){
+                    if(data[k].address.street.toLowerCase() == newUser.address.street.toLowerCase() && data[k].username != newUser.username){
+                        if(data[k].address.suburb.toLowerCase() == newUser.address.suburb.toLowerCase()){
+                            if(data[k].address.city.toLowerCase() == newUser.address.city.toLowerCase()){
+                                errorFound.street = "This address has already been used.";
+                                errorFound.suburb = "This address has already been used";
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!newUser.address.city || newUser.address.city === ''){
+                errorFound.city = "City cannot be empty";
+            } else if( (newUser.address.city.toLowerCase() != "auckland") && (newUser.address.city.toLowerCase() != "wellington")){
+                errorFound.city = 'This app is currently available on either Auckland or Wellington.'
+            }
 
             if(newUser.existingFlatmates < 0){
                 errorFound.flatmates = 'Invalid value.'
@@ -141,7 +243,7 @@ export default function EditDialog(props) {
     return (
     <div>
       <Dialog
-        disableEscapeKeyDown = "true"
+        disableEscapeKeyDown = {true}
         open={open}
         TransitionComponent={Transition}
         keepMounted
@@ -160,7 +262,7 @@ export default function EditDialog(props) {
             },
             }}
             >
-                {renderComponents(buttonID, newUser, setUser, error)}
+                {renderComponents(buttonID, newUser, setUser, error, oldPass, setOldPass)}
             </Box>
 
             <DialogActions>
@@ -176,4 +278,37 @@ export default function EditDialog(props) {
       </Dialog>
     </div>
   );
+}
+
+//Get the admin token
+async function FetchToken() {
+    let token = '';
+  
+    const account = {
+      username: 'admin',
+      password: 'admin'
+    };
+  
+    await axios.post(`${Config.Local_API_URL}/users/authenticate`, account)
+      .then(res => {
+        token = res.data.token;
+      });
+    return token;
+}
+
+//Validate username and password entered
+async function validatePassword(username, password) {
+    let incorrect = false;
+
+    await axios.post(`${Config.Local_API_URL}/users/authenticate`, {
+        username: username,
+        password: password,
+    }).then (res => {
+        incorrect = false;
+    })
+    .catch(err => {
+        incorrect = true;
+    });
+
+    return incorrect;
 }

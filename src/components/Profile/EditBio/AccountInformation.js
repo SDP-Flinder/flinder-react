@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 
 const AccountInformation = (props) => {
     const classes = useStyles();
-
+    const {error} = props;
     
     return (
         <Paper className = {classes.paper} variant="outlined">
@@ -43,6 +43,8 @@ const AccountInformation = (props) => {
                 <Grid item xs = {12}>
                     <TextField 
                      id="outlined-basic" label="Email" variant="outlined" 
+                     error = {error.email? true: false}
+                     helperText = {error.email? error.email:null}
                      value = {props.newUser.email}
                      onChange = {e => {
                         props.setUser((prevUser) => ({ 

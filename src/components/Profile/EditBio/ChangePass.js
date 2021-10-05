@@ -25,9 +25,11 @@ const useStyles = makeStyles(theme => ({
 
 
 const ChangePass = (props) => {
-    const { error } = props;
+    const { error, oldPass, setOldPass } = props;
 
-    const [oldPass, setOldPass] = React.useState('');
+    useEffect(() => {
+        setOldPass('');
+    }, [])
 
     const classes = useStyles();
 
@@ -46,11 +48,14 @@ const ChangePass = (props) => {
             <Paper className = {classes.paper} variant="outlined">
                 <Grid container spacing = {2} xs = {12}>
                 <Grid item xs = {12}>
-                    <FormControl fullWidth>
-                    <InputLabel htmlFor="outlined-adornment-password">Old Pass</InputLabel>
+                    <FormControl 
+                    variant = "outlined"
+                    error = {error.oldPass?true:false}
+                    fullWidth>
+                    <InputLabel 
+                    htmlFor="outlined-adornment-password">Old Pass</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
-                        error = {error.oldPassword? true: false}
                         type={showPassword ? 'text' : 'password'}
                         value = {oldPass}
                         onChange = {e => setOldPass(e.target.value)}
@@ -68,8 +73,8 @@ const ChangePass = (props) => {
                         }
                         label="Password"
                     />
+                    {error.oldPass && <FormHelperText> {error.oldPass} </FormHelperText>}
                     </FormControl>
-
                     </Grid>
 
                 <Grid item xs = {12}>

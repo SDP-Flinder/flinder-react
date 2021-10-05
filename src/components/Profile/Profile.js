@@ -271,7 +271,7 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
 export default function CenteredGrid() {
   const classes = useStyles();
   const {user} = useAuth();
-
+  user.password = '';
 
   //open dialog
   const [open, setOpen] = React.useState(false);
@@ -286,6 +286,7 @@ export default function CenteredGrid() {
   const handleClose = () => {
     setOpen(false);
   };
+
 
   return (
     <div className={classes.root}>

@@ -24,6 +24,8 @@ const FlatInformation = (props) => {
                 <Grid item xs = {6}>
                     <TextField 
                      id="outlined-basic" label="Street" variant="outlined" 
+                     error = {error.street? true: false}
+                     helperText = {error.street?error.street:false}
                      value = {props.newUser.address.street}
                      onChange = {e => {
                         props.setUser((prevUser) => ({ 
@@ -35,12 +37,15 @@ const FlatInformation = (props) => {
                             ));
                      }}
                      required
+                     fullWidth
+
                     />
                 </Grid>
 
                 <Grid item xs = {6}>
                     <TextField 
                      id="outlined-basic" label="Suburb" variant="outlined" 
+                     error = {error.suburb? true: false}
                      value = {props.newUser.address.suburb}
                      onChange = {e => {
                         props.setUser((prevUser) => ({ 
@@ -52,12 +57,16 @@ const FlatInformation = (props) => {
                             ));
                      }}
                      required
+                     fullWidth
+
                     />
                 </Grid>
 
                 <Grid item xs = {6}>
                     <TextField 
                      id="outlined-basic" label="City" variant="outlined" 
+                     error = {error.city?true:false}
+                     helperText = {error.city?error.city:null}
                      value = {props.newUser.address.city}
                      onChange = {e => {
                         props.setUser((prevUser) => ({ 
@@ -68,6 +77,7 @@ const FlatInformation = (props) => {
                             } }
                             ));
                      }}
+                     fullWidth
                     />
                 </Grid>
 
@@ -78,6 +88,7 @@ const FlatInformation = (props) => {
                     InputProps={{
                         readOnly: true,
                     }}
+                    fullWidth
                     />
                 </Grid>
 
