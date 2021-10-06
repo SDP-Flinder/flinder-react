@@ -24,9 +24,7 @@ import { useLocation } from "react-router";
 const displayNav = (route) => {
   switch(route){
     case "/":
-      return true;
     case "/match":
-      return true;
     case "/profile":
       return true;
     default:

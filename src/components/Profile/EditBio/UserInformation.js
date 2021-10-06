@@ -60,7 +60,7 @@ const UserInformation = (props) => {
                 <Grid item xs = {6}>
                     <TextField 
                      error = {error.firstName? true: false}
-                     id="outlined-basic" label="First name" variant="outlined" 
+                     label="First name" variant="outlined" 
                      name = "user.firstName"
                      value = {props.newUser.firstName}
                      onChange = {e => {
@@ -77,7 +77,7 @@ const UserInformation = (props) => {
 
                 <Grid item xs = {6}>
                     <TextField 
-                     id="outlined-basic" label="Last name" variant="outlined" 
+                     label="Last name" variant="outlined" 
                      error = {error.lastName? true: false}
                      value = {props.newUser.lastName}
                      onChange = {e => {
