@@ -41,6 +41,8 @@ const Address = (props) => {
 
     const handleSelect = address => {
 
+        const addressComp = address.split(',');
+
         //Get the user address from Google API
         geocodeByAddress(address)
           .then(results => {
@@ -55,6 +57,10 @@ const Address = (props) => {
               }
 
               assignComponentAddress(results, currentAddress);
+
+              if(currentAddress.suburb == ''){
+                  currentAddress.suburb = addressComp[1];
+              }
 
               setComponent(currentAddress);
             })
@@ -387,6 +393,7 @@ function assignComponentAddress(results, currentAddress) {
         if (results[0].address_components[k].types[0] == 'country') {
             currentAddress.country = results[0].address_components[k].long_name;
         }
+
     }
 }
 
