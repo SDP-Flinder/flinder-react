@@ -84,37 +84,44 @@ export default function MatchDetails() {
     async function getMatch() {
       let tempMatch = [];
       if (user.role === 'flat') {
-        await instance.get('/matches/findFlatee/'.concat(match.id)).then(res => {
-          tempMatch = res.data
-        });
+        await instance.get('/matches/findFlatee/'.concat(match.id))
+          .then(res => {
+            tempMatch = res.data
+          });
       }
-      else if (user.role === 'flatee') {
-        await instance.get('/listings/'.concat(match.listingID)).then(res => {
-          tempMatch = res.data
-        });
-        setListing(tempMatch);
-      }
-
-      //Flatee accounts require an additional get request for the listings parent flat account
-      if (user.role === 'flatee') {
-        await instance.get('/users/'.concat(listing.flat_id)).then(res => {
-          tempMatch = res.data
-        });
+      else if (user.role === 'flatee' && listing.length !== 0) {
+        await instance.get('/users/'.concat(listing.flat_id))
+          .then(res => {
+            tempMatch = res.data
+          });
       }
       setMatchedUser(tempMatch);
     }
 
+    //Get the listing for the match to be used in 
+    async function getListing() {
+      let tempListing = [];
+      await instance.get('/listings/'.concat(match.listingID))
+        .then(res => {
+          tempListing = res.data
+        });
+      setListing(tempListing);
+    }
+
     //Only run if user and match states have been set, to avoid errors
     if (user !== null && match !== null) {
+      if (user.role === 'flatee') {
+        getListing();
+      }
       getMatch()
     }
-  }, [user, jwt])
+  }, [user, listing])
 
   //Code to display the info in a nice format
   return (
     <div className={classes.root}>
-    <Navigation pageName = "Match"/>
-    <br/><br/><br/>
+      <Navigation pageName="Match" />
+      <br /><br /><br />
       <Paper className={classes.parentPaper}>
         <Grid container spacing={3}>
           <Grid item xs={12} container>

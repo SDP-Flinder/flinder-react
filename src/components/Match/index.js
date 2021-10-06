@@ -4,8 +4,6 @@ import { Typography } from "@material-ui/core"
 import { useAuth } from "../App/Authentication";;
 import Navigation from "../App/Navigation";
 import Button from '@material-ui/core/Button';
-import { Link as RouterLink } from 'react-router-dom';
-import BottomNav from '../App/Navigation/BottomNav';
 import axios from 'axios';
 import { Config } from '../../config';
 
@@ -38,7 +36,14 @@ export default function Match(props) {
   //Render a set of buttons for each match loaded into the global state, depending on the role of the signed in account
   const renderButtons = () => {
     let count = 0;
-    if (user.role === 'flat') {
+    if (matches.length === 0) {
+      return (
+        <Typography component="h3" variant="h6" color="inherit" noWrap className={classes.title}>
+          No matches yet
+        </Typography>
+      )
+    }
+    else if (user.role === 'flat') {
       matches.sort((a, b) => a.matchedDate < b.matchedDate ? 1 : -1)
       return matches.map((match) => (
         <Button
@@ -128,6 +133,7 @@ export default function Match(props) {
       // setMatches(tempMatches);
       tempMatches.forEach(match => {
         setMatches(matches => [...matches, match])
+        //This is here for debugging purposes
         getFlatUsername(match)
       })
     }
@@ -139,7 +145,7 @@ export default function Match(props) {
     else if (user !== null && user.role === 'flatee') {
       getFlateeMatches()
     }
-  }, [user, jwt])
+  }, [user])
 
   //Simple display of the match list buttons
   return (
@@ -148,7 +154,7 @@ export default function Match(props) {
       <div className={classes.paper}>
         <br />
         <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-          This is the match page for {user.firstName}
+          Current Match List
         </Typography>
         <br />
         {renderButtons()}
