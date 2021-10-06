@@ -60,10 +60,7 @@ function AddBio(props) {
     e.preventDefault();
 
     addUserBio();
-    props.history.push('/profile');
-
-    //Refresh the page
-    window.location.reload();
+    props.history.push('/');
   }
 
   //Axios method to update the user file in the DB
@@ -127,7 +124,7 @@ function AddBio(props) {
               <Button 
               className="button"
                 component={RouterLink}
-                to="/profile"
+                to="/"
               >
                 Cancel
               </Button>
