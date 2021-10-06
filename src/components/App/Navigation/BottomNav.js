@@ -18,7 +18,7 @@ function getCurrentpage (route) {
     case '/profile':
       return 2;
     default:
-      return 0;
+      return 3;
   }
 }
 
