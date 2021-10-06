@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { Config } from '../../../config';
 import { Redirect } from 'react-router';
+import FlateeBio from './FlateeBio';
 
 //Transition effect
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -35,8 +36,30 @@ const renderComponents = (buttonID, newUser, setUser, error, oldPass, setOldPass
             return (<FlateeInforamtion newUser = {newUser} setUser = {setUser} error = {error}/>);
         case 'pass':
             return (<ChangePass newUser = {newUser} setUser = {setUser} error = {error} oldPass = {oldPass} setOldPass = {setOldPass} pw={pw} setPw={setPw}/>);
+        case 'flatee-bio': 
+            return (<FlateeBio newUser = {newUser} setUser = {setUser} error = {error}/>)
         default:
-            return (<p>Fuck!!!</p>);
+            return (<p>Edit</p>);
+    }
+}
+
+const renderTitle = (buttonID) => {
+    switch(buttonID){
+        case "user-info":
+            return "User Information";
+        case "account-info":
+            return "Account Information";
+        case "flat-info":
+            return "Flat Information";
+        case "flatee-info":
+            return "Flatee Information";
+        case "pass":
+            return "Change Password";
+        case "flatee-bio":
+            return "Bio";
+        default:
+            return "Edit";
+
     }
 }
 
@@ -139,6 +162,10 @@ export default function EditDialog(props) {
 
         if(buttonID == "pass"){
             bodyParameters.password = pw;
+        }
+
+        if(buttonID == "flatee-bio"){
+            bodyParameters.bio = newUser.bio;
         }
 
         console.log(bodyParameters);
@@ -283,7 +310,7 @@ export default function EditDialog(props) {
         onBackdropClick = {checkData}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Edit"}</DialogTitle>
+        <DialogTitle>{renderTitle(buttonID)}</DialogTitle>
         <DialogContent>
             <Box
             sx={{

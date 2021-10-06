@@ -9,8 +9,6 @@ import { Slide } from "@material-ui/core";
 import moment from "moment";
 import EditDialog from "./EditBio/EditDialog";
 import { Link as RouterLink } from 'react-router-dom';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import { IconButton } from "@material-ui/core";
 import Confirmation from "./EditBio/Confirmation";
 
 
@@ -257,7 +255,7 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
     </Grid>
 )
 
-const renderFlateeBio = (classes, user) => (
+const renderFlateeBio = (classes, user, handleClickOpen) => (
   <Grid item xs={12}>
   <Paper variant="outlined" className={classes.paper}>
       <Grid item xs container direction="row" spacing={1}>
@@ -271,15 +269,17 @@ const renderFlateeBio = (classes, user) => (
               </Grid>
               <Grid item xs={6}>
                   <Paper className={classes.userInfo}>
-                      {user.bio}
+                      {user.bio?user.bio:"Your bio is currently empty."}
                   </Paper>
               </Grid>
 
               <Grid item xs = {12}>
-                  <Button variant = "contained" color = "primary"
-                  component={RouterLink}
-                  to="/addbio"
-                  >Edit</Button>
+                    <Button variant = "contained" color = "primary"
+                      id = "flatee-bio"
+                      onClick = {handleClickOpen}
+                    >
+                      {user.bio? "Edit" : "Add A Bio"}
+                    </Button>
               </Grid>   
 
           </Grid>
@@ -363,7 +363,7 @@ export default function CenteredGrid() {
                   <Slide 
                   direction="up" in={checked} mountOnEnter unmountOnExit
                   >
-                  {user.role == 'flatee' && renderFlateeBio(classes, user)}
+                  {user.role == 'flatee' && renderFlateeBio(classes, user, handleClickOpen)}
 
                   </Slide>
                   </Grid>
