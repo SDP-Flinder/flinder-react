@@ -35,7 +35,7 @@ export default function Match(props) {
   const renderButtons = () => {
     let count = 0;
     if (user.role === 'flat') {
-      matches.sort((a, b) => a.matchedDate > b.matchedDate ? 1 : -1)
+      matches.sort((a, b) => a.matchedDate < b.matchedDate ? 1 : -1)
       return matches.map((match) => (
         <Button
           className="button"
