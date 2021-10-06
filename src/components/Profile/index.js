@@ -7,7 +7,7 @@ import ProfileDisplay from "./Profile";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(8),
+    marginBottom: theme.spacing(7),
     display: 'flex',
     alignItems: 'center',
   },

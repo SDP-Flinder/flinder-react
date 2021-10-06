@@ -31,7 +31,8 @@ function BottomNav(props) {
       <BottomNavigation
               sx={{
                 "& .Mui-selected, .Mui-selected > svg": {
-                  color: "#007A78"
+                  color: "#007A78",
+                  borderRadius: 0,
                 },
               }
               }

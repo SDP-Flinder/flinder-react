@@ -1,17 +1,9 @@
-/*
-COLOUR PALLETTE
---queen-pink: #eccbd9ff;
---purple-navy: #585191ff;
---light-sky-blue: #97d2fbff;
---dark-slate-blue: #4f359bff;
---turquoise-blue: #80ffe8ff;
-*/
 
 /* Global Styles
 ------------------------*/
 
 * {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Lexend Deca', sans-serif;
 }
 
 .logo-display{
@@ -292,19 +284,3 @@ COLOUR PALLETTE
     }
 }
 
-.css-1ee5err-MuiButtonBase-root-MuiBottomNavigationAction-root.Mui-selected{
-    color: #007A78;
-}
-
-.MuiButtonBase-root{
-    background-color: #007A78;
-}
-
-
-.Mui-selected{
-    color: #007A78;
-}
-/* This is to style the input form layout
-.input-form {
-
-} */
