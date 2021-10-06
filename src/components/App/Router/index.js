@@ -29,6 +29,14 @@ const displayNav = (route) => {
       return true;
     case "/profile":
       return true;
+    case "/listings":
+      return true;
+    case "/listing/display":
+      return true;
+    case "/newlisting":
+      return true;
+    case "/updatelisting":
+      return true;
     default:
       return false;
   }
