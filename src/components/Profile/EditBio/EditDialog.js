@@ -285,7 +285,12 @@ export default function EditDialog(props) {
 
         if(buttonID == "flatee-info"){
             //Flatee constraint
-            if((newUser.checklist.priceRange.max - newUser.checklist.priceRange.min) <= 0){
+
+            if(!newUser.checklist.priceRange.min || newUser.checklist.priceRange.min == ''){
+                errorFound.price = "Minimum price cannot be empty."
+            } else if(!newUser.checklist.priceRange.max || newUser.checklist.priceRange.max == ''){
+                errorFound.price = "Maximum price cannot be empty."
+            }else if((newUser.checklist.priceRange.max - newUser.checklist.priceRange.min) <= 0){
                 errorFound.price = "The maximum value must be larger than the minimum."
             }
         }
