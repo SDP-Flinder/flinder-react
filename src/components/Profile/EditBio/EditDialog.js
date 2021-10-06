@@ -24,7 +24,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 //Render component based on the button clicked
-const renderComponents = (buttonID, newUser, setUser, error, oldPass, setOldPass, pw, setPw) => {
+const renderComponents = (buttonID, newUser, setUser, error, oldPass, setOldPass, pw, setPw, rentUnits, setRentUnits) => {
     switch (buttonID){
         case 'user-info':
             return (<UserInformation newUser = {newUser} setUser = {setUser} error = {error}/>);
@@ -33,11 +33,11 @@ const renderComponents = (buttonID, newUser, setUser, error, oldPass, setOldPass
         case 'flat-info':
             return (<FlatInformation newUser = {newUser} setUser = {setUser} error = {error}/>);
         case 'flatee-info':
-            return (<FlateeInforamtion newUser = {newUser} setUser = {setUser} error = {error}/>);
+            return (<FlateeInforamtion newUser = {newUser} setUser = {setUser} error = {error} rentUnits = {rentUnits} setRentUnits = {setRentUnits}/>);
         case 'pass':
             return (<ChangePass newUser = {newUser} setUser = {setUser} error = {error} oldPass = {oldPass} setOldPass = {setOldPass} pw={pw} setPw={setPw}/>);
         case 'flatee-bio': 
-            return (<FlateeBio newUser = {newUser} setUser = {setUser} error = {error}/>)
+            return (<FlateeBio newUser = {newUser} setUser = {setUser} error = {error} />)
         default:
             return (<p>Edit</p>);
     }
@@ -71,6 +71,7 @@ export default function EditDialog(props) {
     //New data entered by the user
     const [newUser, setUser] = React.useState(user);
     const [pw, setPw] = React.useState('');
+    const [rentUnits, setRentUnits] = React.useState('Per Week');
 
     //Get the data from the database
     const [data, setData] = React.useState({});
@@ -166,6 +167,10 @@ export default function EditDialog(props) {
 
         if(buttonID == "flatee-bio"){
             bodyParameters.bio = newUser.bio;
+        }
+
+        if(buttonID == "flatee-info"){
+            bodyParameters.rentUnits = newUser.rentUnits;
         }
 
         console.log(bodyParameters);
@@ -326,7 +331,7 @@ export default function EditDialog(props) {
             },
             }}
             >
-                {renderComponents(buttonID, newUser, setUser, error, oldPass, setOldPass, pw, setPw)}
+                {renderComponents(buttonID, newUser, setUser, error, oldPass, setOldPass, pw, setPw, rentUnits, setRentUnits)}
             </Box>
 
             <DialogActions>

@@ -8,8 +8,7 @@ import { Select } from '@mui/material';
 import { FormControl } from '@mui/material';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import { FormHelperText } from '@material-ui/core';
-
+import { FormHelperText, TextField , MenuItem} from '@material-ui/core';
 
 let prices = [];
 
@@ -38,7 +37,9 @@ const FlateeInformation = (props) => {
     return (
         <Paper className = {classes.paper} variant="outlined">
             <Grid container spacing = {2} xs = {12}>
+                <Grid item xs = {12}>
                 <Typography variant = "h6">Are you...</Typography>
+                </Grid>
                 <Grid item xs = {12}>
                     <FormGroup component="fieldset">
                     <FormControlLabel
@@ -198,9 +199,30 @@ const FlateeInformation = (props) => {
                             </FormHelperText>
                 </Grid>
 
-                
-            </Grid>
+                <Grid item xs = {12}>
+                    <TextField className="input"
+                    label="Rent Units"
+                    variant="outlined"
+                    select
+                    required
+                    value={props.newUser.rentUnits}
+                    onChange={e => {
+                        props.setRentUnits(e.target.value);
 
+                        props.setUser((prevUser) => ({ 
+                            ...prevUser, 
+                            ...{rentUnits: e.target.value} }
+                        ));
+                    }}
+                    >
+                    <MenuItem value="Per Week">Per Week</MenuItem>
+                    <MenuItem value="Per Fortnight">Per Fortnight</MenuItem>
+                    <MenuItem value="Per Month">Per Month</MenuItem>
+                    </TextField>
+                </Grid>
+            </Grid>
+            <br/>
+            <br/>
         </Paper>
     )
 }

@@ -244,6 +244,16 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
                         NZD${user.checklist.priceRange.min} - NZD${user.checklist.priceRange.max}
                     </Paper>
                 </Grid>
+
+                <Grid item xs={6}>
+                    <Paper className={classes.infoDisplay}>Rent Units</Paper>
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper className={classes.userInfo}>
+                        {user.rentUnits? user.rentUnits : "Per Week"}
+                    </Paper>
+                </Grid>
+
                 <Grid item xs = {12}>
                     <Button variant = "contained" color = "primary"
                     id = "flatee-info" onClick = {handleClickOpen}
@@ -297,6 +307,9 @@ export default function CenteredGrid() {
   const classes = useStyles();
   const [user,setUser]= React.useState(getUser());
   user.password = '';
+  if(!user.rentUnits){
+    user.rentUnits = 'Per Week';
+  }
 
   //open dialog
   const [open, setOpen] = React.useState(false);
