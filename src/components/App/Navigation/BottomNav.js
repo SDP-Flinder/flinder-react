@@ -5,20 +5,23 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import ForumIcon from '@mui/icons-material/Forum';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
-
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
+
+const MATCHES = 0;
+const HOME = 1;
+const PROFILE = 2;
 
 function getCurrentpage (route) {
   switch(route){
     case '/match':
-      return 0;
+      return MATCHES;
     case '/':
-      return 1;
+      return HOME;
     case '/profile':
-      return 2;
+      return PROFILE;
     default:
-      return 0;
+      return HOME;
   }
 }
 
