@@ -29,6 +29,12 @@ function BottomNav(props) {
   return (
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
       <BottomNavigation
+              sx={{
+                "& .Mui-selected, .Mui-selected > svg": {
+                  color: "#007A78"
+                },
+              }
+              }
         value={value}
         onChange={() => getCurrentpage(props.location.pathname)}
         showLabels

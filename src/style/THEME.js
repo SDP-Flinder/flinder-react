@@ -1,4 +1,9 @@
 import { createTheme } from '@material-ui/core/styles';
+import { color } from '@mui/system';
+
+//Colour pallete
+const GREEN = "#007A78";
+const YELLOW = "#FFC745";
 
 //Override themes
 const THEME = createTheme({
@@ -6,10 +11,10 @@ const THEME = createTheme({
     //Overrides primary colour
     palette: {
       primary: {
-        main: '#007A78',
+        main: GREEN,
       },
       secondary: {
-        main: '#FFC745',
+        main: YELLOW,
       }
     },
   
@@ -53,6 +58,7 @@ const THEME = createTheme({
         },
     
       },
+
   }
 
  export default THEME;

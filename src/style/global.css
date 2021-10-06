@@ -291,6 +291,19 @@ COLOUR PALLETTE
         display: none;
     }
 }
+
+.css-1ee5err-MuiButtonBase-root-MuiBottomNavigationAction-root.Mui-selected{
+    color: #007A78;
+}
+
+.MuiButtonBase-root{
+    background-color: #007A78;
+}
+
+
+.Mui-selected{
+    color: #007A78;
+}
 /* This is to style the input form layout
 .input-form {
 
