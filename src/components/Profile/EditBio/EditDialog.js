@@ -104,7 +104,7 @@ export default function EditDialog(props) {
           props.setUser(newUser);
           if(buttonID != "pass"){
             updateUser();
-            
+            props.handleConfirmationOpen();
           } else if (buttonID == "pass"){
             updateUser();
             //Log out once the user change password
@@ -264,6 +264,7 @@ export default function EditDialog(props) {
         console.log('err', errorFound);
         return errorFound;
     }
+
 
     //Render component
     return (

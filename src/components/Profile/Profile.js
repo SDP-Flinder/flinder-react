@@ -11,6 +11,7 @@ import EditDialog from "./EditBio/EditDialog";
 import { Link as RouterLink } from 'react-router-dom';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { IconButton } from "@material-ui/core";
+import Confirmation from "./EditBio/Confirmation";
 
 
 //use for animation
@@ -298,6 +299,14 @@ export default function CenteredGrid() {
     setOpen(false);
   };
 
+  const [confirmation, setConfirmation] = React.useState(false);
+  const handleConfirmationOpen = () => {
+      setConfirmation(true);
+  }
+  const handleConfirmationClose = () => {
+      window.location.reload();
+  }
+
 
   return (
     <div className={classes.root}>
@@ -353,7 +362,18 @@ export default function CenteredGrid() {
         </Slide>
       </Paper>
 
-      <EditDialog buttonID = {buttonID} open = {open} handleClose = {handleClose} setUser={setUser}/>
+      <EditDialog 
+      buttonID = {buttonID} 
+      open = {open} 
+      handleClose = {handleClose} 
+      setUser={setUser}
+      handleConfirmationOpen = {handleConfirmationOpen}/>
+
+      <Confirmation 
+      open = {confirmation}
+      handleClickOpen = {handleConfirmationOpen}
+      handleClose = {handleConfirmationClose}
+      />
     </div>
   );
 }
