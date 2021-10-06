@@ -9,7 +9,9 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import BottomNav from '../App/Navigation/BottomNav';
 import axios from 'axios';
 import moment from "moment";
+import { Config } from '../../config';
 
+//Styling used for the display of information
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
@@ -61,53 +63,54 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+//Class for displaying the details of the matched account
 export default function MatchDetails() {
   const classes = useStyles();
   const { user, jwt } = useAuth();
   const location = useLocation();
   const match = location.state.match;
   const [matchedUser, setMatchedUser] = useState([]);
+  const [listing, setListing] = useState([]);
 
+  //For ease of use for axios calls
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
+
+  //Load up all the necessary details for displaying the match, based on the role of the current user
   useEffect(() => {
     async function getMatch() {
-      let URL = '';
-      let body = '';
+      let tempMatch = [];
       if (user.role === 'flat') {
-        // needs to be reworked to get info on matched flatee
-        URL = 'http://localhost:4000/matches/findFlatee';
-        body = { username: match.flateeUsername };
+        await instance.get('/matches/findFlatee/'.concat(match.id)).then(res => {
+          tempMatch = res.data
+        });
       }
       else if (user.role === 'flatee') {
-        URL = 'http://localhost:4000/listings/'.concat(match.listingID);
+        await instance.get('/listings/'.concat(match.listingID)).then(res => {
+          tempMatch = res.data
+        });
+        setListing(tempMatch);
       }
 
-      console.log(body);
-
-      const config = {
-        bodyParams: body, 
-        headers: { Authorization: `Bearer ${jwt}` }
-      };
-
-      let tempMatch = await axios.get(URL, config);
-
-      console.log(tempMatch.data)
-
+      //Flatee accounts require an additional get request for the listings parent flat account
       if (user.role === 'flatee') {
-        URL = 'http://localhost:4000/users/'.concat(tempMatch.data.flat_id);
+        await instance.get('/users/'.concat(listing.flat_id)).then(res => {
+          tempMatch = res.data
+        });
       }
-
-      tempMatch = await axios.get(URL, config);
-
-      console.log(tempMatch.data)
-
-      setMatchedUser(tempMatch.data);
+      setMatchedUser(tempMatch);
     }
 
+    //Only run if user and match states have been set, to avoid errors
     if (user !== null && match !== null) {
       getMatch()
     }
   }, [user, jwt])
 
+  //Code to display the info in a nice format
   return (
     <div className={classes.root}>
     <Navigation pageName = "Match"/>
@@ -145,6 +148,13 @@ export default function MatchDetails() {
                           <Paper className={classes.userInfo}>
                             {moment.utc(match.matchedDate).format('MM/DD/YYYY')}
                           </Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.infoDisplay}>Description/Bio</Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.userInfo}>{matchedUser.description}{matchedUser.bio}</Paper>
+                          <Paper className={classes.userInfo}>{listing.description}</Paper>
                         </Grid>
                       </Grid>
                     </Paper>

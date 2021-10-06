@@ -9,6 +9,7 @@ import BottomNav from '../App/Navigation/BottomNav';
 import axios from 'axios';
 import { Config } from '../../config';
 
+//Set the styles to be used on the page
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -21,17 +22,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+//Class for displaying a list of buttons for each successful match on an account
 export default function Match(props) {
   const classes = useStyles();
   const { user, jwt } = useAuth();
   const [matches, setMatches] = useState([]);
 
+  //Helper for ease of use when making axios calls
   const instance = axios.create({
     baseURL: Config.Local_API_URL,
     timeout: 1000,
     headers: { Authorization: `Bearer ${jwt}` }
   })
 
+  //Render a set of buttons for each match loaded into the global state, depending on the role of the signed in account
   const renderButtons = () => {
     let count = 0;
     if (user.role === 'flat') {
@@ -62,6 +66,8 @@ export default function Match(props) {
     }
   }
 
+  //Method to get the username of the matched flat account
+  //Currently bugged, some of the code is present for debugging efforts
   const getFlatUsername = async (match) => {
     var matchedUser = [];
     await instance.get('/listings/flatAccount/'.concat(match.listingID))
@@ -74,6 +80,7 @@ export default function Match(props) {
     return matchedUser.username;
   }
 
+  //Method for handling the buttons' onclick function, for the correct match
   const selectMatch = (match) => {
     props.history.push({
       pathname: '/match/details',
@@ -81,14 +88,15 @@ export default function Match(props) {
     });
   }
 
+  //Load and set all the states with data from the database
   useEffect(() => {
+    //Fetches all listings for the signed in flat account, to then be used to fetch their matches
     async function getListings() {
       var listings = [];
       await instance.get('/listings/flat/'.concat(user.id))
         .then(res => {
           listings = res.data
         });
-
       const listingList = listings;
 
       listingList.forEach(listing => {
@@ -96,6 +104,7 @@ export default function Match(props) {
       })
     }
 
+    //Fetches all successful matches for a given listing
     async function getListingMatches(listing) {
       var tempMatches = [];
       await instance.get('/matches/getSuccessMatchesForListing/'.concat(listing.id))
@@ -108,6 +117,7 @@ export default function Match(props) {
       })
     }
 
+    //Fetches all successful matches for the signed in flatee
     async function getFlateeMatches() {
       var tempMatches = [];
       await instance.get('/matches/getSuccessMatchesForFlatee/'.concat(user.id))
@@ -122,6 +132,7 @@ export default function Match(props) {
       })
     }
 
+    //Run the code to fetch the correct data, based on the role of the account
     if (user !== null && user.role === 'flat') {
       getListings()
     }
@@ -130,6 +141,7 @@ export default function Match(props) {
     }
   }, [user, jwt])
 
+  //Simple display of the match list buttons
   return (
     <>
       <Navigation />

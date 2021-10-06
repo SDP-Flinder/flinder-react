@@ -37,6 +37,7 @@ const displayNav = (route) => {
     case "/newlisting":
       return true;
     case "/updatelisting":
+    case "/match/details":
       return true;
     default:
       return false;
