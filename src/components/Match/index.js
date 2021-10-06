@@ -36,6 +36,7 @@ export default function Match(props) {
   //Render a set of buttons for each match loaded into the global state, depending on the role of the signed in account
   const renderButtons = () => {
     let count = 0;
+    matches.sort((a, b) => a.matchedDate < b.matchedDate ? 1 : -1)
     if (matches.length === 0) {
       return (
         <Typography component="h3" variant="h6" color="inherit" noWrap className={classes.title}>
@@ -44,7 +45,6 @@ export default function Match(props) {
       )
     }
     else if (user.role === 'flat') {
-      matches.sort((a, b) => a.matchedDate < b.matchedDate ? 1 : -1)
       return matches.map((match) => (
         <Button
           className="button"
@@ -79,9 +79,7 @@ export default function Match(props) {
       .then(res => {
         matchedUser = res.data
       });
-
     console.log(matchedUser);
-
     return matchedUser.username;
   }
 
@@ -95,6 +93,7 @@ export default function Match(props) {
 
   //Load and set all the states with data from the database
   useEffect(() => {
+    var tempMatches = [];
     //Fetches all listings for the signed in flat account, to then be used to fetch their matches
     async function getListings() {
       var listings = [];
@@ -103,7 +102,6 @@ export default function Match(props) {
           listings = res.data
         });
       const listingList = listings;
-
       listingList.forEach(listing => {
         getListingMatches(listing);
       })
@@ -111,12 +109,10 @@ export default function Match(props) {
 
     //Fetches all successful matches for a given listing
     async function getListingMatches(listing) {
-      var tempMatches = [];
       await instance.get('/matches/getSuccessMatchesForListing/'.concat(listing.id))
         .then(res => {
           tempMatches = res.data
         });
-
       tempMatches.forEach(match => {
         setMatches(matches => [...matches, match])
       })
@@ -124,12 +120,10 @@ export default function Match(props) {
 
     //Fetches all successful matches for the signed in flatee
     async function getFlateeMatches() {
-      var tempMatches = [];
       await instance.get('/matches/getSuccessMatchesForFlatee/'.concat(user.id))
         .then(res => {
           tempMatches = res.data
         });
-
       // setMatches(tempMatches);
       tempMatches.forEach(match => {
         setMatches(matches => [...matches, match])
@@ -139,10 +133,10 @@ export default function Match(props) {
     }
 
     //Run the code to fetch the correct data, based on the role of the account
-    if (user !== null && user.role === 'flat') {
+    if (user && user.role === 'flat') {
       getListings()
     }
-    else if (user !== null && user.role === 'flatee') {
+    else if (user && user.role === 'flatee') {
       getFlateeMatches()
     }
   }, [user])

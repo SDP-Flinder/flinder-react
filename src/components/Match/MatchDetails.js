@@ -153,7 +153,7 @@ export default function MatchDetails() {
                         </Grid>
                         <Grid item xs={6}>
                           <Paper className={classes.userInfo}>
-                            {moment.utc(match.matchedDate).format('MM/DD/YYYY')}
+                            {moment.utc(match.matchedDate).format('DD/MM/YYYY')}
                           </Paper>
                         </Grid>
                         <Grid item xs={6}>
