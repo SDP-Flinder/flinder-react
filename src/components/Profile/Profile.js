@@ -233,23 +233,6 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
                     </Paper>
                 </Grid>
 
-                <Grid item xs={6}>
-                    <Paper className={classes.infoDisplay}>Bio</Paper>
-                </Grid>
-                <Grid item xs={5}>
-                    <Paper className={classes.userInfo}>
-                        {user.bio}
-                    </Paper>
-                </Grid>
-                <Grid item xs = {1}>
-                    <IconButton variant = "contained" color = "primary"
-                      component={RouterLink}
-                      to="/addbio"
-                    > 
-                      <ModeEditIcon/>
-                    </IconButton>
-                </Grid>   
-
                 <Grid item xs = {12}>
                 <Typography className = {classes.bold}>
                     Flatee Preferences
@@ -272,6 +255,36 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
             </Grid>
     </Paper>
     </Grid>
+)
+
+const renderFlateeBio = (classes, user) => (
+  <Grid item xs={12}>
+  <Paper variant="outlined" className={classes.paper}>
+      <Grid item xs container direction="row" spacing={1}>
+          <Grid item xs = {12}>
+              <Typography className = {classes.bold}>
+                  Flatee Bio
+              </Typography>
+          </Grid>
+              <Grid item xs={6}>
+                  <Paper className={classes.infoDisplay}>Description</Paper>
+              </Grid>
+              <Grid item xs={6}>
+                  <Paper className={classes.userInfo}>
+                      {user.bio}
+                  </Paper>
+              </Grid>
+
+              <Grid item xs = {12}>
+                  <Button variant = "contained" color = "primary"
+                  component={RouterLink}
+                  to="/addbio"
+                  >Edit</Button>
+              </Grid>   
+
+          </Grid>
+  </Paper>
+  </Grid>
 )
 
 const getUser = () => {
@@ -344,6 +357,14 @@ export default function CenteredGrid() {
                   >
                   {user.role == 'flat' ? renderFlatInfo(classes, user, handleClickOpen) : 
                   renderFlateeInfo(classes, user, handleClickOpen)}
+
+                  </Slide>
+
+                  <Slide 
+                  direction="up" in={checked} mountOnEnter unmountOnExit
+                  >
+                  {user.role == 'flatee' && renderFlateeBio(classes, user)}
+
                   </Slide>
                   </Grid>
                 </Paper>
