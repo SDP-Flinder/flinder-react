@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
 import BottomNav from '../App/Navigation/BottomNav';
 import axios from 'axios';
-import {Config} from '../../config';
+import { Config } from '../../config';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -61,10 +61,16 @@ export default function Match(props) {
     }
   }
 
-  const getFlatUsername = async(match) => {
-    const matchedUser = await instance.get('/listings/flatAccount/'.concat(match.listingID));
+  const getFlatUsername = async (match) => {
+    var matchedUser = [];
+    await instance.get('/listings/flatAccount/'.concat(match.listingID))
+      .then(res => {
+        matchedUser = res.data
+      });
 
-    return matchedUser.data.username;
+    console.log(matchedUser);
+
+    return matchedUser.username;
   }
 
   const selectMatch = (match) => {
@@ -76,9 +82,13 @@ export default function Match(props) {
 
   useEffect(() => {
     async function getListings() {
-      const listings = await instance.get('/listings/flat/'.concat(user.id));
+      var listings = [];
+      await instance.get('/listings/flat/'.concat(user.id))
+        .then(res => {
+          listings = res.data
+        });
 
-      const listingList = listings.data;
+      const listingList = listings;
 
       listingList.forEach(listing => {
         getListingMatches(listing);
@@ -86,23 +96,32 @@ export default function Match(props) {
     }
 
     async function getListingMatches(listing) {
-      const tempMatches = await instance.get('/matches/getSuccessMatchesForListing/'.concat(listing.id));
+      var tempMatches = [];
+      await instance.get('/matches/getSuccessMatchesForListing/'.concat(listing.id))
+        .then(res => {
+          tempMatches = res.data
+        });
 
-      tempMatches.data.forEach(match => {
+      tempMatches.forEach(match => {
         setMatches(matches => [...matches, match])
       })
     }
 
     async function getFlateeMatches() {
-      const tempMatches = await instance.get('/matches/getSuccessMatchesForFlatee/'.concat(user.id));
+      var tempMatches = [];
+      await instance.get('/matches/getSuccessMatchesForFlatee/'.concat(user.id))
+        .then(res => {
+          tempMatches = res.data
+        });
 
-      console.log(typeof tempMatches.data)
+      console.log(typeof tempMatches)
 
-      console.log(tempMatches.data[0].listingID);
+      console.log(tempMatches[0].listingID);
 
-      // setMatches(tempMatches.data);
-      tempMatches.data.forEach(match => {
+      // setMatches(tempMatches);
+      tempMatches.forEach(match => {
         setMatches(matches => [...matches, match])
+        getFlatUsername(match)
       })
     }
 
