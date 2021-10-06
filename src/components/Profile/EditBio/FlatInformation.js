@@ -95,7 +95,6 @@ const FlatInformation = (props) => {
                 <Grid item xs = {12}>
                     <TextField 
                      id="outlined-basic" label="Existing flatmates" variant="outlined" 
-                     type = "number"
                      value = {props.newUser.existingFlatmates}
                      onChange = {e => {
                         props.setUser((prevUser) => ({ 

@@ -246,7 +246,9 @@ export default function EditDialog(props) {
             }
 
             if(newUser.existingFlatmates < 0){
-                errorFound.flatmates = 'Invalid value.'
+                errorFound.flatmates = 'Please enter any numbers larger than 0.'
+            } else if(!newUser.existingFlatmates.match(/^[0-9]+$/)){
+                errorFound.flatmates = 'Please enter numbers only'
             }
 
             if(newUser.description === '' || !newUser.description){
