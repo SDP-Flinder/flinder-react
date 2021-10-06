@@ -35,6 +35,7 @@ export default function Match(props) {
   const renderButtons = () => {
     let count = 0;
     if (user.role === 'flat') {
+      matches.sort((a, b) => a.matchedDate > b.matchedDate ? 1 : -1)
       return matches.map((match) => (
         <Button
           className="button"
@@ -113,10 +114,6 @@ export default function Match(props) {
         .then(res => {
           tempMatches = res.data
         });
-
-      console.log(typeof tempMatches)
-
-      console.log(tempMatches[0].listingID);
 
       // setMatches(tempMatches);
       tempMatches.forEach(match => {
