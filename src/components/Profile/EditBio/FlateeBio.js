@@ -20,22 +20,6 @@ const useStyles = makeStyles(theme => ({
 const FlateeBio = (props) => {
     const classes = useStyles();
     const {error} = props;
-    const [word, setWord] = React.useState(0);
-
-    useEffect(() => {
-        if(props.newUser.bio){
-            setWord(countWords(props.newUser.bio));
-        } else {
-            setWord(0);
-        }
-    }, [])
-
-
-    const countWords = (text) => {
-        return text.split(' ')
-        .filter(function(n) { return n != '' })
-        .length;
-    }
 
     const resetBio = () => {
             //Empty field
@@ -43,8 +27,6 @@ const FlateeBio = (props) => {
             ...prevUser, 
              ...{bio: ""} }
         ))
-
-        setWord(0);
     }
     
     return (
@@ -62,13 +44,12 @@ const FlateeBio = (props) => {
                      id="outlined-basic" label="Your Bio" variant="outlined" 
                      type = "text"
                      value = {props.newUser.bio}
-                     inputProps={{ maxLength: 500 }}
+                     inputProps={{ maxLength: 256 }}
                      onChange = {e => {
                             props.setUser((prevUser) => ({ 
                                 ...prevUser, 
                                 ...{bio: e.target.value} }
                                 ));
-                            setWord(countWords(e.target.value));
                      }}
                      autoComplete="off"
                      multiline
@@ -78,12 +59,6 @@ const FlateeBio = (props) => {
                     error = {error.description ? true : false}
                     helperText = {error.description ? error.description : null}
                     />
-                </Grid>
-
-                <Grid  item xs = {12}>
-                    <Typography className = {classes.wordLimitDisplay} variant = "body2">
-                            {word}/250
-                    </Typography>
                 </Grid>
 
                 <Grid item xs = {12}>
