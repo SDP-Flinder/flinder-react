@@ -360,12 +360,13 @@ export default function CenteredGrid() {
 
                   </Slide>
 
+
+                {user.role == 'flatee' &&
                   <Slide 
                   direction="up" in={checked} mountOnEnter unmountOnExit
                   >
-                  {user.role == 'flatee' && renderFlateeBio(classes, user, handleClickOpen)}
-
-                  </Slide>
+                  {renderFlateeBio(classes, user, handleClickOpen)}
+                  </Slide>}
                   </Grid>
                 </Paper>
               </Grid>
