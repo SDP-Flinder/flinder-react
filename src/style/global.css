@@ -1,9 +1,17 @@
+/*
+COLOUR PALLETTE
+--queen-pink: #eccbd9ff;
+--purple-navy: #585191ff;
+--light-sky-blue: #97d2fbff;
+--dark-slate-blue: #4f359bff;
+--turquoise-blue: #80ffe8ff;
+*/
 
 /* Global Styles
 ------------------------*/
 
 * {
-    font-family: 'Lexend Deca', sans-serif;
+    font-family: 'Raleway', sans-serif;
 }
 
 .logo-display{
@@ -283,4 +291,7 @@
         display: none;
     }
 }
+/* This is to style the input form layout
+.input-form {
 
+} */

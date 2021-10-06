@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -7,20 +7,10 @@ import DeleteAccount from "./DeleteAccount";
 import { useAuth } from "../App/Authentication";
 import { Slide } from "@material-ui/core";
 import moment from "moment";
-import EditDialog from "./EditBio/EditDialog";
-import { Link as RouterLink } from 'react-router-dom';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import { IconButton } from "@material-ui/core";
-import Confirmation from "./EditBio/Confirmation";
 
 
 //use for animation
 const checked = true;
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -73,13 +63,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const renderUserInfo = (classes, user, handleClickOpen) => {
-  const dob = moment(user.dob).format("YYYY,MM,DD");
-  const dobComponent = dob.split(',');
-
-  return(
+const renderUserInfo = (classes, user) => (
     <Grid item xs={12}>
-        <Paper variant="outlined" className={classes.paper}>
+        <Paper className={classes.paper}>
             <Grid item xs container direction="row" spacing={1}>
                 <Grid item xs = {12}>
                     <Typography className = {classes.bold}>
@@ -97,24 +83,20 @@ const renderUserInfo = (classes, user, handleClickOpen) => {
                     </Grid>
                     <Grid item xs={6}>
                         <Paper className={classes.userInfo}>
-                          {dobComponent[2]}/{dobComponent[1]}/{dobComponent[0]}
+                          {moment.utc(user.dob).format('MM/DD/YYYY')}
                         </Paper>
                     </Grid>
                     <Grid item xs = {12}>
-                        <Button variant = "contained" color = "primary"
-                        id = "user-info"
-                        onClick = {handleClickOpen}
-                        >Edit</Button>
+                        <Button variant = "contained" color = "primary">Edit</Button>
                     </Grid>   
                 </Grid>
         </Paper>
     </Grid>
-  )
-}
+)
 
-const renderAccountInfo = (classes, user, handleClickOpen) => (
+const renderAccountInfo = (classes, user) => (
     <Grid item xs={12}>
-    <Paper variant="outlined" className={classes.paper}>
+    <Paper className={classes.paper}>
       <Grid item xs container direction="row" spacing={1}>
         <Grid item xs = {12}>
             <Typography className = {classes.bold}>
@@ -138,16 +120,11 @@ const renderAccountInfo = (classes, user, handleClickOpen) => (
         </Grid>
         <Grid item xs={6}>
           <Paper className={classes.userInfo}>
-              <Button
-              id = "pass" onClick = {handleClickOpen}
-              > Change password </Button>
+              <Button> Change password </Button>
           </Paper>
         </Grid>
         <Grid item xs = {12}>
-            <Button variant = "contained" color = "primary"
-            id = "account-info" onClick = {handleClickOpen}
-            >
-              Edit</Button>
+            <Button variant = "contained" color = "primary">Edit</Button>
         </Grid>
         
       </Grid>
@@ -155,9 +132,9 @@ const renderAccountInfo = (classes, user, handleClickOpen) => (
   </Grid>
 )
 
-const renderFlatInfo = (classes, user, handleClickOpen) => (
+const renderFlatInfo = (classes, user) => (
     <Grid item xs={12}>
-        <Paper variant="outlined" className={classes.paper}>
+        <Paper className={classes.paper}>
             <Grid item xs container direction="row" spacing={1}>
                 <Grid item xs = {12}>
                     <Typography className = {classes.bold}>
@@ -172,14 +149,6 @@ const renderFlatInfo = (classes, user, handleClickOpen) => (
                             {user.address.street}, {user.address.suburb}, {user.address.city}, New Zealand
                         </Paper>
                     </Grid>
-
-                    <Grid item xs={6}>
-                        <Paper className={classes.infoDisplay}>Existing flatmates</Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.userInfo}>{user.existingFlatmates}</Paper>
-                    </Grid>
-
                     <Grid item xs={6}>
                         <Paper className={classes.infoDisplay}>Flat description</Paper>
                     </Grid>
@@ -187,19 +156,16 @@ const renderFlatInfo = (classes, user, handleClickOpen) => (
                         <Paper className={classes.userInfo}>{user.description}</Paper>
                     </Grid>
                     <Grid item xs = {12}>
-                        <Button variant = "contained" color = "primary"
-                        id = "flat-info" onClick = {handleClickOpen}
-                        >
-                          Edit</Button>
+                        <Button variant = "contained" color = "primary">Edit</Button>
                     </Grid>   
                 </Grid>
         </Paper>
     </Grid>
 )
 
-const renderFlateeInfo = (classes, user,handleClickOpen) => (
+const renderFlateeInfo = (classes, user) => (
     <Grid item xs={12}>
-    <Paper variant="outlined" className={classes.paper}>
+    <Paper className={classes.paper}>
         <Grid item xs container direction="row" spacing={1}>
             <Grid item xs = {12}>
                 <Typography className = {classes.bold}>
@@ -233,23 +199,6 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
                     </Paper>
                 </Grid>
 
-                <Grid item xs={6}>
-                    <Paper className={classes.infoDisplay}>Bio</Paper>
-                </Grid>
-                <Grid item xs={5}>
-                    <Paper className={classes.userInfo}>
-                        {user.bio}
-                    </Paper>
-                </Grid>
-                <Grid item xs = {1}>
-                    <IconButton variant = "contained" color = "primary"
-                      component={RouterLink}
-                      to="/addbio"
-                    > 
-                      <ModeEditIcon/>
-                    </IconButton>
-                </Grid>   
-
                 <Grid item xs = {12}>
                 <Typography className = {classes.bold}>
                     Flatee Preferences
@@ -264,49 +213,16 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
                     </Paper>
                 </Grid>
                 <Grid item xs = {12}>
-                    <Button variant = "contained" color = "primary"
-                    id = "flatee-info" onClick = {handleClickOpen}
-                    >Edit</Button>
+                    <Button variant = "contained" color = "primary">Edit</Button>
                 </Grid>   
-
             </Grid>
     </Paper>
     </Grid>
 )
 
-const getUser = () => {
-  const {user} = useAuth();
-
-  return user;
-}
-
 export default function CenteredGrid() {
   const classes = useStyles();
-  const [user,setUser]= React.useState(getUser());
-  user.password = '';
-
-  //open dialog
-  const [open, setOpen] = React.useState(false);
-  const [buttonID, setButtonID] = React.useState('');
-
-  const handleClickOpen = (e) => {
-    console.log('id is ',e.currentTarget.id);
-    setButtonID(e.currentTarget.id);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const [confirmation, setConfirmation] = React.useState(false);
-  const handleConfirmationOpen = () => {
-      setConfirmation(true);
-  }
-  const handleConfirmationClose = () => {
-      window.location.reload();
-  }
-
+  const {user} = useAuth();
 
   return (
     <div className={classes.root}>
@@ -318,7 +234,7 @@ export default function CenteredGrid() {
                 direction="up" in={checked} mountOnEnter unmountOnExit
             >
               <Grid item xs={5}>
-                <Paper variant="outlined" className={classes.first}>
+                <Paper className={classes.first}>
                     Photo goes here <br/>
                     <Button variant = "contained" color = "primary">Add photo button</Button>
                 </Paper>
@@ -330,20 +246,19 @@ export default function CenteredGrid() {
                   <Slide 
                   direction="up" in={checked} mountOnEnter unmountOnExit
                   >
-                  {renderUserInfo(classes, user, handleClickOpen)}
+                  {renderUserInfo(classes, user)}
                   </Slide>
 
                   <Slide 
                   direction="up" in={checked} mountOnEnter unmountOnExit
                   >
-                  {renderAccountInfo(classes, user, handleClickOpen)}
+                  {renderAccountInfo(classes, user)}
                   </Slide>
 
                   <Slide 
                   direction="up" in={checked} mountOnEnter unmountOnExit
                   >
-                  {user.role == 'flat' ? renderFlatInfo(classes, user, handleClickOpen) : 
-                  renderFlateeInfo(classes, user, handleClickOpen)}
+                  {user.role == 'flat' ? renderFlatInfo(classes, user) : renderFlateeInfo(classes, user)}
                   </Slide>
                   </Grid>
                 </Paper>
@@ -361,19 +276,6 @@ export default function CenteredGrid() {
         </Grid>
         </Slide>
       </Paper>
-
-      <EditDialog 
-      buttonID = {buttonID} 
-      open = {open} 
-      handleClose = {handleClose} 
-      setUser={setUser}
-      handleConfirmationOpen = {handleConfirmationOpen}/>
-
-      <Confirmation 
-      open = {confirmation}
-      handleClickOpen = {handleConfirmationOpen}
-      handleClose = {handleConfirmationClose}
-      />
     </div>
   );
 }
