@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const renderUserInfo = (classes, user, handleClickOpen) => {
-  const dob = moment(user.dob).format("YYYY,MM,DD");
+  const dob = moment(user.dob).format("YYYY,MMM,DD");
   const dobComponent = dob.split(',');
 
   return(
