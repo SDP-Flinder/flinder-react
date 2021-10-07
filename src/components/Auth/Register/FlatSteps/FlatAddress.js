@@ -79,7 +79,7 @@ const FlatAddress = (props) => {
         <IconButton variant="contained"
           name = "next"
           color = "primary"
-          disabled = {!props.user.description || !props.user.existingFlatmates ? true : false}
+          disabled = {!props.user.description || !props.user.existingFlatmates || !props.user.leaseDate ? true : false}
           type = "submit">
           <ArrowForwardIosIcon/>
         </IconButton>
