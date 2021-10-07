@@ -155,6 +155,14 @@ const renderFlatInfo = (classes, user) => (
                     <Grid item xs={6}>
                         <Paper className={classes.userInfo}>{user.description}</Paper>
                     </Grid>
+                    <Grid item xs={6}>
+                        <Paper className={classes.infoDisplay}>Lease expiration date</Paper>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Paper className={classes.userInfo}>
+                          {moment.utc(user.leaseDate).format('MM/DD/YYYY')}
+                        </Paper>
+                    </Grid>
                     <Grid item xs = {12}>
                         <Button variant = "contained" color = "primary">Edit</Button>
                     </Grid>   

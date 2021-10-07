@@ -9,6 +9,7 @@ import { Typography } from '@material-ui/core';
 const FlatInfo = (props) => {
     const {navigation} = props;
     console.log(props.user.address);
+    console.log(props.user);
     return (
         <div>
 
@@ -70,6 +71,7 @@ const FlatInfo = (props) => {
             </p>
             <p>Existing flatmate(s): {props.user.existingFlatmates}</p>
             <p>Description: {props.user.description}</p>
+            <p>Lease expiration date: {moment(props.user.leaseDate).format('DD/MM/YYYY')}</p>
 
             </section>
             <br/>

@@ -4,7 +4,8 @@ import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Typography } from '@material-ui/core';
-
+import DatePicker from 'react-date-picker/dist/entry.nostyle';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const FlatAddress = (props) => {
     //Pass properties
@@ -51,7 +52,6 @@ const FlatAddress = (props) => {
             multiline
             rows={4}
         /> 
-
         <br />
         <br />
         <br />
@@ -59,6 +59,17 @@ const FlatAddress = (props) => {
         <br />
         <br />
 
+        <InputLabel> Lease Expiration Date </InputLabel>
+        <DatePicker id = 'datePicker'
+        className = "calendar-display"
+        label = "Lease Date"
+        placeholder = "leaseDate"
+        onChange={e => setForm('leaseDate', e)}
+        value={props.user.leaseDate}
+        format = "dd/MM/yyyy"
+        />
+        <br />
+        <br />
 
         <div className = "display-button">
         <IconButton variant="contained"
