@@ -64,6 +64,7 @@ const FlatAddress = (props) => {
         className = "calendar-display"
         label = "Lease Date"
         placeholder = "leaseDate"
+        minDate={new Date()}
         onChange={e => setForm('leaseDate', e)}
         value={props.user.leaseDate}
         format = "dd/MM/yyyy"
