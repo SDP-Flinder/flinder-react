@@ -130,6 +130,7 @@ const Login = ({ location }) => {
             label="Remember me"
           />
           <Button
+            id="sign-in"
             type="button"
             fullWidth
             variant="contained"
