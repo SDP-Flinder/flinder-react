@@ -34,18 +34,21 @@ function BottomNav(props) {
         showLabels
       >
         <BottomNavigationAction 
+        id="match"
         component={Link}
         to="/match" 
         label="Matches" 
         icon={<ForumIcon />} />
 
         <BottomNavigationAction 
+        id="home"
         component={Link}
         to="/" 
         label="Home" 
         icon={<HomeIcon />} />
 
         <BottomNavigationAction 
+        id="profile"
         component={Link}
         to="/profile" 
         label="Profile" 
