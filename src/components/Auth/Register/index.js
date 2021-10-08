@@ -86,6 +86,10 @@ export default function SignUp ({ location }) {
     existingFlatmates: '',
     description: '',
     leaseDate: '',
+    flatRules: {
+      smoking: '',
+      pets: '',
+    },
 
     //This part is for user type flatee
     preferredArea:{

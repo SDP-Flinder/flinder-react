@@ -72,6 +72,9 @@ const FlatInfo = (props) => {
             <p>Existing flatmate(s): {props.user.existingFlatmates}</p>
             <p>Description: {props.user.description}</p>
             <p>Lease expiration date: {moment(props.user.leaseDate).format('DD/MM/YYYY')}</p>
+            <p>Flat rules:</p>
+            <p>Smoking allowed: {props.user.flatRules.smoking.toString()}</p>
+            <p>Pets allowed: {props.user.flatRules.pets.toString()}</p>
 
             </section>
             <br/>

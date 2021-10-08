@@ -169,6 +169,27 @@ const renderFlatInfo = (classes, user, leaseExpired) => (
           </Paper>
         </Grid>
         <Grid item xs={12}>
+          <Typography className={classes.bold}>
+            Flat Rules
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Smoking</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            {user.flatRules == undefined ? 'N/A' : [user.flatRules.smoking == true ? 'Allowed' : 'Not allowed']}
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Pets</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            {user.flatRules == undefined ? 'N/A' : [user.flatRules.pets == true ? 'Allowed' : 'Not allowed']}
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
           <Button variant="contained" color="primary">Edit</Button>
         </Grid>
       </Grid>
@@ -249,6 +270,15 @@ const leaseWarning = (expired, classes) => {
     )
   }
 }
+
+// const flatRules = (user, param) => {
+//   if (user.flatRules === undefined)
+//     return 'N/A'
+//   else {
+//     if (param === 'smoking') 
+//       return 
+//   }
+// }
 
 export default function CenteredGrid() {
   const classes = useStyles();
