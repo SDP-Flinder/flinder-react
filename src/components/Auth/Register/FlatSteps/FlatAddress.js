@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField';
 import { IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -6,12 +6,16 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Typography } from '@material-ui/core';
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import InputLabel from '@material-ui/core/InputLabel';
-import { useState } from 'react';
-import Alert from '@material-ui/lab/Alert';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const FlatAddress = (props) => {
     //Pass properties
     const {navigation} = props;
+
+    const [smoking, setSmoking] = useState(props.user.flatRules.smoking || false);
+    const [pets, setPets] = useState(props.user.flatRules.pets || false);
 
     const setForm = (field, value) => {
       props.updateUser({[field]: value});
@@ -30,6 +34,9 @@ const FlatAddress = (props) => {
         }else{
             navigation.go("flat-checklist");
         }
+      e.preventDefault();
+      setForm('flatRules', { smoking: smoking, pets: pets })
+        navigation.go("flat-checklist");
     }
 
   //Catch any errors
@@ -97,6 +104,34 @@ const FlatAddress = (props) => {
         />
         <br />
         <br />
+
+        <Typography component="h4">Flat Rules</Typography>
+        <Typography component="h4">Do you allow....</Typography>
+                <FormGroup component="fieldset">
+                <FormControlLabel
+                    control={<Checkbox
+                    name = "smoking"
+                    color = "primary"
+                    checked={smoking} 
+                    onChange={() => {setSmoking(!smoking)}}
+                    />}
+                    label="Smokers"
+                    labelPlacement = "end"
+                />
+                </FormGroup>
+
+                <FormGroup component="fieldset">
+                <FormControlLabel
+                    control={<Checkbox 
+                    name = "pets"
+                    color = "primary"
+                    checked={pets} 
+                    onChange={() => {setPets(!pets)}}
+                    />}
+                    label="Pets"
+                    labelPlacement = "end"
+                />
+                </FormGroup>
 
         <div className = "display-button">
         <IconButton variant="contained"
