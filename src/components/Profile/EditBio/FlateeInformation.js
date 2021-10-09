@@ -3,12 +3,14 @@ import { Grid, Paper, Typography } from '@mui/material';
 import { makeStyles } from "@material-ui/core/styles";
 import { FormGroup } from '@mui/material';
 import { FormControlLabel } from '@mui/material';
-import { Checkbox } from '@mui/material';
-import { Select } from '@mui/material';
+import Checkbox from '@material-ui/core/Checkbox';
+import Select from '@material-ui/core/Select';
 import { FormControl } from '@mui/material';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import { FormHelperText, TextField , MenuItem} from '@material-ui/core';
+import { FormHelperText , MenuItem} from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+
 
 let prices = [];
 
