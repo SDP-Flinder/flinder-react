@@ -122,6 +122,7 @@ const FirstStep = (props) => {
        <Grid item xs = {12}>
        <FormControl>
           <TextField 
+          style = {{width: 330}}
           label = "Username"
           variant="outlined"
           name = "user.username"
@@ -140,6 +141,7 @@ const FirstStep = (props) => {
         <Grid item xs = {12} >
         <FormControl>
         <TextField
+          style = {{width: 330}}
           label="Password" 
           variant="outlined"
           type="password" 
@@ -157,6 +159,7 @@ const FirstStep = (props) => {
         <Grid item xs = {12}>
         <FormControl>
         <TextField 
+          style = {{width: 330}}
           label = "Email"
           variant="outlined"  
           type="email" 

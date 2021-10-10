@@ -70,6 +70,13 @@ const useStyles = makeStyles(theme => ({
     color: "red",
     boxShadow: "none",
   },
+  warning: {
+    padding: theme.spacing(2),
+    fontWeight: 600,
+    textAlign: "left",
+    color: "red",
+    boxShadow: "none",
+  },
   userInfo: {
     padding: theme.spacing(2),
     textAlign: "right",
@@ -159,7 +166,7 @@ const renderAccountInfo = (classes, user, handleClickOpen) => (
   </Grid>
 )
 
-const renderFlatInfo = (classes, user, handleClickOpen) => (
+const renderFlatInfo = (classes, user, handleClickOpen, leaseExpired) => (
     <Grid item xs={12}>
         <Paper variant="outlined" className={classes.paper}>
             <Grid item xs container direction="row" spacing={1}>
@@ -190,6 +197,12 @@ const renderFlatInfo = (classes, user, handleClickOpen) => (
                     <Grid item xs={6}>
                         <Paper className={classes.userInfo}>{user.description}</Paper>
                     </Grid>
+                    {leaseWarning(leaseExpired, classes)}
+                    <Grid item xs={6}>
+                      <Paper className={classes.userInfo}>
+                        {moment.utc(user.leaseDate).format('DD/MM/YYYY')}
+                      </Paper>
+                    </Grid>
                     <Grid item xs = {12}>
                         <Button variant = "contained" color = "primary"
                         id = "flat-info" onClick = {handleClickOpen}
@@ -200,6 +213,23 @@ const renderFlatInfo = (classes, user, handleClickOpen) => (
         </Paper>
     </Grid>
 )
+
+const leaseWarning = (expired, classes) => {
+  if (expired) {
+    return (
+      <Grid item xs={6}>
+        <Paper className={classes.warning}>Lease has expired, please update</Paper>
+      </Grid>
+    )
+  }
+  else {
+    return (
+      <Grid item xs={6}>
+        <Paper className={classes.infoDisplay}>Lease expiration date</Paper>
+      </Grid>
+    )
+  }
+}
 
 const renderFlateeInfo = (classes, user,handleClickOpen) => (
     <Grid item xs={12}>
@@ -308,13 +338,15 @@ const getUser = () => {
   return user;
 }
 
-export default function CenteredGrid() {
+export default function Profile() {
   const classes = useStyles();
   const [user,setUser]= React.useState(getUser());
   user.password = '';
   if(!user.rentUnits){
     user.rentUnits = 'Per Week';
   }
+
+  const leaseExpired = (new Date(user.leaseDate) < new Date());
 
   //open dialog
   const [open, setOpen] = React.useState(false);
@@ -370,7 +402,7 @@ export default function CenteredGrid() {
                   <Slide 
                   direction="up" in={checked} mountOnEnter unmountOnExit
                   >
-                  {user.role == 'flat' ? renderFlatInfo(classes, user, handleClickOpen) : 
+                  {user.role == 'flat' ? renderFlatInfo(classes, user, handleClickOpen, leaseExpired) : 
                   renderFlateeInfo(classes, user, handleClickOpen)}
 
                   </Slide>

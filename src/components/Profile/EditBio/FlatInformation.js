@@ -3,7 +3,6 @@ import { Grid, Paper } from '@mui/material';
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
 
-
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1
@@ -18,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 const FlatInformation = (props) => {
     const classes = useStyles();
     const {error} = props;
-    
+
     return (
         <Paper className = {classes.paper} variant="outlined">
             <Grid container spacing = {2} xs = {12}>
