@@ -70,6 +70,7 @@ export default function EditDialog(props) {
     const {user} = useAuth();
     //New data entered by the user
     const [newUser, setUser] = React.useState(user);
+
     const [pw, setPw] = React.useState('');
     const [rentUnits, setRentUnits] = React.useState('Per Week');
 
@@ -156,9 +157,11 @@ export default function EditDialog(props) {
             role: newUser.role.toLowerCase(),
             address: newUser.address,
             description: newUser.description,
+            leaseDate: newUser.leaseDate,
             existingFlatmates: newUser.existingFlatmates,
             preferredArea: newUser.preferredArea,
             checklist: newUser.checklist,
+            rentUnits : newUser.rentUnits,
         };
 
         if(buttonID == "pass"){
@@ -169,13 +172,9 @@ export default function EditDialog(props) {
             bodyParameters.bio = newUser.bio;
         }
 
-        if(buttonID == "flatee-info"){
-            bodyParameters.rentUnits = newUser.rentUnits;
-        }
+        console.log('Body params are', bodyParameters);
 
-        console.log(bodyParameters);
-
-        axios.put(URL, bodyParameters, config);
+        axios.put(URL, bodyParameters, config).then(res => console.log('results are', res));
     }
 
     //Confirm delete
@@ -279,8 +278,6 @@ export default function EditDialog(props) {
 
             if(newUser.existingFlatmates < 0){
                 errorFound.flatmates = 'Please enter any numbers larger than 0.'
-            } else if(!newUser.existingFlatmates.match(/^[0-9]+$/)){
-                errorFound.flatmates = 'Please enter numbers only'
             }
 
             if(newUser.description === '' || !newUser.description){

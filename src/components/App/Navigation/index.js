@@ -13,10 +13,10 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { Config } from '../../../config';
 import { useAuth } from "../Authentication";
 import { Link } from 'react-router-dom';
-import {ReactComponent as FlinderLogo} from '../../../assets/icon-display-white.svg';
+import {ReactComponent as FlinderLogo} from '../../../assets/logo-white.svg';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 // import { InputBase } from '@material-ui/core';
 // import SearchIcon from '@mui/icons-material/Search';
 
@@ -245,9 +245,11 @@ export default function Navigation(props) {
           >
               <FlinderLogo className ="small-logo"/>
           </Button>
-          <Typography className={classes.title} variant="h6" noWrap>
-            {Config.AppName} | {props.pageName}
+          {/* <Grid container justifyContent = "center">
+          <Typography className={classes.title} variant="h5" noWrap>
+            {props.pageName}
           </Typography>
+          </Grid> */}
           {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
