@@ -47,7 +47,7 @@ async function deleteUser(user) {
   
 //Render the Dialog component
 const renderDialog = (open, handleCancel, handleClose) => (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleCancel}>
         <FlinderLogo className = "logo-display"/>
         <DialogTitle>DELETE YOUR ACCOUNT</DialogTitle>
         <DialogContent>

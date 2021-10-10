@@ -127,6 +127,7 @@ const useProvideAuth = () => {
         role: user.accountType.toLowerCase(),
         preferredArea: user.preferredArea,
         checklist: user.checklist,
+        rentUnits: "Per Week",
       };
       console.log('reachced here');
       await axiosapi.post('/users/register', {

@@ -104,9 +104,6 @@ const FirstStep = (props) => {
 
   return (
     <div>
-       <Typography component="h3">
-          Sign Up to find your new home
-       </Typography>
        <br />
        <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -114,12 +111,17 @@ const FirstStep = (props) => {
         container
         direction="column"
         justifyContent="center"
-        alignItems="center"
+        alignItems="left"
         spacing = {2}
         >
-       <Grid item>
+       <Grid item xs = {12}>
+        <Typography component="h3">
+            Sign Up to find your new home
+        </Typography>
+       </Grid>
+       <Grid item xs = {12}>
        <FormControl>
-          <TextField className = "input"
+          <TextField 
           label = "Username"
           variant="outlined"
           name = "user.username"
@@ -130,16 +132,14 @@ const FirstStep = (props) => {
           placeholder="Enter your username" 
           error = { !!error.username}
           />
-          <br/>
-          <br/>
 
           {error.username && <Alert severity = "error">{error.username}</Alert>}
         </FormControl>
         </Grid>
 
-        <Grid item>
+        <Grid item xs = {12} >
         <FormControl>
-        <TextField className = "input"
+        <TextField
           label="Password" 
           variant="outlined"
           type="password" 
@@ -150,15 +150,13 @@ const FirstStep = (props) => {
           placeholder="Enter your password" 
           error = { !!error.password}
           />
-          <br />
-          <br />
           {error.password && <Alert severity = "error">{error.password}</Alert>}
         </FormControl>
         </Grid>
         
-        <Grid item>
+        <Grid item xs = {12}>
         <FormControl>
-        <TextField className = "input"
+        <TextField 
           label = "Email"
           variant="outlined"  
           type="email" 
@@ -169,15 +167,12 @@ const FirstStep = (props) => {
           placeholder="Enter your email" 
           error = { !!error.email}
           />
-          <br />
-          <br />
 
           {error.email && <Alert severity = "error">{error.email}</Alert>}
         </FormControl>
         </Grid>
-        <br />
-        
-        <FormControl className = "input"          
+        <Grid item xs = {12}>
+        <FormControl         
         error = {!!error.accountType}  
         component="fieldset">
         <FormLabel component="legend">I am looking for...</FormLabel>
@@ -192,15 +187,21 @@ const FirstStep = (props) => {
         </RadioGroup>
         {error.accountType && <div className = "error-message">{error.accountType} <br /> </div>}
         </FormControl>
-        <br/>
-        <br/>
-        <br/>
+        </Grid>
+        </Grid>
 
-        <IconButton
-        variant="contained" color="primary" type ="submit"
-        disabled = {(!user.username || !user.password || !user.email || !user.accountType) ? true:false}>
-          <ArrowForwardIosIcon/>
-        </IconButton>
+        <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing = {2}
+        >
+          <IconButton
+          variant="contained" color="primary" type ="submit"
+          disabled = {(!user.username || !user.password || !user.email || !user.accountType) ? true:false}>
+            <ArrowForwardIosIcon/>
+          </IconButton>
         </Grid>
       </form>
 
