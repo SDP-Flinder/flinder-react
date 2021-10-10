@@ -156,6 +156,7 @@ const useProvideAuth = () => {
         address: user.address,
         description: user.description,
         existingFlatmates: user.existingFlatmates,
+        leaseDate: user.leaseDate,
       };
       console.log('reachced here');
       await axiosapi.post('/users/register', {

@@ -17,6 +17,8 @@ import {
 } from '../../../utils/requests';
 // import styles
 import './styles.css';
+// import moment for date formatting
+import * as moment from 'moment';
 
 // create cards component and export it
 const CardsForFlatee = (props) => {
@@ -106,6 +108,8 @@ const CardsForFlatee = (props) => {
             {`${Listing.accountUser.existingFlatmates} Flatmate(s)`}
             <br />
             {`$${Listing.listing.rent} ${Listing.listing.rentUnits}`}
+            <br />
+            {`Lease ends: ${moment(Listing.accountUser.leaseDate).format("DD/MM/YYYY")}`}
           </h2>
         );
         setReadMore(text);

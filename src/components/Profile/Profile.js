@@ -63,6 +63,13 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     boxShadow: "none",
   },
+  warning: {
+    padding: theme.spacing(2),
+    fontWeight: 600,
+    textAlign: "left",
+    color: "red",
+    boxShadow: "none",
+  },
   userInfo: {
     padding: theme.spacing(2),
     textAlign: "right",
@@ -114,10 +121,10 @@ const renderAccountInfo = (classes, user, handleClickOpen) => (
     <Grid item xs={12}>
     <Paper variant="outlined" className={classes.paper}>
       <Grid item xs container direction="row" spacing={1}>
-        <Grid item xs = {12}>
-            <Typography className = {classes.bold}>
-                Account Information
-            </Typography>
+        <Grid item xs={12}>
+          <Typography className={classes.bold}>
+            Account Information
+          </Typography>
         </Grid>
         <Grid item xs={6}>
           <Paper className={classes.infoDisplay}>Username</Paper>
@@ -143,11 +150,10 @@ const renderAccountInfo = (classes, user, handleClickOpen) => (
         </Grid>
         <Grid item xs = {12}>
             <Button variant = "contained" color = "primary"
-            id = "account-info" onClick = {handleClickOpen}
-            >
-              Edit</Button>
+            id = "account-info" onClick = {handleClickOpen}>
+              Edit
+            </Button>
         </Grid>
-        
       </Grid>
     </Paper>
   </Grid>
@@ -213,24 +219,23 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
                     </Paper>
                 </Grid>
 
-                <Grid item xs={6}>
-                    <Paper className={classes.infoDisplay}>Couple</Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.userInfo}>
-                        {user.checklist.isCouple? "Yes": "No"}
-                    </Paper>
-                </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Couple</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            {user.checklist.isCouple ? "Yes" : "No"}
+          </Paper>
+        </Grid>
 
-                <Grid item xs={6}>
-                    <Paper className={classes.infoDisplay}>Has Pets</Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.userInfo}>
-                        {user.checklist.hasPet? "Yes": "No"}
-                    </Paper>
-                </Grid>
-
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Has Pets</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            {user.checklist.hasPet ? "Yes" : "No"}
+          </Paper>
+        </Grid>
                 <Grid item xs = {12}>
                 <Typography className = {classes.bold}>
                     Flatee Preferences
@@ -262,7 +267,7 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
 
             </Grid>
     </Paper>
-    </Grid>
+  </Grid>
 )
 
 const renderFlateeBio = (classes, user, handleClickOpen) => (
@@ -333,16 +338,13 @@ export default function CenteredGrid() {
       window.location.reload();
   }
 
-
   return (
     <div className={classes.root}>
       <Paper className={classes.parentPaper}>
         <Grid container spacing={3}>
           <Grid item xs={12} container>
             <Grid item xs container direction="column" spacing={3}>
-            <Slide 
-                direction="up" in={checked} mountOnEnter unmountOnExit
-            >
+              <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
               <Grid item xs={5}>
                 <Paper variant="outlined" className={classes.first}>
                     Photo goes here <br/>
@@ -386,14 +388,14 @@ export default function CenteredGrid() {
             </Grid>
           </Grid>
         </Grid>
-        <Slide 
-            direction="up" in={checked} mountOnEnter unmountOnExit
+        <Slide
+          direction="up" in={checked} mountOnEnter unmountOnExit
         >
-        <Grid item xs={12}>
+          <Grid item xs={12}>
             <Paper className={classes.standalone}>
-                <DeleteAccount/>
+              <DeleteAccount />
             </Paper>
-        </Grid>
+          </Grid>
         </Slide>
       </Paper>
 
