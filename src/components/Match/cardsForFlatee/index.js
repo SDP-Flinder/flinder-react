@@ -19,18 +19,20 @@ import {
 import './styles.css';
 // import moment for date formatting
 import * as moment from 'moment';
+// import session user state
+import { useAuth } from '../../App/Authentication';
 
 // create cards component and export it
 const CardsForFlatee = (props) => {
   const alreadyRemoved = [];
+  const { user, jwt } = useAuth();
   const [listings, setListings] = useState([]);
   const [readMore, setReadMore] = useState(null);
   const [showMore, setShowMore] = useState(true);
   // eslint-disable-next-line no-unused-vars
   const childRefs = useMemo(() => Array(listings.length).fill(0).map((i) => React.createRef()));
 
-  const USER_TOKEN = props.token;
-  const AuthString = 'Bearer '.concat(USER_TOKEN);
+  const AuthString = 'Bearer '.concat(jwt);
   const flateeUser = props.username; // RETRIEVE FLATEE_USERNAME
   let matchparam = {
     flateeUsername: flateeUser,
