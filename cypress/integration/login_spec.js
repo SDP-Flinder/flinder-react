@@ -1,3 +1,5 @@
+import '@testing-library/cypress/add-commands';
+
 describe('login', () => {
     it('should redirect user to login', () => {
         //Try go to main page

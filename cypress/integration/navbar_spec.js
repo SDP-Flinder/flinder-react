@@ -1,3 +1,5 @@
+import '@testing-library/cypress/add-commands';
+
 describe('navigation bar', () => {
     it('should toggle between pages when the user signs in', () => {
         //Try go to main page
