@@ -17,18 +17,20 @@ import {
 } from '../../../utils/requests';
 // import styles
 import './styles.css';
+// import session user state
+import { useAuth } from '../../App/Authentication';
 
 // create cards component and export it
 const CardsForListing = (props) => {
   const alreadyRemoved = [];
+  const { user, jwt } = useAuth();
   const [people, setPeople] = useState([]);
   const [readMore, setReadMore] = useState(null);
   const [showMore, setShowMore] = useState(true);
   // eslint-disable-next-line no-unused-vars
   const childRefs = useMemo(() => Array(people.length).fill(0).map((i) => React.createRef()));
 
-  const USER_TOKEN = props.token;
-  const AuthString = 'Bearer '.concat(USER_TOKEN);
+  const AuthString = 'Bearer '.concat(jwt);
   const listingID = props.listingID; // RETRIEVE LISTING ID
   let matchparam = {
     listingID: listingID,
