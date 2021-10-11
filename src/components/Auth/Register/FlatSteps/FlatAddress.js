@@ -6,6 +6,8 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Typography } from '@material-ui/core';
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import InputLabel from '@material-ui/core/InputLabel';
+import { useState } from 'react';
+import Alert from '@material-ui/lab/Alert';
 
 const FlatAddress = (props) => {
     //Pass properties
@@ -16,9 +18,32 @@ const FlatAddress = (props) => {
     }
 
   const onSubmit = e => {
-      e.preventDefault();
-        navigation.go("flat-checklist");
+        e.preventDefault();
+        //Check if all the inputs are valid
+        const newError = findErrors();
+
+        //Proceed to the next step if inputs are valid
+        if(Object.keys(newError).length > 0){
+          //Found errors and set the errors to the useState
+          setError(newError);
+
+        }else{
+            navigation.go("flat-checklist");
+        }
     }
+
+  //Catch any errors
+  const [error, setError] = useState({});
+  const findErrors = () => {
+
+    const errorFound = {};
+
+    if(props.user.existingFlatmates < 0){
+      errorFound.existingFlatmates = 'Please enter a number larger than 0';
+    }
+
+    return errorFound;
+  }
 
     
     return (
@@ -39,6 +64,7 @@ const FlatAddress = (props) => {
             autoComplete="off"
         /> 
         <br />
+        {error.existingFlatmates && <Alert severity = "error">{error.existingFlatmates}</Alert>}
         <br />
         <TextField className = "input"
             id="outlined-basic"
