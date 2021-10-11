@@ -200,7 +200,7 @@ const renderFlatInfo = (classes, user, handleClickOpen, leaseExpired) => (
                     {leaseWarning(leaseExpired, classes)}
                     <Grid item xs={6}>
                       <Paper className={classes.userInfo}>
-                        {moment.utc(user.leaseDate).format('DD/MMM/YYYY')}
+                        {moment(user.leaseDate).format('DD/MMM/YYYY')}
                       </Paper>
                     </Grid>
                     <Grid item xs = {12}>

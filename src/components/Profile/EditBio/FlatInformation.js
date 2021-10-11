@@ -2,6 +2,9 @@ import React from 'react'
 import { Grid, Paper } from '@mui/material';
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
+import { InputLabel } from '@material-ui/core';
+import DatePicker from 'react-date-picker';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -17,6 +20,16 @@ const useStyles = makeStyles(theme => ({
 const FlatInformation = (props) => {
     const classes = useStyles();
     const {error} = props;
+
+        //Convert ISO date into readable data
+        const lease = moment(props.newUser.leaseDate).format("YYYY,MM,DD");
+        //Break down dates
+        const leaseComponent = lease.split(',');
+    
+        let month = parseInt(leaseComponent[1]) - 1;
+        leaseComponent[1] = month;
+        
+        const [date, setDate] = React.useState(new Date(leaseComponent[0], leaseComponent[1], leaseComponent[2]));
 
     return (
         <Paper className = {classes.paper} variant="outlined">
@@ -129,6 +142,25 @@ const FlatInformation = (props) => {
                     />
                 </Grid>
                 
+
+                <Grid item xs = {9}>
+                    <InputLabel> Lease Date </InputLabel>
+                    <DatePicker id = 'datePicker'
+                    className = "calendar-display"
+                    label = "Lease date"
+                    value = {date}
+                    minDate = {new Date()}
+                    onChange = {e => {
+                        setDate(e);
+                        props.setUser((prevUser) => ({ 
+                            ...prevUser, 
+                            ...{leaseDate: e} }
+                        ));
+                    }}
+                    placeholder = "Lease date"
+                    format = "dd/MM/yyyy"
+                    />
+                </Grid>
             </Grid>
 
         </Paper>
