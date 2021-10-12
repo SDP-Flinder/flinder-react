@@ -162,6 +162,7 @@ export default function EditDialog(props) {
             preferredArea: newUser.preferredArea,
             checklist: newUser.checklist,
             rentUnits : newUser.rentUnits,
+            flatRules: newUser.flatRules,
         };
 
         if(buttonID == "pass"){

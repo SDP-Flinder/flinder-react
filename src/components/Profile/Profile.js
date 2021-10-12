@@ -93,43 +93,43 @@ const renderUserInfo = (classes, user, handleClickOpen) => {
   const dob = moment(user.dob).format("YYYY,MMM,DD");
   const dobComponent = dob.split(',');
 
-  return(
+  return (
     <Grid item xs={12}>
-        <Paper variant="outlined" className={classes.paper}>
-            <Grid item xs container direction="row" spacing={1}>
-                <Grid item xs = {12}>
-                    <Typography className = {classes.bold}>
-                        Basic Information
-                    </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.infoDisplay}>Name</Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.userInfo}>{user.firstName} {user.lastName}</Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.infoDisplay}>D.O.B</Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.userInfo}>
-                          {dobComponent[2]}/{dobComponent[1]}/{dobComponent[0]}
-                        </Paper>
-                    </Grid>
-                    <Grid item xs = {12}>
-                        <Button variant = "contained" color = "primary"
-                        id = "user-info"
-                        onClick = {handleClickOpen}
-                        >Edit</Button>
-                    </Grid>   
-                </Grid>
-        </Paper>
+      <Paper variant="outlined" className={classes.paper}>
+        <Grid item xs container direction="row" spacing={1}>
+          <Grid item xs={12}>
+            <Typography className={classes.bold}>
+              Basic Information
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.infoDisplay}>Name</Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.userInfo}>{user.firstName} {user.lastName}</Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.infoDisplay}>D.O.B</Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.userInfo}>
+              {dobComponent[2]}/{dobComponent[1]}/{dobComponent[0]}
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary"
+              id="user-info"
+              onClick={handleClickOpen}
+            >Edit</Button>
+          </Grid>
+        </Grid>
+      </Paper>
     </Grid>
   )
 }
 
 const renderAccountInfo = (classes, user, handleClickOpen) => (
-    <Grid item xs={12}>
+  <Grid item xs={12}>
     <Paper variant="outlined" className={classes.paper}>
       <Grid item xs container direction="row" spacing={1}>
         <Grid item xs={12}>
@@ -154,16 +154,16 @@ const renderAccountInfo = (classes, user, handleClickOpen) => (
         </Grid>
         <Grid item xs={6}>
           <Paper className={classes.userInfo}>
-              <Button
-              id = "pass" onClick = {handleClickOpen}
-              > Change password </Button>
+            <Button
+              id="pass" onClick={handleClickOpen}
+            > Change password </Button>
           </Paper>
         </Grid>
-        <Grid item xs = {12}>
-            <Button variant = "contained" color = "primary"
-            id = "account-info" onClick = {handleClickOpen}>
-              Edit
-            </Button>
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary"
+            id="account-info" onClick={handleClickOpen}>
+            Edit
+          </Button>
         </Grid>
       </Grid>
     </Paper>
@@ -171,51 +171,74 @@ const renderAccountInfo = (classes, user, handleClickOpen) => (
 )
 
 const renderFlatInfo = (classes, user, handleClickOpen, leaseExpired) => (
-    <Grid item xs={12}>
-        <Paper variant="outlined" className={classes.paper}>
-            <Grid item xs container direction="row" spacing={1}>
-                <Grid item xs = {12}>
-                    <Typography className = {classes.bold}>
-                        Flat Information
-                    </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.infoDisplay}>Address</Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.userInfo}>
-                            {user.address.street}, {user.address.suburb}, {user.address.city}, New Zealand
-                        </Paper>
-                    </Grid>
+  <Grid item xs={12}>
+    <Paper variant="outlined" className={classes.paper}>
+      <Grid item xs container direction="row" spacing={1}>
+        <Grid item xs={12}>
+          <Typography className={classes.bold}>
+            Flat Information
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Address</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            {user.address.street}, {user.address.suburb}, {user.address.city}, New Zealand
+          </Paper>
+        </Grid>
 
-                    <Grid item xs={6}>
-                        <Paper className={classes.infoDisplay}>Existing flatmates</Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.userInfo}>{user.existingFlatmates}</Paper>
-                    </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Existing flatmates</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>{user.existingFlatmates}</Paper>
+        </Grid>
 
-                    <Grid item xs={6}>
-                        <Paper className={classes.infoDisplay}>Flat description</Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.userInfo}>{user.description}</Paper>
-                    </Grid>
-                    {leaseWarning(leaseExpired, classes)}
-                    <Grid item xs={6}>
-                      <Paper className={classes.userInfo}>
-                        {moment(user.leaseDate).format('DD/MMM/YYYY')}
-                      </Paper>
-                    </Grid>
-                    <Grid item xs = {12}>
-                        <Button variant = "contained" color = "primary"
-                        id = "flat-info" onClick = {handleClickOpen}
-                        >
-                          Edit</Button>
-                    </Grid>   
-                </Grid>
-        </Paper>
-    </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Flat description</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>{user.description}</Paper>
+        </Grid>
+        {leaseWarning(leaseExpired, classes)}
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            {moment(user.leaseDate).format('DD/MMM/YYYY')}
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography className={classes.bold}>
+            Flat Rules
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Smoking</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            {user.flatRules == undefined ? 'N/A' : [user.flatRules.smoking == true ? 'Allowed' : 'Not allowed']}
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Pets</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            {user.flatRules == undefined ? 'N/A' : [user.flatRules.pets == true ? 'Allowed' : 'Not allowed']}
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary"
+            id="flat-info" onClick={handleClickOpen}
+          >
+            Edit</Button>
+        </Grid>
+      </Grid>
+    </Paper>
+  </Grid>
 )
 
 const leaseWarning = (expired, classes) => {
@@ -235,23 +258,23 @@ const leaseWarning = (expired, classes) => {
   }
 }
 
-const renderFlateeInfo = (classes, user,handleClickOpen) => (
-    <Grid item xs={12}>
+const renderFlateeInfo = (classes, user, handleClickOpen) => (
+  <Grid item xs={12}>
     <Paper variant="outlined" className={classes.paper}>
-        <Grid item xs container direction="row" spacing={1}>
-            <Grid item xs = {12}>
-                <Typography className = {classes.bold}>
-                    Extra Information
-                </Typography>
-            </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.infoDisplay}>Smoker</Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.userInfo}>
-                        {user.checklist.isSmoker? "Yes": "No"}
-                    </Paper>
-                </Grid>
+      <Grid item xs container direction="row" spacing={1}>
+        <Grid item xs={12}>
+          <Typography className={classes.bold}>
+            Extra Information
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Smoker</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            {user.checklist.isSmoker ? "Yes" : "No"}
+          </Paper>
+        </Grid>
 
         <Grid item xs={6}>
           <Paper className={classes.infoDisplay}>Couple</Paper>
@@ -270,83 +293,83 @@ const renderFlateeInfo = (classes, user,handleClickOpen) => (
             {user.checklist.hasPet ? "Yes" : "No"}
           </Paper>
         </Grid>
-                <Grid item xs = {12}>
-                <Typography className = {classes.bold}>
-                    Flatee Preferences
-                </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.infoDisplay}>Price Range</Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.userInfo}>
-                        NZD${user.checklist.priceRange.min} - NZD${user.checklist.priceRange.max}
-                    </Paper>
-                </Grid>
+        <Grid item xs={12}>
+          <Typography className={classes.bold}>
+            Flatee Preferences
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Price Range</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            NZD${user.checklist.priceRange.min} - NZD${user.checklist.priceRange.max}
+          </Paper>
+        </Grid>
 
-                <Grid item xs={6}>
-                    <Paper className={classes.infoDisplay}>Rent Units</Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.userInfo}>
-                        {user.rentUnits? user.rentUnits : "Per Week"}
-                    </Paper>
-                </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Rent Units</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            {user.rentUnits ? user.rentUnits : "Per Week"}
+          </Paper>
+        </Grid>
 
-                <Grid item xs = {12}>
-                    <Button variant = "contained" color = "primary"
-                    id = "flatee-info" onClick = {handleClickOpen}
-                    >Edit</Button>
-                </Grid>   
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary"
+            id="flatee-info" onClick={handleClickOpen}
+          >Edit</Button>
+        </Grid>
 
-            </Grid>
+      </Grid>
     </Paper>
   </Grid>
 )
 
 const renderFlateeBio = (classes, user, handleClickOpen) => (
   <Grid item xs={12}>
-  <Paper variant="outlined" className={classes.paper}>
+    <Paper variant="outlined" className={classes.paper}>
       <Grid item xs container direction="row" spacing={1}>
-          <Grid item xs = {12}>
-              <Typography className = {classes.bold}>
-                  Flatee Bio
-              </Typography>
-          </Grid>
-              <Grid item xs={6}>
-                  <Paper className={classes.infoDisplay}>Description</Paper>
-              </Grid>
-              <Grid item xs={6}>
-                  <Paper className={classes.userInfo}>
-                      {user.bio?user.bio:"Your bio is currently empty."}
-                  </Paper>
-              </Grid>
+        <Grid item xs={12}>
+          <Typography className={classes.bold}>
+            Flatee Bio
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.infoDisplay}>Description</Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.userInfo}>
+            {user.bio ? user.bio : "Your bio is currently empty."}
+          </Paper>
+        </Grid>
 
-              <Grid item xs = {12}>
-                    <Button variant = "contained" color = "primary"
-                      id = "flatee-bio"
-                      onClick = {handleClickOpen}
-                    >
-                      {user.bio? "Edit" : "Add A Bio"}
-                    </Button>
-              </Grid>   
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary"
+            id="flatee-bio"
+            onClick={handleClickOpen}
+          >
+            {user.bio ? "Edit" : "Add A Bio"}
+          </Button>
+        </Grid>
 
-          </Grid>
-  </Paper>
+      </Grid>
+    </Paper>
   </Grid>
 )
 
 const getUser = () => {
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   return user;
 }
 
 export default function Profile() {
   const classes = useStyles();
-  const [user,setUser]= React.useState(getUser());
+  const [user, setUser] = React.useState(getUser());
   user.password = '';
-  if(!user.rentUnits){
+  if (!user.rentUnits) {
     user.rentUnits = 'Per Week';
   }
 
@@ -357,7 +380,7 @@ export default function Profile() {
   const [buttonID, setButtonID] = React.useState('');
 
   const handleClickOpen = (e) => {
-    console.log('id is ',e.currentTarget.id);
+    console.log('id is ', e.currentTarget.id);
     setButtonID(e.currentTarget.id);
     setOpen(true);
   };
@@ -368,10 +391,10 @@ export default function Profile() {
 
   const [confirmation, setConfirmation] = React.useState(false);
   const handleConfirmationOpen = () => {
-      setConfirmation(true);
+    setConfirmation(true);
   }
   const handleConfirmationClose = () => {
-      window.location.reload();
+    window.location.reload();
   }
 
   return (
@@ -387,43 +410,43 @@ export default function Profile() {
             </Grid>
             <Grid item xs container direction="column" spacing={3}>
               <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
-              <Grid item xs={5}>
-                <Paper variant="outlined" className={classes.first}>
-                    Photo goes here <br/>
-                    <Button variant = "contained" color = "primary">Add photo button</Button>
-                </Paper>
-              </Grid>
-            </Slide>
+                <Grid item xs={5}>
+                  <Paper variant="outlined" className={classes.first}>
+                    Photo goes here <br />
+                    <Button variant="contained" color="primary">Add photo button</Button>
+                  </Paper>
+                </Grid>
+              </Slide>
               <Grid item xs={7}>
                 <Paper className={classes.second}>
                   <Grid item xs container direction="column" spacing={2}>
-                  <Slide 
-                  direction="up" in={checked} mountOnEnter unmountOnExit
-                  >
-                  {renderUserInfo(classes, user, handleClickOpen)}
-                  </Slide>
+                    <Slide
+                      direction="up" in={checked} mountOnEnter unmountOnExit
+                    >
+                      {renderUserInfo(classes, user, handleClickOpen)}
+                    </Slide>
 
-                  <Slide 
-                  direction="up" in={checked} mountOnEnter unmountOnExit
-                  >
-                  {renderAccountInfo(classes, user, handleClickOpen)}
-                  </Slide>
+                    <Slide
+                      direction="up" in={checked} mountOnEnter unmountOnExit
+                    >
+                      {renderAccountInfo(classes, user, handleClickOpen)}
+                    </Slide>
 
-                  <Slide 
-                  direction="up" in={checked} mountOnEnter unmountOnExit
-                  >
-                  {user.role == 'flat' ? renderFlatInfo(classes, user, handleClickOpen, leaseExpired) : 
-                  renderFlateeInfo(classes, user, handleClickOpen)}
+                    <Slide
+                      direction="up" in={checked} mountOnEnter unmountOnExit
+                    >
+                      {user.role == 'flat' ? renderFlatInfo(classes, user, handleClickOpen, leaseExpired) :
+                        renderFlateeInfo(classes, user, handleClickOpen)}
 
-                  </Slide>
+                    </Slide>
 
 
-                {user.role == 'flatee' &&
-                  <Slide 
-                  direction="up" in={checked} mountOnEnter unmountOnExit
-                  >
-                  {renderFlateeBio(classes, user, handleClickOpen)}
-                  </Slide>}
+                    {user.role == 'flatee' &&
+                      <Slide
+                        direction="up" in={checked} mountOnEnter unmountOnExit
+                      >
+                        {renderFlateeBio(classes, user, handleClickOpen)}
+                      </Slide>}
                   </Grid>
                 </Paper>
               </Grid>
@@ -441,17 +464,17 @@ export default function Profile() {
         </Slide>
       </Paper>
 
-      <EditDialog 
-      buttonID = {buttonID} 
-      open = {open} 
-      handleClose = {handleClose} 
-      setUser={setUser}
-      handleConfirmationOpen = {handleConfirmationOpen}/>
+      <EditDialog
+        buttonID={buttonID}
+        open={open}
+        handleClose={handleClose}
+        setUser={setUser}
+        handleConfirmationOpen={handleConfirmationOpen} />
 
-      <Confirmation 
-      open = {confirmation}
-      handleClickOpen = {handleConfirmationOpen}
-      handleClose = {handleConfirmationClose}
+      <Confirmation
+        open={confirmation}
+        handleClickOpen={handleConfirmationOpen}
+        handleClose={handleConfirmationClose}
       />
     </div>
   );
