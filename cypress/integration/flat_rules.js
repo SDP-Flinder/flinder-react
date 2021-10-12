@@ -20,27 +20,41 @@ describe('As a flat, I want to be able to specify flat rules such as no smoking 
     cy.contains('Pets')
 
     // Go to the page for editing flat information
-    cy.get('#edit-flat').click()
+    cy.get('#flat-info').click()
 
     // Check whether the flat information edit page has a flat rules section
     cy.contains('Flat Rules')
     cy.contains('Smoking')
     cy.contains('Pets')
 
-    // // Log out and return to the home page
-    // cy.visit('/logout')
-    // cy.visit('/')
+    // Check whether the the edit checkboxes can be checked
+    cy.get('#smoking').not('[disabled]')
+      .check().should('be.checked')
+    cy.get('#pets').not('[disabled]')
+      .check().should('be.checked')
 
-    // // Click the sign in button to go to the log in page
-    // cy.get('#sign-in').click()
+    // Save the changed rules and check they have been updated
+    cy.get('#save').click()
+    cy.get('#ok').click()
+    cy.contains('Allowed')
 
-    // // Enter log in details for a flatee account then sign in
-    // cy.get('#username').type('billy2')
-    // cy.get('#password').type('billy2')
-    // cy.get('#sign-in').click()
+    // Go to the page for editing flat information
+    cy.get('#flat-info').click()
 
-    // // Log out and return to the home page
-    // cy.visit('/logout')
-    // cy.visit('/')
+    // Check whether the flat information edit page has a flat rules section
+    cy.contains('Flat Rules')
+    cy.contains('Smoking')
+    cy.contains('Pets')
+
+    // Check whether the the edit checkboxes can be unchecked
+    cy.get('#smoking').not('[disabled]')
+      .uncheck().should('not.be.checked')
+    cy.get('#pets').not('[disabled]')
+      .uncheck().should('not.be.checked')
+
+    // Save the changed rules and check they have been updated
+    cy.get('#save').click()
+    cy.get('#ok').click()
+    cy.contains('Not allowed')
   })
 })

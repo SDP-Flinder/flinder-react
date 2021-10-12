@@ -335,6 +335,7 @@ export default function EditDialog(props) {
             <DialogActions>
                 <Button onClick={checkData}>Cancel</Button>
                 <Button onClick={saveData}
+                id="save"
                 variant = "contained"
                 color = "primary"
                 >
