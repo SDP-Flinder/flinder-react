@@ -35,7 +35,7 @@ const FlatInformation = (props) => {
   const [date, setDate] = React.useState(new Date(leaseComponent[0], leaseComponent[1], leaseComponent[2]));
 
   useEffect(() => {
-    if(props.newUser.flatRules == undefined) {
+    if (props.newUser.flatRules == undefined) {
       props.setUser((prevUser) => ({
         ...prevUser,
         flatRules: {
@@ -163,53 +163,57 @@ const FlatInformation = (props) => {
           />
         </Grid>
 
-        <Grid item xs={6}>
-        <FormGroup component="fieldset">
-          <FormControlLabel
-            control={<Checkbox
-              name="smoking"
-              color="primary"
-              checked={props.newUser.flatRules == undefined ? false : props.newUser.flatRules.smoking}
-              onChange={() => {
-              props.setUser((prevUser) => ({
-                ...prevUser,
-                flatRules: {
-                  ...prevUser.flatRules,
-                  smoking: !prevUser.flatRules.smoking
-                }
-              }
-              ));
-            }}
-            />}
-            label="Smokers"
-            labelPlacement="end"
-          />
-        </FormGroup>
-        </Grid>
+        <div className="action-checkboxes">
+          <Grid item xs={6}>
+            <FormGroup component="fieldset">
+              <FormControlLabel
+                control={<Checkbox
+                  id="smoking"
+                  name="smoking"
+                  color="primary"
+                  checked={props.newUser.flatRules == undefined ? false : props.newUser.flatRules.smoking}
+                  onChange={() => {
+                    props.setUser((prevUser) => ({
+                      ...prevUser,
+                      flatRules: {
+                        ...prevUser.flatRules,
+                        smoking: !prevUser.flatRules.smoking
+                      }
+                    }
+                    ));
+                  }}
+                />}
+                label="Smokers"
+                labelPlacement="end"
+              />
+            </FormGroup>
+          </Grid>
 
-        <Grid item xs={6}>
-        <FormGroup component="fieldset">
-          <FormControlLabel
-            control={<Checkbox
-              name="pets"
-              color="primary"
-              checked={props.newUser.flatRules == undefined ? false : props.newUser.flatRules.pets}
-              onChange={() => {
-              props.setUser((prevUser) => ({
-                ...prevUser,
-                flatRules: {
-                  ...prevUser.flatRules,
-                  pets: !prevUser.flatRules.pets
-                }
-              }
-              ));
-            }}
-            />}
-            label="Pets"
-            labelPlacement="end"
-          />
-        </FormGroup>
-        </Grid>
+          <Grid item xs={6}>
+            <FormGroup component="fieldset">
+              <FormControlLabel
+                control={<Checkbox
+                  id="pets"
+                  name="pets"
+                  color="primary"
+                  checked={props.newUser.flatRules == undefined ? false : props.newUser.flatRules.pets}
+                  onChange={() => {
+                    props.setUser((prevUser) => ({
+                      ...prevUser,
+                      flatRules: {
+                        ...prevUser.flatRules,
+                        pets: !prevUser.flatRules.pets
+                      }
+                    }
+                    ));
+                  }}
+                />}
+                label="Pets"
+                labelPlacement="end"
+              />
+            </FormGroup>
+          </Grid>
+        </div>
 
         <Grid item xs={9}>
           <InputLabel> Lease Date </InputLabel>

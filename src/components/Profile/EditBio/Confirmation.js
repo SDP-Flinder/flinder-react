@@ -30,7 +30,7 @@ export default function AlertDialogSlide(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Ok</Button>
+          <Button id="ok" onClick={handleClose}>Ok</Button>
         </DialogActions>
       </Dialog>
     </div>
