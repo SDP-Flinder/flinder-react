@@ -201,7 +201,7 @@ export default function Match(props) {
       <Navigation />
       <div className={classes.paper}>
         <br />
-        <Typography component="h1" variant="h6" color="inherit" noWrap className = {classes.title}>
+        <Typography component="h1" variant="h5" color="inherit" noWrap className = {classes.title}>
           Your Matches
         </Typography>
         <br />

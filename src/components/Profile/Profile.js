@@ -82,6 +82,10 @@ const useStyles = makeStyles(theme => ({
     textAlign: "right",
     color: theme.palette.text.secondary,
     boxShadow: "none",
+  },
+  title: {
+    padding: 10,
+    marginLeft: 10,
   }
 }));
 
@@ -375,6 +379,12 @@ export default function Profile() {
       <Paper className={classes.parentPaper}>
         <Grid container spacing={3}>
           <Grid item xs={12} container>
+            <Grid item xs = {12}>
+              <Typography variant = "h5" className = {classes.title}>
+                Welcome to your profile, {user.firstName}
+              </Typography>
+              <br/>
+            </Grid>
             <Grid item xs container direction="column" spacing={3}>
               <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
               <Grid item xs={5}>
