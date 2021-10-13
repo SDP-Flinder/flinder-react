@@ -6,6 +6,8 @@ import Navigation from "../App/Navigation";
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { Config } from '../../config';
+import { Grid } from "@material-ui/core";
+import { Grow } from "@material-ui/core";
 
 //Set the styles to be used on the page
 const useStyles = makeStyles((theme) => ({
@@ -13,12 +15,40 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'left',
   },
   button: {
     margin: theme.spacing(3, 0, 2),
   },
+  matchIcon: {
+    marginLeft: 20,
+    margin: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 10,
+    width: 170,
+    height: 160,
+    borderRadius: 20,
+    //backgroundColor: "#FFC745",
+    border: "1px solid #007A78",
+  },
+  avt: {
+    marginTop: 10,
+    width: 50,
+    height: 50,
+    borderRadius: 100,
+  },
+  title: {
+    padding: 10,
+    marginLeft: 10,
+  },
+  info: {
+    marginBottom: 10
+  }
 }))
+
+const checked = true;
 
 //Class for displaying a list of buttons for each successful match on an account
 export default function Match(props) {
@@ -46,14 +76,38 @@ export default function Match(props) {
     }
     else if (user.role === 'flat') {
       return matches.map((match) => (
-        <Button
-          className="button"
-          variant="contained"
-          key={++count}
-          onClick={function () { selectMatch(match) }}
+        <div key={++count}>
+        <Grow
+          in={checked}
         >
-          {match.flateeUsername}
-        </Button>
+          <Grid className = {classes.matchIcon} container item xs = {12} direction = "row" >
+            <Grid item>
+              <img src = "https://forums.terraria.org/data/avatars/l/128/128493.jpg?1550988870"
+              className = {classes.avt}/>
+            </Grid>
+
+            <Grid>
+              <Typography variant = "body1" className = {classes.info}>
+                  {match.flateeUsername}
+              </Typography>
+            </Grid>
+
+            <Grid item>
+              <Button
+                variant="contained"
+                color = "primary"
+                onClick={function () { selectMatch(match) }}
+              >
+                <Typography variant = "caption">
+                View
+                </Typography>
+              </Button>
+            </Grid>
+          </Grid>
+        </Grow>
+        <br/>
+        <br/>
+        </div>
       ))
     }
     else if (user.role === 'flatee') {
@@ -147,11 +201,13 @@ export default function Match(props) {
       <Navigation />
       <div className={classes.paper}>
         <br />
-        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-          Current Match List
+        <Typography component="h1" variant="h6" color="inherit" noWrap className = {classes.title}>
+          Your Matches
         </Typography>
         <br />
+        <Grid container spacing = {1}>
         {renderButtons()}
+        </Grid>
       </div>
     </>
   );
