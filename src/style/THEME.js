@@ -52,7 +52,13 @@ const THEME = createTheme({
     
         containedSecondary: {
     
-          fontWeight: 700, // makes text bold
+          '&:hover': { // changes colors for hover state
+    
+            backgroundColor: THEME.palette.primary.main,
+    
+            color: THEME.palette.secondary.light,
+    
+          },
     
         },
     

@@ -135,7 +135,7 @@ const CardsForFlatee = (props) => {
               flickOnSwipe
               preventSwipe={['up', 'down']}
               currentFlatCard={listing.id}
-              onSwipe={(dir) => swiped(dir, listing.id)}
+              onSwipe={(dir) => swiped(dir, listing.listing.id)}
             >
               {/* Background image */}
               <div
