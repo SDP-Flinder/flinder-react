@@ -9,7 +9,7 @@ import { Chip, Grid, Grow, Typography } from '@material-ui/core';
 import Slide from '@mui/material/Slide';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { IconButton } from '@material-ui/core';
-import { Paper, Stack } from '@mui/material';
+import { DialogTitle, Paper, Stack } from '@mui/material';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -22,14 +22,18 @@ const useStyles = makeStyles(theme => ({
         minWidth: 500,
     },
     grid: {
-        padding: '2em', 
-        border: '0.1em solid black'
+        padding: '1em', 
     },
     rightGrid:{
         padding: '1em'
     },
     gridContent:{
         borderBottom: '0.1em solid black',
+    },
+    image: {
+        width: 490,
+        height: 490,
+        borderRadius: 20,
     }
 }));
 
@@ -42,9 +46,8 @@ const renderFlatee = (classes, Listing) => (
     <Paper className = {classes.paper} variant = "outlined">
         <Grid container>
             <Grid item xs = {12} className = {classes.grid}>
-                <Typography>
-                    Photo goes here
-                </Typography>
+                <img src = "https://i.kym-cdn.com/entries/icons/facebook/000/016/546/hidethepainharold.jpg" 
+                className = {classes.image}/>
             </Grid>
 
             <Grid container item xs = {12} spacing = {3} className = {classes.rightGrid}>
@@ -132,9 +135,8 @@ const renderListing = (classes, person) => (
     <Paper className = {classes.paper} variant = "outlined">
         <Grid container>
             <Grid item xs = {12} className = {classes.grid}>
-                <Typography>
-                    Photo goes here
-                </Typography>
+                <img src = "https://i.kym-cdn.com/entries/icons/facebook/000/016/546/hidethepainharold.jpg" 
+                className = {classes.image}/>
             </Grid>
 
             <Grid container item xs = {12} spacing = {3} className = {classes.rightGrid}>
