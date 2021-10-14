@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { Chip, Divider, Grid, Grow, Typography } from '@material-ui/core';
+import { Chip, Grid, Grow, Typography } from '@material-ui/core';
 import Slide from '@mui/material/Slide';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { IconButton } from '@material-ui/core';
@@ -36,27 +36,97 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
   
+//Render the flatee's info dialog
 const renderFlatee = (classes, Listing) => (
-    <h2 style={{
-        padding: 15,
-      }}
-    >
-        {`${Listing.accountUser.username}`}
-        <br />
-        {`Flat Description: ${Listing.listing.description}`}
-        <br />
-        {`Listing Description: ${Listing.accountUser.description}`}
-        <br />
-        {`Location: ${Listing.accountUser.address.suburb}`}
-        <br />
-        {`${Listing.accountUser.existingFlatmates} Flatmate(s)`}
-        <br />
-        {`$${Listing.listing.rent} ${Listing.listing.rentUnits}`}
-        <br />
-        {`Lease ends: ${moment(Listing.accountUser.leaseDate).format("DD/MM/YYYY")}`}
-    </h2>
+    <Paper className = {classes.paper} variant = "outlined">
+        <Grid container>
+            <Grid item xs = {5} className = {classes.grid}>
+                <Typography>
+                    Photo here
+                </Typography>
+            </Grid>
+
+            <Grid container item xs = {7} spacing = {3} className = {classes.rightGrid}>
+                <Grid item xs = {12} className = {classes.gridContent}>
+                    <Typography variant = "h5">
+                    {Listing.accountUser.firstName} {Listing.accountUser.lastName} 
+                    </Typography>
+                </Grid>
+
+                <Grid item xs = {12} className = {classes.gridContent}>
+
+                    <Typography variant = "overline">
+                        Rent
+                    </Typography>
+
+                    <Typography>
+                    ${Listing.listing.rent} {Listing.listing.rentUnits}
+                    </Typography>
+
+                    <Typography variant = "overline">
+                       Flat Location
+                    </Typography>
+
+                    <Typography>
+                        {Listing.accountUser.address.suburb}
+                    </Typography>
+
+                    <Typography variant = "overline">
+                       Lease end
+                    </Typography>
+
+                    <Typography>
+                        {moment(Listing.accountUser.leaseDate).format("DD/MMM/YYYY")}
+                    </Typography>
+                </Grid>
+                
+
+                <Grid item xs = {12} >
+                    <Typography variant = "overline" className = {classes.gridContent}>
+                        About the listing
+                    </Typography>
+                    <br/>
+                    <Typography>
+                        {Listing.listing.description}
+                    </Typography>
+                </Grid>
+
+                <Grid item xs = {12} >
+                    <Typography variant = "overline" className = {classes.gridContent}>
+                        Utilities
+                    </Typography>
+                    <br/>
+                    <Stack direction = "row" spacing = {2}>
+                        <Chip label = "Power" variant = "outlined"/>
+                        <Chip label = "Water" variant = "outlined"/>
+                    </Stack>
+                </Grid>
+
+                <Grid item xs = {12} >
+                    <Typography variant = "overline" className = {classes.gridContent}>
+                        About the flat
+                    </Typography>
+                    <br/>
+                    <Typography>
+                        {Listing.accountUser.description}
+                    </Typography>
+                </Grid>
+
+                <Grid item xs = {12} >
+                    <Typography variant = "overline" className = {classes.gridContent}>
+                        Existing flatmates
+                    </Typography>
+                    <br/>
+                    <Typography>
+                        {Listing.accountUser.existingFlatmates}
+                    </Typography>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Paper>
 );
 
+//Render the listing's info dialog
 const renderListing = (classes, person) => (
     <Paper className = {classes.paper} variant = "outlined">
         <Grid container>
@@ -68,7 +138,7 @@ const renderListing = (classes, person) => (
 
             <Grid container item xs = {7} spacing = {3} className = {classes.rightGrid}>
                 <Grid item xs = {12} className = {classes.gridContent}>
-                    <Typography variant = "h3">
+                    <Typography variant = "h5">
                     {person.firstName} {person.lastName} 
                     </Typography>
                     <Typography variant = "body1">
@@ -77,7 +147,7 @@ const renderListing = (classes, person) => (
                 </Grid>
 
                 <Grid item xs = {12} >
-                    <Stack direction = "row" spacing = {3}>
+                    <Stack direction = "row" spacing = {2}>
                     {person.checklist.isSmoker && <Chip label = "Smoker" variant = "outlined"/>}
                     {person.checklist.isCouple && <Chip label = "Couple" variant = "outlined"/>}
                     {person.checklist.hasPet && <Chip label = "Has Pet" variant = "outlined"/>}
@@ -101,8 +171,10 @@ const renderListing = (classes, person) => (
 const ShowInfo = (props) => {
     const classes = useStyles();
 
+    //Open state for the dialog
     const [open, setOpen] = React.useState(false);
 
+    //Animations for the buttons
     const [checked, setChecked] = React.useState(true);
 
     const handleClickOpen = () => {
@@ -113,6 +185,7 @@ const ShowInfo = (props) => {
       setOpen(false);
     };
 
+    //Retrive the user's information
     const {user} = useAuth();
   
     return (
