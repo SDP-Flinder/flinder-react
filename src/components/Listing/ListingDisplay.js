@@ -224,7 +224,7 @@ function ListingDisplay(props) {
               <h1>Available: {date}</h1>
               {renderSwitch()}
               {renderButtons()}
-              <CardsForListing token={user.token} listingID={listing.id} />
+              <CardsForListing listingID={listing.id} />
             </div>
           </Grid>
         </form>

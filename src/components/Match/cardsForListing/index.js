@@ -49,7 +49,7 @@ const CardsForListing = (props) => {
     }
 
     fetchData();
-  }, []);
+  }, [listingID]);
 
   // swipe function
   const swiped = (direction, targetName) => {

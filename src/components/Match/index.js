@@ -74,7 +74,7 @@ export default function Match(props) {
         </Typography>
       )
     }
-    else if (user.role === 'flat') {
+    else {
       return matches.map((match) => (
         <div key={++count}>
         <Grow
@@ -88,7 +88,9 @@ export default function Match(props) {
 
             <Grid>
               <Typography variant = "body1" className = {classes.info}>
-                  {match.flateeUsername}
+                  {user.role == 'flat' ? match.flateeUsername : 
+                  (match.listingUsername == undefined ? match.listingID 
+                  : match.listingUsername)}
               </Typography>
             </Grid>
 
@@ -110,31 +112,6 @@ export default function Match(props) {
         </div>
       ))
     }
-    else if (user.role === 'flatee') {
-      return matches.map((match) => (
-        <Button
-          className="button"
-          variant="contained"
-          key={++count}
-          onClick={function () { selectMatch(match) }}
-        >
-          {/* {getFlatUsername(match)} */}
-          {match.listingID}
-        </Button>
-      ))
-    }
-  }
-
-  //Method to get the username of the matched flat account
-  //Currently bugged, some of the code is present for debugging efforts
-  const getFlatUsername = async (match) => {
-    var matchedUser = [];
-    await instance.get('/listings/flatAccount/'.concat(match.listingID))
-      .then(res => {
-        matchedUser = res.data
-      });
-    console.log(matchedUser);
-    return matchedUser.username;
   }
 
   //Method for handling the buttons' onclick function, for the correct match
@@ -181,8 +158,6 @@ export default function Match(props) {
       // setMatches(tempMatches);
       tempMatches.forEach(match => {
         setMatches(matches => [...matches, match])
-        //This is here for debugging purposes
-        getFlatUsername(match)
       })
     }
 

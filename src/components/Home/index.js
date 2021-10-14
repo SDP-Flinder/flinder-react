@@ -56,7 +56,7 @@ export default function Home() {
                 {/* User should only be able to access this page when authorised, but just incase. Could remove check */}
                 {user.role == "flatee"?
                 //  If the user is a flatee, render this card
-                 <CardsForFlatee token = {user.token} username = {user.username}/>:
+                 <CardsForFlatee username = {user.username}/>:
                 // If the user is a flat, render this card. listingID = {?}
                 renderFlatButtons()}
             </div>
