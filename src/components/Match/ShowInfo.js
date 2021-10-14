@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
         minWidth: 500,
     },
     grid: {
-        padding: '1em' 
+        padding: '2em', 
+        border: '0.1em solid black'
     },
     rightGrid:{
         padding: '1em'
@@ -40,13 +41,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const renderFlatee = (classes, Listing) => (
     <Paper className = {classes.paper} variant = "outlined">
         <Grid container>
-            <Grid item xs = {5} className = {classes.grid}>
+            <Grid item xs = {12} className = {classes.grid}>
                 <Typography>
-                    Photo here
+                    Photo goes here
                 </Typography>
             </Grid>
 
-            <Grid container item xs = {7} spacing = {3} className = {classes.rightGrid}>
+            <Grid container item xs = {12} spacing = {3} className = {classes.rightGrid}>
                 <Grid item xs = {12} className = {classes.gridContent}>
                     <Typography variant = "h5">
                     {Listing.accountUser.firstName} {Listing.accountUser.lastName} 
@@ -130,13 +131,13 @@ const renderFlatee = (classes, Listing) => (
 const renderListing = (classes, person) => (
     <Paper className = {classes.paper} variant = "outlined">
         <Grid container>
-            <Grid item xs = {5} className = {classes.grid}>
+            <Grid item xs = {12} className = {classes.grid}>
                 <Typography>
-                    Photo here
+                    Photo goes here
                 </Typography>
             </Grid>
 
-            <Grid container item xs = {7} spacing = {3} className = {classes.rightGrid}>
+            <Grid container item xs = {12} spacing = {3} className = {classes.rightGrid}>
                 <Grid item xs = {12} className = {classes.gridContent}>
                     <Typography variant = "h5">
                     {person.firstName} {person.lastName} 
