@@ -32,15 +32,16 @@
   position: absolute;
   right: 0;
   margin: 3rem;
-  color: rgb(42, 51, 53) !important;
+  align-items: right;
   font-size: 1rem;
   stroke: black;
-  background: rgba(204, 204, 204, 0.5);
   border-radius: 2rem;
+  background: transparent;
 }
 
 .card .card-content h3 {
   position: absolute;
+  align-items: center;
   bottom: 0;
   margin: 1rem;
   color: white !important;

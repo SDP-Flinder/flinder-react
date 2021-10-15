@@ -21,6 +21,7 @@ import './styles.css';
 import * as moment from 'moment';
 // import session user state
 import { useAuth } from '../../App/Authentication';
+import ShowInfo from '../ShowInfo';
 
 // create cards component and export it
 const CardsForFlatee = (props) => {
@@ -95,24 +96,7 @@ const CardsForFlatee = (props) => {
 
       if (showMore) {
         const text = (
-          <h2 style={{
-            padding: 15,
-          }}
-          >
-            {`${Listing.accountUser.username}`}
-            <br />
-            {`Flat Description: ${Listing.listing.description}`}
-            <br />
-            {`Listing Description: ${Listing.accountUser.description}`}
-            <br />
-            {`Location: ${Listing.accountUser.address.suburb}`}
-            <br />
-            {`${Listing.accountUser.existingFlatmates} Flatmate(s)`}
-            <br />
-            {`$${Listing.listing.rent} ${Listing.listing.rentUnits}`}
-            <br />
-            {`Lease ends: ${moment(Listing.accountUser.leaseDate).format("DD/MM/YYYY")}`}
-          </h2>
+            <ShowInfo Listing = {Listing}/>
         );
         setReadMore(text);
       } else {
@@ -147,12 +131,12 @@ const CardsForFlatee = (props) => {
                 <body className="card-content">
                   {readMore}
                 </body>
-                <IconButton
+                {<IconButton
                   onClick={() => changeText(listing)}
                   className="see-more-button"
                 >
-                  <MoreVertIcon fontSize="large" />
-                </IconButton>
+                  <MoreVertIcon fontSize="large"/>
+                </IconButton>}
                 {/* Name */}
                 <h3>{listing.accountUser.username}</h3>
               </div>
