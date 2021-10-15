@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography, Container } from "@material-ui/core";
 import DeleteAccount from "./DeleteAccount";
 import { useAuth } from "../App/Authentication";
 import { Slide } from "@material-ui/core";
@@ -93,14 +93,15 @@ const renderUserInfo = (classes, user, handleClickOpen) => {
     const dob = moment(user.dob).format("YYYY,MMM,DD");
     const dobComponent = dob.split(',');
 
-    return (
-        <Grid item xs={12}>
-            <Paper variant="outlined" className={classes.paper}>
-                <Grid item xs container direction="row" spacing={1}>
-                    <Grid item xs={12}>
-                        <Typography className={classes.bold}>
-                            Basic Information
-                        </Typography>
+  return(
+    
+    <Grid item xs={12}>
+        <Paper variant="outlined" className={classes.paper}>
+            <Grid item xs container direction="row" spacing={1}>
+                <Grid item xs = {12}>
+                    <Typography className = {classes.bold}>
+                        Basic Information
+                    </Typography>
                     </Grid>
                     <Grid item xs={6}>
                         <Paper className={classes.infoDisplay}>Name</Paper>
@@ -366,116 +367,110 @@ const getUser = () => {
 }
 
 export default function Profile() {
-    const classes = useStyles();
-    const [user, setUser] = React.useState(getUser());
-    user.password = '';
-    if (!user.rentUnits) {
-        user.rentUnits = 'Per Week';
-    }
+  const classes = useStyles();
+  const [user,setUser]= React.useState(getUser());
+  user.password = '';
+  if(!user.rentUnits){
+    user.rentUnits = 'Per Week';
+  }
 
-    const leaseExpired = (new Date(user.leaseDate) < new Date());
+  const leaseExpired = (new Date(user.leaseDate) < new Date());
 
-    //open dialog
-    const [open, setOpen] = React.useState(false);
-    const [buttonID, setButtonID] = React.useState('');
+  //open dialog
+  const [open, setOpen] = React.useState(false);
+  const [buttonID, setButtonID] = React.useState('');
 
-    const handleClickOpen = (e) => {
-        console.log('id is ', e.currentTarget.id);
-        setButtonID(e.currentTarget.id);
-        setOpen(true);
-    };
+  const handleClickOpen = (e) => {
+    console.log('id is ',e.currentTarget.id);
+    setButtonID(e.currentTarget.id);
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const [confirmation, setConfirmation] = React.useState(false);
-    const handleConfirmationOpen = () => {
-        setConfirmation(true);
-    }
-    const handleConfirmationClose = () => {
-        window.location.reload();
-    }
+  const [confirmation, setConfirmation] = React.useState(false);
+  const handleConfirmationOpen = () => {
+      setConfirmation(true);
+  }
+  const handleConfirmationClose = () => {
+      window.location.reload();
+  }
 
-    return (
-        <div className={classes.root}>
-            <Paper className={classes.parentPaper}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} container>
-                        <Grid item xs={12}>
-                            <Typography variant="h5" className={classes.title}>
-                                Welcome to your profile, {user.firstName}
-                            </Typography>
-                            <br />
-                        </Grid>
-                        <Grid item xs container direction="column" spacing={3}>
-                            <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
-                                <Grid item xs={5}>
-                                    <Paper variant="outlined" className={classes.first}>
-                                        Photo goes here <br />
-                                        <Button variant="contained" color="primary">Add photo button</Button>
-                                    </Paper>
-                                </Grid>
-                            </Slide>
-                            <Grid item xs={7}>
-                                <Paper className={classes.second}>
-                                    <Grid item xs container direction="column" spacing={2}>
-                                        <Slide
-                                            direction="up" in={checked} mountOnEnter unmountOnExit
-                                        >
-                                            {renderUserInfo(classes, user, handleClickOpen)}
-                                        </Slide>
+  return (
+    <Container component="main" maxWidth="80%">
+      <Paper className={classes.parentPaper}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} container>
+            <Grid item xs container direction="column" spacing={3}>
+              <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
+              <Grid item xs={5}>
+                <Paper variant="outlined" className={classes.first}>
+                    Photo goes here <br/>
+                    <Button variant = "contained" color = "primary">Add photo button</Button>
+                </Paper>
+              </Grid>
+            </Slide>
+              <Grid item xs={7}>
+                <Paper className={classes.second}>
+                  <Grid item xs container direction="column" spacing={2}>
+                  <Slide 
+                  direction="up" in={checked} mountOnEnter unmountOnExit
+                  >
+                  {renderUserInfo(classes, user, handleClickOpen)}
+                  </Slide>
 
-                                        <Slide
-                                            direction="up" in={checked} mountOnEnter unmountOnExit
-                                        >
-                                            {renderAccountInfo(classes, user, handleClickOpen)}
-                                        </Slide>
+                  <Slide 
+                  direction="up" in={checked} mountOnEnter unmountOnExit
+                  >
+                  {renderAccountInfo(classes, user, handleClickOpen)}
+                  </Slide>
 
-                                        <Slide
-                                            direction="up" in={checked} mountOnEnter unmountOnExit
-                                        >
-                                            {user.role == 'flat' ? renderFlatInfo(classes, user, handleClickOpen, leaseExpired) :
-                                                renderFlateeInfo(classes, user, handleClickOpen)}
+                  <Slide 
+                  direction="up" in={checked} mountOnEnter unmountOnExit
+                  >
+                  {user.role == 'flat' ? renderFlatInfo(classes, user, handleClickOpen, leaseExpired) : 
+                  renderFlateeInfo(classes, user, handleClickOpen)}
 
-                                        </Slide>
+                  </Slide>
 
 
-                                        {user.role == 'flatee' &&
-                                            <Slide
-                                                direction="up" in={checked} mountOnEnter unmountOnExit
-                                            >
-                                                {renderFlateeBio(classes, user, handleClickOpen)}
-                                            </Slide>}
-                                    </Grid>
-                                </Paper>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-                <Slide
-                    direction="up" in={checked} mountOnEnter unmountOnExit
-                >
-                    <Grid item xs={12}>
-                        <Paper className={classes.standalone}>
-                            <DeleteAccount />
-                        </Paper>
-                    </Grid>
-                </Slide>
+                {user.role == 'flatee' &&
+                  <Slide 
+                  direction="up" in={checked} mountOnEnter unmountOnExit
+                  >
+                  {renderFlateeBio(classes, user, handleClickOpen)}
+                  </Slide>}
+                  </Grid>
+                </Paper>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Slide
+          direction="up" in={checked} mountOnEnter unmountOnExit
+        >
+          <Grid item xs={12}>
+            <Paper className={classes.standalone}>
+              <DeleteAccount />
             </Paper>
+          </Grid>
+        </Slide>
+      </Paper>
 
-            <EditDialog
-                buttonID={buttonID}
-                open={open}
-                handleClose={handleClose}
-                setUser={setUser}
-                handleConfirmationOpen={handleConfirmationOpen} />
+      <EditDialog 
+      buttonID = {buttonID} 
+      open = {open} 
+      handleClose = {handleClose} 
+      setUser={setUser}
+      handleConfirmationOpen = {handleConfirmationOpen}/>
 
-            <Confirmation
-                open={confirmation}
-                handleClickOpen={handleConfirmationOpen}
-                handleClose={handleConfirmationClose}
-            />
-        </div>
-    );
+      <Confirmation 
+      open = {confirmation}
+      handleClickOpen = {handleConfirmationOpen}
+      handleClose = {handleConfirmationClose}
+      />
+    </Container>
+  );
 }

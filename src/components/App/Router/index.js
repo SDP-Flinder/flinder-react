@@ -25,17 +25,11 @@ import { useLocation } from "react-router";
 const displayNav = (route) => {
   switch(route){
     case "/":
-      return true;
     case "/match":
-      return true;
     case "/profile":
-      return true;
     case "/listings":
-      return true;
     case "/listing/display":
-      return true;
     case "/newlisting":
-      return true;
     case "/updatelisting":
     case "/match/details":
       return true;
