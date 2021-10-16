@@ -181,7 +181,7 @@ export default function FilterDrawerForFlatee() {
       >
         Back
       </Button>
-      <h1>Filter</h1>
+      <h1 className="filterText">Filter</h1>
       <Divider>
         <Chip label="Price Range" />
       </Divider>
