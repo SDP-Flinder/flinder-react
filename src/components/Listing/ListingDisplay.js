@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { Grid } from '@material-ui/core';
+import { Chip, Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import * as moment from 'moment';
@@ -17,6 +17,7 @@ import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
 import CardsForListing from "../Match/cardsForListing/index";
 import Navigation from "../App/Navigation";
+import { Stack } from '@mui/material';
 
 function Copyright() {
   return (
@@ -228,7 +229,33 @@ function ListingDisplay(props) {
               { viewMatch &&
               <div>
               <h1>Description: {listing.description}</h1>
-              <h1>Utilities: {listing.utilities}</h1>
+              <h1>Utilities: </h1>
+            <Grid item xs = {12} >
+                    <br/>
+                    <Stack direction = "row" spacing = {2}>
+                        <Chip 
+                        label = "Power" 
+                        variant = {listing.utilities == undefined ? "outlined" : 
+                        (listing.utilities.power == false ? "outlined" : "default")}
+                        color = {listing.utilities == undefined ? "default" : 
+                        (listing.utilities.power == false ? "default" : "primary")}
+                        />
+                        <Chip 
+                        label = "Water" 
+                        variant = {listing.utilities == undefined ? "outlined" : 
+                        (listing.utilities.water == false ? "outlined" : "default")}
+                        color = {listing.utilities == undefined ? "default" : 
+                        (listing.utilities.water == false ? "default" : "primary")}
+                        />
+                        <Chip 
+                        label = "Internet" 
+                        variant = {listing.utilities == undefined ? "outlined" : 
+                        (listing.utilities.internet == false ? "outlined" : "default")} 
+                        color = {listing.utilities == undefined ? "default" : 
+                        (listing.utilities.internet == false ? "default" : "primary")}
+                        />
+                    </Stack>
+                </Grid>
               <h1>Rent: ${listing.rent} {listing.rentUnits}</h1>
               <h1>Available: {date}</h1>
               {renderSwitch()}

@@ -101,8 +101,9 @@ const renderFlatee = (classes, Listing) => (
                     </Typography>
                     <br/>
                     <Stack direction = "row" spacing = {2}>
-                        <Chip label = "Power" variant = "outlined"/>
-                        <Chip label = "Water" variant = "outlined"/>
+                        {Listing.listing.utilities.power && <Chip label = "Power" variant = "outlined"/>}
+                        {Listing.listing.utilities.water && <Chip label = "Water" variant = "outlined"/>}
+                        {Listing.listing.utilities.internet && <Chip label = "Internet" variant = "outlined"/>}
                     </Stack>
                 </Grid>
 
