@@ -162,6 +162,7 @@ export default function EditDialog(props) {
             preferredArea: newUser.preferredArea,
             checklist: newUser.checklist,
             rentUnits : newUser.rentUnits,
+            flatRules: newUser.flatRules,
         };
 
         if(buttonID == "pass"){
@@ -334,6 +335,7 @@ export default function EditDialog(props) {
             <DialogActions>
                 <Button onClick={checkData}>Cancel</Button>
                 <Button onClick={saveData}
+                id="save"
                 variant = "contained"
                 color = "primary"
                 >
