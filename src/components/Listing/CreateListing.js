@@ -103,6 +103,7 @@ function CreateListing(props) {
     }
   }
 
+  //Methods for changing state of the utilities, which triggers a change in the chips too
   const changePower = () => {
       setPower(!power);
   }

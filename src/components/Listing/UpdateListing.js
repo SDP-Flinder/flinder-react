@@ -133,11 +133,13 @@ function UpdateListing(props) {
     // }
   }
 
-  //Event handler for the active switch - the owner accoount is able to toggle whether the listing is available or not directly from the listing page, without having to oopen the update listing page
+  //Event handler for the active switch - the owner accoount is able to toggle whether the listing is 
+  //available or not directly from the listing page, without having to oopen the update listing page
   const handleChange = (event) => {
     setActive(event.target.checked);
   };
 
+  //Methods for changing state of the utilities, which triggers a change in the chips too
   const changePower = () => {
     setUtilities({...utilities, power: !utilities.power});
 }
@@ -173,6 +175,7 @@ const changeInternet = () => {
       setRoomAvailable(listing.roomAvailable);
       setRent(listing.rent);
       setRentUnits(listing.rentUnits);
+      //Here just to support legacy listings
         if (listing.utilities === undefined) {
             setUtilities({power: false, water: false, internet: false})
         } else {
