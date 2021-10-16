@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-date-picker';
 import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
-import { Grid, InputLabel, MenuItem } from '@material-ui/core';
+import { Chip, Typography, Grid, InputLabel, MenuItem } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -16,11 +16,11 @@ import { useAuth } from '../App/Authentication';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
 import Navigation from "../App/Navigation";
+import { Stack } from '@mui/material';
 
 function Copyright() {
   return (
@@ -72,7 +72,9 @@ function UpdateListing(props) {
   const [roomAvailable, setRoomAvailable] = useState(new Date());
   const [rent, setRent] = useState(0);
   const [rentUnits, setRentUnits] = useState('');
-  const [utilities, setUtilities] = useState('');
+  const [utilities, setUtilities] = useState({
+      power: false, water: false, internet: false
+  });
   const [active, setActive] = useState(true);
 
   //Method to check if an error is detected on form submit - rent can't be $0
@@ -131,10 +133,24 @@ function UpdateListing(props) {
     // }
   }
 
-  //Event handler for the active switch - the owner accoount is able to toggle whether the listing is available or not directly from the listing page, without having to oopen the update listing page
+  //Event handler for the active switch - the owner accoount is able to toggle whether the listing is 
+  //available or not directly from the listing page, without having to oopen the update listing page
   const handleChange = (event) => {
     setActive(event.target.checked);
   };
+
+  //Methods for changing state of the utilities, which triggers a change in the chips too
+  const changePower = () => {
+    setUtilities({...utilities, power: !utilities.power});
+}
+
+const changeWater = () => {
+    setUtilities({...utilities, water: !utilities.water});
+}
+
+const changeInternet = () => {
+    setUtilities({...utilities, internet: !utilities.internet});
+}
 
   //Load the listing passed by the previous page from the DB
   useEffect(() => {
@@ -159,7 +175,12 @@ function UpdateListing(props) {
       setRoomAvailable(listing.roomAvailable);
       setRent(listing.rent);
       setRentUnits(listing.rentUnits);
-      setUtilities(listing.utilities);
+      //Here just to support legacy listings
+        if (listing.utilities === undefined) {
+            setUtilities({power: false, water: false, internet: false})
+        } else {
+            setUtilities(listing.utilities)
+        }
     }
   }, [listing])
 
@@ -196,21 +217,6 @@ function UpdateListing(props) {
             </div>
             <br /><br /><br /><br />
             <div>
-              <FormControl>
-                <TextField className="input"
-                  label="Utilities"
-                  multiline
-                  maxRows={2}
-                  minRows={2}
-                  required
-                  variant="outlined"
-                  value={utilities}
-                  onChange={(e) => { setUtilities(e.target.value) }}
-                />
-              </FormControl>
-            </div>
-            <br /><br /><br />
-            <div>
               <InputLabel
                 error={isInvalid.rent}
               > Rent Amount (in $NZ)</InputLabel>
@@ -246,6 +252,31 @@ function UpdateListing(props) {
               </FormControl>
             </div>
             <br /><br />
+            <InputLabel>Utilities Included</InputLabel>
+            <Grid item xs = {12} >
+                    <br/>
+                    <Stack direction = "row" spacing = {2}>
+                        <Chip 
+                        label = "Power" 
+                        variant = {utilities.power == false ? "outlined" : "default"}
+                        onClick ={changePower}
+                        color = {utilities.power == false ? "default" : "primary"}
+                        />
+                        <Chip 
+                        label = "Water" 
+                        variant = {utilities.water == false ? "outlined" : "default"}
+                        onClick ={changeWater}
+                        color = {utilities.water == false ? "default" : "primary"}
+                        />
+                        <Chip 
+                        label = "Internet" 
+                        variant = {utilities.internet == false ? "outlined" : "default"} 
+                        onClick ={changeInternet}
+                        color = {utilities.internet == false ? "default" : "primary"}
+                        />
+                    </Stack>
+                </Grid>
+            <br/>
             <div>
               <InputLabel>Available From:</InputLabel>
               <DatePicker
