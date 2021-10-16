@@ -34,7 +34,7 @@ const CardsForFlatee = (props) => {
   const childRefs = useMemo(() => Array(listings.length).fill(0).map((i) => React.createRef()));
 
   const AuthString = 'Bearer '.concat(jwt);
-  const flateeUser = props.username; // RETRIEVE FLATEE_USERNAME
+  const flateeUser = user.username; // RETRIEVE FLATEE_USERNAME
   let matchparam = {
     flateeUsername: flateeUser,
   };
@@ -50,6 +50,7 @@ const CardsForFlatee = (props) => {
           setListings(res.data);
         });
     }
+
     fetchListings();
   }, []);
 
@@ -144,6 +145,7 @@ const CardsForFlatee = (props) => {
           ))}
         </div>
         {/* Swipe buttons */}
+        {listings.length > 0 &&
         <div className="swipe-buttons">
           <IconButton
             onClick={() => swipe('left')}
@@ -157,7 +159,7 @@ const CardsForFlatee = (props) => {
           >
             <FavoriteIcon fontSize="large" />
           </IconButton>
-        </div>
+        </div>}
       </div>
     </>
   );

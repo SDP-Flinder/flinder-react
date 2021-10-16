@@ -227,7 +227,7 @@ export default function Navigation(props) {
 
   return (
     <div className={classes.grow}>
-      <React.Fragment>
+      <React.Fragment >
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -267,9 +267,8 @@ export default function Navigation(props) {
           <div className={classes.sectionDesktop}>
             {props.currentPath == "home" &&
             <IconButton 
-            aria-label="filter search"
-            onClick = {() => window.alert('This button is to filter the profiles')} 
-            color="inherit">
+              aria-label="filter search"
+              color="inherit">
               <Badge color="secondary">
                 <ManageSearchIcon />
               </Badge>
