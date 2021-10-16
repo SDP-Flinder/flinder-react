@@ -88,9 +88,7 @@ function ListingList(props) {
 
       setListings(listings.data);
     }
-    // if (user.role === 'flat') {
     getListings();
-    // }
   }, [user, jwt])
 
   return (
@@ -120,7 +118,6 @@ function ListingList(props) {
             Create Listing
           </Button>
         </ButtonGroup>
-        {/* </Grid> */}
       </div>
       <Box mt={8}>
         <Copyright />

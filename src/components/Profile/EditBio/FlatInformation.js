@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Grid, Paper } from '@mui/material';
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
-import { InputLabel } from '@material-ui/core';
+import { InputLabel, Typography } from '@material-ui/core';
 import DatePicker from 'react-date-picker';
 import moment from 'moment';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -163,8 +163,13 @@ const FlatInformation = (props) => {
           />
         </Grid>
 
-        <div className="action-checkboxes">
-          <Grid item xs={6}>
+        <Grid item container>
+          <Grid item xs = {12}>
+            <Typography variant = "body2">
+              Flat Rules
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
             <FormGroup component="fieldset">
               <FormControlLabel
                 control={<Checkbox
@@ -189,7 +194,7 @@ const FlatInformation = (props) => {
             </FormGroup>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <FormGroup component="fieldset">
               <FormControlLabel
                 control={<Checkbox
@@ -213,7 +218,7 @@ const FlatInformation = (props) => {
               />
             </FormGroup>
           </Grid>
-        </div>
+        </Grid>
 
         <Grid item xs={9}>
           <InputLabel> Lease Date </InputLabel>

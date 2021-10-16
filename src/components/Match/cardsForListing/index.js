@@ -19,6 +19,7 @@ import {
 import './styles.css';
 // import session user state
 import { useAuth } from '../../App/Authentication';
+import ShowInfo from '../ShowInfo';
 
 // create cards component and export it
 const CardsForListing = (props) => {
@@ -49,7 +50,7 @@ const CardsForListing = (props) => {
     }
 
     fetchData();
-  }, []);
+  }, [listingID]);
 
   // swipe function
   const swiped = (direction, targetName) => {
@@ -93,16 +94,7 @@ const CardsForListing = (props) => {
         smoker = 'no';
       }
       const text = (
-        <h2 style={{
-          padding: 15,
-        }}
-        >
-          {`Preferred City: ${person.preferredArea.city}`}
-          <br />
-          {`Preferred Suburb: ${person.preferredArea.suburb}`}
-          <br />
-          {`Smoker: ${smoker}`}
-        </h2>
+          <ShowInfo person = {person} showMore = {showMore} setShowMore = {setShowMore}/>
       );
       setReadMore(text);
     } else {

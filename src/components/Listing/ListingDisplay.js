@@ -34,6 +34,7 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
+    marginBottom: 30,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -62,6 +63,8 @@ function ListingDisplay(props) {
   const [active, setActive] = useState(true);
   const [button, setButton] = useState(0);
   const [owner, setOwner] = useState(false);
+
+  const [viewMatch, setViewMatch] = useState(true);
 
   //Submit button for deleting the selected listing
   const onSubmit = (e) => {
@@ -184,6 +187,10 @@ function ListingDisplay(props) {
     }
   }, [user, listing])
 
+  const viewListingMatches = () => {
+    setViewMatch(!viewMatch);
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -197,6 +204,7 @@ function ListingDisplay(props) {
             justifyContent="center"
             alignItems="center"
           >
+            {viewMatch &&
             <ButtonGroup variant="contained" color="primary">
               <Button
                 className="button"
@@ -212,20 +220,38 @@ function ListingDisplay(props) {
               >
                 Create Listing
               </Button>
-            </ButtonGroup>
+            </ButtonGroup>}
 
             {/* Placeholder listing information - will replace with a more elegant display, such as cards, once developed */}
 
             <div>
-
+              { viewMatch &&
+              <div>
               <h1>Description: {listing.description}</h1>
               <h1>Utilities: {listing.utilities}</h1>
               <h1>Rent: ${listing.rent} {listing.rentUnits}</h1>
               <h1>Available: {date}</h1>
               {renderSwitch()}
               {renderButtons()}
-              <CardsForListing token={user.token} listingID={listing.id} />
+              <br/>
+              <br/>
+              </div>
+              }
             </div>
+            <Grid item>
+            <Button variant = "outlined" color = "primary"
+                onClick = {viewListingMatches}
+                >
+                  <Typography variant = "subtitle1">
+                  {viewMatch? 'My potential flatties' : 'View Listing Details'}
+                  </Typography>
+            </Button>
+            </Grid>
+              { !viewMatch &&
+                <Grid item>
+                <CardsForListing listingID={listing.id} />
+                </Grid>
+              }
           </Grid>
         </form>
       </div>
