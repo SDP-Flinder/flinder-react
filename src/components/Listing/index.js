@@ -12,6 +12,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
 import Navigation from "../App/Navigation";
+import Grid from '@mui/material/Grid';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Tooltip } from '@material-ui/core';
+import { Grow } from '@material-ui/core';
+
+const checked = true;
 
 function Copyright() {
   return (
@@ -44,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  button: {
+    borderRadius: 10,
+    width: 100,
+    height: 100,
+    margin: 10  
+  },
 }));
 
 //Shows the current user all listings they have created, along with the ooption to create a new listing
@@ -64,14 +77,30 @@ function ListingList(props) {
   const renderButtons = () => {
     let count = 0;
     return listings.map((listing) => (
-      <Button
-        className="button"
-        variant="contained"
-        key={listing.id}
-        onClick={function () { selectListing(listing.id) }}
-      >
-        {++count}
-      </Button>
+      <>
+        <Grow
+          in={checked}
+          style={{ transformOrigin: '0 0 0' }}
+          {...(checked ? { timeout: 1000 + count*300 } : {})}
+        >
+            <Button       
+              key={listing.id}
+              className= {classes.button}
+              variant="contained"
+              onClick={function () { selectListing(listing.id) }}
+            >
+              <Grid container alignItems = "center" justifyContent = "center">
+              <Grid item xs = {12}>
+                  <MeetingRoomIcon color = "primary"/>
+              </Grid>
+
+              <Grid item xs = {12}>
+              {++count}
+              </Grid>
+              </Grid>
+            </Button>
+      </Grow>
+      </>
     ))
   }
 
@@ -98,9 +127,19 @@ function ListingList(props) {
       <div className={classes.paper}>
         <br />
         <Typography component="h1" variant="h5">
-          Listings
+          Your Listings
         </Typography>
+        <Grid containder  direction = "row">
+          <Tooltip title = "Add new listing">
+          <Button variant = "contained" color = "primary" className = {classes.button}
+            component={RouterLink}
+            to="/newlisting"
+            >
+                <AddCircleIcon/>
+          </Button>
+          </Tooltip>
         {renderButtons()}
+        </Grid>
         <br />
         <ButtonGroup variant="contained" color="primary">
           <Button
@@ -108,14 +147,7 @@ function ListingList(props) {
             component={RouterLink}
             to="/"
           >
-            Account
-          </Button>
-          <Button
-            className="button"
-            component={RouterLink}
-            to="/newlisting"
-          >
-            Create Listing
+            Home
           </Button>
         </ButtonGroup>
       </div>
