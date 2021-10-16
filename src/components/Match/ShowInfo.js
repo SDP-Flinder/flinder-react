@@ -108,6 +108,21 @@ const renderFlatee = (classes, Listing) => (
 
                 <Grid item xs = {12} >
                     <Typography variant = "overline" className = {classes.gridContent}>
+                        Flat Rules
+                    </Typography>
+                    <br/>
+                    <Stack direction = "row" spacing = {2}>
+                        <Chip label = "Pets"
+                        color = {Listing.accountUser.flatRules == undefined ? "default" : 
+                            (Listing.accountUser.flatRules.pets == true ? "primary" : "default")}/>
+                        <Chip label = "Smoking"
+                        color = {Listing.accountUser.flatRules == undefined ? "default" : 
+                            (Listing.accountUser.flatRules.smoking == true ? "primary" : "default")}/>
+                    </Stack>
+                </Grid>
+
+                <Grid item xs = {12} >
+                    <Typography variant = "overline" className = {classes.gridContent}>
                         About the flat
                     </Typography>
                     <br/>
@@ -124,7 +139,7 @@ const renderFlatee = (classes, Listing) => (
                     <Typography>
                         {Listing.accountUser.existingFlatmates}
                     </Typography>
-                </Grid>
+                </Grid>         
             </Grid>
         </Grid>
     </Paper>
