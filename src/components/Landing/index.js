@@ -69,6 +69,7 @@ export default function Landing({ location }) {
           Welcome to {Config.AppName}
         </Typography>
           <Button
+            id="sign-in"
             type="button"
             component={RouterLink} 
             to="/login" 
@@ -80,6 +81,7 @@ export default function Landing({ location }) {
             Sign In
           </Button>
           <Button
+            id="sign-up"
             type="button"
             component={RouterLink} 
             to="/register" 
