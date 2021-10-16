@@ -67,7 +67,6 @@ function CreateListing(props) {
   const [roomAvailable, setRoomAvailable] = useState(currentDate);
   const [rent, setRent] = useState(0);
   const [rentUnits, setRentUnits] = useState("");
-  const [utilities, setUtilities] = useState({});
   const [power, setPower] = useState(false);
   const [water, setWater] = useState(false);
   const [internet, setInternet] = useState(false);
@@ -106,22 +105,18 @@ function CreateListing(props) {
 
   const changePower = () => {
       setPower(!power);
-      console.log(power);
   }
 
   const changeWater = () => {
-    setPower(!water);
-    console.log(water);
+    setWater(!water);
 }
 
 const changeInternet = () => {
-    setPower(!internet);
-    console.log(internet);
+    setInternet(!internet);
 }
 
   //Axios method to post the new listing to the DB
   const createNewListing = async () => {
-    // if (props.user.role === 'flat') {
     const URL = 'http://localhost:4000/listings/add/'
 
     const config = {
@@ -134,12 +129,15 @@ const changeInternet = () => {
       roomAvailable: roomAvailable,
       rent: rent,
       rentUnits: rentUnits,
-      utilities: utilities,
+      utilities: {
+          power: power,
+          water: water,
+          internet: internet,
+      },
       active: true
     };
 
     axios.post(URL, bodyParameters, config);
-    // }
   }
 
   return (
@@ -214,9 +212,24 @@ const changeInternet = () => {
             <Grid item xs = {12} >
                     <br/>
                     <Stack direction = "row" spacing = {2}>
-                        <Chip id = "power" label = "Power" variant = "outlined" onClick ={changePower}/>
-                        <Chip id = "water" label = "Water" variant = "outlined" onClick ={changeWater}/>
-                        <Chip id = "internet" label = "Internet" variant = "outlined" onClick ={changeInternet}/>
+                        <Chip 
+                        label = "Power" 
+                        variant = {power == false ? "outlined" : "default"}
+                        onClick ={changePower}
+                        color = {power == false ? "default" : "primary"}
+                        />
+                        <Chip 
+                        label = "Water" 
+                        variant = {water == false ? "outlined" : "default"}
+                        onClick ={changeWater}
+                        color = {water == false ? "default" : "primary"}
+                        />
+                        <Chip 
+                        label = "Internet" 
+                        variant = {internet == false ? "outlined" : "default"} 
+                        onClick ={changeInternet}
+                        color = {internet == false ? "default" : "primary"}
+                        />
                     </Stack>
                 </Grid>
                 <br/>
