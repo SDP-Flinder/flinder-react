@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { Chip, Grid, Slide } from '@material-ui/core';
+import { Chip, Grid, IconButton, Slide } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import * as moment from 'moment';
@@ -18,7 +18,7 @@ import { Config } from '../../config';
 import CardsForListing from "../Match/cardsForListing/index";
 import Navigation from "../App/Navigation";
 import { Stack } from '@mui/material';
-import Zoom from '@mui/material/Zoom';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 //Transition effect
 const zoom = true;
@@ -90,7 +90,7 @@ function ListingDisplay(props) {
     }
     if (button === 2) {
       deleteListing();
-      props.history.push('/listings');
+      props.history.push('/');
     }
   }
 
@@ -218,7 +218,7 @@ function ListingDisplay(props) {
             justifyContent="center"
             alignItems="center"
           >
-            {viewMatch &&
+            {/* {viewMatch &&
             <ButtonGroup variant="contained" color="primary">
               <Button
                 className="button"
@@ -234,13 +234,28 @@ function ListingDisplay(props) {
               >
                 Create Listing
               </Button>
-            </ButtonGroup>}
+            </ButtonGroup>} */}
 
             {/* Placeholder listing information - will replace with a more elegant display, such as cards, once developed */}
             <div>
               { viewMatch &&
               <>
               <Grid container spacing = {2} className = {classes.info}>
+                <Grid item xs = {2}>
+                  <Button
+                  component={RouterLink}
+                  to="/">
+                      <ArrowBackIosIcon color = "primary"/>
+                      <Typography variant = "button" color = "primary">
+                      Back
+                      </Typography>
+                  </Button>
+                </Grid>
+                <Grid item xs = {12}>
+                  <Typography variant = "h5">
+                    Listing #{listing.id}
+                  </Typography>
+                </Grid>
                 <Grid item xs = {12}>
                   <Slide in={zoom} direction = "up">
                   <div >

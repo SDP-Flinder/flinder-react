@@ -106,7 +106,7 @@ function UpdateListing(props) {
       setInvalid(newError.invalid);
     } else {
       updateCurrentListing();
-      props.history.push('/listings');
+      props.history.push('/');
     }
   }
 
@@ -311,7 +311,7 @@ const changeInternet = () => {
               <Button
                 className="button"
                 component={RouterLink}
-                to="/listings"
+                to="/"
               >
                 Cancel
               </Button>

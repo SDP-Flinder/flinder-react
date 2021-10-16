@@ -99,7 +99,7 @@ function CreateListing(props) {
       setInvalid(newError.invalid);
     } else {
       createNewListing();
-      props.history.push('/listings');
+      props.history.push('/');
     }
   }
 
@@ -255,7 +255,7 @@ const changeInternet = () => {
               </Button>
               <Button className="button"
                 component={RouterLink}
-                to="/listings"
+                to="/"
               >
                 Cancel
               </Button>

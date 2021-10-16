@@ -9,6 +9,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box } from "@mui/system";
 import { CssBaseline } from "@material-ui/core";
 import BottomNav from '../App/Navigation/BottomNav';
+import ListingList from "../Listing/";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,7 +59,7 @@ export default function Home() {
                 //  If the user is a flatee, render this card
                  <CardsForFlatee username = {user.username}/>:
                 // If the user is a flat, render this card. listingID = {?}
-                renderFlatButtons()}
+                <ListingList/>}
             </div>
             </Box>
         </>

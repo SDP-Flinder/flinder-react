@@ -17,8 +17,7 @@ import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Tooltip } from '@material-ui/core';
 import { Grow } from '@material-ui/core';
-
-const checked = true;
+import { withRouter } from 'react-router';
 
 function Copyright() {
   return (
@@ -35,7 +34,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(1),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -64,9 +63,11 @@ function ListingList(props) {
   const classes = useStyles();
   const { user, jwt } = useAuth();
   const [listings, setListings] = useState([]);
+  const [checked, setChecked] = useState(true);
 
   //Passes the selected listing to the listing page for displaying
   function selectListing(id) {
+    setChecked(false);
     props.history.push({
       pathname: '/listing/display',
       state: { id: id },
@@ -125,7 +126,6 @@ function ListingList(props) {
       <CssBaseline />
       <Navigation />
       <div className={classes.paper}>
-        <br />
         <Typography component="h1" variant="h5">
           Your Listings
         </Typography>
@@ -140,16 +140,6 @@ function ListingList(props) {
           </Tooltip>
         {renderButtons()}
         </Grid>
-        <br />
-        <ButtonGroup variant="contained" color="primary">
-          <Button
-            className="button"
-            component={RouterLink}
-            to="/"
-          >
-            Home
-          </Button>
-        </ButtonGroup>
       </div>
       <Box mt={8}>
         <Copyright />
@@ -158,4 +148,4 @@ function ListingList(props) {
   );
 }
 
-export default ListingList;
+export default withRouter(ListingList);

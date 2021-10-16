@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 10,
   },
   info: {
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
 }))
 
 const checked = true;
