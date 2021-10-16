@@ -89,7 +89,7 @@ export default function Match(props) {
             <Grid>
               <Typography variant = "body1" className = {classes.info}>
                   {user.role == 'flat' ? match.flateeUsername : 
-                  (match.listingUsername == undefined ? match.listingID 
+                  (match.listingUsername == undefined ? `#${match.listingID.slice(-3)}`
                   : match.listingUsername)}
               </Typography>
             </Grid>
