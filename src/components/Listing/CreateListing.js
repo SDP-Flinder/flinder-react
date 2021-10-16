@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-date-picker';
 import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
-import { Grid, InputLabel, MenuItem } from '@material-ui/core';
+import { Chip, Typography, Grid, InputLabel, MenuItem } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -14,11 +14,11 @@ import { useAuth } from '../App/Authentication';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
 import Navigation from "../App/Navigation";
+import { Stack } from '@mui/material';
 
 function Copyright() {
   return (
@@ -67,7 +67,10 @@ function CreateListing(props) {
   const [roomAvailable, setRoomAvailable] = useState(currentDate);
   const [rent, setRent] = useState(0);
   const [rentUnits, setRentUnits] = useState("");
-  const [utilities, setUtilities] = useState("");
+  const [utilities, setUtilities] = useState({});
+  const [power, setPower] = useState(false);
+  const [water, setWater] = useState(false);
+  const [internet, setInternet] = useState(false);
 
   //Method to check if an error is detected on form submit - rent can't be $0
   const findError = () => {
@@ -100,6 +103,21 @@ function CreateListing(props) {
       props.history.push('/listings');
     }
   }
+
+  const changePower = () => {
+      setPower(!power);
+      console.log(power);
+  }
+
+  const changeWater = () => {
+    setPower(!water);
+    console.log(water);
+}
+
+const changeInternet = () => {
+    setPower(!internet);
+    console.log(internet);
+}
 
   //Axios method to post the new listing to the DB
   const createNewListing = async () => {
@@ -157,21 +175,6 @@ function CreateListing(props) {
             </div>
             <br /><br /><br /><br />
             <div>
-              <FormControl>
-                <TextField className="input"
-                  label="Utilities"
-                  multiline
-                  maxRows={2}
-                  minRows={2}
-                  required
-                  variant="outlined"
-                  value={utilities}
-                  onChange={(e) => { setUtilities(e.target.value) }}
-                />
-              </FormControl>
-            </div>
-            <br /><br /><br />
-            <div>
               <InputLabel
                 error={isInvalid.rent}
               > Rent Amount (in $NZ)</InputLabel>
@@ -207,6 +210,16 @@ function CreateListing(props) {
               </FormControl>
             </div>
             <br /><br />
+            <InputLabel>Utilities Included</InputLabel>
+            <Grid item xs = {12} >
+                    <br/>
+                    <Stack direction = "row" spacing = {2}>
+                        <Chip id = "power" label = "Power" variant = "outlined" onClick ={changePower}/>
+                        <Chip id = "water" label = "Water" variant = "outlined" onClick ={changeWater}/>
+                        <Chip id = "internet" label = "Internet" variant = "outlined" onClick ={changeInternet}/>
+                    </Stack>
+                </Grid>
+                <br/>
             <div>
               <InputLabel>Available From:</InputLabel>
               <DatePicker
