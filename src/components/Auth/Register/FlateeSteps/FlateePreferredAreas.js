@@ -73,13 +73,19 @@ const FlateePreferredAreas = (props) => {
       //Set the preferred suburb to ALL if the user leaves this field blank
       if(suburb.length == 0){
         if(regionbDisplay.length != 0){
-          preferredArea.suburb.push(suburbDisplay);
+          for(let k =0; k<repo.length;k++){
+              if(repo[k].region.name == region){
+                preferredArea.suburb.push(...repo[k].region.suburb);
+              }
+            }
         } 
 
         if(region == ''){
           for(let k =0; k<repo.length;k++){
-            preferredArea.suburb.push(...repo[k].region.suburb);
-          }
+              if (repo[k].city == city){
+                preferredArea.suburb.push(...repo[k].region.suburb);
+              }
+            }
         }
       }
 
