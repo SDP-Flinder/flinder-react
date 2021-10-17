@@ -113,7 +113,7 @@ const FlateeInformation = (props) => {
                     </FormGroup>
                 </Grid>
 
-                <Grid item xs = {12} direction = "row">
+                {/* <Grid item xs = {12} direction = "row">
                         <Grid item xs = {12}>
                         <Typography variant = "h6">
                             Price Range
@@ -221,7 +221,7 @@ const FlateeInformation = (props) => {
                     <MenuItem value="Per Fortnight">Per Fortnight</MenuItem>
                     <MenuItem value="Per Month">Per Month</MenuItem>
                     </TextField>
-                </Grid>
+                </Grid> */}
             </Grid>
             <br/>
             <br/>

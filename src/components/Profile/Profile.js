@@ -293,7 +293,7 @@ const renderFlateeInfo = (classes, user, handleClickOpen) => (
                         {user.checklist.hasPet ? "Yes" : "No"}
                     </Paper>
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <Typography className={classes.bold}>
                         Flatee Preferences
                     </Typography>
@@ -314,7 +314,7 @@ const renderFlateeInfo = (classes, user, handleClickOpen) => (
                     <Paper className={classes.userInfo}>
                         {user.rentUnits ? user.rentUnits : "Per Week"}
                     </Paper>
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12}>
                     <Button variant="contained" color="primary"
