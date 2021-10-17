@@ -99,7 +99,7 @@ function CreateListing(props) {
       setInvalid(newError.invalid);
     } else {
       createNewListing();
-      props.history.push('/listings');
+      props.history.push('/');
     }
   }
 
@@ -150,6 +150,7 @@ const changeInternet = () => {
         <Typography component="h1" variant="h5">
           Create New Listing
         </Typography>
+        <br />
         <form onSubmit={onSubmit}>
           <Grid
             container
@@ -254,7 +255,7 @@ const changeInternet = () => {
               </Button>
               <Button className="button"
                 component={RouterLink}
-                to="/listings"
+                to="/"
               >
                 Cancel
               </Button>

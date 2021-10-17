@@ -6,6 +6,7 @@ import CardsForFlatee from "../Match/cardsForFlatee/index";
 import FilterDrawerForFlatee from "../Match/filterDrawerForFlatee/index";
 import { Link as RouterLink } from 'react-router-dom';
 import { Box } from "@mui/system";
+import ListingList from "../Listing/";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -42,7 +43,7 @@ export default function Home() {
   }
 
   const blank = () => (
-    console.log("hello")
+    console.log("No filter drawer for flat acc. Future user stories needed.")
   );
 
     return (
@@ -62,7 +63,7 @@ export default function Home() {
                 //  If the user is a flatee, render this card
                  <CardsForFlatee/>:
                 // If the user is a flat, render this card. listingID = {?}
-                renderFlatButtons()}
+                <ListingList/>}
             </div>
             </Box>
         </>

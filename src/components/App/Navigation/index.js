@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import {ReactComponent as FlinderLogo} from '../../../assets/logo-white.svg';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, Tooltip } from '@material-ui/core';
 // import { InputBase } from '@material-ui/core';
 // import SearchIcon from '@mui/icons-material/Search';
 
@@ -243,7 +243,9 @@ export default function Navigation(props) {
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
           >
+              <Tooltip title = "Go to home page">
               <FlinderLogo className ="small-logo"/>
+              </Tooltip>
           </Button>
           {/* <Grid container justifyContent = "center">
           <Typography className={classes.title} variant="h5" noWrap>
