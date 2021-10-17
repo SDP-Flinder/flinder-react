@@ -160,7 +160,7 @@ class Notification extends React.Component {
                       const amOrpm = hours >= 12 ? "pm" : "am";
                       return (
                         <div key = {k}
-                          style={{ background: "#fff", padding: "5px" }}
+                          style={{ background: "#fff", padding: "15px", borderRadius: 10 }}
                           className={"lineItmes"}
                         >
                           <span
