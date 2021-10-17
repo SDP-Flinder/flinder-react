@@ -175,12 +175,7 @@ const changeInternet = () => {
       setRoomAvailable(listing.roomAvailable);
       setRent(listing.rent);
       setRentUnits(listing.rentUnits);
-      //Here just to support legacy listings
-        if (listing.utilities === undefined) {
-            setUtilities({power: false, water: false, internet: false})
-        } else {
-            setUtilities(listing.utilities)
-        }
+      setUtilities(listing.utilities)
     }
   }, [listing])
 
