@@ -16,6 +16,7 @@
     z-index: 1;
     background: #f4f4f4;
     color: initial;
+    border-radius: 20px;
 }
 .notification:hover .notificationBar {
     display: block;
