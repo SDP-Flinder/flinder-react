@@ -460,7 +460,13 @@ export default function FilterDrawerForFlatee() {
         {
           if(regionbDisplay.length != 0)
           {
-            preferredArea.suburb.push(suburbDisplay);
+            for(let k =0; k<repo.length;k++)
+            {
+              if(repo[k].region.name == region)
+              {
+                preferredArea.suburb.push(...repo[k].region.suburb);
+              }
+            }
           } 
   
           if(region == '')
