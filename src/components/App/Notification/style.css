@@ -16,7 +16,6 @@
     z-index: 1;
     background: #f4f4f4;
     color: initial;
-    border-radius: 20px;
 }
 .notification:hover .notificationBar {
     display: block;
@@ -39,10 +38,4 @@
     right: 0;
     bottom: 13px;
     left: 12px;
-}
-.button {
-    border-radius: 10;
-    width: 250;
-    height: 75;
-    margin: 10;
 }
