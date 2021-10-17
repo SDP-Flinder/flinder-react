@@ -6,7 +6,7 @@ import axios from 'axios';
 import './styles.css';
 import { Box } from "@mui/system";
 import { MenuItem, IconButton, Button, Checkbox, Input, 
-  InputLabel, Select, TextField, makeStyles } from '@material-ui/core';
+  InputLabel, Select, TextField, makeStyles, Typography } from '@material-ui/core';
 import { Grid, FormGroup, FormControlLabel, Chip, Divider, 
   FormControl, InputAdornment, Drawer} from '@mui/material';
 
@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(0),
       minWidth: 150,
     },
+    listDisplay: {
+      margin: 30,
+    }
   }));
   
 const ITEM_HEIGHT = 48;
@@ -186,8 +189,11 @@ export default function FilterDrawerForFlatee() {
   const list = () => (
     <Box
       role="presentation"
+      className = {classes.listDisplay}
     >
-      <h1 className="filterText">Filter</h1>
+      <Typography variant = "h4" 
+      className = "filterText"
+      >Filter</Typography>
       <Divider>
         <Chip label="Are you..." />
       </Divider>
@@ -247,8 +253,8 @@ export default function FilterDrawerForFlatee() {
         <Chip label="Price Range" />
       </Divider>
       <br/>
-      <Grid item xs = {12} direction = "row">
-        <Grid item>
+      <Grid item container xs = {12} direction = "row" justifyContent = "space-around">
+        <Grid item spacing = {2}>
           <FormControl 
             variant="outlined"
           >
@@ -276,7 +282,9 @@ export default function FilterDrawerForFlatee() {
                 ))}
             </Select>
           </FormControl>
-                      
+        </Grid>
+
+        <Grid item>          
           <FormControl 
             variant="outlined"
           >
@@ -332,7 +340,7 @@ export default function FilterDrawerForFlatee() {
       <br/>
       <Grid item>
       <FormControl variant="standard" className={classes.formControl}>
-        <InputLabel > City (If you wish to change location(s)) </InputLabel>
+        <InputLabel > City (If you wish to change location) </InputLabel>
         <Select
           native
           name = "city"
@@ -417,7 +425,9 @@ export default function FilterDrawerForFlatee() {
         </Grid>}
       <br/>
       <Button 
-        className="filter"
+        className = "filter"
+        variant = "contained"
+        color = "primary"
         size="large"
         onClick={() => submit()}
       >

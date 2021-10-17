@@ -1,6 +1,5 @@
 .filter {
     color: white !important;
-    background-color: darkgreen !important;
     display: grid !important;
     margin: auto !important;
 }
@@ -17,4 +16,5 @@
 
 .filterText {
     margin-left: 2rem;
+    padding: 0.1em;
 }
