@@ -10,13 +10,13 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { Config } from '../../../config';
 import { useAuth } from "../Authentication";
 import { Link } from 'react-router-dom';
 import {ReactComponent as FlinderLogo} from '../../../assets/logo-white.svg';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { Button, Grid, Tooltip } from '@material-ui/core';
+import FilterDrawerForFlatee from '../../Match/filterDrawerForFlatee';
 // import { InputBase } from '@material-ui/core';
 // import SearchIcon from '@mui/icons-material/Search';
 
@@ -143,6 +143,7 @@ export default function Navigation(props) {
   const [open, setOpen] = React.useState(false);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const {user} = useAuth();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -266,6 +267,7 @@ export default function Navigation(props) {
             />
           </div>  */}
           <div className={classes.grow} />
+          {(user.role == "flatee" && props.pageName == "Home")? <FilterDrawerForFlatee/> : null}
           <div className={classes.sectionDesktop}>
             {useAuth().isAuthed ? (
             <IconButton component={Link} to="/logout"
@@ -278,6 +280,7 @@ export default function Navigation(props) {
           //     </Link>
           // </MenuItem>
         ) : (null)}
+
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

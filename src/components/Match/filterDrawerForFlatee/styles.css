@@ -4,11 +4,6 @@
     margin: auto !important;
 }
 
-.filter:hover {
-    color: white !important;
-    background-color: rgb(2, 44, 2) !important;
-}
-
 .feedback {
     color: red;
     text-align: center;

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../App/Authentication";
 import { Config } from '../../../config';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import TuneIcon from '@mui/icons-material/Tune';
 import axios from 'axios';
 import './styles.css';
 import { Box } from "@mui/system";
 import { MenuItem, IconButton, Button, Checkbox, Input, 
-  InputLabel, Select, TextField, makeStyles, Typography } from '@material-ui/core';
+  InputLabel, Select, TextField, makeStyles, Typography, Tooltip } from '@material-ui/core';
 import { Grid, FormGroup, FormControlLabel, Chip, Divider, 
   FormControl, InputAdornment, Drawer} from '@mui/material';
 
@@ -72,9 +72,11 @@ export default function FilterDrawerForFlatee() {
     populatePriceRange();
     return (
       <>
-        <IconButton onClick={toggleDrawer(!rightDrawer)}>
-          <FilterAltIcon></FilterAltIcon>
-        </IconButton>
+        <Tooltip title = "Filter">
+        <Button color = "inherit" onClick={toggleDrawer(!rightDrawer)}>
+          <TuneIcon/>
+        </Button>
+        </Tooltip>
         <Drawer
           variant="temporary"
           anchor={'right'}
