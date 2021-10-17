@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { Chip, Grid, IconButton, Slide } from '@material-ui/core';
+import { Chip, Grid, Slide } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import * as moment from 'moment';
@@ -21,7 +21,7 @@ import { Stack } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 //Transition effect
-const zoom = true;
+const checked = true;
 
 function Copyright() {
   return (
@@ -150,7 +150,6 @@ function ListingDisplay(props) {
   const renderSwitch = () => {
     if (owner) {
       return (
-        <Slide in = {zoom} direction = "up">
         <FormControlLabel
           control={
             <Switch
@@ -161,7 +160,6 @@ function ListingDisplay(props) {
             />}
           label="Active"
         />
-        </Slide>
       );
     }
   }
@@ -209,6 +207,7 @@ function ListingDisplay(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Navigation />
+      <Slide in = {checked} direction = "left">
       <div className={classes.paper}>
         <br/>
         <form onSubmit={onSubmit}>
@@ -257,7 +256,6 @@ function ListingDisplay(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs = {12}>
-                  <Slide in={zoom} direction = "up">
                   <div >
                     <Typography variant = "caption">
                     DESCRIPTION
@@ -266,10 +264,8 @@ function ListingDisplay(props) {
                     {listing.description}
                     </Typography>
                   </div>
-                  </Slide>
                 </Grid>
 
-                <Slide in = {zoom} direction = "up" >
                 <Grid item container xs = {12}>
                   <Grid item xs = {3}>
                   <Typography variant = "caption">UTILITIES </Typography>
@@ -301,9 +297,7 @@ function ListingDisplay(props) {
                         </Stack>
                     </Grid>
                 </Grid>
-                </Slide>
 
-                <Slide in = {zoom} direction = "up">
                 <Grid item xs = {12}>
                     <>
                     <Typography variant ="caption">
@@ -315,9 +309,7 @@ function ListingDisplay(props) {
                     </Typography>
                     </>
                 </Grid>
-                </Slide>
 
-                <Slide in ={zoom} direction = "up">
                 <Grid item xs = {12}>
                     <>
                     <Typography variant = "caption">
@@ -333,7 +325,6 @@ function ListingDisplay(props) {
                     {renderSwitch()}
                     </Grid>
                 </Grid>
-                </Slide>
               <br/>
               <br/>
               </Grid>
@@ -359,6 +350,7 @@ function ListingDisplay(props) {
           </Grid>
         </form>
       </div>
+      </Slide>
       <Box mt={8}>
         <Copyright />
       </Box>
