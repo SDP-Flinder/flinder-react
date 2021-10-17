@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core"
-import { useAuth } from "../App/Authentication";;
+import { Typography } from "@material-ui/core";
+import { useAuth } from "../App/Authentication";
 import Navigation from "../App/Navigation";
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
