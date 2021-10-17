@@ -1,6 +1,5 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import clsx from 'clsx';
+import React, { useEffect } from 'react';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,20 +9,33 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import {ReactComponent as FlinderLogo} from '../../../assets/logo-white.svg';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
+import Logout from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import Button from '@mui/material/Button';
+import Settings from '@mui/icons-material/Settings';
+import PersonAdd from '@mui/icons-material/PersonAdd';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../Authentication';
+import { Avatar, Button, Divider, ListItemIcon, Tooltip, Typography} from '@mui/material';
+import { Config } from '../../../config';
 
 
 export default function Navigation() {
-  const [nanchorEl, setNAnchorEl] = React.useState(null);
-  const [panchorEl, setPAnchorEl] = React.useState(null);
+  const [nAnchorEl, setNAnchorEl] = React.useState(null);
+  const [pAnchorEl, setPAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const isNotificationMenuOpen = Boolean(nanchorEl);
-  const isProfileMenuOpen = Boolean(panchorEl);
+  const isNotificationMenuOpen = Boolean(nAnchorEl);
+  const isProfileMenuOpen = Boolean(pAnchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const { user, jwt } = useAuth();
+
+  // API helper
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
 
   const handleProfileMenuOpen = (event) => {
     setPAnchorEl(event.currentTarget);
@@ -54,29 +66,72 @@ export default function Navigation() {
   const profileMenuId = 'primary-search-account-menu';
   const renderProfileMenu = (
     <Menu
-      anchorEl={panchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={profileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isProfileMenuOpen}
-      onClose={handleProfileMenuClose}
-    >
-      <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleProfileMenuClose}>Logout</MenuItem>
-    </Menu>
+        anchorEl={pAnchorEl}
+        open={isProfileMenuOpen}
+        onClose={handleProfileMenuClose}
+        onClick={handleProfileMenuClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem>
+          <Avatar /> Profile
+        </MenuItem>
+
+        <MenuItem>
+          <Avatar /> My listings
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Add another listing
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
   );
 
   const notificationMenuId = 'primary-search-notification-menu';
   const renderNotificationMenu = (
     <Menu
-      anchorEl={nanchorEl}
+      anchorEl={nAnchorEl}
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'right',
@@ -147,8 +202,23 @@ export default function Navigation() {
     </Menu>
   );
 
+  useEffect(() => {
+    // Retrieve Notifications from API
+    var tempNotification = [];
+    async function getNotifications() {
+      await instance.get('/notification')
+        .then(res => {
+          tempNotification = res.data
+        });
+        tempNotification.forEach(notification => {
+          notifications.push(<MenuItem>{notification.message}</MenuItem>);
+      })
+    }
+
+  }, [])
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <>
       <AppBar position="static">
         <Toolbar>
           <Button
@@ -162,6 +232,18 @@ export default function Navigation() {
           </Button>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Tooltip title="Account settings">
+              <IconButton onClick={handleNotificationMenuOpen} size="small" sx={{ ml: 2 }}>
+                <Badge badgeContent={2} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Account settings">
+              <IconButton onClick={handleProfileMenuOpen} size="small" sx={{ ml: 2 }}>
+                <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+              </IconButton>
+            </Tooltip>
           {/* <MenuItem>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
@@ -169,7 +251,7 @@ export default function Navigation() {
               </Badge>
             </IconButton>
           </MenuItem> */}
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="show 17 new notifications"
               aria-controls={notificationMenuId}
@@ -191,7 +273,7 @@ export default function Navigation() {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
+            </IconButton> */}
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -210,6 +292,6 @@ export default function Navigation() {
       {renderMobileMenu}
       {renderProfileMenu}
       {renderNotificationMenu}
-    </Box>
+    </>
   );
 }

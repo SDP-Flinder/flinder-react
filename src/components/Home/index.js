@@ -46,8 +46,8 @@ export default function Home() {
 
     return (
         <>
-            <Box sx={{ pb: 7 }}>
-            <CssBaseline />
+            <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
             <Navigation currentPath = "home" pageName = "Home"/>
             <div className={classes.paper}>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>

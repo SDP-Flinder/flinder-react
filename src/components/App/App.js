@@ -8,13 +8,11 @@ import THEME from "../../style/THEME";
 const App = () => {
   
   return (
-    <ThemeProvider theme={THEME}>
     <ProvideAuth>
       <BrowserRouter basename="/">
         <Router />
       </BrowserRouter>
     </ProvideAuth>
-    </ThemeProvider>
   );
 };
 
