@@ -1,14 +1,11 @@
 import React from "react";
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core";
+import { Typography, CssBaseline, makeStyles, Button } from "@material-ui/core";
 import { useAuth } from "../App/Authentication";
 import Navigation from "../App/Navigation";
 import CardsForFlatee from "../Match/cardsForFlatee/index";
-import Button from '@material-ui/core/Button';
+import FilterDrawerForFlatee from "../Match/filterDrawerForFlatee/index";
 import { Link as RouterLink } from 'react-router-dom';
 import { Box } from "@mui/system";
-import { CssBaseline } from "@material-ui/core";
-import BottomNav from '../App/Navigation/BottomNav';
 import ListingList from "../Listing/";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +42,10 @@ export default function Home() {
     }
   }
 
+  const blank = () => (
+    console.log("No filter drawer for flat acc. Future user stories needed.")
+  );
+
     return (
         <>
             <Box sx={{ pb: 7 }}>
@@ -54,10 +55,13 @@ export default function Home() {
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                     {`Hello ${user.firstName} ${user.lastName}`}
                 </Typography>
+                {user.role == "flatee"?
+                <FilterDrawerForFlatee/>:
+                blank()}
                 {/* User should only be able to access this page when authorised, but just incase. Could remove check */}
                 {user.role == "flatee"?
                 //  If the user is a flatee, render this card
-                 <CardsForFlatee username = {user.username}/>:
+                 <CardsForFlatee/>:
                 // If the user is a flat, render this card. listingID = {?}
                 <ListingList/>}
             </div>

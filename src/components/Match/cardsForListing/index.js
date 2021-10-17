@@ -141,6 +141,7 @@ const CardsForListing = (props) => {
           ))}
         </div>
         {/* Swipe buttons */}
+        {people.length > 0 &&
         <div className="swipe-buttons">
           <IconButton
             onClick={() => swipe('left')}
@@ -154,7 +155,7 @@ const CardsForListing = (props) => {
           >
             <FavoriteIcon fontSize="large" />
           </IconButton>
-        </div>
+        </div>}
       </div>
     </>
   );

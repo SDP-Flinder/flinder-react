@@ -1,0 +1,20 @@
+.filter {
+    color: white !important;
+    display: grid !important;
+    margin: auto !important;
+}
+
+.filter:hover {
+    color: white !important;
+    background-color: rgb(2, 44, 2) !important;
+}
+
+.feedback {
+    color: red;
+    text-align: center;
+}
+
+.filterText {
+    margin-left: 2rem;
+    padding: 0.1em;
+}
