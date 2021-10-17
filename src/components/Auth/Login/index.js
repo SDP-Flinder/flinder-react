@@ -144,7 +144,7 @@ const Login = ({ location }) => {
           <Grid container>
             <Router>
               <Grid item xs>
-                <Link component={RouterLink} to="/forgot" variant="body2">
+                <Link href="/forgot" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>

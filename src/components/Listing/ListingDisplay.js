@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { Chip, Grid } from '@material-ui/core';
+import { Chip, Grid, IconButton, Slide } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import * as moment from 'moment';
@@ -18,6 +18,10 @@ import { Config } from '../../config';
 import CardsForListing from "../Match/cardsForListing/index";
 import Navigation from "../App/Navigation";
 import { Stack } from '@mui/material';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
+//Transition effect
+const zoom = true;
 
 function Copyright() {
   return (
@@ -51,6 +55,13 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  info: {
+    marginTop: 10,
+    marginBottom: 10,
+    boxSizing: "border-box",
+    maxWidth: 500,
+    padding: 10,
+  }
 }));
 
 //Component to display the details of the selected listing for the owner flat account
@@ -79,7 +90,7 @@ function ListingDisplay(props) {
     }
     if (button === 2) {
       deleteListing();
-      props.history.push('/listings');
+      props.history.push('/');
     }
   }
 
@@ -139,6 +150,7 @@ function ListingDisplay(props) {
   const renderSwitch = () => {
     if (owner) {
       return (
+        <Slide in = {zoom} direction = "up">
         <FormControlLabel
           control={
             <Switch
@@ -149,6 +161,7 @@ function ListingDisplay(props) {
             />}
           label="Active"
         />
+        </Slide>
       );
     }
   }
@@ -205,7 +218,7 @@ function ListingDisplay(props) {
             justifyContent="center"
             alignItems="center"
           >
-            {viewMatch &&
+            {/* {viewMatch &&
             <ButtonGroup variant="contained" color="primary">
               <Button
                 className="button"
@@ -221,50 +234,114 @@ function ListingDisplay(props) {
               >
                 Create Listing
               </Button>
-            </ButtonGroup>}
+            </ButtonGroup>} */}
 
             {/* Placeholder listing information - will replace with a more elegant display, such as cards, once developed */}
-
             <div>
               { viewMatch &&
-              <div>
-              <h1>Description: {listing.description}</h1>
-              <h1>Utilities: </h1>
-            <Grid item xs = {12} >
-                    <br/>
-                    <Stack direction = "row" spacing = {2}>
-                        <Chip 
-                        label = "Power" 
-                        variant = {listing.utilities == undefined ? "outlined" : 
-                        (listing.utilities.power == false ? "outlined" : "default")}
-                        color = {listing.utilities == undefined ? "default" : 
-                        (listing.utilities.power == false ? "default" : "primary")}
-                        />
-                        <Chip 
-                        label = "Water" 
-                        variant = {listing.utilities == undefined ? "outlined" : 
-                        (listing.utilities.water == false ? "outlined" : "default")}
-                        color = {listing.utilities == undefined ? "default" : 
-                        (listing.utilities.water == false ? "default" : "primary")}
-                        />
-                        <Chip 
-                        label = "Internet" 
-                        variant = {listing.utilities == undefined ? "outlined" : 
-                        (listing.utilities.internet == false ? "outlined" : "default")} 
-                        color = {listing.utilities == undefined ? "default" : 
-                        (listing.utilities.internet == false ? "default" : "primary")}
-                        />
-                    </Stack>
+              <>
+              <Grid container spacing = {2} className = {classes.info}>
+                <Grid item xs = {2}>
+                  <Button
+                  component={RouterLink}
+                  to="/">
+                      <ArrowBackIosIcon color = "primary"/>
+                      <Typography variant = "button" color = "primary">
+                      Back
+                      </Typography>
+                  </Button>
                 </Grid>
-              <h1>Rent: ${listing.rent} {listing.rentUnits}</h1>
-              <h1>Available: {date}</h1>
-              {renderSwitch()}
+                <Grid item xs = {12}>
+                  <Typography variant = "h5">
+                    Listing #{listing.id}
+                  </Typography>
+                </Grid>
+                <Grid item xs = {12}>
+                  <Slide in={zoom} direction = "up">
+                  <div >
+                    <Typography variant = "caption">
+                    DESCRIPTION
+                    </Typography> 
+                    <Typography varian = "body1">
+                    {listing.description}
+                    </Typography>
+                  </div>
+                  </Slide>
+                </Grid>
+
+                <Slide in = {zoom} direction = "up" >
+                <Grid item container xs = {12}>
+                  <Grid item xs = {3}>
+                  <Typography variant = "caption">UTILITIES </Typography>
+                  </Grid>
+                  <Grid item xs = {12} >
+                        <br/>
+                        <Stack direction = "row" spacing = {2}>
+                            <Chip 
+                            label = "Power" 
+                            variant = {listing.utilities == undefined ? "outlined" : 
+                            (listing.utilities.power == false ? "outlined" : "default")}
+                            color = {listing.utilities == undefined ? "default" : 
+                            (listing.utilities.power == false ? "default" : "primary")}
+                            />
+                            <Chip 
+                            label = "Water" 
+                            variant = {listing.utilities == undefined ? "outlined" : 
+                            (listing.utilities.water == false ? "outlined" : "default")}
+                            color = {listing.utilities == undefined ? "default" : 
+                            (listing.utilities.water == false ? "default" : "primary")}
+                            />
+                            <Chip 
+                            label = "Internet" 
+                            variant = {listing.utilities == undefined ? "outlined" : 
+                            (listing.utilities.internet == false ? "outlined" : "default")} 
+                            color = {listing.utilities == undefined ? " " : 
+                            (listing.utilities.internet == false ? "default" : "primary")}
+                            />
+                        </Stack>
+                    </Grid>
+                </Grid>
+                </Slide>
+
+                <Slide in = {zoom} direction = "up">
+                <Grid item xs = {12}>
+                    <>
+                    <Typography variant ="caption">
+                    RENT
+                    </Typography>
+
+                    <Typography variant = "body1">
+                    ${listing.rent} {listing.rentUnits}
+                    </Typography>
+                    </>
+                </Grid>
+                </Slide>
+
+                <Slide in ={zoom} direction = "up">
+                <Grid item xs = {12}>
+                    <>
+                    <Typography variant = "caption">
+                    AVAILABLE
+                    </Typography>
+
+                    <Typography variant = "body1">
+                    {date}
+                    </Typography>
+                    </>
+
+                    <Grid item xs = {12}>
+                    {renderSwitch()}
+                    </Grid>
+                </Grid>
+                </Slide>
+              <br/>
+              <br/>
+              </Grid>
               {renderButtons()}
-              <br/>
-              <br/>
-              </div>
+              </>
               }
             </div>
+            <br/>
             <Grid item>
             <Button variant = "outlined" color = "primary"
                 onClick = {viewListingMatches}

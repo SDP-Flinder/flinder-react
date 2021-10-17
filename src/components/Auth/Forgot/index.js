@@ -21,14 +21,17 @@ const useStyles = makeStyles((theme) => ({
 const Forgot = () => {
     const classes = useStyles();
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="sm">
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <SentimentVeryDissatisfiedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                Bad luck, You&apos;re an alpha user. 
+                    This feature is currently under maintenance.
+                    <br/>
+                    Please contact out customer support
+                    customer_queries@flinder.com to retrieve your account.
                 </Typography>
             </div>
         </Container>
