@@ -1,6 +1,8 @@
 .filter {
     color: white !important;
     background-color: darkgreen !important;
+    display: grid !important;
+    margin: auto !important;
 }
 
 .filter:hover {
@@ -10,6 +12,7 @@
 
 .feedback {
     color: red;
+    text-align: center;
 }
 
 .filterText {

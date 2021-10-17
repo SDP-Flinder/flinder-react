@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core";
+import React from "react";
+import { Typography, CssBaseline, makeStyles, Button } from "@material-ui/core";
 import { useAuth } from "../App/Authentication";
 import Navigation from "../App/Navigation";
 import CardsForFlatee from "../Match/cardsForFlatee/index";
 import FilterDrawerForFlatee from "../Match/filterDrawerForFlatee/index";
-import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box } from "@mui/system";
-import { CssBaseline } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

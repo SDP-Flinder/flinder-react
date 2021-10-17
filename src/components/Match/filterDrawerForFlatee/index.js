@@ -1,31 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core";
 import { useAuth } from "../../App/Authentication";
-import Button from '@material-ui/core/Button';
-import { Link as RouterLink } from 'react-router-dom';
-import { Box } from "@mui/system";
-import { CssBaseline } from "@material-ui/core";
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { FormHelperText , MenuItem} from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-import { Grid, Paper } from '@mui/material';
 import { Config } from '../../../config';
-import InputAdornment from '@mui/material/InputAdornment';
-import Select from '@material-ui/core/Select';
-import { FormControl } from '@mui/material';
-import InputLabel from '@material-ui/core/InputLabel';
-import Alert from '@material-ui/lab/Alert';
-import Input from '@material-ui/core/Input';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
-// import axios
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import axios from 'axios';
-// import styles
 import './styles.css';
+import { Box } from "@mui/system";
+import { MenuItem, IconButton, Button, Checkbox, Input, 
+  InputLabel, Select, TextField, makeStyles } from '@material-ui/core';
+import { Grid, FormGroup, FormControlLabel, Chip, Divider, 
+  FormControl, InputAdornment, Drawer} from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -48,44 +31,49 @@ export default function FilterDrawerForFlatee() {
   const classes = useStyles();
   const { user, jwt } = useAuth();
   const [rightDrawer, setRightDrawer] = useState(false);
-  const [rentUnits, setRentUnits] = useState(user.rentUnits);
+  const [isCouple, setIsCouple] = useState(user.checklist.isCouple);
+  const [isSmoker, setIsSmoker] = useState(user.checklist.isSmoker);
+  const [hasPet, setHasPet] = useState(user.checklist.hasPet);
   const [min, setMin] = useState(user.checklist.priceRange.min);
   const [max, setMax] = useState(user.checklist.priceRange.max);
+  const [rentUnits, setRentUnits] = useState(user.rentUnits);
   const [city, setCity] = useState('');
   const [suburb, setSuburb] = useState([]);
   const [region, setRegion] = useState('');
-  //Display the locations from the database
   const [regionbDisplay, setRegionDisplay] = useState([]);
   const [suburbDisplay, setSuburbDisplay] = useState([]);
-  //This useState is used to store data from the API
   const [repo, setRepo] = useState([]);
   const [feedback, setFeedback] = useState("");
   let prices = [];
 
   //Fetch authorised data from the API with token
   const getRepo = async () => {
-    //Retrive the token
+    //Retrieve the token
     let token = await FetchToken();
-    //Retrive location data
+    //Retrieve location data
     await FetchLocationData(token, setRepo);
   }
 
   //Set the data in the local state
   useEffect(()=>getRepo(), []);
 
+  // populate the prices available to select in the price filter
   const populatePriceRange = () => {
     for(let k = 0; k<50; k++){
       prices[k] = 50*(k+1);
     }
   }
 
+  // make the drawer, compiled with its content
   const renderRightDrawer = () => {
     populatePriceRange();
     return (
       <>
-        <Button onClick={toggleDrawer(true)}>{'rightDrawerToggle'}</Button>
+        <IconButton onClick={toggleDrawer(!rightDrawer)}>
+          <FilterAltIcon></FilterAltIcon>
+        </IconButton>
         <Drawer
-          variant="persistent"
+          variant="temporary"
           anchor={'right'}
           open={rightDrawer}
           onClose={toggleDrawer(false)}
@@ -97,6 +85,7 @@ export default function FilterDrawerForFlatee() {
     )
   }
 
+  // opens and closes drawer. reset all variables in the drawer when it closes.
   const toggleDrawer = (state) => (event) => {
     if (
       event &&
@@ -106,9 +95,21 @@ export default function FilterDrawerForFlatee() {
       return;
     }
 
+    setIsCouple(user.checklist.isCouple);
+    setIsSmoker(user.checklist.isSmoker);
+    setHasPet(user.checklist.hasPet);
+    setMin(user.checklist.priceRange.min);
+    setMax(user.checklist.priceRange.max);
+    setRentUnits(user.rentUnits);
+    setCity('');
+    setSuburb([]);
+    setRegion('');
+    setFeedback('');
+
     setRightDrawer(state);
   };
 
+  // fetch all locations available to choose from and store them in local variable
   async function FetchLocationData(token, setRepo) {
     const URL = `${Config.Local_API_URL}/locations/`;
     const USER_TOKEN = token;
@@ -129,6 +130,7 @@ export default function FilterDrawerForFlatee() {
       });
   }
 
+  // fetch token to access all locations available to choose from
   async function FetchToken() {
     let token = '';
   
@@ -144,6 +146,7 @@ export default function FilterDrawerForFlatee() {
     return token;
   }
 
+  // show error in drawer just in case the price settings aren't put right
   useEffect(() => {
     function fetchFeedback() {
       let minTemp = min;
@@ -153,9 +156,17 @@ export default function FilterDrawerForFlatee() {
       {
         minTemp = 50;
       }
+      else if (min == '')
+      {
+        minTemp = maxTemp + 1;
+      }
       if (max == 50)
       {
         maxTemp = 50;
+      }
+      else if (max == '')
+      {
+        maxTemp = 0;
       }
 
       if (maxTemp >= minTemp)
@@ -164,28 +175,77 @@ export default function FilterDrawerForFlatee() {
       }
       else 
       {
-        setFeedback(`Invalid Price Bound. min: ${minTemp}, max: ${maxTemp}`);
+        setFeedback(`Invalid Price Bound.`);
       }
     }
 
     fetchFeedback();
   }, [min, max]);
 
+  // contents of the drawer: texts, buttons etc.
   const list = () => (
     <Box
       role="presentation"
     >
-      <Button 
-        className="back"
-        onClick={toggleDrawer(false)}
-      >
-        Back
-      </Button>
       <h1 className="filterText">Filter</h1>
+      <Divider>
+        <Chip label="Are you..." />
+      </Divider>
+      <Grid item xs = {12}>
+        <FormGroup component="fieldset">
+          <FormControlLabel
+            control={<Checkbox
+            name = "smoker"
+            color = "primary"
+            checked={isSmoker} 
+              onChange = {e => {
+                setIsSmoker(!isSmoker);
+              }}
+            />}
+            label="A Smoker"
+            labelPlacement = "end"
+          />
+        </FormGroup>
+      </Grid>
+
+      <Grid item xs = {12}>
+        <FormGroup component="fieldset">
+          <FormControlLabel
+            control={<Checkbox
+            name = "couple"
+            color = "primary"
+            checked={isCouple} 
+              onChange = {e => {
+                setIsCouple(!isCouple);
+              }}
+            />}
+            label="A Couple"
+            labelPlacement = "end"
+          />
+        </FormGroup>
+      </Grid>
+
+      <Grid item xs = {12}>
+        <FormGroup 
+          component="fieldset"
+        >
+        <FormControlLabel
+          control={<Checkbox
+          name = "pets"
+          color = "primary"
+          checked={hasPet} 
+            onChange = {e => {
+              setHasPet(!hasPet);
+            }}
+          />}
+          label="Having Pets"
+          labelPlacement = "end"
+        />
+        </FormGroup>
+      </Grid>
       <Divider>
         <Chip label="Price Range" />
       </Divider>
-      <br/>
       <br/>
       <Grid item xs = {12} direction = "row">
         <Grid item>
@@ -266,101 +326,99 @@ export default function FilterDrawerForFlatee() {
       </Grid>
       <br/>
       <br/>
-      <br/>
-      <br/>
       <Divider>
         <Chip label="Location" />
       </Divider>
-          <Grid item>
-        <FormControl variant="standard" className={classes.formControl}>
-            <InputLabel > City (Required) </InputLabel>
-            <Select
-              native
-              name = "city"
-              value = {city}
-              onChange = {e => {
-                //Save the current city
-                setCity(e.target.value);
-
-                //Reset the field
-                setRegion('');
-                setRegionDisplay('');
-                setSuburbDisplay([]);
-
-                let region = [];
-                for(var k = 0; k < repo.length; k++ ){
-                  if(repo[k].city == e.target.value){
-                    region.push(repo[k].region.name);
-                  }
-                }
-
-                setRegionDisplay(region);
-              }}
-            >
-              <option value={''}/>
-              <option value={'Auckland'}>Auckland</option>
-              <option value={'Wellington'}>Wellington</option>
-            </Select>
-            </FormControl>
-          </Grid>
-
-          {city &&
-          <Grid item>
-          <FormControl variant="standard" className={classes.formControl}>
-          <InputLabel> District (Optional) </InputLabel>
-          <Select
-            native
-            placeholder = "Optional"
-            name = "region"
-            value = {region}
-            onChange = {e => {
-              //Save the current city
-              setRegion(e.target.value);
-              setSuburb([]);
-
-              for(var k = 0; k < repo.length; k++ ){
-                if(repo[k].region.name == e.target.value){
-                  setSuburbDisplay(repo[k].region.suburb)
-                }
-              }
-            }}
-          >
-            <option value={''}/>
-            {regionbDisplay.map((region) => (
-              <option key={region} value={region}>
-                {region}
-              </option>
-            ))}
-          </Select>
-          </FormControl>
-          </Grid>}  
-
-          {region &&
-          <Grid item >
-            <FormControl className={classes.formControl}>
-            <InputLabel>Suburb (Optional)</InputLabel>
-            <Select className = "input"
-              multiple
-              name = "suburb"
-              variant="outlined"
-              value={suburb}
-              onChange = {e => setSuburb(e.target.value)}
-              input={<Input />}
-              MenuProps={MenuProps}
-            >
-              {suburbDisplay.map((suburb) => (
-                <MenuItem key={suburb} value={suburb}>
-                  {suburb}
-                </MenuItem>
-              ))}
-            </Select>
-            </FormControl>
-          </Grid>}
-          
       <br/>
+      <Grid item>
+      <FormControl variant="standard" className={classes.formControl}>
+        <InputLabel > City (If you wish to change location(s)) </InputLabel>
+        <Select
+          native
+          name = "city"
+          value = {city}
+          onChange = {e => {
+            //Save the current city
+            setCity(e.target.value);
+
+            //Reset the field
+            setRegion('');
+            setRegionDisplay('');
+            setSuburbDisplay([]);
+
+            let region = [];
+            for(var k = 0; k < repo.length; k++ ){
+              if(repo[k].city == e.target.value){
+                region.push(repo[k].region.name);
+              }
+            }
+
+            setRegionDisplay(region);
+          }}
+        >
+          <option value={''}/>
+          <option value={'Auckland'}>Auckland</option>
+          <option value={'Wellington'}>Wellington</option>
+        </Select>
+        </FormControl>
+      </Grid>
+      <br/>
+      {city &&
+      <Grid item>
+      <FormControl variant="standard" className={classes.formControl}>
+        <InputLabel> District (Optional) </InputLabel>
+        <Select
+          native
+          placeholder = "Optional"
+          name = "region"
+          value = {region}
+          onChange = {e => {
+            //Save the current city
+            setRegion(e.target.value);
+            setSuburb([]);
+
+            for(var k = 0; k < repo.length; k++ ){
+              if(repo[k].region.name == e.target.value){
+                setSuburbDisplay(repo[k].region.suburb)
+              }
+            }
+          }}
+        >
+          <option value={''}/>
+          {regionbDisplay.map((region) => (
+            <option key={region} value={region}>
+              {region}
+            </option>
+          ))}
+        </Select>
+        </FormControl>
+        </Grid>}  
+      <br/>
+        {region &&
+        <Grid item >
+        <FormControl className={classes.formControl}>
+        <InputLabel>Suburb (Optional)</InputLabel>
+        <Select className = "input"
+          multiple
+          name = "suburb"
+          variant="outlined"
+          value={suburb}
+          onChange = {e => setSuburb(e.target.value)}
+          input={<Input />}
+          MenuProps={MenuProps}
+        >
+          {suburbDisplay.map((suburb) => (
+            <MenuItem key={suburb} value={suburb}>
+              {suburb}
+            </MenuItem>
+          ))}
+        </Select>
+        </FormControl>
+        </Grid>}
       <br/>
       <Button 
         className="filter"
+        size="large"
         onClick={() => submit()}
       >
         Submit
@@ -371,8 +429,9 @@ export default function FilterDrawerForFlatee() {
     </Box>
   );
 
+  // update preferences in backend when clicked on Submit button
   const submit = () => {
-    if ((max - min) >= 0 && (min != '') && (max != '') && (city != '')){
+    if ((max - min) >= 0 && (min != '') && (max != '')){
       const URL = `${Config.Local_API_URL}/users/`.concat(user.id);
 
       const config = {
@@ -385,21 +444,35 @@ export default function FilterDrawerForFlatee() {
       }
 
       //Set the preferred suburb to ALL if the user leaves this field blank
-      if(suburb.length == 0){
-        if(regionbDisplay.length != 0){
-          preferredArea.suburb.push(suburbDisplay);
-        } 
-
-        if(region == ''){
-          for(let k =0; k<repo.length;k++){
-            preferredArea.suburb.push(...repo[k].region.suburb);
+      if (city != '')
+      {
+        if(suburb.length == 0)
+        {
+          if(regionbDisplay.length != 0)
+          {
+            preferredArea.suburb.push(suburbDisplay);
+          } 
+  
+          if(region == '')
+          {
+            for(let k =0; k<repo.length;k++)
+            {
+              preferredArea.suburb.push(...repo[k].region.suburb);
+            }
           }
         }
       }
-
+      else if (city == '')
+      {
+        preferredArea = user.preferredArea;
+      }
+      
       const checklist = Object.assign({}, user.checklist);
       checklist.priceRange.min = min;
       checklist.priceRange.max = max;
+      checklist.isCouple = isCouple;
+      checklist.isSmoker = isSmoker;
+      checklist.hasPet = hasPet;
 
       const bodyParameters = {
         username: user.username,
@@ -419,9 +492,10 @@ export default function FilterDrawerForFlatee() {
     } 
   };
 
-    return (
-        <>
-        {renderRightDrawer()}
-        </>
-    );
+  // return the drawer
+  return (
+      <>
+      {renderRightDrawer()}
+      </>
+  );
 };
