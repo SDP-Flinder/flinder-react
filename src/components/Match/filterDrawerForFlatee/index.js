@@ -473,7 +473,10 @@ export default function FilterDrawerForFlatee() {
           {
             for(let k =0; k<repo.length;k++)
             {
-              preferredArea.suburb.push(...repo[k].region.suburb);
+              if (repo[k].city == city)
+              {
+                preferredArea.suburb.push(...repo[k].region.suburb);
+              }
             }
           }
         }
