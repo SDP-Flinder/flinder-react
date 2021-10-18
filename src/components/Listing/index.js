@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10,
     width: 100,
     height: 100,
-    margin: 10  
+    margin: 10
   },
 }));
 
@@ -63,11 +63,9 @@ function ListingList(props) {
   const classes = useStyles();
   const { user, jwt } = useAuth();
   const [listings, setListings] = useState([]);
-  const [checked, setChecked] = useState(true);
 
   //Passes the selected listing to the listing page for displaying
   function selectListing(id) {
-    setChecked(false);
     props.history.push({
       pathname: '/listing/display',
       state: { id: id },
@@ -80,27 +78,27 @@ function ListingList(props) {
     return listings.map((listing) => (
       <>
         <Grow
-          in={checked}
+          in={true}
           style={{ transformOrigin: '0 0 0' }}
-          {...(checked ? { timeout: 1000 + count*300 } : {})}
+          {...{ timeout: 1000 + count * 300 }}
         >
-            <Button       
-              key={listing.id}
-              className= {classes.button}
-              variant="contained"
-              onClick={function () { selectListing(listing.id) }}
-            >
-              <Grid container alignItems = "center" justifyContent = "center">
-              <Grid item xs = {12}>
-                  <MeetingRoomIcon color = "primary"/>
+          <Button
+            key={listing.id}
+            className={classes.button}
+            variant="contained"
+            onClick={function () { selectListing(listing.id) }}
+          >
+            <Grid container alignItems="center" justifyContent="center">
+              <Grid item xs={12}>
+                <MeetingRoomIcon color="primary" />
               </Grid>
 
-              <Grid item xs = {12}>
-              {++count}
+              <Grid item xs={12}>
+                {++count}
               </Grid>
-              </Grid>
-            </Button>
-      </Grow>
+            </Grid>
+          </Button>
+        </Grow>
       </>
     ))
   }
@@ -123,22 +121,20 @@ function ListingList(props) {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Navigation />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
           Your Listings
         </Typography>
-        <Grid containder  direction = "row">
-          <Tooltip title = "Add new listing">
-          <Button variant = "contained" color = "primary" className = {classes.button}
-            component={RouterLink}
-            to="/newlisting"
+        <Grid containder direction="row">
+          <Tooltip title="Add new listing">
+            <Button variant="contained" color="primary" className={classes.button}
+              component={RouterLink}
+              to="/newlisting"
             >
-                <AddCircleIcon/>
-          </Button>
+              <AddCircleIcon />
+            </Button>
           </Tooltip>
-        {renderButtons()}
+          {renderButtons()}
         </Grid>
       </div>
       <Box mt={8}>
