@@ -175,7 +175,7 @@ const CardsForFlatee = (props) => {
             <FavoriteIcon fontSize="large" />
           </IconButton>
         </div> : 
-        <div style = {{justifyContent: "center"}}>
+        <div style = {{justifyContent: "center", margin: 150}}>
           <Typography variant = "body1">
             There is currently no profile that matches your preferences
             <br />
