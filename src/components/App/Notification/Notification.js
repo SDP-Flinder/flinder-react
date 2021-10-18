@@ -1,9 +1,10 @@
-import { IconButton } from "@material-ui/core";
+import { IconButton, Button } from "@material-ui/core";
 import React from "react";
 import "./style.css";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import CancelIcon from '@mui/icons-material/Cancel';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { Link as RouterLink } from 'react-router-dom';
 
 /** Notification released*/
 class Notification extends React.Component {
@@ -30,24 +31,7 @@ class Notification extends React.Component {
     this.props.onClearAll && this.props.onClearAll();
   };
   generateDate = timeStamp => {
-    const d = new Date(timeStamp * 1000);
-    const n = d.getDate();
-    const m = d.getMonth();
-    const monthNames = [
-      "JAN",
-      "FEB",
-      "MAR",
-      "APR",
-      "MAY",
-      "JUN",
-      "JUL",
-      "AUG",
-      "SEP",
-      "OCT",
-      "NOV",
-      "DEC"
-    ];
-    return { date: `${n} ${monthNames[m]}`, time: timeStamp };
+    return timeStamp;
   };
 
   render() {
@@ -82,6 +66,7 @@ class Notification extends React.Component {
         }
       });
     });
+
     return (
       <div className={"notification"} style={{ position: "relative" }}>
         <div className={"iconSection"}>
@@ -132,7 +117,7 @@ class Notification extends React.Component {
                     <span style={{ display: "inline-block", width: "50%" }}>
                       {i.UTC.date}
                     </span>
-                    <span
+                    {/* <span
                       style={{
                         display: "inline-block",
                         width: "50%",
@@ -150,7 +135,7 @@ class Notification extends React.Component {
                             <HighlightOffIcon/>
                         </IconButton>
                       )}
-                    </span>
+                    </span> */}
                   </p>
                   {i.list.map(l => {
                     return l.map(k => {
@@ -159,25 +144,21 @@ class Notification extends React.Component {
                       const hours = d.getUTCHours() % 12 || 12;
                       const amOrpm = hours >= 12 ? "pm" : "am";
                       return (
-                        <div key = {k}
-                          style={{ background: "#fff", padding: "15px", borderRadius: 10 }}
+                        <Button 
+                          key = {k}
+                          variant = "contained"  
+                          style={{ background: "#fff", padding: "15px", margin: "10px", borderRadius: 10, width: 250 }}
+                          component={RouterLink}
                           className={"lineItmes"}
+                          to="/match"
                         >
-                          <span
-                            style={{ fontSize: "13px", fontWeight: 700 }}
-                          >{`${k.type} (${k.count})`}</span>
-                          <span
-                            style={{
-                              fontSize: "10px",
-                              fontWeight: 700,
-                              color: "#747474",
-                              float: "right"
-                            }}
-                          >
-                            {`${hours} ${min} ${amOrpm}`}
+                          <span style={{ fontSize: "13px", fontWeight: 700 }}>
+                            {`${k.title}:  `}
                           </span>
-                          <div style={{ fontSize: "10px" }}>{k.content}</div>
-                        </div>
+                          <div style={{ fontSize: "10px" }}>
+                            {k.message}
+                          </div>
+                        </Button>
                       );
                     });
                   })}
