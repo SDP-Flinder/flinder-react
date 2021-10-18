@@ -8,7 +8,7 @@ import { useAuth } from "../App/Authentication";
 import { Slide } from "@material-ui/core";
 import moment from "moment";
 import EditDialog from "./EditBio/EditDialog";
-import { Link as RouterLink } from 'react-router-dom';
+import { Link, Link as RouterLink } from 'react-router-dom';
 import Confirmation from "./EditBio/Confirmation";
 
 
@@ -453,6 +453,21 @@ export default function Profile() {
                         </Grid>
                     </Grid>
                 </Grid>
+                <Slide
+                    direction="up" in={checked} mountOnEnter unmountOnExit
+                >
+                    <Grid item xs={12}>
+                        <Paper className={classes.standalone}>
+                            <Button
+                            component = {Link}
+                            to = "/faq"
+                            >
+                                About us
+                            </Button>
+                        </Paper>
+                    </Grid>
+                </Slide>
+
                 <Slide
                     direction="up" in={checked} mountOnEnter unmountOnExit
                 >
