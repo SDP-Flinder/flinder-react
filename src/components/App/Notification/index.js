@@ -1,50 +1,47 @@
 import Notification from "./Notification";
 import React from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Config } from "../../../config"
+import { useAuth } from "../../App/Authentication";
 
 function Noti() {
-  const listItems = [
-      {
-        UTC: "1408648665",
-        list: [
-          {
-            type: "Message",
-            content: "A messgae description for testing notofication bar",
-            count: 3,
-            timestamp: "1PM"
-          }
-        ]
-      },
-      {
-        UTC: "1598103780",
-        list: [
-          {
-            type: "Login",
-            content: "A messgae description for testing notofication bar",
-            count: 1
-          }
-        ]
-      },
-      {
-        UTC: "1595594400",
-        list: [
-          {
-            type: "Login",
-            content: "A messgae description for testing notofication bar",
-            count: 4
-          }
-        ]
-      },
-      {
-        UTC: "1595575200",
-        list: [
-          {
-            type: "Critical",
-            content: "A messgae description for testing notofication bar",
-            count: 3
-          }
-        ]
-      }
-    ];
+  const { user, jwt } = useAuth();
+  const [listItems, setListItems] = useState([]);
+
+    //Helper for ease of use when making axios calls
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
+
+  useEffect(() => {
+    var tempNotis = [];
+
+    async function getNotifications() {
+      await instance.get('/notification')
+        .then(res => {
+          tempNotis = res.data
+          
+        });
+        
+        tempNotis.forEach(notification => {
+          setListItems(listItems => [...listItems, {
+            UTC: Date.parse(notification.date), 
+            list: [
+              {
+                title: notification.title,
+                message: notification.message,
+                link: notification.link
+              }
+            ]
+          }])
+      })
+    }
+    getNotifications();
+  }, [user])
+
   return (
     <div className="App">
       <header className="App-header">
