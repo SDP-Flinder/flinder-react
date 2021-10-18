@@ -150,7 +150,7 @@ class Notification extends React.Component {
                           style={{ background: "#fff", padding: "15px", margin: "10px", borderRadius: 10, width: 250 }}
                           component={RouterLink}
                           className={"lineItmes"}
-                          to="/match"
+                          to = {k.link}
                         >
                           <span style={{ fontSize: "13px", fontWeight: 700 }}>
                             {`${k.title}:  `}
