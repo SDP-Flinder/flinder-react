@@ -33,7 +33,8 @@ function Noti() {
               {
                 title: notification.title,
                 message: notification.message,
-                link: notification.link
+                link: notification.link,
+                read: notification.read,
               }
             ]
           }])
@@ -45,7 +46,7 @@ function Noti() {
   return (
     <div className="App">
       <header className="App-header">
-        <Notification listItems={listItems} />
+        <Notification listItems={listItems} jwt = {jwt} />
       </header>
     </div>
   );

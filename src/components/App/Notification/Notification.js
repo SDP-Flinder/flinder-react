@@ -5,6 +5,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import CancelIcon from '@mui/icons-material/Cancel';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { Link as RouterLink } from 'react-router-dom';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { useAuth } from "../Authentication";
+import { Config } from "../../../config";
+import axios from "axios";
 
 /** Notification released*/
 class Notification extends React.Component {
@@ -12,7 +16,8 @@ class Notification extends React.Component {
     super(props);
     this.state = {
       toggleNotification: false,
-      listItems: []
+      listItems: [],
+      jwt: this.props.jwt,
     };
   }
   componentDidMount() {
@@ -36,6 +41,7 @@ class Notification extends React.Component {
 
   render() {
     const { listItems } = this.state;
+    const {jwt} = this.state;
     let totalCount = 0;
     const allTimestamp = [];
     listItems.map((i, k) => {
@@ -67,6 +73,23 @@ class Notification extends React.Component {
       });
     });
 
+    //Update the data
+    const handleClicked = async (k) => {
+      console.log(k);
+      
+      const URL = 'http://localhost:4000/notification/read/'.concat(k.id);
+
+      const config = {
+        headers: { Authorization: `Bearer ${jwt}` }
+      };
+      
+      const bodyParams = {
+        read: true,
+      }
+
+      await axios.put(URL, bodyParams, config).then( res => console.log('success', res));
+    }
+
     return (
       <div className={"notification"} style={{ position: "relative" }}>
         <div className={"iconSection"}>
@@ -77,7 +100,8 @@ class Notification extends React.Component {
           >
               <NotificationsIcon/>
           </IconButton>
-          <span className={"iconBadge"}>{totalCount}</span>
+          {totalCount > 0 &&
+          <span className={"iconBadge"}>{totalCount}</span>}
         </div>
         {this.state.toggleNotification && (
           <div
@@ -151,11 +175,14 @@ class Notification extends React.Component {
                           component={RouterLink}
                           className={"lineItmes"}
                           to = {k.link}
+                          onClick = {() =>handleClicked(k)}
                         >
+                          {!k.read &&
+                          <FiberManualRecordIcon fontSize = "small" sx = {{margin: 1}} color = "primary" />}
                           <span style={{ fontSize: "13px", fontWeight: 700 }}>
-                            {`${k.title}:  `}
+                            {`${k.title.toUpperCase()}`}
                           </span>
-                          <div style={{ fontSize: "10px" }}>
+                          <div style={{ fontSize: "11px", padding: 10 }}>
                             {k.message}
                           </div>
                         </Button>
