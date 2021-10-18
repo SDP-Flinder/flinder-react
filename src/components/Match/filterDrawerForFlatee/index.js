@@ -197,7 +197,7 @@ export default function FilterDrawerForFlatee() {
       className = "filterText"
       >Filter</Typography>
       <Divider>
-        <Chip label="Are you..." />
+        <Chip label="My ideal flat..." />
       </Divider>
       <Grid item xs = {12}>
         <FormGroup component="fieldset">
@@ -210,7 +210,7 @@ export default function FilterDrawerForFlatee() {
                 setIsSmoker(!isSmoker);
               }}
             />}
-            label="A Smoker"
+            label="Smoker Allowed"
             labelPlacement = "end"
           />
         </FormGroup>
@@ -227,7 +227,7 @@ export default function FilterDrawerForFlatee() {
                 setIsCouple(!isCouple);
               }}
             />}
-            label="A Couple"
+            label="Couple Allowed"
             labelPlacement = "end"
           />
         </FormGroup>
@@ -246,7 +246,7 @@ export default function FilterDrawerForFlatee() {
               setHasPet(!hasPet);
             }}
           />}
-          label="Having Pets"
+          label="Pets Allowed"
           labelPlacement = "end"
         />
         </FormGroup>
