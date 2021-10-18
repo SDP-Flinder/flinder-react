@@ -22,8 +22,6 @@ import * as moment from 'moment';
 // import session user state
 import { useAuth } from '../../App/Authentication';
 import ShowInfo from '../ShowInfo';
-import { Typography } from '@material-ui/core';
-import {WaveSpinner} from "react-spinners-kit";
 
 // create cards component and export it
 const CardsForFlatee = (props) => {
@@ -32,8 +30,6 @@ const CardsForFlatee = (props) => {
   const [listings, setListings] = useState([]);
   const [readMore, setReadMore] = useState(null);
   const [showMore, setShowMore] = useState(true);
-
-  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const childRefs = useMemo(() => Array(listings.length).fill(0).map((i) => React.createRef()));
 
@@ -46,7 +42,6 @@ const CardsForFlatee = (props) => {
   // use effect to gather potential listings for this flatee
   useEffect(() => {
     async function fetchListings() {
-      setLoading(true);
       await instance.get(matchesForFlatee, {
         params: matchparam,
         headers: { Authorization: AuthString },
@@ -54,18 +49,15 @@ const CardsForFlatee = (props) => {
         .then((res) => {
           setListings(res.data);
         });
-      setLoading(false);
     }
 
     fetchListings();
   }, []);
 
   // swipe function
-  const swiped = (direction, id, username) => {
+  const swiped = (direction, id) => {
     matchparam = {
       flateeUsername: flateeUser,
-      flateeID: user.id,
-      listingUsername: username,
       listingID: id,
     };
     if (_isEqual(direction, 'left')) {
@@ -118,13 +110,6 @@ const CardsForFlatee = (props) => {
   return (
     <>
       {/* All the cards */}
-      {loading ? 
-      <div className = "loading">
-      <WaveSpinner size = {50} color="#007A78" loading={loading} />
-      <Typography>
-        Getting profiles...
-      </Typography>
-      </div>:
       <div className="cards">
         <div className="cards__cardContainer">
           {listings.map((listing, index) => (
@@ -135,15 +120,12 @@ const CardsForFlatee = (props) => {
               flickOnSwipe
               preventSwipe={['up', 'down']}
               currentFlatCard={listing.id}
-              onSwipe={(dir) => swiped(dir, listing.listing.id, listing.accountUser.username)}
+              onSwipe={(dir) => swiped(dir, listing.listing.id)}
             >
               {/* Background image */}
               <div
                 style={{
-                  backgroundImage: listing.listing.photo ?
-                  `url(http://localhost:4000/${listing.listing.photo})`
-                  :
-                  'url(https://www.indiewire.com/wp-content/uploads/2019/10/Parasite_Parks_Garden-1.jpg?resize=1536,830)',
+                  backgroundImage: 'url(https://www.indiewire.com/wp-content/uploads/2019/10/Parasite_Parks_Garden-1.jpg?resize=1536,830)',
                 }}
                 className="card"
               >
@@ -153,19 +135,18 @@ const CardsForFlatee = (props) => {
                 {<IconButton
                   onClick={() => changeText(listing)}
                   className="see-more-button"
-                  id="see-more"
                 >
                   <MoreVertIcon fontSize="large"/>
                 </IconButton>}
                 {/* Name */}
-                <h3 className = "name-display"
-                >{listing.accountUser.username}</h3>
+                {(listing.accountUser) ? 
+                <h3>{listing.accountUser.username}</h3> : null}
               </div>
             </TinderCard>
           ))}
         </div>
         {/* Swipe buttons */}
-        {listings.length > 0 ?
+        {listings.length > 0 &&
         <div className="swipe-buttons">
           <IconButton
             onClick={() => swipe('left')}
@@ -179,15 +160,8 @@ const CardsForFlatee = (props) => {
           >
             <FavoriteIcon fontSize="large" />
           </IconButton>
-        </div> : 
-        <div style = {{justifyContent: "center", margin: 150}}>
-          <Typography variant = "body1">
-            There is currently no profile that matches your preferences
-            <br />
-            Expand your options by clicking on the filter button above.
-          </Typography>
         </div>}
-      </div>}
+      </div>
     </>
   );
 };

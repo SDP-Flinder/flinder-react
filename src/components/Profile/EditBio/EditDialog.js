@@ -9,6 +9,7 @@ import UserInformation from './UserInformation';
 import AccountInformation from './AccountInformation';
 import FlatInformation from './FlatInformation';
 import FlateeInforamtion from './FlateeInformation';
+import SystemPref from './SystemPref';
 import { useAuth } from "../../App/Authentication";
 import { Box } from '@mui/system';
 import ChangePass from './ChangePass';
@@ -34,6 +35,8 @@ const renderComponents = (buttonID, newUser, setUser, error, oldPass, setOldPass
             return (<FlatInformation newUser = {newUser} setUser = {setUser} error = {error}/>);
         case 'flatee-info':
             return (<FlateeInforamtion newUser = {newUser} setUser = {setUser} error = {error} rentUnits = {rentUnits} setRentUnits = {setRentUnits}/>);
+        case 'sys-pref':
+            return (<SystemPref newUser = {newUser} setUser = {setUser} error = {error} />);
         case 'pass':
             return (<ChangePass newUser = {newUser} setUser = {setUser} error = {error} oldPass = {oldPass} setOldPass = {setOldPass} pw={pw} setPw={setPw}/>);
         case 'flatee-bio': 

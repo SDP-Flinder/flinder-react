@@ -8,12 +8,10 @@ import { useAuth } from "../App/Authentication";
 import { Slide } from "@material-ui/core";
 import moment from "moment";
 import EditDialog from "./EditBio/EditDialog";
-import { Link, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Confirmation from "./EditBio/Confirmation";
-import { Config } from "../../config";
-import axios from "axios";
-import { useState } from "react";
-import { height } from "@mui/system";
+import { FormControlLabel, FormGroup, Switch } from "@mui/material";
+
 
 
 //use for animation
@@ -51,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     parentPaper: {
         padding: theme.spacing(2),
         margin: "auto",
-        maxWidth: 1600,
+        maxWidth: 1600
     },
     standalone: {
         padding: theme.spacing(1),
@@ -351,11 +349,40 @@ const renderFlateeBio = (classes, user, handleClickOpen) => (
 
                 <Grid item xs={12}>
                     <Button variant="contained" color="primary"
-                        id="flatee-bio"
+                        id="flatee-info"
                         onClick={handleClickOpen}
                     >
                         {user.bio ? "Edit" : "Add A Bio"}
                     </Button>
+                </Grid>
+
+            </Grid>
+        </Paper>
+    </Grid>
+)
+
+const renderSystemPref = (classes, user, handleClickOpen) => (
+    <Grid item xs={12}>
+        <Paper variant="outlined" className={classes.paper}>
+            <Grid item xs container direction="row" spacing={1}>
+                <Grid item xs={12}>
+                    <Typography className={classes.bold}>
+                        System Preferences
+                    </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper className={classes.infoDisplay}>Receive Notifications</Paper>
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper className={classes.userInfo}>
+                        {user.receiveNotifications ? "Yes" : "No"}
+                    </Paper>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Button variant="contained" color="primary"
+                        id="sys-pref" onClick={handleClickOpen}
+                    >Edit</Button>
                 </Grid>
 
             </Grid>
@@ -371,7 +398,6 @@ const getUser = () => {
 
 export default function Profile() {
     const classes = useStyles();
-    const {jwt} = useAuth();
     const [user, setUser] = React.useState(getUser());
     user.password = '';
     if (!user.rentUnits) {
@@ -394,6 +420,10 @@ export default function Profile() {
         setOpen(false);
     };
 
+    const handleNotficationChange = () =>{
+
+    }
+
     const [confirmation, setConfirmation] = React.useState(false);
     const handleConfirmationOpen = () => {
         setConfirmation(true);
@@ -401,41 +431,6 @@ export default function Profile() {
     const handleConfirmationClose = () => {
         window.location.reload();
     }
-
-    //Post the photo
-    const [photo, setPhoto] = React.useState({});
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(photo);
-        
-        if(!photo || photo === ''){
-            window.alert('Please choose a file.');
-        }
-        else
-        {
-
-        const URL = 'http://localhost:4000/'.concat("users/photo/").concat(user.id);
-
-        const formData = new FormData();
-
-        formData.append('profileImage', photo);
-
-        const config = {
-            headers: {
-            Authorization: `Bearer ${jwt}`,
-                
-            'content-type': 'multipart/form-data'
-            }
-        }
-
-       await axios.put(URL, formData, config).then(setConfirmation(true)).catch(err =>console.log(err));
-        }
-    }
-
-    let photoDisplay = "http://localhost:4000/";
-    const [editPhoto, setEditPhoto] = React.useState(true);
 
     return (
         <div className={classes.root}>
@@ -452,27 +447,8 @@ export default function Profile() {
                             <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
                                 <Grid item xs={5}>
                                     <Paper variant="outlined" className={classes.first}>
-                                        {
-                                        (user.photo && editPhoto) ?
-                                        <div>
-                                        <img className = "avt"
-                                        src = {photoDisplay.concat(user.photo)} />
-                                        <br/>
-                                        <Button onClick = {() => setEditPhoto(!editPhoto)}>
-                                            Edit 
-                                        </Button>
-                                        </div>
-                                        :
-                                        <div>
-                                        {addPhoto()}
-                                        <br/>
-                                        {user.photo &&
-                                        <Button
-                                        onClick = {() => setEditPhoto(!editPhoto)}>
-                                             Cancel 
-                                        </Button>}
-                                        </div>
-                                        }
+                                        Photo goes here <br />
+                                        <Button variant="contained" color="primary">Add photo button</Button>
                                     </Paper>
                                 </Grid>
                             </Slide>
@@ -505,28 +481,19 @@ export default function Profile() {
                                                 direction="up" in={checked} mountOnEnter unmountOnExit
                                             >
                                                 {renderFlateeBio(classes, user, handleClickOpen)}
-                                            </Slide>}
+                                            </Slide>
+                                        }
+
+                                        <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
+                                                {renderSystemPref(classes, user, handleClickOpen)}
+                                        </Slide>
+
                                     </Grid>
                                 </Paper>
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-                <Slide
-                    direction="up" in={checked} mountOnEnter unmountOnExit
-                >
-                    <Grid item xs={12}>
-                        <Paper className={classes.standalone}>
-                            <Button
-                            component = {Link}
-                            to = "/faq"
-                            >
-                                About us
-                            </Button>
-                        </Paper>
-                    </Grid>
-                </Slide>
-
                 <Slide
                     direction="up" in={checked} mountOnEnter unmountOnExit
                 >
@@ -552,27 +519,4 @@ export default function Profile() {
             />
         </div>
     );
-
-    function addPhoto() {
-        return <form onSubmit={handleSubmit}>
-            <input
-                id = "profile-photo"
-                type="file"
-                accept="image/*"
-                onChange={e => {
-                    setPhoto(e.target.files[0]);
-                } }
-            />
-            <br/>
-            <br/>
-
-            <Button 
-            variant="contained" 
-            color="primary"
-            type="submit"
-            >
-                Add photo
-            </Button>
-        </form>;
-    }
 }
