@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAuth } from '../App/Authentication'
 import moment from 'moment';
-import Button from '@mui/material/Button';
+import {Button} from "@material-ui/core";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -211,7 +211,7 @@ const ShowInfo = (props) => {
       <div>
           <Grow in={checked}>
             <Button
-            variant="contained" onClick={handleClickOpen}>
+            variant="contained" color = "primary" onClick={handleClickOpen}>
                         View Info
             </Button>
           </Grow>
