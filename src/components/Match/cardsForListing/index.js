@@ -53,9 +53,11 @@ const CardsForListing = (props) => {
   }, [listingID]);
 
   // swipe function
-  const swiped = (direction, targetName) => {
+  const swiped = (direction, person) => {
     matchparam = {
-      flateeUsername: targetName,
+      flateeUsername: person.username,
+      flateeID: person.id,
+      listingUsername: user.username,
       listingID: listingID,
     };
     if (_isEqual(direction, 'left')) {
@@ -63,7 +65,7 @@ const CardsForListing = (props) => {
     } else if (_isEqual(direction, 'right')) {
       instance.post(addFlatee, matchparam, { headers: { Authorization: AuthString } });
     }
-    alreadyRemoved.push(targetName);
+    alreadyRemoved.push(person.username);
 
     setShowMore(true);
     setReadMore(null);
@@ -116,7 +118,7 @@ const CardsForListing = (props) => {
               flickOnSwipe
               preventSwipe={['up', 'down']}
               currentFlateeCard={person.username}
-              onSwipe={(dir) => swiped(dir, person.username)}
+              onSwipe={(dir) => swiped(dir, person)}
             >
               {/* Background image */}
               <div

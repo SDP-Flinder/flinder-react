@@ -55,9 +55,11 @@ const CardsForFlatee = (props) => {
   }, []);
 
   // swipe function
-  const swiped = (direction, id) => {
+  const swiped = (direction, id, username) => {
     matchparam = {
       flateeUsername: flateeUser,
+      flateeID: user.id,
+      listingUsername: username,
       listingID: id,
     };
     if (_isEqual(direction, 'left')) {
@@ -120,7 +122,7 @@ const CardsForFlatee = (props) => {
               flickOnSwipe
               preventSwipe={['up', 'down']}
               currentFlatCard={listing.id}
-              onSwipe={(dir) => swiped(dir, listing.listing.id)}
+              onSwipe={(dir) => swiped(dir, listing.listing.id, listing.accountUser.username)}
             >
               {/* Background image */}
               <div
