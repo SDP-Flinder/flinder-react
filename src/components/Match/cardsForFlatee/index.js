@@ -22,6 +22,8 @@ import * as moment from 'moment';
 // import session user state
 import { useAuth } from '../../App/Authentication';
 import ShowInfo from '../ShowInfo';
+import { Typography } from '@material-ui/core';
+import {WaveSpinner} from "react-spinners-kit";
 
 // create cards component and export it
 const CardsForFlatee = (props) => {
@@ -30,6 +32,8 @@ const CardsForFlatee = (props) => {
   const [listings, setListings] = useState([]);
   const [readMore, setReadMore] = useState(null);
   const [showMore, setShowMore] = useState(true);
+
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const childRefs = useMemo(() => Array(listings.length).fill(0).map((i) => React.createRef()));
 
@@ -42,6 +46,7 @@ const CardsForFlatee = (props) => {
   // use effect to gather potential listings for this flatee
   useEffect(() => {
     async function fetchListings() {
+      setLoading(true);
       await instance.get(matchesForFlatee, {
         params: matchparam,
         headers: { Authorization: AuthString },
@@ -49,6 +54,7 @@ const CardsForFlatee = (props) => {
         .then((res) => {
           setListings(res.data);
         });
+      setLoading(false);
     }
 
     fetchListings();
@@ -112,6 +118,13 @@ const CardsForFlatee = (props) => {
   return (
     <>
       {/* All the cards */}
+      {loading ? 
+      <div className = "loading">
+      <WaveSpinner size = {50} color="#007A78" loading={loading} />
+      <Typography>
+        Getting profiles...
+      </Typography>
+      </div>:
       <div className="cards">
         <div className="cards__cardContainer">
           {listings.map((listing, index) => (
@@ -147,7 +160,7 @@ const CardsForFlatee = (props) => {
           ))}
         </div>
         {/* Swipe buttons */}
-        {listings.length > 0 &&
+        {listings.length > 0 ?
         <div className="swipe-buttons">
           <IconButton
             onClick={() => swipe('left')}
@@ -161,8 +174,15 @@ const CardsForFlatee = (props) => {
           >
             <FavoriteIcon fontSize="large" />
           </IconButton>
+        </div> : 
+        <div style = {{justifyContent: "center"}}>
+          <Typography variant = "body1">
+            There is currently no profile that matches your preferences
+            <br />
+            Expand your options by clicking on the filter button above.
+          </Typography>
         </div>}
-      </div>
+      </div>}
     </>
   );
 };

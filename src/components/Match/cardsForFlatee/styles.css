@@ -84,3 +84,10 @@
   padding: 3vh !important;
   color: darkcyan !important;
 }
+
+.loading {
+  display: block;
+  margin: 15%;
+  align-items: baseline;
+  justify-content: center;
+}

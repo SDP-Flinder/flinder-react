@@ -20,6 +20,8 @@ import './styles.css';
 // import session user state
 import { useAuth } from '../../App/Authentication';
 import ShowInfo from '../ShowInfo';
+import { Typography } from '@material-ui/core';
+import {WaveSpinner} from "react-spinners-kit";
 
 // create cards component and export it
 const CardsForListing = (props) => {
@@ -28,6 +30,8 @@ const CardsForListing = (props) => {
   const [people, setPeople] = useState([]);
   const [readMore, setReadMore] = useState(null);
   const [showMore, setShowMore] = useState(true);
+
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const childRefs = useMemo(() => Array(people.length).fill(0).map((i) => React.createRef()));
 
@@ -40,6 +44,7 @@ const CardsForListing = (props) => {
   // use effect to gather potential matches for this listing
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       await instance.get(matchesForListing, {
         params: matchparam,
         headers: { Authorization: AuthString },
@@ -47,6 +52,7 @@ const CardsForListing = (props) => {
         .then((res) => {
           setPeople(res.data);
         });
+      setLoading(false);
     }
 
     fetchData();
@@ -108,6 +114,13 @@ const CardsForListing = (props) => {
   return (
     <>
       {/* All the cards */}
+      {loading ? 
+      <div className = "loading">
+      <WaveSpinner size = {50} color="#007A78" loading={loading} />
+      <Typography>        
+        Getting profiles...
+      </Typography>
+      </div> :
       <div className="cards">
         <div className="cards__cardContainer">
           {people.map((person, index) => (
@@ -143,7 +156,7 @@ const CardsForListing = (props) => {
           ))}
         </div>
         {/* Swipe buttons */}
-        {people.length > 0 &&
+        {people.length > 0 ?
         <div className="swipe-buttons">
           <IconButton
             onClick={() => swipe('left')}
@@ -157,8 +170,14 @@ const CardsForListing = (props) => {
           >
             <FavoriteIcon fontSize="large" />
           </IconButton>
-        </div>}
+          </div> :
+            <div style = {{justifyContent: "center"}}>
+              <Typography variant = "body1">
+                You have no matches yet.
+              </Typography>
+          </div>}
       </div>
+      }
     </>
   );
 };
