@@ -125,7 +125,7 @@ function ListingDisplay(props) {
           <Button variant="contained" color="primary" className={classes.button} onClick={handleClickOpen}>
             Update Listing
           </Button>
-          <Button variant="contained" color="primary" onClick={deleteListing}>
+          <Button style = {{margin: "10px"}} variant="outlined" color="primary" onClick={deleteListing}>
             Delete Listing
           </Button>
         </div>

@@ -87,7 +87,8 @@
 
 .loading {
   display: block;
-  margin: 15%;
+  margin-top: 15%;
+  margin-right: 45%;
   align-items: baseline;
   justify-content: center;
 }
