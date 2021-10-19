@@ -234,6 +234,7 @@ export default function Navigation(props) {
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
+        sx={{ width: `calc(100% - ${props.drawerWidth}px)`, ml: `${props.drawerWidth}px` }}
       >
         <Toolbar>
         <Button

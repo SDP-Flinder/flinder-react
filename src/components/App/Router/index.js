@@ -17,6 +17,7 @@ import ListingDisplay from '../../Listing/ListingDisplay';
 import Forgot from "../../Auth/Forgot";
 import AddBio from "../../Profile/AddBio";
 import Match from "../../Match";
+import Chat from "../../Chat";
 import MatchDetails from "../../Match/MatchDetails";
 import BottomNav from "../Navigation/BottomNav";
 import { useLocation } from "react-router";
@@ -68,6 +69,7 @@ const Router = () => {
     <ProtectedRoute exact path="/listing/display" component={ListingDisplay} />
     <ProtectedRoute exact path="/profile" component={Profile} />
     <ProtectedRoute exact path="/match" component={Match} />
+    <ProtectedRoute exact path="/chat" component={Chat} />
     <ProtectedRoute exact path="/match/details" component={MatchDetails} />
     <Route component={ErrorRoute} />
   </Switch>
