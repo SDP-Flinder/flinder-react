@@ -73,9 +73,16 @@ function UpdateListing(props) {
   const [rent, setRent] = useState(0);
   const [rentUnits, setRentUnits] = useState('');
   const [utilities, setUtilities] = useState({
-      power: false, water: false, internet: false
+    power: false, water: false, internet: false
   });
   const [active, setActive] = useState(true);
+
+  //Helper axios calls
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
 
   //Method to check if an error is detected on form submit - rent can't be $0
   const findError = () => {
@@ -88,7 +95,6 @@ function UpdateListing(props) {
 
       return { errorFound, invalid };
     }
-
     return { errorFound, invalid };
   }
 
@@ -112,14 +118,6 @@ function UpdateListing(props) {
 
   //Axios method for updating the listing on the DB
   const updateCurrentListing = async () => {
-    // if (user.role === 'flat') {
-    const URL = 'http://localhost:4000/listings/'.concat(id);
-    ;
-
-    const config = {
-      headers: { Authorization: `Bearer ${jwt}` }
-    };
-
     const bodyParameters = {
       description: description,
       roomAvailable: roomAvailable,
@@ -128,9 +126,7 @@ function UpdateListing(props) {
       utilities: utilities,
       active: active
     };
-
-    axios.put(URL, bodyParameters, config);
-    // }
+    instance.put('/listings/'.concat(id), bodyParameters);
   }
 
   //Event handler for the active switch - the owner accoount is able to toggle whether the listing is 
@@ -141,32 +137,25 @@ function UpdateListing(props) {
 
   //Methods for changing state of the utilities, which triggers a change in the chips too
   const changePower = () => {
-    setUtilities({...utilities, power: !utilities.power});
-}
+    setUtilities({ ...utilities, power: !utilities.power });
+  }
 
-const changeWater = () => {
-    setUtilities({...utilities, water: !utilities.water});
-}
+  const changeWater = () => {
+    setUtilities({ ...utilities, water: !utilities.water });
+  }
 
-const changeInternet = () => {
-    setUtilities({...utilities, internet: !utilities.internet});
-}
+  const changeInternet = () => {
+    setUtilities({ ...utilities, internet: !utilities.internet });
+  }
 
   //Load the listing passed by the previous page from the DB
   useEffect(() => {
     async function getListing() {
-      const URL = 'http://localhost:4000/listings/'.concat(id);
-
-      const config = {
-        headers: { Authorization: `Bearer ${jwt}` }
-      };
-
-      const listing = await axios.get(URL, config)
-
+      const listing = await instance.get('/listings/'.concat(id));
       setListing(listing.data);
     }
     getListing();
-  }, [user, id, jwt])
+  }, [user, id])
 
   //Populate the form with the passed in listings details
   useEffect(() => {
@@ -184,11 +173,11 @@ const changeInternet = () => {
       <CssBaseline />
       <Navigation />
       <div className={classes.paper}>
-      <br/>
+        <br />
         <Typography component="h1" variant="h5">
           Update Listing
         </Typography>
-        <br/>
+        <br />
         <form onSubmit={onSubmit}>
           <Grid
             container
@@ -249,30 +238,30 @@ const changeInternet = () => {
             </div>
             <br /><br />
             <InputLabel>Utilities Included</InputLabel>
-            <Grid item xs = {12} >
-                    <br/>
-                    <Stack direction = "row" spacing = {2}>
-                        <Chip 
-                        label = "Power" 
-                        variant = {utilities.power == false ? "outlined" : "default"}
-                        onClick ={changePower}
-                        color = {utilities.power == false ? "default" : "primary"}
-                        />
-                        <Chip 
-                        label = "Water" 
-                        variant = {utilities.water == false ? "outlined" : "default"}
-                        onClick ={changeWater}
-                        color = {utilities.water == false ? "default" : "primary"}
-                        />
-                        <Chip 
-                        label = "Internet" 
-                        variant = {utilities.internet == false ? "outlined" : "default"} 
-                        onClick ={changeInternet}
-                        color = {utilities.internet == false ? "default" : "primary"}
-                        />
-                    </Stack>
-                </Grid>
-            <br/>
+            <Grid item xs={12} >
+              <br />
+              <Stack direction="row" spacing={2}>
+                <Chip
+                  label="Power"
+                  variant={utilities.power == false ? "outlined" : "default"}
+                  onClick={changePower}
+                  color={utilities.power == false ? "default" : "primary"}
+                />
+                <Chip
+                  label="Water"
+                  variant={utilities.water == false ? "outlined" : "default"}
+                  onClick={changeWater}
+                  color={utilities.water == false ? "default" : "primary"}
+                />
+                <Chip
+                  label="Internet"
+                  variant={utilities.internet == false ? "outlined" : "default"}
+                  onClick={changeInternet}
+                  color={utilities.internet == false ? "default" : "primary"}
+                />
+              </Stack>
+            </Grid>
+            <br />
             <div>
               <InputLabel>Available From:</InputLabel>
               <DatePicker
@@ -296,10 +285,11 @@ const changeInternet = () => {
               label="Active"
             />
             <br />
-            <ButtonGroup variant="contained" color="primary">
+            <ButtonGroup color="primary">
               <Button
                 className="button"
                 type="submit"
+                variant="contained"
               >
                 Update
               </Button>
@@ -307,6 +297,7 @@ const changeInternet = () => {
                 className="button"
                 component={RouterLink}
                 to="/"
+                variant="contained"
               >
                 Cancel
               </Button>

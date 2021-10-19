@@ -71,6 +71,13 @@ function CreateListing(props) {
   const [water, setWater] = useState(false);
   const [internet, setInternet] = useState(false);
 
+  //Helper axios calls
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
+
   //Method to check if an error is detected on form submit - rent can't be $0
   const findError = () => {
     const errorFound = {};
@@ -105,25 +112,19 @@ function CreateListing(props) {
 
   //Methods for changing state of the utilities, which triggers a change in the chips too
   const changePower = () => {
-      setPower(!power);
+    setPower(!power);
   }
 
   const changeWater = () => {
     setWater(!water);
-}
+  }
 
-const changeInternet = () => {
+  const changeInternet = () => {
     setInternet(!internet);
-}
+  }
 
   //Axios method to post the new listing to the DB
   const createNewListing = async () => {
-    const URL = 'http://localhost:4000/listings/add/'
-
-    const config = {
-      headers: { Authorization: `Bearer ${jwt}` }
-    };
-
     const bodyParameters = {
       flat_id: user.id,
       description: description,
@@ -131,14 +132,13 @@ const changeInternet = () => {
       rent: rent,
       rentUnits: rentUnits,
       utilities: {
-          power: power,
-          water: water,
-          internet: internet,
+        power: power,
+        water: water,
+        internet: internet,
       },
       active: true
     };
-
-    axios.post(URL, bodyParameters, config);
+    instance.post('/listings/add/', bodyParameters);
   }
 
   return (
@@ -146,7 +146,7 @@ const changeInternet = () => {
       <CssBaseline />
       <Navigation />
       <div className={classes.paper}>
-        <br/>
+        <br />
         <Typography component="h1" variant="h5">
           Create New Listing
         </Typography>
@@ -211,30 +211,30 @@ const changeInternet = () => {
             </div>
             <br /><br />
             <InputLabel>Utilities Included</InputLabel>
-            <Grid item xs = {12} >
-                    <br/>
-                    <Stack direction = "row" spacing = {2}>
-                        <Chip 
-                        label = "Power" 
-                        variant = {power == false ? "outlined" : "default"}
-                        onClick ={changePower}
-                        color = {power == false ? "default" : "primary"}
-                        />
-                        <Chip 
-                        label = "Water" 
-                        variant = {water == false ? "outlined" : "default"}
-                        onClick ={changeWater}
-                        color = {water == false ? "default" : "primary"}
-                        />
-                        <Chip 
-                        label = "Internet" 
-                        variant = {internet == false ? "outlined" : "default"} 
-                        onClick ={changeInternet}
-                        color = {internet == false ? "default" : "primary"}
-                        />
-                    </Stack>
-                </Grid>
-                <br/>
+            <Grid item xs={12} >
+              <br />
+              <Stack direction="row" spacing={2}>
+                <Chip
+                  label="Power"
+                  variant={power == false ? "outlined" : "default"}
+                  onClick={changePower}
+                  color={power == false ? "default" : "primary"}
+                />
+                <Chip
+                  label="Water"
+                  variant={water == false ? "outlined" : "default"}
+                  onClick={changeWater}
+                  color={water == false ? "default" : "primary"}
+                />
+                <Chip
+                  label="Internet"
+                  variant={internet == false ? "outlined" : "default"}
+                  onClick={changeInternet}
+                  color={internet == false ? "default" : "primary"}
+                />
+              </Stack>
+            </Grid>
+            <br />
             <div>
               <InputLabel>Available From:</InputLabel>
               <DatePicker
@@ -246,16 +246,19 @@ const changeInternet = () => {
               />
             </div>
             <br />
-            <ButtonGroup variant="contained" color="primary">
+            <ButtonGroup color="primary">
               <Button
                 className="button"
                 type="submit"
+                variant="contained"
               >
                 Create
               </Button>
-              <Button className="button"
+              <Button 
+                className="button"
                 component={RouterLink}
                 to="/"
+                variant="contained"
               >
                 Cancel
               </Button>

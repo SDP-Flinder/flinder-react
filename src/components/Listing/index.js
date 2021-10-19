@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import axios from 'axios';
 import { useAuth } from '../App/Authentication';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
-import Navigation from "../App/Navigation";
 import Grid from '@mui/material/Grid';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -64,6 +61,13 @@ function ListingList(props) {
   const { user, jwt } = useAuth();
   const [listings, setListings] = useState([]);
 
+  //Helper axios calls
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
+
   //Passes the selected listing to the listing page for displaying
   function selectListing(id) {
     props.history.push({
@@ -106,14 +110,7 @@ function ListingList(props) {
   //Fetch all listings owned by the current user on page load
   useEffect(() => {
     async function getListings() {
-      const URL = 'http://localhost:4000/listings/flat/'.concat(user.id);
-
-      const config = {
-        headers: { Authorization: `Bearer ${jwt}` }
-      };
-
-      const listings = await axios.get(URL, config);
-
+      const listings = await instance.get('/listings/flat/'.concat(user.id));
       setListings(listings.data);
     }
     getListings();

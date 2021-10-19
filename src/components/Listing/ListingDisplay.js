@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { Chip, Grid, Slide } from '@material-ui/core';
+import { Grid, Slide } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Paper from "@material-ui/core/Paper";
 import * as moment from 'moment';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import axios from 'axios';
+import { Config } from '../../config';
 import { useAuth } from '../App/Authentication';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Link from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { Config } from '../../config';
 import CardsForListing from "../Match/cardsForListing/index";
 import Navigation from "../App/Navigation";
-import { Stack } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ListingList from "../Listing";
 
@@ -94,8 +89,14 @@ function ListingDisplay(props) {
   const [active, setActive] = useState(true);
   const [button, setButton] = useState(0);
   const [owner, setOwner] = useState(false);
-
   const [viewMatch, setViewMatch] = useState(true);
+
+  //Helper axios calls
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
 
   //Submit button for deleting the selected listing
   const onSubmit = (e) => {
@@ -113,14 +114,9 @@ function ListingDisplay(props) {
     }
   }
 
+  //Delete the current listing from the database
   const deleteListing = async () => {
-    const URL = 'http://localhost:4000/listings/'.concat(listing.id);
-
-    const config = {
-      headers: { Authorization: `Bearer ${jwt}` }
-    };
-
-    await axios.delete(URL, config);
+    await instance.delete('/listings/'.concat(listing.id));
   }
 
   //Event handler for the active switch - the owner accoount is able to toggle whether the listing is available or not directly from the listing page, without having to oopen the update listing page
@@ -130,14 +126,9 @@ function ListingDisplay(props) {
     updateActive(activeStatus);
   };
 
+  //Update the active status of the current listing in the database
   const updateActive = async (activeStatus) => {
-    const URL = 'http://localhost:4000/listings/'.concat(listing.id);
-
-    const config = {
-      headers: { Authorization: `Bearer ${jwt}` }
-    };
-
-    await axios.put(URL, { active: activeStatus }, config);
+    await instance.put('/listings/'.concat(listing.id), { active: activeStatus });
   }
 
   //Check if the user viewing is the owner of the listing before rendering the update/delete buttons
@@ -149,7 +140,7 @@ function ListingDisplay(props) {
             onClick={() => (setButton(1))}
             className="button"
             type="submit"
-            variant="outlined"
+            variant="contained"
             color="primary"
           >
             Update Listing
@@ -158,7 +149,7 @@ function ListingDisplay(props) {
             onClick={() => (setButton(2))}
             className="button"
             type="submit"
-            variant="outlined"
+            variant="contained"
             color="primary"
           >
             Delete Listing
@@ -189,14 +180,7 @@ function ListingDisplay(props) {
   //Methods to ensure current displayed information is accurate
   useEffect(() => {
     async function getListing() {
-      const URL = 'http://localhost:4000/listings/'.concat(id);
-
-      const config = {
-        headers: { Authorization: `Bearer ${jwt}` }
-      };
-
-      const listing = await axios.get(URL, config)
-
+      const listing = await instance.get('/listings/'.concat(id));
       setListing(listing.data);
     }
     getListing();

@@ -8,14 +8,24 @@ import axios from 'axios';
 import { Config } from '../../config';
 import { Grid } from "@material-ui/core";
 import { Grow } from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
 
 //Set the styles to be used on the page
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
+  },
+  parentPaper: {
+    marginTop: theme.spacing(8),
+    padding: theme.spacing(2),
+    margin: "auto",
+    maxWidth: 1600
   },
   button: {
     margin: theme.spacing(3, 0, 2),
@@ -77,36 +87,36 @@ export default function Match(props) {
     else {
       return matches.map((match) => (
         <div key={++count}>
-        <Grow
-          in={checked}
-        >
-          <Grid className = {classes.matchIcon} container item xs = {12} direction = "row" >
-            <Grid item>
-              <img src = "https://forums.terraria.org/data/avatars/l/128/128493.jpg?1550988870"
-              className = {classes.avt}/>
-            </Grid>
+          <Grow
+            in={checked}
+          >
+            <Grid className={classes.matchIcon} container item xs={12} direction="row" >
+              <Grid item>
+                <img src="https://forums.terraria.org/data/avatars/l/128/128493.jpg?1550988870"
+                  className={classes.avt} />
+              </Grid>
 
-            <Grid>
-              <Typography variant = "body1" className = {classes.info}>
+              <Grid>
+                <Typography variant="body1" className={classes.info}>
                   {user.role == 'flat' ? match.flateeUsername : match.listingUsername}
-              </Typography>
-            </Grid>
-
-            <Grid item>
-              <Button
-                variant="contained"
-                color = "primary"
-                onClick={function () { selectMatch(match) }}
-              >
-                <Typography variant = "caption">
-                View
                 </Typography>
-              </Button>
+              </Grid>
+
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={function () { selectMatch(match) }}
+                >
+                  <Typography variant="caption">
+                    View
+                  </Typography>
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Grow>
-        <br/>
-        <br/>
+          </Grow>
+          <br />
+          <br />
         </div>
       ))
     }
@@ -170,18 +180,17 @@ export default function Match(props) {
 
   //Simple display of the match list buttons
   return (
-    <>
+    <div className={classes.root}>
       <Navigation />
-      <div className={classes.paper}>
-        <br />
-        <Typography component="h1" variant="h5" color="inherit" noWrap className = {classes.title}>
-          Your Matches
-        </Typography>
-        <br />
-        <Grid container spacing = {1}>
-        {renderButtons()}
-        </Grid>
-      </div>
-    </>
+      <Paper className={classes.parentPaper}>
+          <Typography component="h1" variant="h5" color="inherit" noWrap className={classes.title}>
+            Your Matches
+          </Typography>
+          <br />
+          <Grid container spacing={1}>
+            {renderButtons()}
+          </Grid>
+      </Paper>
+    </div>
   );
 };
