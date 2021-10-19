@@ -33,6 +33,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
+    minHeight: 500,
   },
   first: {
     padding: theme.spacing(1),
@@ -46,13 +47,23 @@ const useStyles = makeStyles(theme => ({
     boxShadow: "none"
   },
   parentPaper: {
+    marginTop: theme.spacing(8),
     padding: theme.spacing(2),
     margin: "auto",
     maxWidth: 1600
   },
   standalone: {
     padding: theme.spacing(1),
+    paddingRight: theme.spacing(6),
     textAlign: "center",
+    color: theme.palette.text.secondary,
+    height: 70,
+    boxShadow: "none",
+  },
+  standaloneView: {
+    padding: theme.spacing(1),
+    paddingRight: theme.spacing(8),
+    textAlign: "right",
     color: theme.palette.text.secondary,
     height: 70,
     boxShadow: "none",
@@ -69,7 +80,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: "right",
     color: theme.palette.text.secondary,
     boxShadow: "none",
-  }
+  },
 }));
 
 //Component to display the details of the selected listing for the owner flat account
@@ -221,9 +232,32 @@ function ListingDisplay(props) {
         <Navigation />
         <Slide in={checked} direction="left">
           <div className={classes.paper}>
-            <br /> <br /> <br /> <br /> <br />
             <form onSubmit={onSubmit}>
               <Grid item xs={12} container>
+              <Slide
+                  direction="up" in={checked} mountOnEnter unmountOnExit
+                >
+                  <Grid item xs={12}>
+                    <Paper 
+                    className={!viewMatch ? classes.standalone : classes.standaloneView}>
+                      <Grid item>
+                        <Button variant="contained" color="primary"
+                          onClick={viewListingMatches}
+                        >
+                          <Typography variant="subtitle1">
+                            {viewMatch ? 'My potential flatties' : 'View Listing Details'}
+                          </Typography>
+                        </Button>
+                      </Grid>
+                      {!viewMatch &&
+                        <Grid item>
+                          <CardsForListing listingID={listing.id} />
+                        </Grid>
+                      }
+                    </Paper>
+                  </Grid>
+                </Slide>
+                
                 <Grid item xs container direction="column" spacing={3}>
                   {viewMatch &&
                     <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
@@ -332,28 +366,7 @@ function ListingDisplay(props) {
                     </Paper>
                   </Grid>
                 </Grid>
-                <Slide
-                  direction="up" in={checked} mountOnEnter unmountOnExit
-                >
-                  <Grid item xs={12}>
-                    <Paper className={classes.standalone}>
-                      <Grid item>
-                        <Button variant="outlined" color="primary"
-                          onClick={viewListingMatches}
-                        >
-                          <Typography variant="subtitle1">
-                            {viewMatch ? 'My potential flatties' : 'View Listing Details'}
-                          </Typography>
-                        </Button>
-                      </Grid>
-                      {!viewMatch &&
-                        <Grid item>
-                          <CardsForListing listingID={listing.id} />
-                        </Grid>
-                      }
-                    </Paper>
-                  </Grid>
-                </Slide>
+
               </Grid>
             </form>
             <br />
