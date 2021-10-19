@@ -2,38 +2,19 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-date-picker';
 import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
-import { Chip, Typography, Grid, InputLabel, MenuItem } from '@material-ui/core';
+import { Chip, Grid, InputLabel, MenuItem } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
 import { useAuth } from '../App/Authentication';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Link from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
-import Navigation from "../App/Navigation";
-import { Stack } from '@mui/material';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href={`${Config.AppURL}`}>
-        {`${Config.AppName}`}
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { Dialog, DialogActions, DialogContent, DialogTitle, Stack } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -57,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 //Form for a Flat user to update a selected listing
 function UpdateListing(props) {
-
+  const { open, setOpen } = props;
   const classes = useStyles();
   const { user, jwt } = useAuth();
   const [listing, setListing] = useState([]);
@@ -112,8 +93,12 @@ function UpdateListing(props) {
       setInvalid(newError.invalid);
     } else {
       updateCurrentListing();
-      props.history.push('/');
+      handleClose();
     }
+  }
+
+  const handleClose = () => {
+    setOpen(false);
   }
 
   //Axios method for updating the listing on the DB
@@ -169,15 +154,16 @@ function UpdateListing(props) {
   }, [listing])
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Navigation />
-      <div className={classes.paper}>
-        <br />
-        <Typography component="h1" variant="h5">
-          Update Listing
-        </Typography>
-        <br />
+    <div className={classes.paper}>
+    <Dialog
+      open={open}
+      keepMounted
+      onClose={handleClose}
+      onBackdropClick={handleClose}
+    >
+      <DialogTitle>Update Listing</DialogTitle>
+      <br />
+      <DialogContent>
         <form onSubmit={onSubmit}>
           <Grid
             container
@@ -185,7 +171,6 @@ function UpdateListing(props) {
             justifyContent="center"
             alignItems="center"
           >
-            <div>
               <FormControl>
                 <TextField className="input"
                   label="Flat/Room Description"
@@ -199,7 +184,6 @@ function UpdateListing(props) {
                   variant="outlined"
                 />
               </FormControl>
-            </div>
             <br /><br /><br /><br />
             <div>
               <InputLabel
@@ -220,7 +204,6 @@ function UpdateListing(props) {
               </FormControl>
             </div>
             <br />
-            <div>
               <FormControl>
                 {/* Generates warning upon first clicking drop down - library hasn't kept up with react */}
                 <TextField className="input"
@@ -235,7 +218,6 @@ function UpdateListing(props) {
                   <MenuItem value="Per Month">Per Month</MenuItem>
                 </TextField>
               </FormControl>
-            </div>
             <br /><br />
             <InputLabel>Utilities Included</InputLabel>
             <Grid item xs={12} >
@@ -262,7 +244,6 @@ function UpdateListing(props) {
               </Stack>
             </Grid>
             <br />
-            <div>
               <InputLabel>Available From:</InputLabel>
               <DatePicker
                 label="Available From"
@@ -271,7 +252,6 @@ function UpdateListing(props) {
                 value={roomAvailable}
                 onChange={(e) => { setRoomAvailable(e) }}
               />
-            </div>
             <br />
             <FormControlLabel
               control={
@@ -285,30 +265,22 @@ function UpdateListing(props) {
               label="Active"
             />
             <br />
-            <ButtonGroup color="primary">
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
               <Button
-                className="button"
+                id="save"
                 type="submit"
                 variant="contained"
+                color="primary"
               >
-                Update
+                Save
               </Button>
-              <Button
-                className="button"
-                component={RouterLink}
-                to="/"
-                variant="contained"
-              >
-                Cancel
-              </Button>
-            </ButtonGroup>
+            </DialogActions>
           </Grid>
         </form>
+        </DialogContent>
+        </Dialog>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
   );
 }
 

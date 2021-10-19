@@ -15,6 +15,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Tooltip } from '@material-ui/core';
 import { Grow } from '@material-ui/core';
 import { withRouter } from 'react-router';
+import CreateListing from './CreateListing';
 
 function Copyright() {
   return (
@@ -60,6 +61,7 @@ function ListingList(props) {
   const classes = useStyles();
   const { user, jwt } = useAuth();
   const [listings, setListings] = useState([]);
+  const [open, setOpen] = useState(false);
 
   //Helper axios calls
   const instance = axios.create({
@@ -107,6 +109,10 @@ function ListingList(props) {
     ))
   }
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  }
+
   //Fetch all listings owned by the current user on page load
   useEffect(() => {
     async function getListings() {
@@ -116,6 +122,14 @@ function ListingList(props) {
     getListings();
   }, [user, jwt])
 
+  useEffect(() => {
+    async function getListings() {
+      const listings = await instance.get('/listings/flat/'.concat(user.id));
+      setListings(listings.data);
+    }
+    getListings();
+  }, [open])
+
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
@@ -124,10 +138,7 @@ function ListingList(props) {
         </Typography>
         <Grid containder direction="row">
           <Tooltip title="Add new listing">
-            <Button variant="contained" color="primary" className={classes.button}
-              component={RouterLink}
-              to="/newlisting"
-            >
+            <Button variant="contained" color="primary" className={classes.button} onClick={handleClickOpen}>
               <AddCircleIcon />
             </Button>
           </Tooltip>
@@ -137,6 +148,7 @@ function ListingList(props) {
       <Box mt={8}>
         <Copyright />
       </Box>
+      <CreateListing open={open} setOpen={setOpen} />
     </Container>
   );
 }

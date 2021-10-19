@@ -10,8 +10,6 @@ import Home from "../../Home"
 import { Role } from "../Authentication";
 import ProtectedRoute from "../Authentication/ProtectedRoute";
 import ErrorRoute from "./ErrorRoute";
-import CreateListing from '../../Listing/CreateListing';
-import UpdateListing from '../../Listing/UpdateListing';
 import ListingList from '../../Listing';
 import ListingDisplay from '../../Listing/ListingDisplay';
 import Forgot from "../../Auth/Forgot";
@@ -62,9 +60,7 @@ const Router = () => {
     {/* Protected */}
     <ProtectedRoute exact roles={[Role.Admin]} path="/dashboard" component={Dashboard} />
     <ProtectedRoute exact roles={[Role.Flatee]} path="/addbio" component={AddBio} />
-    <ProtectedRoute exact roles={[Role.Flat]} path="/newlisting" component={CreateListing} />
     <ProtectedRoute exact path="/" component={Home} />
-    <ProtectedRoute exact roles={[Role.Flat]} path="/updatelisting" component={UpdateListing} />
     <ProtectedRoute exact roles={[Role.Flat]} path="/listings" component={ListingList} />
     <ProtectedRoute exact path="/listing/display" component={ListingDisplay} />
     <ProtectedRoute exact path="/profile" component={Profile} />

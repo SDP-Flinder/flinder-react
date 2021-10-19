@@ -16,6 +16,7 @@ import CardsForListing from "../Match/cardsForListing/index";
 import Navigation from "../App/Navigation";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ListingList from "../Listing";
+import UpdateListing from './UpdateListing';
 
 //Transition effect
 const checked = true;
@@ -87,9 +88,9 @@ function ListingDisplay(props) {
   const [listing, setListing] = useState([]);
   const [date, setDate] = useState('');
   const [active, setActive] = useState(true);
-  const [button, setButton] = useState(0);
   const [owner, setOwner] = useState(false);
   const [viewMatch, setViewMatch] = useState(true);
+  const [open, setOpen] = useState(false);
 
   //Helper axios calls
   const instance = axios.create({
@@ -98,25 +99,10 @@ function ListingDisplay(props) {
     headers: { Authorization: `Bearer ${jwt}` }
   })
 
-  //Submit button for deleting the selected listing
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    if (button === 1) {
-      props.history.push({
-        pathname: '/updatelisting',
-        state: { id: listing.id },
-      });
-    }
-    if (button === 2) {
-      deleteListing();
-      props.history.push('/');
-    }
-  }
-
   //Delete the current listing from the database
   const deleteListing = async () => {
     await instance.delete('/listings/'.concat(listing.id));
+    props.history.push('/');
   }
 
   //Event handler for the active switch - the owner accoount is able to toggle whether the listing is available or not directly from the listing page, without having to oopen the update listing page
@@ -136,27 +122,19 @@ function ListingDisplay(props) {
     if (owner) {
       return (
         <div>
-          <Button
-            onClick={() => (setButton(1))}
-            className="button"
-            type="submit"
-            variant="contained"
-            color="primary"
-          >
+          <Button variant="contained" color="primary" className={classes.button} onClick={handleClickOpen}>
             Update Listing
           </Button>
-          <Button
-            onClick={() => (setButton(2))}
-            className="button"
-            type="submit"
-            variant="contained"
-            color="primary"
-          >
+          <Button variant="contained" color="primary" onClick={deleteListing}>
             Delete Listing
           </Button>
         </div>
       )
     }
+  }
+
+  const handleClickOpen = () => {
+    setOpen(true);
   }
 
   //Check if the user viewing is the owner of the listing before rendering the active switch
@@ -184,7 +162,7 @@ function ListingDisplay(props) {
       setListing(listing.data);
     }
     getListing();
-  }, [user, id, jwt])
+  }, [id])
 
   useEffect(() => {
     if (listing.active !== undefined) {
@@ -205,6 +183,14 @@ function ListingDisplay(props) {
     }
   }, [user, listing])
 
+  useEffect(() => {
+    async function getListing() {
+      const listing = await instance.get('/listings/'.concat(id));
+      setListing(listing.data);
+    }
+    getListing();
+  }, [open])
+
   const viewListingMatches = () => {
     setViewMatch(!viewMatch);
   }
@@ -216,7 +202,6 @@ function ListingDisplay(props) {
         <Navigation />
         <Slide in={checked} direction="left">
           <div className={classes.paper}>
-            <form onSubmit={onSubmit}>
               <Grid item xs={12} container>
               <Slide
                   direction="up" in={checked} mountOnEnter unmountOnExit
@@ -350,13 +335,12 @@ function ListingDisplay(props) {
                     </Paper>
                   </Grid>
                 </Grid>
-
               </Grid>
-            </form>
             <br />
           </div>
         </Slide>
       </Paper>
+      <UpdateListing open={open} setOpen={setOpen} />
     </div>
   );
 }
