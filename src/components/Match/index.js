@@ -139,9 +139,10 @@ export default function Match(props) {
       await instance.get('/listings/flat/'.concat(user.id))
         .then(res => {
           listings = res.data
+        }).catch((error) => {
+          console.log('error ' + error);
         });
-      const listingList = listings;
-      listingList.forEach(listing => {
+      listings.forEach(listing => {
         getListingMatches(listing);
       })
     }
@@ -151,6 +152,8 @@ export default function Match(props) {
       await instance.get('/matches/getSuccessMatchesForListing/'.concat(listing.id))
         .then(res => {
           tempMatches = res.data
+        }).catch((error) => {
+          console.log('error ' + error);
         });
       tempMatches.forEach(match => {
         setMatches(matches => [...matches, match])
@@ -162,11 +165,10 @@ export default function Match(props) {
       await instance.get('/matches/getSuccessMatchesForFlatee/'.concat(user.id))
         .then(res => {
           tempMatches = res.data
+        }).catch((error) => {
+          console.log('error ' + error);
         });
-      // setMatches(tempMatches);
-      tempMatches.forEach(match => {
-        setMatches(matches => [...matches, match])
-      })
+      setMatches(tempMatches);
     }
 
     //Run the code to fetch the correct data, based on the role of the account
