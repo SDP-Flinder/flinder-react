@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import axios from 'axios';
 import { useAuth } from '../App/Authentication';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
-import Navigation from "../App/Navigation";
 import Grid from '@mui/material/Grid';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Tooltip } from '@material-ui/core';
 import { Grow } from '@material-ui/core';
 import { withRouter } from 'react-router';
+import CreateListing from './CreateListing';
 
 function Copyright() {
   return (
@@ -54,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10,
     width: 100,
     height: 100,
-    margin: 10  
+    margin: 10
   },
 }));
 
@@ -63,11 +61,17 @@ function ListingList(props) {
   const classes = useStyles();
   const { user, jwt } = useAuth();
   const [listings, setListings] = useState([]);
-  const [checked, setChecked] = useState(true);
+  const [open, setOpen] = useState(false);
+
+  //Helper axios calls
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
 
   //Passes the selected listing to the listing page for displaying
   function selectListing(id) {
-    setChecked(false);
     props.history.push({
       pathname: '/listing/display',
       state: { id: id },
@@ -80,70 +84,71 @@ function ListingList(props) {
     return listings.map((listing) => (
       <>
         <Grow
-          in={checked}
+          in={true}
           style={{ transformOrigin: '0 0 0' }}
-          {...(checked ? { timeout: 1000 + count*300 } : {})}
+          {...{ timeout: 1000 + count * 300 }}
         >
-            <Button       
-              key={listing.id}
-              className= {classes.button}
-              variant="contained"
-              onClick={function () { selectListing(listing.id) }}
-            >
-              <Grid container alignItems = "center" justifyContent = "center">
-              <Grid item xs = {12}>
-                  <MeetingRoomIcon color = "primary"/>
+          <Button
+            key={listing.id}
+            className={classes.button}
+            variant="contained"
+            onClick={function () { selectListing(listing.id) }}
+          >
+            <Grid container alignItems="center" justifyContent="center">
+              <Grid item xs={12}>
+                <MeetingRoomIcon color="primary" />
               </Grid>
 
-              <Grid item xs = {12}>
-              {++count}
+              <Grid item xs={12}>
+                {++count}
               </Grid>
-              </Grid>
-            </Button>
-      </Grow>
+            </Grid>
+          </Button>
+        </Grow>
       </>
     ))
+  }
+
+  const handleClickOpen = () => {
+    setOpen(true);
   }
 
   //Fetch all listings owned by the current user on page load
   useEffect(() => {
     async function getListings() {
-      const URL = 'http://localhost:4000/listings/flat/'.concat(user.id);
-
-      const config = {
-        headers: { Authorization: `Bearer ${jwt}` }
-      };
-
-      const listings = await axios.get(URL, config);
-
+      const listings = await instance.get('/listings/flat/'.concat(user.id));
       setListings(listings.data);
     }
     getListings();
   }, [user, jwt])
 
+  useEffect(() => {
+    async function getListings() {
+      const listings = await instance.get('/listings/flat/'.concat(user.id));
+      setListings(listings.data);
+    }
+    getListings();
+  }, [open])
+
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Navigation />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
           Your Listings
         </Typography>
-        <Grid containder  direction = "row">
-          <Tooltip title = "Add new listing">
-          <Button variant = "contained" color = "primary" className = {classes.button}
-            component={RouterLink}
-            to="/newlisting"
-            >
-                <AddCircleIcon/>
-          </Button>
+        <Grid containder direction="row">
+          <Tooltip title="Add new listing">
+            <Button variant="contained" color="primary" className={classes.button} onClick={handleClickOpen}>
+              <AddCircleIcon />
+            </Button>
           </Tooltip>
-        {renderButtons()}
+          {renderButtons()}
         </Grid>
       </div>
       <Box mt={8}>
         <Copyright />
       </Box>
+      <CreateListing open={open} setOpen={setOpen} />
     </Container>
   );
 }

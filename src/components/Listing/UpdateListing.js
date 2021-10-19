@@ -2,38 +2,19 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-date-picker';
 import "react-calendar/dist/Calendar.css";
 import "react-date-picker/dist/DatePicker.css";
-import { Chip, Typography, Grid, InputLabel, MenuItem } from '@material-ui/core';
+import { Chip, Grid, InputLabel, MenuItem } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
 import { useAuth } from '../App/Authentication';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Link from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import { Config } from '../../config';
-import Navigation from "../App/Navigation";
-import { Stack } from '@mui/material';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href={`${Config.AppURL}`}>
-        {`${Config.AppName}`}
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { Dialog, DialogActions, DialogContent, DialogTitle, Stack } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -57,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 //Form for a Flat user to update a selected listing
 function UpdateListing(props) {
-
+  const { open, setOpen } = props;
   const classes = useStyles();
   const { user, jwt } = useAuth();
   const [listing, setListing] = useState([]);
@@ -73,9 +54,16 @@ function UpdateListing(props) {
   const [rent, setRent] = useState(0);
   const [rentUnits, setRentUnits] = useState('');
   const [utilities, setUtilities] = useState({
-      power: false, water: false, internet: false
+    power: false, water: false, internet: false
   });
   const [active, setActive] = useState(true);
+
+  //Helper axios calls
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
 
   //Method to check if an error is detected on form submit - rent can't be $0
   const findError = () => {
@@ -88,7 +76,6 @@ function UpdateListing(props) {
 
       return { errorFound, invalid };
     }
-
     return { errorFound, invalid };
   }
 
@@ -106,20 +93,16 @@ function UpdateListing(props) {
       setInvalid(newError.invalid);
     } else {
       updateCurrentListing();
-      props.history.push('/');
+      handleClose();
     }
+  }
+
+  const handleClose = () => {
+    setOpen(false);
   }
 
   //Axios method for updating the listing on the DB
   const updateCurrentListing = async () => {
-    // if (user.role === 'flat') {
-    const URL = 'http://localhost:4000/listings/'.concat(id);
-    ;
-
-    const config = {
-      headers: { Authorization: `Bearer ${jwt}` }
-    };
-
     const bodyParameters = {
       description: description,
       roomAvailable: roomAvailable,
@@ -128,9 +111,7 @@ function UpdateListing(props) {
       utilities: utilities,
       active: active
     };
-
-    axios.put(URL, bodyParameters, config);
-    // }
+    instance.put('/listings/'.concat(id), bodyParameters);
   }
 
   //Event handler for the active switch - the owner accoount is able to toggle whether the listing is 
@@ -141,32 +122,25 @@ function UpdateListing(props) {
 
   //Methods for changing state of the utilities, which triggers a change in the chips too
   const changePower = () => {
-    setUtilities({...utilities, power: !utilities.power});
-}
+    setUtilities({ ...utilities, power: !utilities.power });
+  }
 
-const changeWater = () => {
-    setUtilities({...utilities, water: !utilities.water});
-}
+  const changeWater = () => {
+    setUtilities({ ...utilities, water: !utilities.water });
+  }
 
-const changeInternet = () => {
-    setUtilities({...utilities, internet: !utilities.internet});
-}
+  const changeInternet = () => {
+    setUtilities({ ...utilities, internet: !utilities.internet });
+  }
 
   //Load the listing passed by the previous page from the DB
   useEffect(() => {
     async function getListing() {
-      const URL = 'http://localhost:4000/listings/'.concat(id);
-
-      const config = {
-        headers: { Authorization: `Bearer ${jwt}` }
-      };
-
-      const listing = await axios.get(URL, config)
-
+      const listing = await instance.get('/listings/'.concat(id));
       setListing(listing.data);
     }
     getListing();
-  }, [user, id, jwt])
+  }, [user, id])
 
   //Populate the form with the passed in listings details
   useEffect(() => {
@@ -180,15 +154,16 @@ const changeInternet = () => {
   }, [listing])
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Navigation />
-      <div className={classes.paper}>
-      <br/>
-        <Typography component="h1" variant="h5">
-          Update Listing
-        </Typography>
-        <br/>
+    <div className={classes.paper}>
+    <Dialog
+      open={open}
+      keepMounted
+      onClose={handleClose}
+      onBackdropClick={handleClose}
+    >
+      <DialogTitle>Update Listing</DialogTitle>
+      <br />
+      <DialogContent>
         <form onSubmit={onSubmit}>
           <Grid
             container
@@ -196,7 +171,6 @@ const changeInternet = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <div>
               <FormControl>
                 <TextField className="input"
                   label="Flat/Room Description"
@@ -210,7 +184,6 @@ const changeInternet = () => {
                   variant="outlined"
                 />
               </FormControl>
-            </div>
             <br /><br /><br /><br />
             <div>
               <InputLabel
@@ -231,7 +204,6 @@ const changeInternet = () => {
               </FormControl>
             </div>
             <br />
-            <div>
               <FormControl>
                 {/* Generates warning upon first clicking drop down - library hasn't kept up with react */}
                 <TextField className="input"
@@ -246,34 +218,32 @@ const changeInternet = () => {
                   <MenuItem value="Per Month">Per Month</MenuItem>
                 </TextField>
               </FormControl>
-            </div>
             <br /><br />
             <InputLabel>Utilities Included</InputLabel>
-            <Grid item xs = {12} >
-                    <br/>
-                    <Stack direction = "row" spacing = {2}>
-                        <Chip 
-                        label = "Power" 
-                        variant = {utilities.power == false ? "outlined" : "default"}
-                        onClick ={changePower}
-                        color = {utilities.power == false ? "default" : "primary"}
-                        />
-                        <Chip 
-                        label = "Water" 
-                        variant = {utilities.water == false ? "outlined" : "default"}
-                        onClick ={changeWater}
-                        color = {utilities.water == false ? "default" : "primary"}
-                        />
-                        <Chip 
-                        label = "Internet" 
-                        variant = {utilities.internet == false ? "outlined" : "default"} 
-                        onClick ={changeInternet}
-                        color = {utilities.internet == false ? "default" : "primary"}
-                        />
-                    </Stack>
-                </Grid>
-            <br/>
-            <div>
+            <Grid item xs={12} >
+              <br />
+              <Stack direction="row" spacing={2}>
+                <Chip
+                  label="Power"
+                  variant={utilities.power == false ? "outlined" : "default"}
+                  onClick={changePower}
+                  color={utilities.power == false ? "default" : "primary"}
+                />
+                <Chip
+                  label="Water"
+                  variant={utilities.water == false ? "outlined" : "default"}
+                  onClick={changeWater}
+                  color={utilities.water == false ? "default" : "primary"}
+                />
+                <Chip
+                  label="Internet"
+                  variant={utilities.internet == false ? "outlined" : "default"}
+                  onClick={changeInternet}
+                  color={utilities.internet == false ? "default" : "primary"}
+                />
+              </Stack>
+            </Grid>
+            <br />
               <InputLabel>Available From:</InputLabel>
               <DatePicker
                 label="Available From"
@@ -282,7 +252,6 @@ const changeInternet = () => {
                 value={roomAvailable}
                 onChange={(e) => { setRoomAvailable(e) }}
               />
-            </div>
             <br />
             <FormControlLabel
               control={
@@ -296,28 +265,22 @@ const changeInternet = () => {
               label="Active"
             />
             <br />
-            <ButtonGroup variant="contained" color="primary">
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
               <Button
-                className="button"
+                id="save"
                 type="submit"
+                variant="contained"
+                color="primary"
               >
-                Update
+                Save
               </Button>
-              <Button
-                className="button"
-                component={RouterLink}
-                to="/"
-              >
-                Cancel
-              </Button>
-            </ButtonGroup>
+            </DialogActions>
           </Grid>
         </form>
+        </DialogContent>
+        </Dialog>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
   );
 }
 

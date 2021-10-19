@@ -1,67 +1,82 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { Chip, Grid, Slide } from '@material-ui/core';
+import { Grid, Slide } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Paper from "@material-ui/core/Paper";
 import * as moment from 'moment';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import axios from 'axios';
+import { Config } from '../../config';
 import { useAuth } from '../App/Authentication';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Link from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { Config } from '../../config';
 import CardsForListing from "../Match/cardsForListing/index";
 import Navigation from "../App/Navigation";
-import { Stack } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ListingList from "../Listing";
+import UpdateListing from './UpdateListing';
 
 //Transition effect
 const checked = true;
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href={`${Config.AppURL}`}>
-        {`${Config.AppName}`}
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
   paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    minHeight: 500,
+  },
+  first: {
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  },
+  second: {
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    boxShadow: "none"
+  },
+  parentPaper: {
     marginTop: theme.spacing(8),
-    marginBottom: 30,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    padding: theme.spacing(2),
+    margin: "auto",
+    maxWidth: 1600
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+  standalone: {
+    padding: theme.spacing(1),
+    paddingRight: theme.spacing(6),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    height: 70,
+    boxShadow: "none",
   },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+  standaloneView: {
+    padding: theme.spacing(1),
+    paddingRight: theme.spacing(8),
+    textAlign: "right",
+    color: theme.palette.text.secondary,
+    height: 70,
+    boxShadow: "none",
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+  infoDisplay: {
+    padding: theme.spacing(2),
+    fontWeight: 600,
+    textAlign: "left",
+    color: theme.palette.text.secondary,
+    boxShadow: "none",
   },
-  info: {
-    marginTop: 10,
-    marginBottom: 10,
-    boxSizing: "border-box",
-    maxWidth: 500,
-    padding: 10,
-  }
+  userInfo: {
+    padding: theme.spacing(2),
+    textAlign: "right",
+    color: theme.palette.text.secondary,
+    boxShadow: "none",
+  },
 }));
 
 //Component to display the details of the selected listing for the owner flat account
@@ -73,35 +88,21 @@ function ListingDisplay(props) {
   const [listing, setListing] = useState([]);
   const [date, setDate] = useState('');
   const [active, setActive] = useState(true);
-  const [button, setButton] = useState(0);
   const [owner, setOwner] = useState(false);
-
   const [viewMatch, setViewMatch] = useState(true);
+  const [open, setOpen] = useState(false);
 
-  //Submit button for deleting the selected listing
-  const onSubmit = (e) => {
-    e.preventDefault();
+  //Helper axios calls
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
 
-    if (button === 1) {
-      props.history.push({
-        pathname: '/updatelisting',
-        state: { id: listing.id },
-      });
-    }
-    if (button === 2) {
-      deleteListing();
-      props.history.push('/');
-    }
-  }
-
+  //Delete the current listing from the database
   const deleteListing = async () => {
-    const URL = 'http://localhost:4000/listings/'.concat(listing.id);
-
-    const config = {
-      headers: { Authorization: `Bearer ${jwt}` }
-    };
-
-    await axios.delete(URL, config);
+    await instance.delete('/listings/'.concat(listing.id));
+    props.history.push('/');
   }
 
   //Event handler for the active switch - the owner accoount is able to toggle whether the listing is available or not directly from the listing page, without having to oopen the update listing page
@@ -111,39 +112,29 @@ function ListingDisplay(props) {
     updateActive(activeStatus);
   };
 
+  //Update the active status of the current listing in the database
   const updateActive = async (activeStatus) => {
-    const URL = 'http://localhost:4000/listings/'.concat(listing.id);
-
-    const config = {
-      headers: { Authorization: `Bearer ${jwt}` }
-    };
-
-    await axios.put(URL, { active: activeStatus }, config);
+    await instance.put('/listings/'.concat(listing.id), { active: activeStatus });
   }
 
   //Check if the user viewing is the owner of the listing before rendering the update/delete buttons
   const renderButtons = () => {
     if (owner) {
       return (
-        <ButtonGroup variant="contained" color="primary">
-          <Button
-            onClick={() => (setButton(1))}
-            className="button"
-            type="submit"
-          >
+        <div>
+          <Button variant="contained" color="primary" className={classes.button} onClick={handleClickOpen}>
             Update Listing
           </Button>
-          <Button
-            onClick={() => (setButton(2))}
-            className="button"
-            type="submit"
-          >
+          <Button variant="contained" color="primary" onClick={deleteListing}>
             Delete Listing
           </Button>
-        </ButtonGroup>
-
+        </div>
       )
     }
+  }
+
+  const handleClickOpen = () => {
+    setOpen(true);
   }
 
   //Check if the user viewing is the owner of the listing before rendering the active switch
@@ -167,18 +158,11 @@ function ListingDisplay(props) {
   //Methods to ensure current displayed information is accurate
   useEffect(() => {
     async function getListing() {
-      const URL = 'http://localhost:4000/listings/'.concat(id);
-
-      const config = {
-        headers: { Authorization: `Bearer ${jwt}` }
-      };
-
-      const listing = await axios.get(URL, config)
-
+      const listing = await instance.get('/listings/'.concat(id));
       setListing(listing.data);
     }
     getListing();
-  }, [user, id, jwt])
+  }, [id])
 
   useEffect(() => {
     if (listing.active !== undefined) {
@@ -199,162 +183,165 @@ function ListingDisplay(props) {
     }
   }, [user, listing])
 
+  useEffect(() => {
+    async function getListing() {
+      const listing = await instance.get('/listings/'.concat(id));
+      setListing(listing.data);
+    }
+    getListing();
+  }, [open])
+
   const viewListingMatches = () => {
     setViewMatch(!viewMatch);
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Navigation />
-      <Slide in = {checked} direction = "left">
-      <div className={classes.paper}>
-        <br/>
-        <form onSubmit={onSubmit}>
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-          >
-            {/* {viewMatch &&
-            <ButtonGroup variant="contained" color="primary">
-              <Button
-                className="button"
-                component={RouterLink}
-                to="/listings"
-              >
-                Listings
-              </Button>
-              <Button
-                className="button"
-                component={RouterLink}
-                to="/newlisting"
-              >
-                Create Listing
-              </Button>
-            </ButtonGroup>} */}
-
-            {/* Placeholder listing information - will replace with a more elegant display, such as cards, once developed */}
-            <div>
-              { viewMatch &&
-              <>
-              <Grid container spacing = {2} className = {classes.info}>
-                <Grid item xs = {2}>
-                  <Button
-                  component={RouterLink}
-                  to="/">
-                      <ArrowBackIosIcon color = "primary"/>
-                      <Typography variant = "button" color = "primary">
-                      Back
-                      </Typography>
-                  </Button>
-                </Grid>
-                <Grid item xs = {12}>
-                  <Typography variant = "h5">
-                    Listing #{listing.id}
-                  </Typography>
-                </Grid>
-                <Grid item xs = {12}>
-                  <div >
-                    <Typography variant = "caption">
-                    DESCRIPTION
-                    </Typography> 
-                    <Typography varian = "body1">
-                    {listing.description}
-                    </Typography>
-                  </div>
-                </Grid>
-
-                <Grid item container xs = {12}>
-                  <Grid item xs = {3}>
-                  <Typography variant = "caption">UTILITIES </Typography>
-                  </Grid>
-                  <Grid item xs = {12} >
-                        <br/>
-                        <Stack direction = "row" spacing = {2}>
-                            <Chip 
-                            label = "Power" 
-                            variant = {listing.utilities == undefined ? "outlined" : 
-                            (listing.utilities.power == false ? "outlined" : "default")}
-                            color = {listing.utilities == undefined ? "default" : 
-                            (listing.utilities.power == false ? "default" : "primary")}
-                            />
-                            <Chip 
-                            label = "Water" 
-                            variant = {listing.utilities == undefined ? "outlined" : 
-                            (listing.utilities.water == false ? "outlined" : "default")}
-                            color = {listing.utilities == undefined ? "default" : 
-                            (listing.utilities.water == false ? "default" : "primary")}
-                            />
-                            <Chip 
-                            label = "Internet" 
-                            variant = {listing.utilities == undefined ? "outlined" : 
-                            (listing.utilities.internet == false ? "outlined" : "default")} 
-                            color = {listing.utilities == undefined ? " " : 
-                            (listing.utilities.internet == false ? "default" : "primary")}
-                            />
-                        </Stack>
-                    </Grid>
-                </Grid>
-
-                <Grid item xs = {12}>
-                    <>
-                    <Typography variant ="caption">
-                    RENT
-                    </Typography>
-
-                    <Typography variant = "body1">
-                    ${listing.rent} {listing.rentUnits}
-                    </Typography>
-                    </>
-                </Grid>
-
-                <Grid item xs = {12}>
-                    <>
-                    <Typography variant = "caption">
-                    AVAILABLE
-                    </Typography>
-
-                    <Typography variant = "body1">
-                    {date}
-                    </Typography>
-                    </>
-
-                    <Grid item xs = {12}>
-                    {renderSwitch()}
-                    </Grid>
-                </Grid>
-              <br/>
-              <br/>
-              </Grid>
-              {renderButtons()}
-              </>
-              }
-            </div>
-            <br/>
-            <Grid item>
-            <Button variant = "outlined" color = "primary"
-                onClick = {viewListingMatches}
+    <div className={classes.root}>
+      <Paper className={classes.parentPaper}>
+        <CssBaseline />
+        <Navigation />
+        <Slide in={checked} direction="left">
+          <div className={classes.paper}>
+              <Grid item xs={12} container>
+              <Slide
+                  direction="up" in={checked} mountOnEnter unmountOnExit
                 >
-                  <Typography variant = "subtitle1">
-                  {viewMatch? 'My potential flatties' : 'View Listing Details'}
-                  </Typography>
-            </Button>
-            </Grid>
-              { !viewMatch &&
-                <Grid item>
-                <CardsForListing listingID={listing.id} />
+                  <Grid item xs={12}>
+                    <Paper 
+                    className={!viewMatch ? classes.standalone : classes.standaloneView}>
+                      <Grid item>
+                        <Button variant="contained" color="primary"
+                          onClick={viewListingMatches}
+                        >
+                          <Typography variant="subtitle1">
+                            {viewMatch ? 'My potential flatties' : 'View Listing Details'}
+                          </Typography>
+                        </Button>
+                      </Grid>
+                      {!viewMatch &&
+                        <Grid item>
+                          <CardsForListing listingID={listing.id} />
+                        </Grid>
+                      }
+                    </Paper>
+                  </Grid>
+                </Slide>
+                
+                <Grid item xs container direction="column" spacing={3}>
+                  {viewMatch &&
+                    <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
+                      <Grid item xs={5}>
+                        <Paper variant="outlined" className={classes.first}>
+                          <ListingList />
+                        </Paper>
+                      </Grid>
+                    </Slide>
+                  }
+                  <Grid item xs={7}>
+                    <Paper className={classes.second}>
+                      <Grid item xs container direction="column" spacing={2}>
+                        {viewMatch &&
+                          <Grid item xs={12}>
+                            <Paper variant="outlined" className={classes.paper}>
+                              <Grid item xs container direction="row" spacing={1}>
+                                <Grid item xs={2}>
+                                  <Button
+                                    component={RouterLink}
+                                    to="/">
+                                    <ArrowBackIosIcon color="primary" />
+                                    <Typography variant="button" color="primary">
+                                      Back
+                                    </Typography>
+                                  </Button>
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                  <Typography variant="h5">
+                                    Listing #{listing.id}
+                                  </Typography>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                  <Paper className={classes.infoDisplay}>DESCRIPTION</Paper>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Paper className={classes.userInfo}>
+                                    {listing.description}
+                                  </Paper>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                  <Paper className={classes.infoDisplay}>RENT</Paper>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Paper className={classes.userInfo}>
+                                    ${listing.rent} {listing.rentUnits}
+                                  </Paper>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                  <Paper className={classes.infoDisplay}>AVAILABLE</Paper>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Paper className={classes.userInfo}>
+                                    {date}
+                                  </Paper>
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                  <Paper className={classes.infoDisplay}>
+                                    UTILITIES
+                                  </Paper>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Paper className={classes.infoDisplay}>POWER</Paper>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Paper className={classes.userInfo}>
+                                    {listing.utilities == undefined ? "N/A" :
+                                      (listing.utilities.power == false ? "Not included" : "Included")}
+                                  </Paper>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                  <Paper className={classes.infoDisplay}>WATER</Paper>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Paper className={classes.userInfo}>
+                                    {listing.utilities == undefined ? "N/A" :
+                                      (listing.utilities.water == false ? "Not included" : "Included")}
+                                  </Paper>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                  <Paper className={classes.infoDisplay}>INTERNET</Paper>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Paper className={classes.userInfo}>
+                                    {listing.utilities == undefined ? "N/A" :
+                                      (listing.utilities.internet == false ? "Not included" : "Included")}
+                                  </Paper>
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                  {renderSwitch()}
+                                </Grid>
+                              </Grid>
+                              {renderButtons()}
+                            </Paper>
+                          </Grid>
+                        }
+                      </Grid>
+                    </Paper>
+                  </Grid>
                 </Grid>
-              }
-          </Grid>
-        </form>
-      </div>
-      </Slide>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
+              </Grid>
+            <br />
+          </div>
+        </Slide>
+      </Paper>
+      <UpdateListing open={open} setOpen={setOpen} />
+    </div>
   );
 }
 
