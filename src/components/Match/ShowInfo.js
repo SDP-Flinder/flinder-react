@@ -113,10 +113,10 @@ const renderFlatee = (classes, Listing) => (
                     </Typography>
                     <br/>
                     <Stack direction = "row" spacing = {2}>
-                        <Chip label = "Pets"
+                        <Chip label = "Pets" className = "petsLabel"
                         color = {Listing.accountUser.flatRules == undefined ? "default" : 
                             (Listing.accountUser.flatRules.pets == true ? "primary" : "default")}/>
-                        <Chip label = "Smoking"
+                        <Chip label = "Smoking" className = "smokingLabel"
                         color = {Listing.accountUser.flatRules == undefined ? "default" : 
                             (Listing.accountUser.flatRules.smoking == true ? "primary" : "default")}/>
                     </Stack>
@@ -211,7 +211,7 @@ const ShowInfo = (props) => {
       <div>
           <Grow in={checked}>
             <Button
-            variant="contained" color = "primary" onClick={handleClickOpen}>
+            id = "view-info" variant="contained" color = "primary" onClick={handleClickOpen}>
                         View Info
             </Button>
           </Grow>

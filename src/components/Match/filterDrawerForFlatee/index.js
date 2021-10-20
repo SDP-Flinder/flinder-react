@@ -74,7 +74,7 @@ export default function FilterDrawerForFlatee() {
       <>
         <Tooltip title = "Filter">
         <Button color = "inherit" onClick={toggleDrawer(!rightDrawer)}>
-          <TuneIcon/>
+          <TuneIcon className = "filterDrawer"/>
         </Button>
         </Tooltip>
         <Drawer
@@ -203,6 +203,7 @@ export default function FilterDrawerForFlatee() {
         <FormGroup component="fieldset">
           <FormControlLabel
             control={<Checkbox
+            className = "smoker"
             name = "smoker"
             color = "primary"
             checked={isSmoker} 
@@ -220,6 +221,7 @@ export default function FilterDrawerForFlatee() {
         <FormGroup component="fieldset">
           <FormControlLabel
             control={<Checkbox
+            className = "couple"
             name = "couple"
             color = "primary"
             checked={isCouple} 
@@ -239,6 +241,7 @@ export default function FilterDrawerForFlatee() {
         >
         <FormControlLabel
           control={<Checkbox
+          className = "pets"
           name = "pets"
           color = "primary"
           checked={hasPet} 
