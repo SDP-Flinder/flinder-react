@@ -416,13 +416,14 @@ export default function Profile() {
         formData.append('profileImage', photo);
  
         console.log(photo);
+
         const config = {
             headers: {
               'content-type': 'multipart/form-data'
             }
         }
 
-       await axios.post(URL, formData, config).then(setConfirmation(true));
+       await axios.post(URL, formData, config).then(setConfirmation(true)).catch(err =>console.log(err));
     }
 
     const [displayPhoto, setDisplayPhoto] = useState([]);
