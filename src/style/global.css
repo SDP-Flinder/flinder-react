@@ -292,6 +292,11 @@ COLOUR PALLETTE
     }
 }
 
+.avt {
+    width: 300px;
+    height: 300px;
+}
+
 
 /* This is to style the input form layout
 .input-form {

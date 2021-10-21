@@ -10,6 +10,9 @@ import moment from "moment";
 import EditDialog from "./EditBio/EditDialog";
 import { Link, Link as RouterLink } from 'react-router-dom';
 import Confirmation from "./EditBio/Confirmation";
+import { Config } from "../../config";
+import axios from "axios";
+import { useState } from "react";
 
 
 //use for animation
@@ -397,6 +400,52 @@ export default function Profile() {
         window.location.reload();
     }
 
+    //Post the photo
+    const [photo, setPhoto] = React.useState({});
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(photo);
+
+        const URL = 'http://localhost:4000/'.concat("photos/upload");
+
+        const formData = new FormData();
+
+        formData.append('userID', user.id);
+
+        formData.append('profileImage', photo);
+ 
+        console.log(photo);
+        const config = {
+            headers: {
+              'content-type': 'multipart/form-data'
+            }
+        }
+
+       await axios.post(URL, formData, config).then(setConfirmation(true));
+    }
+
+    const [displayPhoto, setDisplayPhoto] = useState([]);
+
+    let photoDisplay = "http://localhost:4000/";
+
+    //Can't fetch the data from here???
+    const getRepo = async () => {
+        let token = await FetchToken();
+        await getPhoto(setDisplayPhoto, displayPhoto, token);
+    }
+
+    //Can't fetch the data from here???
+    useEffect( () => {
+        getRepo();
+        
+        for(let k = 0; k < displayPhoto.length; k++){
+            if(k.userID == user.id){
+                photoDisplay.concat(k.photo);
+            }
+        }
+    }, [])
+
     return (
         <div className={classes.root}>
             <Paper className={classes.parentPaper}>
@@ -412,8 +461,9 @@ export default function Profile() {
                             <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
                                 <Grid item xs={5}>
                                     <Paper variant="outlined" className={classes.first}>
-                                        Photo goes here <br />
-                                        <Button variant="contained" color="primary">Add photo button</Button>
+                                        <img className = "avt"
+                                        src = "http://localhost:4000/uploads/1634847907096Screen_Shot_2021-10-22_at_8.15.44_AM.png" />
+                                        {addPhoto()}
                                     </Paper>
                                 </Grid>
                             </Slide>
@@ -493,4 +543,53 @@ export default function Profile() {
             />
         </div>
     );
+
+    function addPhoto() {
+        return <form onSubmit={handleSubmit}>
+            <input type="file"
+                accept="image/*"
+                onChange={e => {
+                    setPhoto(e.target.files[0]);
+                } } />
+            <Button variant="contained" color="primary"
+                type="submit"
+            >Add photo</Button>
+        </form>;
+    }
 }
+
+async function getPhoto(setDisplayPhoto, displayPhoto, token) {
+    const URL = 'http://localhost:4000/photos';
+    const USER_TOKEN = token;
+    const AuthString = 'Bearer '.concat(USER_TOKEN);
+
+    //Using .get to retrieve data 
+    await axios.get(URL, { headers: { Authorization: AuthString } })
+        .then(response => {
+            //Store data in a local variable
+            const myRepo = response.data;
+            //Updata the state
+            setDisplayPhoto(myRepo);
+
+            console.log('hi', displayPhoto);
+        })
+        .catch((error) => {
+            //Display error
+            console.log('error ' + error);
+        });
+}
+
+async function FetchToken() {
+    let token = '';
+  
+    const account = {
+      username: 'admin',
+      password: 'admin'
+    };
+  
+    await axios.post(`${Config.Local_API_URL}/users/authenticate`, account)
+      .then(res => {
+        token = res.data.token;
+      });
+    return token;
+  }
