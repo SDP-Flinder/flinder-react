@@ -82,3 +82,7 @@
   width: 150px;
   margin: 15%;
 }
+
+.name-display{
+  text-shadow: 2px 2px 5px #000000;
+}

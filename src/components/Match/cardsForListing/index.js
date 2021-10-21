@@ -154,7 +154,8 @@ const CardsForListing = (props) => {
                   <MoreVertIcon fontSize="large" />
                 </IconButton>
                 {/* Name */}
-                <h3>{person.username}</h3>
+                <h3 className = "name-display"
+                >{person.username}</h3>
               </div>
             </TinderCard>
           ))}
