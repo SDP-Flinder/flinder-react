@@ -151,7 +151,10 @@ const renderListing = (classes, person) => (
     <Paper className = {classes.paper} variant = "outlined">
         <Grid container>
             <Grid item xs = {12} className = {classes.grid}>
-                <img src = "https://i.kym-cdn.com/entries/icons/facebook/000/016/546/hidethepainharold.jpg" 
+                <img 
+                src = {person.photo ? "http://localhost:4000/".concat(person.photo)
+                :
+                "https://i.kym-cdn.com/entries/icons/facebook/000/016/546/hidethepainharold.jpg"}
                 className = {classes.image}/>
             </Grid>
 
