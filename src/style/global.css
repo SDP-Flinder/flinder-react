@@ -295,6 +295,8 @@ COLOUR PALLETTE
 .avt {
     width: 300px;
     height: 300px;
+    border-radius: 10px;
+    box-shadow: 0px 0.1rem 1rem 0px rgba(0, 0, 0, 0.3);
 }
 
 
