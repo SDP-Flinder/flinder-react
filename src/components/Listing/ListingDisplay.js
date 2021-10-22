@@ -17,6 +17,7 @@ import Navigation from "../App/Navigation";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ListingList from "../Listing";
 import UpdateListing from './UpdateListing';
+import Confirmation from '../Profile/EditBio/Confirmation';
 
 //Transition effect
 const checked = true;
@@ -32,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     minHeight: "650px",
   },
   first: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
@@ -195,6 +196,48 @@ function ListingDisplay(props) {
     setViewMatch(!viewMatch);
   }
 
+  //Handle upload photo
+  const [confirmation, setConfirmation] = React.useState(false);
+  const handleConfirmationOpen = () => {
+    setConfirmation(true);
+  }
+  const handleConfirmationClose = () => {
+      window.location.reload();
+  }
+
+
+  const [photo, setPhoto] = useState({});
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(photo);
+    
+    if(!photo || photo === ''){
+        window.alert('Please choose a file.');
+    }
+    else
+    {
+
+    const URL = 'http://localhost:4000/'.concat("listings/photo/").concat(id);
+
+    const formData = new FormData();
+
+    formData.append('profileImage', photo);
+
+    const config = {
+        headers: {
+        Authorization: `Bearer ${jwt}`,
+            
+        'content-type': 'multipart/form-data'
+        }
+    }
+
+    await axios.put(URL, formData, config).then(setConfirmation(true)).catch(err =>console.log(err));
+    }
+  }
+  
+  const [editPhoto, setEditPhoto] = React.useState(true);
+
   return (
     <div className={classes.root}>
       <Paper className={classes.parentPaper}>
@@ -232,7 +275,47 @@ function ListingDisplay(props) {
                     <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
                       <Grid item xs={5}>
                         <Paper variant="outlined" className={classes.first}>
-                          <ListingList />
+
+                          {(listing.photo && editPhoto) ?
+                          <div>
+                          <img className = "listing-avt"
+                          src = {"http://localhost:4000/".concat(listing.photo)} />
+
+                          <br/> 
+                          
+                          <Button onClick = {() => setEditPhoto(!editPhoto)}>
+                              Edit
+                          </Button>
+                          </div>
+                          :
+                          <div>
+                          <form onSubmit={handleSubmit}>
+                              <input
+                                  id = "profile-photo"
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={e => {
+                                      setPhoto(e.target.files[0]);
+                                  } }
+                              />
+                              <br/>
+                              <br/>
+
+                              <Button 
+                              variant="contained" 
+                              color="primary"
+                              type="submit"
+                              >
+                                {listing.photo ?
+                                  'Update' : 'Add listing photo'}
+                              </Button>
+
+                              {listing.photo &&
+                              <Button onClick = {() => setEditPhoto(!editPhoto)}>
+                                Cancel 
+                              </Button>}
+                          </form>
+                          </div>}
                         </Paper>
                       </Grid>
                     </Slide>
@@ -341,6 +424,12 @@ function ListingDisplay(props) {
         </Slide>
       </Paper>
       <UpdateListing open={open} setOpen={setOpen} />
+
+      <Confirmation
+                open={confirmation}
+                handleClickOpen={handleConfirmationOpen}
+                handleClose={handleConfirmationClose}
+      />
     </div>
   );
 }
