@@ -72,9 +72,7 @@ export default function MatchDetails() {
   const match = location.state.match;
   const [matchedUser, setMatchedUser] = useState([]);
   const [listing, setListing] = useState([]);
-
   let photoDisplay = "http://localhost:4000/";
-  const [editPhoto, setEditPhoto] = React.useState(true);
 
   //For ease of use for axios calls
   const instance = axios.create({
