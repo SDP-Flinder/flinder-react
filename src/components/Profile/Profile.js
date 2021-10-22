@@ -555,11 +555,13 @@ export default function Profile() {
 
     function addPhoto() {
         return <form onSubmit={handleSubmit}>
-            <input type="file"
+            <input
+                id = "profile-photo"
+                type="file"
                 accept="image/*"
                 onChange={e => {
                     setPhoto(e.target.files[0]);
-                } } 
+                } }
             />
             <br/>
             <br/>
