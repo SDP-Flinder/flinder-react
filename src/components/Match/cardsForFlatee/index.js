@@ -140,7 +140,10 @@ const CardsForFlatee = (props) => {
               {/* Background image */}
               <div
                 style={{
-                  backgroundImage: 'url(https://www.indiewire.com/wp-content/uploads/2019/10/Parasite_Parks_Garden-1.jpg?resize=1536,830)',
+                  backgroundImage: listing.listing.photo ?
+                  `url(http://localhost:4000/${listing.listing.photo})`
+                  :
+                  'url(https://www.indiewire.com/wp-content/uploads/2019/10/Parasite_Parks_Garden-1.jpg?resize=1536,830)',
                 }}
                 className="card"
               >
@@ -155,7 +158,8 @@ const CardsForFlatee = (props) => {
                   <MoreVertIcon fontSize="large"/>
                 </IconButton>}
                 {/* Name */}
-                <h3>{listing.accountUser.username}</h3>
+                <h3 className = "name-display"
+                >{listing.accountUser.username}</h3>
               </div>
             </TinderCard>
           ))}

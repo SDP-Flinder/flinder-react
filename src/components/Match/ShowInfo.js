@@ -46,7 +46,8 @@ const renderFlatee = (classes, Listing) => (
     <Paper className = {classes.paper} variant = "outlined">
         <Grid container>
             <Grid item xs = {12} className = {classes.grid}>
-                <img src = "https://i.kym-cdn.com/entries/icons/facebook/000/016/546/hidethepainharold.jpg" 
+                <img src = {Listing.listing.photo ? "http://localhost:4000/".concat(Listing.listing.photo) 
+                : "https://i.kym-cdn.com/entries/icons/facebook/000/016/546/hidethepainharold.jpg" }
                 className = {classes.image}/>
             </Grid>
 
