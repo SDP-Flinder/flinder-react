@@ -13,6 +13,7 @@ import Confirmation from "./EditBio/Confirmation";
 import { Config } from "../../config";
 import axios from "axios";
 import { useState } from "react";
+import { height } from "@mui/system";
 
 
 //use for animation
@@ -50,7 +51,7 @@ const useStyles = makeStyles(theme => ({
     parentPaper: {
         padding: theme.spacing(2),
         margin: "auto",
-        maxWidth: 1600
+        maxWidth: 1600,
     },
     standalone: {
         padding: theme.spacing(1),
