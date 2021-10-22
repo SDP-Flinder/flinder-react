@@ -4,12 +4,13 @@ import { Typography } from "@material-ui/core"
 import { useAuth } from "../App/Authentication";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import Button from '@material-ui/core/Button';
 import Navigation from "../App/Navigation";
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import BottomNav from '../App/Navigation/BottomNav';
 import axios from 'axios';
 import moment from "moment";
 import { Config } from '../../config';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 //Styling used for the display of information
 const useStyles = makeStyles(theme => ({
@@ -72,6 +73,9 @@ export default function MatchDetails() {
   const [matchedUser, setMatchedUser] = useState([]);
   const [listing, setListing] = useState([]);
 
+  let photoDisplay = "http://localhost:4000/";
+  const [editPhoto, setEditPhoto] = React.useState(true);
+
   //For ease of use for axios calls
   const instance = axios.create({
     baseURL: Config.Local_API_URL,
@@ -127,6 +131,16 @@ export default function MatchDetails() {
           <Grid item xs={12} container>
             <Grid item xs container direction="column" spacing={3}>
               <Grid item xs={7}>
+                <Grid item xs={2}>
+                  <Button
+                    component={RouterLink}
+                    to="/match">
+                    <ArrowBackIosIcon color="primary" />
+                    <Typography variant="button" color="primary">
+                      Back
+                    </Typography>
+                  </Button>
+                </Grid>
                 <Paper className={classes.second}>
                   <Grid item xs={12}>
                     <Paper className={classes.paper}>
@@ -167,6 +181,10 @@ export default function MatchDetails() {
                     </Paper>
                   </Grid>
                 </Paper>
+              </Grid>
+              <Grid item xs={5}>
+                <img className="avt"
+                  src={photoDisplay.concat(matchedUser.photo)} />
               </Grid>
             </Grid>
           </Grid>
