@@ -10,6 +10,9 @@ import moment from "moment";
 import EditDialog from "./EditBio/EditDialog";
 import { Link, Link as RouterLink } from 'react-router-dom';
 import Confirmation from "./EditBio/Confirmation";
+import { Config } from "../../config";
+import axios from "axios";
+import { useState } from "react";
 
 
 //use for animation
@@ -367,6 +370,7 @@ const getUser = () => {
 
 export default function Profile() {
     const classes = useStyles();
+    const {jwt} = useAuth();
     const [user, setUser] = React.useState(getUser());
     user.password = '';
     if (!user.rentUnits) {
@@ -397,6 +401,41 @@ export default function Profile() {
         window.location.reload();
     }
 
+    //Post the photo
+    const [photo, setPhoto] = React.useState({});
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(photo);
+        
+        if(!photo || photo === ''){
+            window.alert('Please choose a file.');
+        }
+        else
+        {
+
+        const URL = 'http://localhost:4000/'.concat("users/photo/").concat(user.id);
+
+        const formData = new FormData();
+
+        formData.append('profileImage', photo);
+
+        const config = {
+            headers: {
+            Authorization: `Bearer ${jwt}`,
+                
+            'content-type': 'multipart/form-data'
+            }
+        }
+
+       await axios.put(URL, formData, config).then(setConfirmation(true)).catch(err =>console.log(err));
+        }
+    }
+
+    let photoDisplay = "http://localhost:4000/";
+    const [editPhoto, setEditPhoto] = React.useState(true);
+
     return (
         <div className={classes.root}>
             <Paper className={classes.parentPaper}>
@@ -412,8 +451,27 @@ export default function Profile() {
                             <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
                                 <Grid item xs={5}>
                                     <Paper variant="outlined" className={classes.first}>
-                                        Photo goes here <br />
-                                        <Button variant="contained" color="primary">Add photo button</Button>
+                                        {
+                                        (user.photo && editPhoto) ?
+                                        <div>
+                                        <img className = "avt"
+                                        src = {photoDisplay.concat(user.photo)} />
+                                        <br/>
+                                        <Button onClick = {() => setEditPhoto(!editPhoto)}>
+                                            Edit 
+                                        </Button>
+                                        </div>
+                                        :
+                                        <div>
+                                        {addPhoto()}
+                                        <br/>
+                                        {user.photo &&
+                                        <Button
+                                        onClick = {() => setEditPhoto(!editPhoto)}>
+                                             Cancel 
+                                        </Button>}
+                                        </div>
+                                        }
                                     </Paper>
                                 </Grid>
                             </Slide>
@@ -493,4 +551,25 @@ export default function Profile() {
             />
         </div>
     );
+
+    function addPhoto() {
+        return <form onSubmit={handleSubmit}>
+            <input type="file"
+                accept="image/*"
+                onChange={e => {
+                    setPhoto(e.target.files[0]);
+                } } 
+            />
+            <br/>
+            <br/>
+
+            <Button 
+            variant="contained" 
+            color="primary"
+            type="submit"
+            >
+                Add photo
+            </Button>
+        </form>;
+    }
 }
