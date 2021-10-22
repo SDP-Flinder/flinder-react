@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAuth } from '../App/Authentication'
 import moment from 'moment';
-import {Button} from "@material-ui/core";
+import {Avatar, Button} from "@material-ui/core";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     },
     image: {
         width: 490,
-        height: 490,
+        height: 300,
         borderRadius: 20,
     }
 }));
@@ -52,10 +52,18 @@ const renderFlatee = (classes, Listing) => (
             </Grid>
 
             <Grid container item xs = {12} spacing = {3} className = {classes.rightGrid}>
-                <Grid item xs = {12} className = {classes.gridContent}>
+                <Grid item container xs = {12} className = {classes.gridContent} alignItems = "center">
+                    <Grid item xs = {1.3}>
+                    {Listing.accountUser.photo &&
+                    <Avatar 
+                    src = {"http://localhost:4000/".concat(Listing.accountUser.photo)} />}
+                    </Grid>
+
+                    <Grid item xs = {4}>
                     <Typography variant = "h5">
                     {Listing.accountUser.firstName} {Listing.accountUser.lastName} 
                     </Typography>
+                    </Grid>
                 </Grid>
 
                 <Grid item xs = {12} className = {classes.gridContent}>
