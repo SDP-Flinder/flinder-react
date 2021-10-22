@@ -281,6 +281,8 @@ function ListingDisplay(props) {
                           <img className = "listing-avt"
                           src = {"http://localhost:4000/".concat(listing.photo)} />
 
+                          <br/> 
+                          
                           <Button onClick = {() => setEditPhoto(!editPhoto)}>
                               Edit
                           </Button>
