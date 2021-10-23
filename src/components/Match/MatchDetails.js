@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core"
+import { Chip, Typography } from "@material-ui/core"
 import { useAuth } from "../App/Authentication";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     margin: "auto",
     maxWidth: 1600,
-    minHeight: 900
+    minHeight: 1200
   },
   standalone: {
     padding: theme.spacing(1),
@@ -121,6 +121,7 @@ export default function MatchDetails() {
     if (user !== null && match !== null) {
       if (user.role === 'flatee') {
         getListing();
+        console.log('hi',listing);
       }
       getMatch()
     }
@@ -159,10 +160,10 @@ export default function MatchDetails() {
                         <Grid item xs={12}>
                             <img className="avt"
                             style = {{borderRadius: 400}}
-                            src={ matchedUser.photo ?
+                            src={ !listing.photo ?
                               photoDisplay.concat(matchedUser.photo)
-                            :
-                             "https://forums.terraria.org/data/avatars/l/128/128493.jpg?1550988870"} />
+                             :
+                              photoDisplay.concat(listing.photo)} />
                         </Grid>
                         <Grid item xs={6}>
                           <Paper className={classes.infoDisplay}>Username</Paper>
@@ -193,6 +194,98 @@ export default function MatchDetails() {
                           <Paper className={classes.userInfo}>{matchedUser.description}{matchedUser.bio}</Paper>
                           <Paper className={classes.userInfo}>{listing.description}</Paper>
                         </Grid>
+
+                      
+                        {matchedUser.role == 'flatee' &&
+                        <>
+                           <Grid item xs={6}>
+                            <Paper className={classes.infoDisplay}>
+                              About me
+                            </Paper>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Paper className={classes.userInfo}>
+                               
+                                {matchedUser.checklist.isSmoker&& 
+                                <Chip label = "Smoker" variant = "outline" 
+                                style = {{margin: "5px"}}/> }
+                                {matchedUser.checklist.hasPet && 
+                                <Chip label = "Has Pets" variant = "outline" 
+                                style = {{margin: "5px"}}/> }
+                                {matchedUser.checklist.isCouple && 
+                                <Chip label = "Couple" variant = "outline" 
+                                style = {{margin: "5px"}}/>}
+                            </Paper>
+                          </Grid>
+                        </>
+                        }
+                      
+                      {matchedUser.role == 'flat' &&
+                      <>
+                        <Grid item xs={6}>
+                          <Paper className={classes.infoDisplay}>
+                            Location
+                          </Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.userInfo}> {
+                          matchedUser.address.suburb?
+                          matchedUser.address.suburb : matchedUser.address.city
+                          }
+                          </Paper>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                          <Paper className={classes.infoDisplay}>
+                            Rent
+                          </Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.userInfo}> NZD ${listing.rent} {listing.rentUnits}</Paper>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                          <Paper className={classes.infoDisplay}>
+                            Utilities
+                          </Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.userInfo}> 
+                           {listing.utilities.water && 
+                          <Chip label = "Water" variant = "outline" 
+                          style = {{margin: "5px"}}/>}
+                           {listing.utilities.power && 
+                          <Chip label = "Power" variant = "outline" 
+                           style = {{margin: "5px"}}/>}
+                           {listing.utilities.internet &&
+                          <Chip label = "Internet" variant = "outline" 
+                          style = {{margin: "5px"}}/>}
+                          </Paper>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                          <Paper className={classes.infoDisplay}>
+                            Smoking Allowed?
+                          </Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.userInfo}> 
+                              {matchedUser.flatRules.smoking? "YES" : "NO"}
+                          </Paper>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                          <Paper className={classes.infoDisplay}>
+                            Pets Allowed?
+                          </Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper className={classes.userInfo}> 
+                              {matchedUser.flatRules.pets? "YES" : "NO"}
+                          </Paper>
+                        </Grid>
+                        </>
+                        }
 
                         <Grid item container xs={12}>
                           <Grid item xs = {6}>
