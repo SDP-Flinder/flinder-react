@@ -182,7 +182,9 @@ export default function MatchDetails() {
                           </Paper>
                         </Grid>
                         <Grid item xs={6}>
-                          <Paper className={classes.infoDisplay}>Description/Bio</Paper>
+                          <Paper className={classes.infoDisplay}>
+                            {matchedUser.description ? "Flat Description" : "Bio"}
+                          </Paper>
                         </Grid>
                         <Grid item xs={6}>
                           <Paper className={classes.userInfo}>{matchedUser.description}{matchedUser.bio}</Paper>
