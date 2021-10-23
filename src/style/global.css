@@ -299,16 +299,23 @@ COLOUR PALLETTE
     box-shadow: 0px 0.1rem 1rem 0px rgba(0, 0, 0, 0.3);
 }
 
+
 .listing-avt {
     width: 350px;
     height: 300px;
     border-radius: 10px;
 }
 
-
 input[type="file"] {
     padding-top: 5%;
     padding-left: 15%;
+}
+
+@media screen and (max-width: 700px) {
+    .avt {
+        width: 100px;
+        height: 100px;
+    }
 }
 
 /* This is to style the input form layout

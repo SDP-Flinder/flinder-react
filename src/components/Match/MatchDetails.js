@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
   bold: {
     fontWeight: 600,
-    textAlign: "left"
+    textAlign: "center"
   },
   paper: {
     padding: theme.spacing(2),
@@ -33,14 +33,21 @@ const useStyles = makeStyles(theme => ({
   },
   second: {
     padding: theme.spacing(1),
+    marginLeft: "50%",
+    "@media screen and (max-width: 700px)": {
+      marginLeft: "0%",
+      width: "400px"
+    },
     textAlign: "center",
     color: theme.palette.text.secondary,
-    boxShadow: "none"
+    boxShadow: "none",
+    width: "600px"
   },
   parentPaper: {
     padding: theme.spacing(2),
     margin: "auto",
-    maxWidth: 1600
+    maxWidth: 1600,
+    minHeight: 900
   },
   standalone: {
     padding: theme.spacing(1),
@@ -148,6 +155,12 @@ export default function MatchDetails() {
                             Match Information
                           </Typography>
                         </Grid>
+
+                        <Grid item xs={12}>
+                            <img className="avt"
+                            style = {{borderRadius: 400}}
+                            src={photoDisplay.concat(matchedUser.photo)} />
+                        </Grid>
                         <Grid item xs={6}>
                           <Paper className={classes.infoDisplay}>Username</Paper>
                         </Grid>
@@ -175,14 +188,26 @@ export default function MatchDetails() {
                           <Paper className={classes.userInfo}>{matchedUser.description}{matchedUser.bio}</Paper>
                           <Paper className={classes.userInfo}>{listing.description}</Paper>
                         </Grid>
+
+                        <Grid item container xs={12}>
+                          <Grid item xs = {6}>
+                          <Button variant = "contained" color = "primary"
+                          onClick = {() => window.alert ('This feature is unavailable. Please come back later')}>
+                            Message
+                          </Button>
+                          </Grid>
+
+                          <Grid item xs = {6}>
+                          <Button 
+                          onClick = {() => window.alert ('This feature is unavailable. Please come back later')}>
+                            Unmatch
+                          </Button>
+                          </Grid>
+                        </Grid>
                       </Grid>
                     </Paper>
                   </Grid>
                 </Paper>
-              </Grid>
-              <Grid item xs={5}>
-                <img className="avt"
-                  src={photoDisplay.concat(matchedUser.photo)} />
               </Grid>
             </Grid>
           </Grid>
