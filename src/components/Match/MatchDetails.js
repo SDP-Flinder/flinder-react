@@ -127,6 +127,28 @@ export default function MatchDetails() {
     }
   }, [user, listing])
 
+  //Unmatch flatee from flat pov
+  const unmatchFlatee = () => {
+    let matchparam = {
+      flateeUsername: matchedUser.username,
+      flateeID: matchedUser.id,
+      listingUsername: user.username,
+      listingID: listing.flat_id,
+    };
+    instance.put('/matches/unmatch', matchparam);
+  }
+
+  //Unmatch flat from flatee pov
+  const unmatchFlat = () => {
+    let matchparam = {
+      flateeUsername: user.username,
+      flateeID: user.id,
+      listingUsername: matchedUser.username,
+      listingID: listing.flat_id,
+    };
+    instance.put('/matches/unmatch', matchparam);
+  }
+
   //Code to display the info in a nice format
   return (
     <div className={classes.root}>
@@ -217,6 +239,22 @@ export default function MatchDetails() {
                                 style = {{margin: "5px"}}/>}
                             </Paper>
                           </Grid>
+
+                          <Grid item container xs={12}>
+                            <Grid item xs = {6}>
+                              <Button variant = "contained" color = "primary"
+                              onClick = {() => window.alert ('This feature is unavailable. Please come back later')}>
+                                Message
+                              </Button>
+                            </Grid>
+
+                            <Grid item xs = {6}>
+                              <Button 
+                              onClick = {() => unmatchFlatee()}>
+                                Unmatch
+                              </Button>
+                            </Grid>
+                          </Grid>
                         </>
                         }
                       
@@ -284,24 +322,24 @@ export default function MatchDetails() {
                               {matchedUser.flatRules.pets? "YES" : "NO"}
                           </Paper>
                         </Grid>
-                        </>
-                        }
-
+                        
                         <Grid item container xs={12}>
                           <Grid item xs = {6}>
-                          <Button variant = "contained" color = "primary"
-                          onClick = {() => window.alert ('This feature is unavailable. Please come back later')}>
-                            Message
-                          </Button>
+                            <Button variant = "contained" color = "primary"
+                            onClick = {() => window.alert ('This feature is unavailable. Please come back later')}>
+                              Message
+                            </Button>
                           </Grid>
 
                           <Grid item xs = {6}>
-                          <Button 
-                          onClick = {() => window.alert ('This feature is unavailable. Please come back later')}>
-                            Unmatch
-                          </Button>
+                            <Button 
+                            onClick = {() => unmatchFlat()}>
+                              Unmatch
+                            </Button>
                           </Grid>
                         </Grid>
+                        </>
+                        }
                       </Grid>
                     </Paper>
                   </Grid>
