@@ -159,7 +159,10 @@ export default function MatchDetails() {
                         <Grid item xs={12}>
                             <img className="avt"
                             style = {{borderRadius: 400}}
-                            src={photoDisplay.concat(matchedUser.photo)} />
+                            src={ matchedUser.photo ?
+                              photoDisplay.concat(matchedUser.photo)
+                            :
+                             "https://forums.terraria.org/data/avatars/l/128/128493.jpg?1550988870"} />
                         </Grid>
                         <Grid item xs={6}>
                           <Paper className={classes.infoDisplay}>Username</Paper>
