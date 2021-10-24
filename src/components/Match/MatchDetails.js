@@ -11,6 +11,7 @@ import axios from 'axios';
 import moment from "moment";
 import { Config } from '../../config';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useHistory } from "react-router-dom";
 
 //Styling used for the display of information
 const useStyles = makeStyles(theme => ({
@@ -80,6 +81,8 @@ export default function MatchDetails() {
   const [matchedUser, setMatchedUser] = useState([]);
   const [listing, setListing] = useState([]);
   let photoDisplay = "http://localhost:4000/";
+  const history = useHistory();
+  const goMatch = () => history.push('/match');
 
   //For ease of use for axios calls
   const instance = axios.create({
@@ -136,6 +139,7 @@ export default function MatchDetails() {
       listingID: match.listingID,
     };
     instance.put('/matches/unmatch', matchparam);
+    goMatch();
   }
 
   //Unmatch flat from flatee pov
@@ -147,6 +151,7 @@ export default function MatchDetails() {
       listingID: match.listingID,
     };
     instance.put('/matches/unmatch', matchparam);
+    goMatch();
   }
 
   //Code to display the info in a nice format
