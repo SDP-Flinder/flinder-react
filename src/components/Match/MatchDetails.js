@@ -121,7 +121,7 @@ export default function MatchDetails() {
     }
 
     //Only run if user and match states have been set, to avoid errors
-    if (user !== null && match !== null) {
+    if (user && match) {
       if (user.role === 'flatee') {
         getListing();
         console.log('hi',listing);

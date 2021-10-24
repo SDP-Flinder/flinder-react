@@ -93,7 +93,7 @@ export default function Match(props) {
           >
             <Grid className={classes.matchIcon} container item xs={12} direction="row" >
               <Grid item>
-                <img src={photoDisplay.concat(getImage(match).photo)}
+                <img src={photoDisplay.concat(match.photo)}
                   className={classes.avt} />
               </Grid>
 
@@ -131,23 +131,6 @@ export default function Match(props) {
     });
   }
 
-  async function getImage (match) {
-    let param = ''
-    let photo = ''
-    if (user.role === 'flat') {
-        param = '/users/'.concat(match.flateeID)
-    } else {
-        param = '/listings/'.concat(match.listingID)
-    }
-    await instance.get(param)
-        .then(res => {
-            photo = res.data
-    }).catch((error) => {
-        console.log('error ' + error)
-    });
-    return photo;
-  }
-
   //Load and set all the states with data from the database
   useEffect(() => {
     var tempMatches = [];
@@ -158,7 +141,7 @@ export default function Match(props) {
         .then(res => {
           listings = res.data
         }).catch((error) => {
-          console.log('error ' + error);
+          console.log('error ' + error)
         });
       listings.forEach(listing => {
         getListingMatches(listing);
@@ -171,9 +154,10 @@ export default function Match(props) {
         .then(res => {
           tempMatches = res.data
         }).catch((error) => {
-          console.log('error ' + error);
+          console.log('error ' + error)
         });
       tempMatches.forEach(match => {
+        getPhoto(match)
         setMatches(matches => [...matches, match])
       })
     }
@@ -186,7 +170,26 @@ export default function Match(props) {
         }).catch((error) => {
           console.log('error ' + error);
         });
-      setMatches(tempMatches);
+        tempMatches.forEach(match => {
+          getPhoto(match)
+          setMatches(matches => [...matches, match])
+        })
+    }
+
+    //Fetches and adds the flatee or listing photo to the match object, for display on the matchlist
+    async function getPhoto(match) {
+      let param = ''
+      if (user.role === 'flat') {
+        param = '/users/'.concat(match.flateeID)
+      } else {
+        param = '/listings/'.concat(match.listingID)
+      }
+      await instance.get(param)
+        .then(res => {
+          Object.assign(match, { photo: res.data.photo })
+        }).catch((error) => {
+          console.log('error ' + error)
+        });
     }
 
     //Run the code to fetch the correct data, based on the role of the account
@@ -198,18 +201,22 @@ export default function Match(props) {
     }
   }, [user])
 
+  useEffect(() => {
+    console.log(matches);
+  }, [matches])
+
   //Simple display of the match list buttons
   return (
     <div className={classes.root}>
       <Navigation />
       <Paper className={classes.parentPaper}>
-          <Typography component="h1" variant="h5" color="inherit" noWrap className={classes.title}>
-            Your Matches
-          </Typography>
-          <br />
-          <Grid container spacing={1}>
-            {renderButtons()}
-          </Grid>
+        <Typography component="h1" variant="h5" color="inherit" noWrap className={classes.title}>
+          Your Matches
+        </Typography>
+        <br />
+        <Grid container spacing={1}>
+          {renderButtons()}
+        </Grid>
       </Paper>
     </div>
   );

@@ -169,14 +169,11 @@ function ListingDisplay(props) {
     if (listing.active !== undefined) {
       setActive(listing.active)
     }
-  }, [listing]);
-
-  useEffect(() => {
     if (listing.roomAvailable !== undefined) {
       let d = listing.roomAvailable;
       setDate(moment(d).format("DD/MM/YYYY"));
     }
-  }, [listing])
+  }, [listing]);
 
   useEffect(() => {
     if (listing.flat_id === user.id) {
