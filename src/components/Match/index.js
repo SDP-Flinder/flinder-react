@@ -65,6 +65,7 @@ export default function Match(props) {
   const classes = useStyles();
   const { user, jwt } = useAuth();
   const [matches, setMatches] = useState([]);
+  let photoDisplay = "http://localhost:4000/";
 
   //Helper for ease of use when making axios calls
   const instance = axios.create({
@@ -92,7 +93,7 @@ export default function Match(props) {
           >
             <Grid className={classes.matchIcon} container item xs={12} direction="row" >
               <Grid item>
-                <img src="https://forums.terraria.org/data/avatars/l/128/128493.jpg?1550988870"
+                <img src={photoDisplay.concat(getImage(match).photo)}
                   className={classes.avt} />
               </Grid>
 
@@ -128,6 +129,23 @@ export default function Match(props) {
       pathname: '/match/details',
       state: { match: match },
     });
+  }
+
+  async function getImage (match) {
+    let param = ''
+    let photo = ''
+    if (user.role === 'flat') {
+        param = '/users/'.concat(match.flateeID)
+    } else {
+        param = '/listings/'.concat(match.listingID)
+    }
+    await instance.get(param)
+        .then(res => {
+            photo = res.data
+    }).catch((error) => {
+        console.log('error ' + error)
+    });
+    return photo;
   }
 
   //Load and set all the states with data from the database
