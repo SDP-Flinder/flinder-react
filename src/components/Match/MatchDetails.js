@@ -133,7 +133,7 @@ export default function MatchDetails() {
       flateeUsername: matchedUser.username,
       flateeID: matchedUser.id,
       listingUsername: user.username,
-      listingID: listing.flat_id,
+      listingID: match.listingID,
     };
     instance.put('/matches/unmatch', matchparam);
   }
@@ -144,7 +144,7 @@ export default function MatchDetails() {
       flateeUsername: user.username,
       flateeID: user.id,
       listingUsername: matchedUser.username,
-      listingID: listing.flat_id,
+      listingID: match.listingID,
     };
     instance.put('/matches/unmatch', matchparam);
   }
