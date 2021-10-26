@@ -35,6 +35,7 @@ function Noti() {
                 message: notification.message,
                 link: notification.link,
                 read: notification.read,
+                id: notification.id,
               }
             ]
           }])
