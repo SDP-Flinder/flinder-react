@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { styled, alpha } from '@mui/material/styles';
 import Navigation from "../App/Navigation";
 import { Box } from "@mui/system";
 import SideBar from "./SideBar";
 import ChatThread from "./ChatThread"; 
-import { AppBar } from "@mui/material";
+import { AppBar, CssBaseline } from "@mui/material";
 import InputBase from '@mui/material/InputBase';
 import { IconButton, Toolbar, Tooltip, Typography } from "@material-ui/core";
 import SendIcon from '@mui/icons-material/Send';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useAuth } from "../App/Authentication";
+import BottomNav from "../App/Navigation/BottomNav";
+import Message from "./Message";
+import { io } from "socket.io-client";
+
+import "../../style/chat.css";
+import "../../style/thread.css";
 
 const drawerWidth = 240;
 
-const Message = styled('div')(({ theme }) => ({
+const MessageInput = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -56,52 +63,148 @@ const Message = styled('div')(({ theme }) => ({
 
 //Class for displaying a list of buttons for each successful match on an account
 export default function Chat() {
- 
-  //Simple display of the match list buttons
+  const [chatThreads, setChatThreads] = useState([]);
+  const [currentChatThread, setCurrentChatThread] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const socket = useRef();
+  const { user, jwt } = useAuth();
+  const scrollRef = useRef();
+
+ // Setup and receive messages
+ useEffect(() => {
+  socket.current = io("ws://localhost:8900");
+  socket.current.on("getMessage", (data) => {
+    setArrivalMessage({
+      chatId: data.chatId,
+      sender: data.senderId,
+      text: data.text,
+      createdAt: Date.now(),
+    });
+  });
+}, []);
+
+// Process Arriving Messages
+useEffect(() => {
+  arrivalMessage && 
+    (currentChatThread?.id === arrivalMessage.chatId) &&
+    setMessages((prev) => [...prev, arrivalMessage]);
+}, [arrivalMessage, currentChatThread]);
+
+
+useEffect(() => {
+  socket.current.emit("addUser", user.id);
+}, [user]);
+
+// Load messages for current chat thread
+useEffect(() => {
+  if(currentChatThread != null) {
+    api.getMessages(currentChatThread.id, jwt)
+    .then((res) => {
+      setMessages(res.data);
+    })
+  }
+}, [currentChatThread]);
+
+// Send Message
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const message = {
+    chatId: currentChatThread.id,
+    sender: user.id,
+    text: newMessage
+  };
+
+  // Find receiver's ID
+  let receiverId;
+  if (currentChatThread && user !== null) {
+    api.getMatchById(currentChatThread.matchId)
+    .then((res) => {
+      if(user.role === Role.Flat) {
+        receiverId = res.data.listingId
+      } else if(user.role === Role.Flatee){
+        receiverId = res.data.flateeId;
+      }
+    })
+  }
+
+  // Send web socket message
+  socket.current.emit("sendMessage", {
+    senderId: user.id,
+    receiverId,
+    text: newMessage,
+  });
+
+  // Add Message to DB
+  api.addMessageToChat(currentChatThread.id, jwt, message)
+  .then((res) => {
+    setMessages([...messages, res.data]);
+    setNewMessage("");
+  })
+};
+
+// Move to bottom (newest messages)
+useEffect(() => {
+  scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+}, [messages]);
+
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar
-        position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Billy
-          </Typography>
-          <Tooltip title="Unmatch">
-            <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                color="inherit"
-                >
-                <CancelIcon />
-            </IconButton>
-        </Tooltip>
-            </Toolbar>
-      </AppBar>
-      <SideBar />
-      <ChatThread />
-      <AppBar
-        position="fixed"
-        sx={{ top: 'auto', bottom: 0, width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      >
-        <Toolbar>
-          <Message>
-            <StyledInputBase
-              placeholder="Message…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Message>
-          <IconButton
-              size="large"
-              aria-label="send message"
-              color="inherit"
+      <CssBaseline />
+      <Navigation />
+      <SideBar 
+        chatThreads={chatThreads}
+        setChatThreads={setChatThreads}
+        setCurrentChatThread={setCurrentChatThread}
+        />
+      
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      {currentChatThread ? (
+        // Messages
+        <> 
+            {/* Messages */}
+            <div className="chatBoxTop">
+              {messages.map((m) => (
+                <div key={m.id} ref={scrollRef}>
+                  <Message message={m} own={m.sender === user._id} />
+                </div>
+              ))}
+            </div>
+            
+            {/* Bottom Message Bar */}
+            <AppBar
+              position="fixed"
+              sx={{ top: 'auto', bottom: 0, width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
             >
-              <SendIcon />
-            </IconButton>
-        </Toolbar>
-      </AppBar>
+              <Toolbar>
+                <MessageInput>
+                  <StyledInputBase
+                    className="chatMessageInput"
+                    placeholder="Message..."
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    value={newMessage} 
+                    inputProps={{ 'aria-label': 'message' }}/>
+                </MessageInput>
+                <IconButton
+                  size="large"
+                  aria-label="send message"
+                  color="inherit"
+                  className="chatSubmitButton"
+                  onClick={handleSubmit}
+                >
+                  <SendIcon />
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </> 
+        ) : ( 
+        <Typography variant="h3" className="noConversationText" component="span">
+          Open a match to start a chat.
+        </Typography>
+      )} 
+      </Box>
+      <BottomNav />
     </Box>
   );
 };
