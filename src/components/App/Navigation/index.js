@@ -20,7 +20,7 @@ import FilterDrawerForFlatee from '../../Match/filterDrawerForFlatee';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 // import { InputBase } from '@material-ui/core';
 // import SearchIcon from '@mui/icons-material/Search';
-
+import Noti from '../Notification';
 
 const drawerWidth = 240;
 
@@ -249,6 +249,7 @@ export default function Navigation(props) {
           <div className={classes.grow} />
           {(user.role == "flatee" && props.pageName == "Home")? <FilterDrawerForFlatee/> : null}
           <div className={classes.sectionDesktop}>
+          <Noti/>
             {useAuth().isAuthed ? (
             <IconButton component={Link} to="/logout"
             color = "inherit" >
