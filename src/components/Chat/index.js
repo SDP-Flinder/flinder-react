@@ -2,20 +2,25 @@ import React, { useEffect, useRef, useState } from "react";
 import { styled, alpha } from '@mui/material/styles';
 import Navigation from "../App/Navigation";
 import { Box } from "@mui/system";
+import { Divider, List, ListItem, Toolbar, Typography, Drawer, IconButton, ListItemText, Avatar } from "@mui/material";
 import SideBar from "./SideBar";
 import ChatThread from "./ChatThread"; 
 import { AppBar, CssBaseline } from "@mui/material";
 import InputBase from '@mui/material/InputBase';
-import { IconButton, Toolbar, Tooltip, Typography } from "@material-ui/core";
 import SendIcon from '@mui/icons-material/Send';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { useAuth } from "../App/Authentication";
+import { ListSubheader } from "@material-ui/core";
+import PersonIcon from '@mui/icons-material/Person';
+import { deepOrange, deepPurple } from '@mui/material/colors';
+import { Role, useAuth } from "../App/Authentication";
 import BottomNav from "../App/Navigation/BottomNav";
 import Message from "./Message";
 import { io } from "socket.io-client";
 
 import "../../style/chat.css";
 import "../../style/thread.css";
+import axios from "axios";
+import { Config } from "../../config";
 
 const drawerWidth = 240;
 
@@ -63,14 +68,42 @@ const MessageInput = styled('div')(({ theme }) => ({
 
 //Class for displaying a list of buttons for each successful match on an account
 export default function Chat() {
-  const [chatThreads, setChatThreads] = useState([]);
-  const [currentChatThread, setCurrentChatThread] = useState(null);
+  const [matches, setMatches] = useState([]);
+  const [currentMatchID, setCurrentMatchID] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const socket = useRef();
   const { user, jwt } = useAuth();
   const scrollRef = useRef();
+
+  //Helper for ease of use when making axios calls
+  const instance = axios.create({
+    baseURL: Config.Local_API_URL,
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${jwt}` }
+  })
+
+   //Render a set of buttons for each match loaded into the global state, depending on the role of the signed in account
+   const renderDrawerContents = () => {
+    let count = 0;
+    matches.sort((a, b) => a.matchedDate < b.matchedDate ? 1 : -1)
+    if (matches.length === 0) {
+      return (
+        <ListSubheader component="div" id="nested-list-subheader">
+          You currently have no matches
+        </ListSubheader>
+      )
+    }
+    else {
+      return matches.map((match) => (
+        <ListItem button key={match.id} onClick={() => setCurrentMatchID(match.id)}>
+          <Avatar sx={{ bgcolor: deepOrange[500]} }>M</Avatar>
+          <ListItemText primary={(user && user.role === Role.Flatee ? (match.flateeUsername) : (match.listingUsername))}/>
+        </ListItem>
+      ))
+    }
+  }
 
  // Setup and receive messages
  useEffect(() => {
@@ -88,9 +121,9 @@ export default function Chat() {
 // Process Arriving Messages
 useEffect(() => {
   arrivalMessage && 
-    (currentChatThread?.id === arrivalMessage.chatId) &&
+    (currentMatchID === arrivalMessage.matchId) &&
     setMessages((prev) => [...prev, arrivalMessage]);
-}, [arrivalMessage, currentChatThread]);
+}, [arrivalMessage, currentMatchID]);
 
 
 useEffect(() => {
@@ -99,27 +132,27 @@ useEffect(() => {
 
 // Load messages for current chat thread
 useEffect(() => {
-  if(currentChatThread != null) {
-    api.getMessages(currentChatThread.id, jwt)
+  if(currentMatchID != null) {
+    instance.get(`/match/messages/${currentMatchID}`)
     .then((res) => {
       setMessages(res.data);
     })
   }
-}, [currentChatThread]);
+}, [currentMatchID]);
 
 // Send Message
 const handleSubmit = async (e) => {
   e.preventDefault();
   const message = {
-    chatId: currentChatThread.id,
+    matchId: currentMatchID,
     sender: user.id,
     text: newMessage
   };
 
   // Find receiver's ID
   let receiverId;
-  if (currentChatThread && user !== null) {
-    api.getMatchById(currentChatThread.matchId)
+  if (currentMatchID && user !== null) {
+    instance.get(`/match/${currentMatchID}`)
     .then((res) => {
       if(user.role === Role.Flat) {
         receiverId = res.data.listingId
@@ -137,7 +170,7 @@ const handleSubmit = async (e) => {
   });
 
   // Add Message to DB
-  api.addMessageToChat(currentChatThread.id, jwt, message)
+  instance.post(`/match/message/${currentMatchID}`, message)
   .then((res) => {
     setMessages([...messages, res.data]);
     setNewMessage("");
@@ -149,18 +182,78 @@ useEffect(() => {
   scrollRef.current?.scrollIntoView({ behavior: "smooth" });
 }, [messages]);
 
+ //Load and set all the states with data from the database
+ useEffect(() => {
+  var tempMatches = [];
+  //Fetches all listings for the signed in flat account, to then be used to fetch their matches
+  async function getListings() {
+    var listings = [];
+    await instance.get('/listings/flat/'.concat(user.id))
+      .then(res => {
+        listings = res.data
+      });
+    const listingList = listings;
+    listingList.forEach(listing => {
+      getListingMatches(listing);
+    })
+  }
+
+  //Fetches all successful matches for a given listing
+  async function getListingMatches(listing) {
+    await instance.get('/matches/getSuccessMatchesForListing/'.concat(listing.id))
+      .then(res => {
+        tempMatches = res.data
+      });
+    tempMatches.forEach(match => {
+      setMatches(matches => [...matches, match])
+    })
+  }
+
+  //Fetches all successful matches for the signed in flatee
+  async function getFlateeMatches() {
+    await instance.get('/matches/getSuccessMatchesForFlatee/'.concat(user.id))
+      .then(res => {
+        tempMatches = res.data
+      });
+    // setMatches(tempMatches);
+    tempMatches.forEach(match => {
+      setMatches(matches => [...matches, match])
+    })
+  }
+
+  //Run the code to fetch the correct data, based on the role of the account
+  if (user && user.role === Role.Flat) {
+    getListings()
+  }
+  else if (user && user.role === Role.Flatee) {
+    getFlateeMatches()
+  }
+}, [user])
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <Navigation />
-      <SideBar 
-        chatThreads={chatThreads}
-        setChatThreads={setChatThreads}
-        setCurrentChatThread={setCurrentChatThread}
-        />
-      
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+        <Toolbar />
+        <Divider />
+          <List>
+            {renderDrawerContents()}
+        </List>
+      </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-      {currentChatThread ? (
+      {currentMatchID ? (
         // Messages
         <> 
             {/* Messages */}
