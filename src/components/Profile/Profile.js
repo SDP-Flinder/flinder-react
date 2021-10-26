@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -10,10 +10,7 @@ import moment from "moment";
 import EditDialog from "./EditBio/EditDialog";
 import { Link, Link as RouterLink } from 'react-router-dom';
 import Confirmation from "./EditBio/Confirmation";
-import { Config } from "../../config";
 import axios from "axios";
-import { useState } from "react";
-import { height } from "@mui/system";
 
 
 //use for animation

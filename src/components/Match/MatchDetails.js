@@ -271,10 +271,8 @@ export default function MatchDetails() {
                           </Paper>
                         </Grid>
                         <Grid item xs={6}>
-                          <Paper className={classes.userInfo}> {
-                          matchedUser.address.suburb?
-                          matchedUser.address.suburb : matchedUser.address.city
-                          }
+                          <Paper className={classes.userInfo}> 
+                          {matchedUser.address.street}, {matchedUser.address.suburb}, {matchedUser.address.city}, {matchedUser.address.country}
                           </Paper>
                         </Grid>
 
