@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core"
-import { useAuth } from "../App/Authentication";;
+import { useAuth, Role } from "../App/Authentication";;
 import Navigation from "../App/Navigation";
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
@@ -146,7 +146,7 @@ export default function Match(props) {
               <Avatar alt="Remy Sharp" src="https://forums.terraria.org/data/avatars/l/128/128493.jpg?1550988870" />
               </ListItemAvatar>
               <ListItemText
-                primary={user.role == 'flat' ? match.flateeUsername : match.listingUsername}
+                primary={user.role == Role.Flat ? match.flateeUsername : match.listingUsername}
                 secondary={match.id}
               />
           </ListItem>
@@ -166,12 +166,21 @@ export default function Match(props) {
       )
     }
     else {
-      return messages.map((m) => (
+      return messages.map(async(m) => (
         <div key={m.id} ref={scrollRef}>
-          <Message message={m} own={m.sender === user._id} />
+          <Message message={m} own={user.role === Role.Flat ? (m.sender == getFlatAccountID(currentMatch.listingID)) : (m.sender == user.id)} />
         </div>
       ))
     }
+  }
+
+  async function getFlatAccountID(listingID) {
+    await instance.get(`/matches/flatAccount/${listingID}`)
+    .then(res => {
+      return flatAccountID = res.data.id
+    }).catch((error) => {
+      console.log('error ' + error);
+    })
   }
 
   //Method for handling the buttons' onclick function, for the correct match
@@ -256,14 +265,15 @@ export default function Match(props) {
 
   // Load messages for current chat thread
   useEffect(() => {
+    // clear messages
+    setMessages([]);
     if(currentMatch && currentMatch !== null) {
-      instance.get(`/match/messages/${currentMatch.id}`)
+      instance.get(`/matches/${currentMatch.id}`)
       .then((res) => {
-        setMessages(res.data);
+        setMessages([...messages, res.data.messages]);
       })
     }
-  }, [currentMatch
-]);
+  }, [currentMatch]);
 
   // Send Message
   const handleSubmit = async (e) => {
@@ -294,7 +304,7 @@ export default function Match(props) {
     });
 
     // Add Message to DB
-    instance.post(`/match/message/${currentMatch.id}`, message)
+    instance.post(`/matches/message/`, message)
     .then((res) => {
       setMessages([...messages, res.data]);
       setNewMessage("");
