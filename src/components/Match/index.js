@@ -147,6 +147,7 @@ export default function Match(props) {
               </ListItemAvatar>
               <ListItemText
                 primary={user.role == 'flat' ? match.flateeUsername : match.listingUsername}
+                secondary={match.id}
               />
           </ListItem>
           <Divider variant="inset" component="li" />
